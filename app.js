@@ -541,9 +541,9 @@ class StudySoukTimerApp {
             }
         });
 
-        // Highlight "Plus" trigger if one of the secondary tools is active
+        // Highlight "Outils" trigger if one of the secondary tools is active
         const moreToolsBtn = document.getElementById("btn-toggle-more-tools");
-        const secondaryTabs = ["tab-duel", "tab-flashcards", "tab-tasks", "tab-ambience"];
+        const secondaryTabs = ["tab-tasks", "tab-ambience"];
         if (moreToolsBtn) {
             if (secondaryTabs.includes(tabId)) {
                 moreToolsBtn.classList.add("tab-active");

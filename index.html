@@ -245,6 +245,18 @@
             transform: scale(1.15);
         }
 
+        /* 3D Perspective & Hardware-Accelerated Flip Styles */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
         .zen-mode header,
         .zen-mode footer,
         .zen-mode #countdown-hub,
@@ -889,7 +901,7 @@
         </section>
 
         <!-- TAB 2: STEM FLASHCARDS 3D TRAINER (STUDYSOUK ACADEMY) -->
-        <section id="tab-flashcards" class="tab-content w-full hidden max-w-md flex flex-col items-center">
+        <section id="tab-flashcards" class="tab-content w-full hidden max-w-2xl flex flex-col items-center">
             <div id="flashcards-container" class="w-full"></div>
         </section>
 
@@ -898,8 +910,8 @@
             <div id="scratchpad-container" class="w-full"></div>
         </section>
 
-        <!-- TAB 4: DUEL STEM 1v1 (CPGE & 2BAC) -->
-        <section id="tab-duel" class="tab-content w-full hidden max-w-md flex flex-col items-center">
+        <!-- TAB 4: DUEL STEM 1v1 & QUIZ CONCOURS (CPGE & 2BAC) -->
+        <section id="tab-duel" class="tab-content w-full hidden max-w-2xl flex flex-col items-center">
             <div id="duel-container" class="w-full"></div>
         </section>
 
@@ -1411,31 +1423,43 @@
             </div>
         </div>
 
-        <!-- Sleek Main 3 Pillars + More Trigger -->
-        <div class="max-w-md mx-auto flex items-center justify-between gap-1.5 sm:gap-2 w-full py-0.5">
+        <!-- Sleek Main 5 Pillars + Tools Trigger -->
+        <div class="max-w-2xl mx-auto flex items-center justify-between gap-1 sm:gap-1.5 w-full py-0.5">
             <!-- 1. Chrono (Primary) -->
-            <button data-tab="tab-timer" class="nav-tab-btn tab-active flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 px-2.5 sm:px-3 rounded-xl text-xs font-bold transition group active:scale-95">
+            <button data-tab="tab-timer" class="nav-tab-btn tab-active flex-1 flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1.5 sm:px-2.5 rounded-xl text-xs font-bold transition group active:scale-95">
                 <i class="fa-solid fa-stopwatch text-sm sm:text-base text-brand-goldLight group-hover:scale-110 transition"></i>
                 <span class="text-xs font-black font-outfit truncate">Chrono</span>
             </button>
 
             <!-- 2. Maktaba (149 Volumes) -->
-            <button data-tab="tab-library" class="nav-tab-btn flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 px-2.5 sm:px-3 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent group active:scale-95">
+            <button data-tab="tab-library" class="nav-tab-btn flex-1 flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1.5 sm:px-2.5 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent group active:scale-95">
                 <i class="fa-solid fa-book-bookmark text-sm sm:text-base text-brand-gold group-hover:scale-110 transition"></i>
                 <span class="text-xs font-black font-outfit truncate">Maktaba</span>
-                <span class="px-1.5 py-0.5 rounded-full text-[9px] font-mono bg-brand-gold/20 text-brand-goldLight border border-brand-gold/40 font-bold hidden xs:inline">149</span>
+                <span class="px-1.5 py-0.2 rounded-full text-[9px] font-mono bg-brand-gold/20 text-brand-goldLight border border-brand-gold/40 font-bold hidden md:inline">149</span>
             </button>
 
-            <!-- 3. Ardoise / Whiteboard -->
-            <button data-tab="tab-scratchpad" class="nav-tab-btn flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 px-2.5 sm:px-3 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent group active:scale-95">
+            <!-- 3. Flashcards 3D -->
+            <button data-tab="tab-flashcards" class="nav-tab-btn flex-1 flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1.5 sm:px-2.5 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent group active:scale-95">
+                <i class="fa-solid fa-graduation-cap text-sm sm:text-base text-brand-goldLight group-hover:scale-110 transition"></i>
+                <span class="text-xs font-black font-outfit truncate">Flashcards</span>
+            </button>
+
+            <!-- 4. Quiz & Duels -->
+            <button data-tab="tab-duel" class="nav-tab-btn flex-1 flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1.5 sm:px-2.5 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent group active:scale-95">
+                <i class="fa-solid fa-bolt text-sm sm:text-base text-brand-gold group-hover:scale-110 transition"></i>
+                <span class="text-xs font-black font-outfit truncate">Quiz & Duels</span>
+            </button>
+
+            <!-- 5. Ardoise / Whiteboard -->
+            <button data-tab="tab-scratchpad" class="nav-tab-btn flex-1 flex items-center justify-center gap-1 sm:gap-1.5 py-2 px-1.5 sm:px-2.5 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent group active:scale-95">
                 <i class="fa-solid fa-pen-ruler text-sm sm:text-base text-brand-goldLight group-hover:scale-110 transition"></i>
-                <span class="text-xs font-black font-outfit truncate">Whiteboard</span>
+                <span class="text-xs font-black font-outfit truncate">Ardoise</span>
             </button>
 
-            <!-- 4. Plus / Outils Menu Trigger -->
-            <button id="btn-toggle-more-tools" title="Autres outils (Duels, Flashcards, Dashboard, Sons)" class="px-3 py-2 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent flex items-center gap-1.5 group active:scale-95">
-                <i class="fa-solid fa-ellipsis text-sm sm:text-base text-brand-gold group-hover:scale-125 transition duration-200"></i>
-                <span class="text-xs font-black font-outfit hidden sm:inline">Plus</span>
+            <!-- 6. Outils / Plus Trigger -->
+            <button id="btn-toggle-more-tools" title="Autres outils (Dashboard, Niveaux, Ambiance)" class="px-2.5 py-2 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent flex items-center gap-1 group active:scale-95">
+                <i class="fa-solid fa-sliders text-sm sm:text-base text-brand-gold group-hover:scale-110 transition duration-200"></i>
+                <span class="text-xs font-black font-outfit hidden lg:inline">Outils</span>
             </button>
         </div>
     </footer>
@@ -1806,17 +1830,17 @@
     </div>
 
     <!-- Logic Scripts Stack -->
-    <script src="assets/pdfjs/pdf.min.js?v=2.2"></script>
-    <script src="assets/pdfjs/pdf.worker.min.js?v=2.2"></script>
-    <script src="audio.js?v=2.2"></script>
-    <script src="canvas-effects.js?v=2.2"></script>
-    <script src="sync-engine.js?v=2.2"></script>
-    <script src="reactions.js?v=2.2"></script>
-    <script src="levels.js?v=2.2"></script>
-    <script src="duel.js?v=2.2"></script>
-    <script src="flashcards.js?v=2.2"></script>
-    <script src="scratchpad.js?v=2.2"></script>
-    <script src="library.js?v=2.2"></script>
-    <script src="app.js?v=2.2"></script>
+    <script src="assets/pdfjs/pdf.min.js?v=2.3"></script>
+    <script src="assets/pdfjs/pdf.worker.min.js?v=2.3"></script>
+    <script src="audio.js?v=2.3"></script>
+    <script src="canvas-effects.js?v=2.3"></script>
+    <script src="sync-engine.js?v=2.3"></script>
+    <script src="reactions.js?v=2.3"></script>
+    <script src="levels.js?v=2.3"></script>
+    <script src="duel.js?v=2.3"></script>
+    <script src="flashcards.js?v=2.3"></script>
+    <script src="scratchpad.js?v=2.3"></script>
+    <script src="library.js?v=2.3"></script>
+    <script src="app.js?v=2.3"></script>
 </body>
 </html>
