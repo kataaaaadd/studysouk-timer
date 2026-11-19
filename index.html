@@ -439,30 +439,45 @@
     </header>
 
     <!-- Concours & Deadlines Live Countdown Banner (Compact Zero-Scroll Luxury Strip) -->
-    <section id="countdown-hub" class="w-full z-30 py-1.5 px-3 sm:px-6">
-        <div class="max-w-xl mx-auto grid grid-cols-3 gap-2 text-center font-outfit">
-            <div class="glass-card rounded-xl py-2 px-2.5 border border-brand-borderSubtle flex items-center justify-between sm:justify-center sm:gap-2 relative overflow-hidden group">
-                <div class="flex items-center gap-1.5">
-                    <span class="text-sm">🏛️</span>
-                    <span class="text-xs uppercase tracking-wider text-brand-muted font-black truncate">CNC</span>
+    <section id="countdown-hub" class="w-full z-30 py-2 px-3 sm:px-6">
+        <div class="max-w-2xl mx-auto grid grid-cols-3 gap-2 sm:gap-3 text-center font-outfit">
+            <!-- 1. CNC -->
+            <div class="glass-card rounded-2xl py-2 px-2.5 sm:px-3 border border-brand-borderSubtle hover:border-brand-cherryLight transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden group shadow-md hover:shadow-brand-cherry/20">
+                <div class="absolute -right-6 -top-6 w-16 h-16 bg-brand-cherry/15 rounded-full blur-xl pointer-events-none group-hover:bg-brand-cherry/30 transition"></div>
+                <div class="flex items-center justify-between w-full mb-1">
+                    <div class="flex items-center gap-1.5 min-w-0">
+                        <span class="text-xs sm:text-sm">🏛️</span>
+                        <span class="text-[11px] sm:text-xs uppercase tracking-wider text-brand-muted group-hover:text-white font-extrabold truncate">CNC</span>
+                    </div>
+                    <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-brand-darker border border-brand-borderSubtle text-brand-goldLight">10 Mai</span>
                 </div>
-                <span id="countdown-cnc" class="font-mono text-xs sm:text-sm font-black gold-text-gradient drop-shadow-sm">--j --h</span>
+                <span id="countdown-cnc" class="font-mono text-xs sm:text-sm font-black text-white group-hover:text-brand-goldLight drop-shadow-sm tracking-tight">--j --h --m</span>
             </div>
 
-            <div class="glass-card rounded-xl py-2 px-2.5 border border-brand-gold/40 flex items-center justify-between sm:justify-center sm:gap-2 relative overflow-hidden group shadow-sm">
-                <div class="flex items-center gap-1.5">
-                    <span class="text-sm">🎓</span>
-                    <span class="text-xs uppercase tracking-wider text-brand-goldLight font-black truncate">Mines/Centrale</span>
+            <!-- 2. Mines / Centrale -->
+            <div class="glass-card rounded-2xl py-2 px-2.5 sm:px-3 border border-brand-gold/50 hover:border-brand-gold transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden group shadow-lg shadow-brand-cherryDark/30 bg-gradient-to-b from-brand-cherry/20 to-transparent">
+                <div class="absolute -right-6 -top-6 w-16 h-16 bg-brand-gold/15 rounded-full blur-xl pointer-events-none group-hover:bg-brand-gold/30 transition"></div>
+                <div class="flex items-center justify-between w-full mb-1">
+                    <div class="flex items-center gap-1.5 min-w-0">
+                        <span class="text-xs sm:text-sm">🎓</span>
+                        <span class="text-[11px] sm:text-xs uppercase tracking-wider text-brand-goldLight font-extrabold truncate">Mines/Centrale</span>
+                    </div>
+                    <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-brand-cherry border border-brand-gold/50 text-white shadow-sm">19 Avr</span>
                 </div>
-                <span id="countdown-fr" class="font-mono text-xs sm:text-sm font-black text-white drop-shadow-[0_0_10px_rgba(226,232,240,0.35)]">--j --h</span>
+                <span id="countdown-fr" class="font-mono text-xs sm:text-sm font-black gold-text-gradient drop-shadow-[0_0_12px_rgba(226,232,240,0.4)] tracking-tight">--j --h --m</span>
             </div>
 
-            <div class="glass-card rounded-xl py-2 px-2.5 border border-brand-borderSubtle flex items-center justify-between sm:justify-center sm:gap-2 relative overflow-hidden group">
-                <div class="flex items-center gap-1.5">
-                    <span class="text-sm">📝</span>
-                    <span class="text-xs uppercase tracking-wider text-brand-muted font-black truncate">2BAC</span>
+            <!-- 3. 2BAC National -->
+            <div class="glass-card rounded-2xl py-2 px-2.5 sm:px-3 border border-brand-borderSubtle hover:border-brand-cherryLight transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden group shadow-md hover:shadow-brand-cherry/20">
+                <div class="absolute -right-6 -top-6 w-16 h-16 bg-brand-cherry/15 rounded-full blur-xl pointer-events-none group-hover:bg-brand-cherry/30 transition"></div>
+                <div class="flex items-center justify-between w-full mb-1">
+                    <div class="flex items-center gap-1.5 min-w-0">
+                        <span class="text-xs sm:text-sm">📝</span>
+                        <span class="text-[11px] sm:text-xs uppercase tracking-wider text-brand-muted group-hover:text-white font-extrabold truncate">2BAC National</span>
+                    </div>
+                    <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-brand-darker border border-brand-borderSubtle text-brand-goldLight">8 Juin</span>
                 </div>
-                <span id="countdown-bac" class="font-mono text-xs sm:text-sm font-black gold-text-gradient drop-shadow-sm">--j --h</span>
+                <span id="countdown-bac" class="font-mono text-xs sm:text-sm font-black text-white group-hover:text-brand-goldLight drop-shadow-sm tracking-tight">--j --h --m</span>
             </div>
         </div>
     </section>
@@ -1444,6 +1459,10 @@
                         <i class="fa-solid fa-stopwatch text-brand-gold"></i>
                         <span class="hidden md:inline">Étudier ce Livre</span>
                     </button>
+                    <button id="btn-toggle-pdf-view" title="Basculer entre Canvas HD et Vue iFrame" class="p-1.5 sm:p-2 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white transition active:scale-95 text-xs font-mono font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-window-maximize text-xs"></i>
+                        <span class="hidden sm:inline text-[10px]">iFrame</span>
+                    </button>
                     <button id="btn-open-pdf-external" title="Ouvrir dans un nouvel onglet" class="p-1.5 sm:p-2 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white transition active:scale-95">
                         <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                     </button>
@@ -1500,15 +1519,23 @@
                 <div id="pdf-error-container" class="hidden absolute inset-0 flex flex-col items-center justify-center gap-3 bg-brand-darker/95 z-20 text-center p-6">
                     <i class="fa-solid fa-triangle-exclamation text-3xl text-rose-400"></i>
                     <span id="pdf-error-text" class="text-xs sm:text-sm font-bold text-white max-w-md"></span>
-                    <a id="pdf-fallback-download-btn" href="#" target="_blank" class="px-4 py-2 rounded-xl bg-brand-cherry text-white text-xs font-bold border border-brand-gold">
-                        📥 Télécharger le PDF
-                    </a>
+                    <div class="flex items-center gap-2">
+                        <a id="pdf-fallback-download-btn" href="#" target="_blank" class="px-4 py-2 rounded-xl bg-brand-cherry text-white text-xs font-bold border border-brand-gold">
+                            📥 Télécharger le PDF
+                        </a>
+                        <button id="pdf-error-iframe-btn" class="px-4 py-2 rounded-xl bg-brand-darker text-brand-goldLight text-xs font-bold border border-brand-gold/50">
+                            🖥️ Ouvrir en iFrame
+                        </button>
+                    </div>
                 </div>
 
                 <!-- High-DPI Render Canvas Container -->
-                <div class="shadow-[0_10px_40px_rgba(0,0,0,0.8)] rounded-lg overflow-hidden border border-brand-borderSubtle bg-white">
+                <div id="pdf-canvas-wrapper" class="shadow-[0_10px_40px_rgba(0,0,0,0.8)] rounded-lg overflow-hidden border border-brand-borderSubtle bg-white">
                     <canvas id="pdf-render-canvas" class="block max-w-full"></canvas>
                 </div>
+
+                <!-- iFrame Fallback Viewer -->
+                <iframe id="pdf-fallback-iframe" class="hidden w-full h-full rounded-xl border-0 bg-white" title="Document StudySouk"></iframe>
             </div>
         </div>
     </div>
@@ -1779,17 +1806,17 @@
     </div>
 
     <!-- Logic Scripts Stack -->
-    <script src="assets/pdfjs/pdf.min.js"></script>
-    <script src="assets/pdfjs/pdf.worker.min.js"></script>
-    <script src="audio.js"></script>
-    <script src="canvas-effects.js"></script>
-    <script src="sync-engine.js"></script>
-    <script src="reactions.js"></script>
-    <script src="levels.js"></script>
-    <script src="duel.js"></script>
-    <script src="flashcards.js"></script>
-    <script src="scratchpad.js"></script>
-    <script src="library.js"></script>
-    <script src="app.js"></script>
+    <script src="assets/pdfjs/pdf.min.js?v=2.2"></script>
+    <script src="assets/pdfjs/pdf.worker.min.js?v=2.2"></script>
+    <script src="audio.js?v=2.2"></script>
+    <script src="canvas-effects.js?v=2.2"></script>
+    <script src="sync-engine.js?v=2.2"></script>
+    <script src="reactions.js?v=2.2"></script>
+    <script src="levels.js?v=2.2"></script>
+    <script src="duel.js?v=2.2"></script>
+    <script src="flashcards.js?v=2.2"></script>
+    <script src="scratchpad.js?v=2.2"></script>
+    <script src="library.js?v=2.2"></script>
+    <script src="app.js?v=2.2"></script>
 </body>
 </html>

@@ -170,10 +170,12 @@ const HTML_NO_STORE = { headers: { 'Cache-Control': 'no-store' } };
 app.use(
   express.static(__dirname, {
     setHeaders(res, filePath) {
-      if (filePath.endsWith('.html')) {
-        res.setHeader('Cache-Control', 'no-store');
+      if (filePath.endsWith('.html') || filePath.endsWith('.js')) {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
       } else {
-        res.setHeader('Cache-Control', 'public, max-age=3600');
+        res.setHeader('Cache-Control', 'public, max-age=300');
       }
       res.setHeader('X-Frame-Options', 'ALLOWALL');
     },

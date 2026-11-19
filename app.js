@@ -144,7 +144,7 @@ class StudySoukTimerApp {
             const now = new Date();
             const currentYear = now.getFullYear();
 
-            // Next exam dates
+            // Next exam dates (Official Moroccan Schedule)
             const getNextDate = (month, day) => {
                 let target = new Date(currentYear, month - 1, day, 8, 0, 0);
                 if (now > target) {
@@ -153,16 +153,20 @@ class StudySoukTimerApp {
                 return target;
             };
 
-            const cncDate = getNextDate(5, 12); // May 12
-            const frDate = getNextDate(4, 22);  // April 22 (Mines/Centrale)
-            const bacDate = getNextDate(6, 10); // June 10
+            // CNC (Concours National Commun CPGE): Starts 10 Mai 2027, 08:00
+            const cncDate = getNextDate(5, 10);
+            // Concours Français (Mines-Ponts / Centrale / CCINP): Starts 19 Avril 2027, 08:00
+            const frDate = getNextDate(4, 19);
+            // Examen National 2BAC (Sciences Maths & PC/SVT): Starts 8 Juin 2027, 08:00
+            const bacDate = getNextDate(6, 8);
 
             const formatDiff = (target) => {
                 const diffMs = target - now;
                 if (diffMs <= 0) return "En cours !";
                 const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                return `${days}j ${hours}h`;
+                const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                return `${days}j ${hours}h ${minutes}m`;
             };
 
             const elCnc = document.getElementById("countdown-cnc");
@@ -175,7 +179,7 @@ class StudySoukTimerApp {
         };
 
         updateCountdowns();
-        setInterval(updateCountdowns, 60000);
+        setInterval(updateCountdowns, 10000);
     }
 
     // --- OFFICIAL MOROCCO REAL-TIME CLOCK ---

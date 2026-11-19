@@ -19,15 +19,10 @@ class StudySoukLibrary {
         this.pageRendering = false;
         this.pageNumPending = null;
         this.scale = 1.25;
+        this.currentPdfUrl = null;
+        this.isIframeView = false;
 
         if (window.pdfjsLib) {
-            if (window.pdfjsWorker && window.pdfjsWorker.WorkerMessageHandler && window.pdfjsLib.PDFWorker) {
-                try {
-                    window.pdfjsLib.PDFWorker._mainThreadWorkerMessageHandler = window.pdfjsWorker.WorkerMessageHandler;
-                } catch (e) {
-                    console.warn('[Library] Notice setting worker handler:', e);
-                }
-            }
             window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/pdfjs/pdf.worker.min.js';
         }
 
@@ -131,6 +126,36 @@ class StudySoukLibrary {
         if (modalBackdrop) {
             modalBackdrop.addEventListener('click', (e) => {
                 if (e.target === modalBackdrop) this.closeReader();
+            });
+        }
+
+        // View Mode Toggle (Canvas HD vs iFrame)
+        const toggleViewBtn = document.getElementById('btn-toggle-pdf-view');
+        if (toggleViewBtn) {
+            toggleViewBtn.addEventListener('click', () => this.toggleView());
+        }
+        const errIframeBtn = document.getElementById('pdf-error-iframe-btn');
+        if (errIframeBtn) {
+            errIframeBtn.addEventListener('click', () => this.showIframeView(true));
+        }
+
+        // Event Delegation for Library Books Grid
+        const booksGrid = document.getElementById('library-books-grid');
+        if (booksGrid && !booksGrid._delegated) {
+            booksGrid._delegated = true;
+            booksGrid.addEventListener('click', (e) => {
+                const readBtn = e.target.closest('[data-action="open-reader"]');
+                if (readBtn) {
+                    e.preventDefault();
+                    this.openReader(readBtn.dataset.bookId);
+                    return;
+                }
+                const studyBtn = e.target.closest('[data-action="study-book"]');
+                if (studyBtn) {
+                    e.preventDefault();
+                    this.studyWithTimer(studyBtn.dataset.bookId);
+                    return;
+                }
             });
         }
 
@@ -309,12 +334,12 @@ class StudySoukLibrary {
 
                     <!-- Action Buttons -->
                     <div class="pt-2.5 border-t border-brand-borderSubtle flex items-center gap-1.5">
-                        <button onclick="window.library.openReader(${book.id})" class="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant hover:from-brand-cherryLight hover:to-brand-cherry border border-brand-gold/60 text-white font-black text-xs font-outfit flex items-center justify-center gap-1.5 active:scale-95 transition shadow">
-                            <i class="fa-solid fa-book-open text-brand-goldLight text-xs"></i>
-                            <span class="gold-text-gradient">Consulter 📖</span>
+                        <button data-action="open-reader" data-book-id="${book.id}" onclick="window.library.openReader(${book.id})" class="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant hover:from-brand-cherryLight hover:to-brand-cherry border border-brand-gold/60 text-white font-black text-xs font-outfit flex items-center justify-center gap-1.5 active:scale-95 transition shadow">
+                            <i class="fa-solid fa-book-open text-brand-goldLight text-xs pointer-events-none"></i>
+                            <span class="gold-text-gradient pointer-events-none">Consulter 📖</span>
                         </button>
-                        <button onclick="window.library.studyWithTimer(${book.id})" title="Lancer une session de Deep Work sur cet ouvrage" class="w-8 h-8 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-goldLight hover:text-white flex items-center justify-center active:scale-95 transition shadow">
-                            <i class="fa-solid fa-stopwatch text-xs"></i>
+                        <button data-action="study-book" data-book-id="${book.id}" onclick="window.library.studyWithTimer(${book.id})" title="Lancer une session de Deep Work sur cet ouvrage" class="w-8 h-8 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-goldLight hover:text-white flex items-center justify-center active:scale-95 transition shadow">
+                            <i class="fa-solid fa-stopwatch text-xs pointer-events-none"></i>
                         </button>
                     </div>
                 </div>
@@ -387,6 +412,9 @@ class StudySoukLibrary {
             modal.style.display = 'flex';
             document.body.classList.add('overflow-hidden');
         }
+
+        this.currentPdfUrl = pdfUrl;
+        this.showIframeView(false);
 
         // Load and render PDF using PDF.js
         await this.loadPdfDocument(pdfUrl);
@@ -578,6 +606,39 @@ class StudySoukLibrary {
         if (el) el.classList.add('hidden');
     }
 
+    toggleView() {
+        this.showIframeView(!this.isIframeView);
+    }
+
+    showIframeView(show) {
+        this.isIframeView = show;
+        const canvasWrap = document.getElementById('pdf-canvas-wrapper');
+        const iframeEl = document.getElementById('pdf-fallback-iframe');
+        const toggleBtn = document.getElementById('btn-toggle-pdf-view');
+        const navToolbar = document.querySelector('#library-reader-modal .font-mono.border-b');
+
+        if (show) {
+            if (canvasWrap) canvasWrap.classList.add('hidden');
+            if (iframeEl) {
+                iframeEl.classList.remove('hidden');
+                if (this.currentPdfUrl && iframeEl.src !== this.currentPdfUrl) {
+                    iframeEl.src = this.currentPdfUrl;
+                }
+            }
+            if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-file-pdf text-xs"></i> <span class="hidden sm:inline text-[10px]">Canvas HD</span>';
+            if (navToolbar) navToolbar.classList.add('opacity-30', 'pointer-events-none');
+            this.hidePdfError();
+            this.showPdfLoading(false);
+        } else {
+            if (iframeEl) {
+                iframeEl.classList.add('hidden');
+            }
+            if (canvasWrap) canvasWrap.classList.remove('hidden');
+            if (toggleBtn) toggleBtn.innerHTML = '<i class="fa-solid fa-window-maximize text-xs"></i> <span class="hidden sm:inline text-[10px]">iFrame</span>';
+            if (navToolbar) navToolbar.classList.remove('opacity-30', 'pointer-events-none');
+        }
+    }
+
     closeReader() {
         const modal = document.getElementById('library-reader-modal');
         if (modal) {
@@ -586,6 +647,10 @@ class StudySoukLibrary {
             modal.style.display = 'none';
             document.body.classList.remove('overflow-hidden');
         }
+
+        this.showIframeView(false);
+        const iframeEl = document.getElementById('pdf-fallback-iframe');
+        if (iframeEl) iframeEl.src = 'about:blank';
 
         // Clean up PDF resources
         if (this.pdfDoc) {
