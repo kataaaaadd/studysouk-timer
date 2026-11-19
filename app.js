@@ -429,8 +429,8 @@ class StudySoukTimerApp {
             } else if (e.key === "?") {
                 shortcutsModal?.classList.toggle("hidden");
                 shortcutsModal?.classList.toggle("flex");
-            } else if (["1", "2", "3", "4", "5", "6"].includes(e.key)) {
-                const tabs = ["tab-timer", "tab-flashcards", "tab-scratchpad", "tab-duel", "tab-tasks", "tab-ambience"];
+            } else if (["1", "2", "3", "4", "5", "6", "7"].includes(e.key)) {
+                const tabs = ["tab-timer", "tab-library", "tab-flashcards", "tab-scratchpad", "tab-duel", "tab-tasks", "tab-ambience"];
                 const targetTab = tabs[parseInt(e.key, 10) - 1];
                 if (targetTab) {
                     window.ambience?.playClick();
@@ -469,6 +469,8 @@ class StudySoukTimerApp {
 
         if (tabId === "tab-duel" && this.duel && !this.duel.isPlaying) {
             this.duel.render();
+        } else if (tabId === "tab-library" && window.library) {
+            window.library.renderCatalog();
         } else if (tabId === "tab-flashcards" && this.flashcards) {
             this.flashcards.render();
         } else if (tabId === "tab-scratchpad" && this.scratchpad) {
@@ -628,6 +630,11 @@ class StudySoukTimerApp {
             btn.innerHTML = `<i class="fa-solid fa-pause text-sm sm:text-base text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-sm sm:text-base">Pause</span>`;
         }
 
+        const statusEl = document.getElementById("timer-status-indicator");
+        if (statusEl) {
+            statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span><span class="text-[11px] font-mono font-bold text-emerald-300 uppercase tracking-wider">Session Active</span>`;
+        }
+
         clearInterval(this.timerInterval);
         this.timerInterval = setInterval(() => {
             this.timeLeft--;
@@ -666,6 +673,11 @@ class StudySoukTimerApp {
             btn.innerHTML = `<i class="fa-solid fa-play text-sm sm:text-base text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-sm sm:text-base">Reprendre</span>`;
         }
 
+        const statusEl = document.getElementById("timer-status-indicator");
+        if (statusEl) {
+            statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span><span class="text-[11px] font-mono font-bold text-amber-300 uppercase tracking-wider">En Pause</span>`;
+        }
+
         if (broadcast && this.sync) {
             this.sync.syncPomodoro("pause", {
                 modeKey: this.currentModeKey,
@@ -684,6 +696,11 @@ class StudySoukTimerApp {
         const btn = document.getElementById("btn-timer-toggle");
         if (btn) {
             btn.innerHTML = `<i class="fa-solid fa-play text-sm sm:text-base text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-sm sm:text-base">Commencer</span>`;
+        }
+
+        const statusEl = document.getElementById("timer-status-indicator");
+        if (statusEl) {
+            statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-brand-gold"></span><span class="text-[11px] font-mono font-bold text-brand-goldLight uppercase tracking-wider">Prêt • Focus</span>`;
         }
 
         if (broadcast && this.sync) {
