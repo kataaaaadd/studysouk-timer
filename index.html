@@ -1427,39 +1427,90 @@
         </div>
     </footer>
 
-        <!-- PDF & DOCUMENT READER MODAL -->
+    <!-- PDF & DOCUMENT READER MODAL (HIGH PERFORMANCE PDF.JS VIEWER) -->
     <div id="library-reader-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-2 sm:p-4 animate-fadeIn">
-        <div class="w-full max-w-5xl h-[92vh] glass-panel rounded-2xl border border-brand-gold/50 flex flex-col shadow-2xl overflow-hidden">
-            <!-- Reader Header -->
-            <div class="px-4 py-3 border-b border-brand-borderSubtle flex items-center justify-between bg-brand-darker/90">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-brand-cherry border border-brand-gold flex items-center justify-center text-brand-gold text-base shadow">
+        <div class="w-full max-w-5xl h-[94vh] glass-panel rounded-2xl border border-brand-gold/50 flex flex-col shadow-2xl overflow-hidden">
+            <!-- Reader Main Header -->
+            <div class="px-4 py-2.5 border-b border-brand-borderSubtle flex items-center justify-between bg-brand-darker/95">
+                <div class="flex items-center gap-2.5 min-w-0 pr-2">
+                    <div class="w-8 h-8 rounded-xl bg-brand-cherry border border-brand-gold/60 flex items-center justify-center text-brand-gold text-sm shadow shrink-0">
                         <i class="fa-solid fa-book-open"></i>
                     </div>
-                    <div>
-                        <h3 id="reader-modal-title" class="text-xs sm:text-sm font-black text-white font-outfit line-clamp-1">Chargement de l'ouvrage...</h3>
-                        <span id="reader-modal-badge" class="text-[11px] font-mono text-brand-goldLight font-bold">Volume StudySouk</span>
+                    <div class="min-w-0">
+                        <h3 id="reader-modal-title" class="text-xs sm:text-sm font-black text-white font-outfit truncate">Chargement de l'ouvrage...</h3>
+                        <span id="reader-modal-badge" class="text-[10px] sm:text-[11px] font-mono text-brand-goldLight font-bold truncate block">Volume StudySouk</span>
                     </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button id="btn-study-this-book" title="Étudier ce volume dans le minuteur" class="px-3 py-1.5 rounded-xl bg-brand-cherry hover:bg-brand-cherryVibrant border border-brand-gold/60 text-brand-goldLight text-xs font-bold font-outfit flex items-center gap-1.5 transition active:scale-95 shadow">
+                <div class="flex items-center gap-1.5 shrink-0">
+                    <button id="btn-study-this-book" title="Étudier ce volume dans le minuteur" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-brand-cherry hover:bg-brand-cherryVibrant border border-brand-gold/60 text-brand-goldLight text-xs font-bold font-outfit flex items-center gap-1.5 transition active:scale-95 shadow">
                         <i class="fa-solid fa-stopwatch text-brand-gold"></i>
-                        <span class="hidden sm:inline">Étudier ce Livre</span>
+                        <span class="hidden md:inline">Étudier ce Livre</span>
                     </button>
-                    <button id="btn-open-pdf-external" title="Ouvrir dans un nouvel onglet" class="p-2 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white transition active:scale-95">
+                    <button id="btn-open-pdf-external" title="Ouvrir dans un nouvel onglet" class="p-1.5 sm:p-2 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white transition active:scale-95">
                         <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                     </button>
-                    <button id="btn-download-pdf" title="Télécharger l'ouvrage (PDF)" class="p-2 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white transition active:scale-95">
+                    <button id="btn-download-pdf" title="Télécharger l'ouvrage (PDF)" class="p-1.5 sm:p-2 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white transition active:scale-95">
                         <i class="fa-solid fa-download text-xs"></i>
                     </button>
-                    <button id="btn-close-reader-modal" title="Fermer (Échap)" class="p-2 rounded-xl glass-card border border-brand-borderSubtle text-brand-muted hover:text-white transition active:scale-95">
+                    <button id="btn-close-reader-modal" title="Fermer (Échap)" class="p-1.5 sm:p-2 rounded-xl glass-card border border-brand-borderSubtle text-brand-muted hover:text-white transition active:scale-95">
                         <i class="fa-solid fa-xmark text-sm"></i>
                     </button>
                 </div>
             </div>
-            <!-- Reader Iframe -->
-            <div class="flex-1 w-full bg-neutral-900 relative">
-                <iframe id="reader-modal-iframe" src="about:blank" class="w-full h-full border-0" allow="fullscreen"></iframe>
+
+            <!-- PDF Controls Navigation Sub-Toolbar -->
+            <div class="px-3 sm:px-4 py-1.5 border-b border-brand-borderSubtle bg-brand-darker/80 flex items-center justify-between text-xs font-mono">
+                <!-- Page Navigator -->
+                <div class="flex items-center gap-1 sm:gap-2">
+                    <button id="pdf-prev" title="Page Précédente (Flèche Gauche)" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-goldLight flex items-center justify-center transition active:scale-90">
+                        <i class="fa-solid fa-chevron-left text-[11px]"></i>
+                    </button>
+                    <div class="flex items-center gap-1 text-[11px] font-bold text-white bg-brand-card px-2 py-0.5 rounded-lg border border-brand-borderSubtle">
+                        <span>Page</span>
+                        <input id="pdf-page-num" type="number" min="1" value="1" class="w-10 text-center bg-transparent border-0 text-brand-gold font-mono font-bold focus:outline-none">
+                        <span class="text-brand-muted">/</span>
+                        <span id="pdf-page-count" class="text-brand-muted">--</span>
+                    </div>
+                    <button id="pdf-next" title="Page Suivante (Flèche Droite)" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-goldLight flex items-center justify-center transition active:scale-90">
+                        <i class="fa-solid fa-chevron-right text-[11px]"></i>
+                    </button>
+                </div>
+
+                <!-- Zoom & View Controls -->
+                <div class="flex items-center gap-1 sm:gap-1.5">
+                    <button id="pdf-zoom-out" title="Dézoomer (-)" class="w-7 h-7 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center transition active:scale-90">
+                        <i class="fa-solid fa-minus text-[10px]"></i>
+                    </button>
+                    <button id="pdf-zoom-reset" title="Ajuster à la largeur" class="px-2 py-0.5 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-goldLight text-[10px] sm:text-[11px] font-bold transition">
+                        <span id="pdf-zoom-level">120%</span>
+                    </button>
+                    <button id="pdf-zoom-in" title="Zoomer (+)" class="w-7 h-7 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center transition active:scale-90">
+                        <i class="fa-solid fa-plus text-[10px]"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- PDF Viewer Canvas Container -->
+            <div id="pdf-viewer-container" class="flex-1 w-full bg-[#18181b] overflow-auto relative flex flex-col items-center justify-start p-2 sm:p-4">
+                <!-- Loading State -->
+                <div id="pdf-loading-spinner" class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-brand-darker/90 backdrop-blur-sm z-20">
+                    <div class="w-10 h-10 border-3 border-brand-gold border-t-transparent rounded-full animate-spin"></div>
+                    <span class="text-xs font-mono font-bold text-brand-goldLight uppercase tracking-wider">Chargement Haute Définition...</span>
+                </div>
+                
+                <!-- Error State -->
+                <div id="pdf-error-container" class="hidden absolute inset-0 flex flex-col items-center justify-center gap-3 bg-brand-darker/95 z-20 text-center p-6">
+                    <i class="fa-solid fa-triangle-exclamation text-3xl text-rose-400"></i>
+                    <span id="pdf-error-text" class="text-xs sm:text-sm font-bold text-white max-w-md"></span>
+                    <a id="pdf-fallback-download-btn" href="#" target="_blank" class="px-4 py-2 rounded-xl bg-brand-cherry text-white text-xs font-bold border border-brand-gold">
+                        📥 Télécharger le PDF
+                    </a>
+                </div>
+
+                <!-- High-DPI Render Canvas Container -->
+                <div class="shadow-[0_10px_40px_rgba(0,0,0,0.8)] rounded-lg overflow-hidden border border-brand-borderSubtle bg-white">
+                    <canvas id="pdf-render-canvas" class="block max-w-full"></canvas>
+                </div>
             </div>
         </div>
     </div>
@@ -1730,6 +1781,7 @@
     </div>
 
     <!-- Logic Scripts Stack -->
+    <script src="assets/pdfjs/pdf.min.js"></script>
     <script src="audio.js"></script>
     <script src="canvas-effects.js"></script>
     <script src="sync-engine.js"></script>
