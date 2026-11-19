@@ -211,9 +211,18 @@ class StudySoukTimerApp {
             avatar: storedAvatar || ("https://api.dicebear.com/7.x/bottts/svg?seed=" + Math.floor(Math.random() * 10000))
         };
 
-        if (hasFrameId && window.DiscordSDK) {
+        let SdkClass = (window.DiscordSDK && window.DiscordSDK.DiscordSDK) || window.DiscordSDK;
+        if (hasFrameId && !SdkClass) {
+            for (let i = 0; i < 10; i++) {
+                await new Promise(r => setTimeout(r, 100));
+                SdkClass = (window.DiscordSDK && window.DiscordSDK.DiscordSDK) || window.DiscordSDK;
+                if (SdkClass) break;
+            }
+        }
+
+        if (hasFrameId && SdkClass) {
             try {
-                this.sdk = new window.DiscordSDK(CLIENT_ID);
+                this.sdk = new SdkClass(CLIENT_ID);
                 await this.sdk.ready();
                 this.isInDiscord = true;
 
