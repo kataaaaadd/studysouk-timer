@@ -125,6 +125,12 @@
         }
 
         /* Chronometer & Timer Enhancements */
+                #timer-display {
+            font-size: clamp(3.6rem, 11vw, 5.8rem) !important;
+            line-height: 1 !important;
+            font-weight: 900 !important;
+            letter-spacing: -0.035em !important;
+        }
         .timer-running #timer-display {
             animation: timerRunningPulse 2.5s ease-in-out infinite;
         }
@@ -353,6 +359,12 @@
                 <span class="hidden sm:inline">Inviter</span>
             </button>
 
+            <!-- Open STEM Library Button -->
+            <button id="btn-open-library" title="Bibliothèque STEM (149 Volumes)" class="h-8 glass-card text-xs px-2 sm:px-3 rounded-xl border border-brand-gold/60 text-brand-goldLight hover:border-brand-gold hover:text-white transition flex items-center gap-1.5 font-outfit font-black shadow active:scale-95">
+                <i class="fa-solid fa-book-bookmark text-brand-gold text-xs"></i>
+                <span class="hidden sm:inline">Bibliothèque</span>
+            </button>
+
             <!-- Quick Action Cluster (Zen, Mute, Shortcuts) -->
             <div class="flex items-center gap-1 p-0.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
                 <button id="btn-zen-mode" title="Mode Zen plein écran (Z)" class="h-7 w-7 rounded-lg glass-card text-brand-goldLight hover:border-brand-gold hover:text-white transition flex items-center justify-center active:scale-95">
@@ -480,7 +492,7 @@
 
             <!-- Sleek Master Circular Chronometer Display (Haute Horlogerie Academic Chronometer) -->
             <div class="relative flex items-center justify-center mb-3">
-                <div class="relative w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center">
+                <div class="relative w-72 h-72 sm:w-80 sm:h-80 md:w-84 md:h-84 flex items-center justify-center">
                     <!-- Dynamic Radial Glow Halo behind timer -->
                     <div id="timer-ambient-halo" class="absolute inset-1 rounded-full bg-gradient-to-tr from-brand-cherry/40 via-brand-gold/20 to-transparent blur-3xl pointer-events-none transition-all duration-700"></div>
                     
@@ -609,33 +621,31 @@
                         </g>
                     </svg>
 
-                    <!-- Center Stack: Academic Emblem + Status Complication + Time + Active Subject -->
-                    <div class="absolute flex flex-col items-center justify-center text-center px-4 pointer-events-none">
+                    <!-- Center Stack: Dominant Chrono Timing & Minimal Luxury Complications -->
+                    <div class="absolute flex flex-col items-center justify-center text-center px-2 pointer-events-none w-full">
                         <!-- Top StudySouk Royal Plume -->
-                        <div class="relative mb-0.5">
-                            <img src="assets/logo.png" alt="StudySouk Plume" class="w-8 h-8 sm:w-9 sm:h-9 object-contain timer-center-emblem drop-shadow-[0_0_16px_rgba(212,175,55,0.9)]">
+                        <div class="relative mb-0.5 sm:mb-1">
+                            <img src="assets/logo.png" alt="StudySouk Plume" class="w-7 h-7 sm:w-8 sm:h-8 object-contain timer-center-emblem drop-shadow-[0_0_16px_rgba(212,175,55,0.9)]">
                         </div>
                         
-                        <!-- Master Numeric Chrono Display -->
-                        <span id="timer-display" class="font-mono text-5xl sm:text-6xl font-black tracking-tight text-white drop-shadow-[0_0_26px_rgba(212,175,55,0.75)] select-none leading-none my-1">
+                        <!-- Master Numeric Chrono Display (Enlarged XXL Timing) -->
+                        <span id="timer-display" class="font-mono font-black tracking-tighter text-white drop-shadow-[0_0_35px_rgba(212,175,55,0.85)] select-none leading-none my-0.5 sm:my-1">
                             25:00
                         </span>
 
-                        <!-- Live Status Complication Pill -->
-                        <div id="timer-status-indicator" class="flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-brand-darker/90 border border-brand-gold/40 shadow-sm mt-0.5">
-                            <span class="w-2 h-2 rounded-full bg-brand-gold"></span>
-                            <span class="text-[11px] font-mono font-bold text-brand-goldLight uppercase tracking-wider">Prêt • Focus</span>
-                        </div>
-
-                        <!-- Active Subject / Chapter Complication -->
-                        <div class="flex items-center gap-1.5 mt-2">
-                            <span id="active-subject-badge" class="text-xs font-black text-brand-goldLight font-outfit uppercase tracking-wider px-3.5 py-1 rounded-full glass-card border border-brand-gold/60 shadow-md">
+                        <!-- Complications Line: Live Status & Active Subject Badge -->
+                        <div class="flex items-center justify-center gap-1.5 mt-1 sm:mt-1.5 max-w-[220px]">
+                            <div id="timer-status-indicator" class="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-brand-darker/90 border border-brand-gold/40 shadow-sm shrink-0">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-gold"></span>
+                                <span class="text-[10px] sm:text-[11px] font-mono font-bold text-brand-goldLight uppercase tracking-wider">Prêt</span>
+                            </div>
+                            <span id="active-subject-badge" class="text-[11px] sm:text-xs font-black text-brand-goldLight font-outfit uppercase tracking-wider px-2.5 py-0.5 rounded-full glass-card border border-brand-gold/60 shadow-md truncate max-w-[150px]">
                                 📐 Maths • Analyse
                             </span>
                         </div>
 
                         <!-- Sync Status -->
-                        <span id="timer-sync-label" class="text-[11px] uppercase tracking-wider text-brand-muted font-bold mt-1 font-outfit flex items-center gap-1.5">
+                        <span id="timer-sync-label" class="text-[10px] sm:text-[11px] uppercase tracking-wider text-brand-muted font-bold mt-1 font-outfit flex items-center gap-1">
                             <i class="fa-solid fa-satellite-dish text-emerald-400 text-xs animate-pulse"></i> Salon Synchronisé
                         </span>
                     </div>
@@ -734,6 +744,10 @@
                             </p>
                         </div>
                     </div>
+                    <button id="btn-back-to-timer" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant border border-brand-gold/60 text-white hover:brightness-110 text-xs font-black font-outfit flex items-center gap-2 transition active:scale-95 shadow">
+                        <i class="fa-solid fa-arrow-left text-brand-goldLight text-xs"></i>
+                        <span>Retour au Minuteur</span>
+                    </button>
                 </div>
 
                 <!-- Live Search Bar -->
@@ -1168,14 +1182,10 @@
 
     <!-- Official StudySouk Bottom Navigation Bar -->
     <footer class="w-full glass-panel border-t border-brand-borderSubtle sticky bottom-0 z-40 py-1.5 px-2">
-        <div class="max-w-2xl mx-auto grid grid-cols-7 gap-1 w-full py-0.5">
+        <div class="max-w-xl mx-auto grid grid-cols-6 gap-1 w-full py-0.5">
             <button data-tab="tab-timer" class="nav-tab-btn tab-active flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold">
                 <i class="fa-solid fa-stopwatch text-base text-brand-gold"></i>
                 <span class="text-xs font-black font-outfit truncate">Minuteur</span>
-            </button>
-            <button data-tab="tab-library" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent">
-                <i class="fa-solid fa-book-bookmark text-base"></i>
-                <span class="text-xs font-black font-outfit truncate">Bibliothèque</span>
             </button>
             <button data-tab="tab-flashcards" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent">
                 <i class="fa-solid fa-graduation-cap text-base"></i>
@@ -1485,7 +1495,7 @@
                 </div>
                 <div class="flex items-center justify-between p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
                     <span class="text-brand-text">Changer d'Onglet</span>
-                    <kbd class="px-2 py-0.5 rounded bg-brand-card border border-brand-gold/40 text-brand-goldLight font-mono text-[11px] font-bold">1 - 7</kbd>
+                    <kbd class="px-2 py-0.5 rounded bg-brand-card border border-brand-gold/40 text-brand-goldLight font-mono text-[11px] font-bold">1 - 6</kbd>
                 </div>
                 <div class="flex items-center justify-between p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
                     <span class="text-brand-text">Aide des Raccourcis</span>

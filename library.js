@@ -302,19 +302,23 @@ class StudySoukLibrary {
         if (!book) return;
 
         // Switch to Timer Tab
-        const timerTabBtn = document.querySelector('[data-tab="tab-timer"]');
-        if (timerTabBtn) timerTabBtn.click();
+        if (window.timerApp) {
+            window.timerApp.switchTab("tab-timer");
+        } else {
+            const timerTabBtn = document.querySelector('[data-tab="tab-timer"]');
+            if (timerTabBtn) timerTabBtn.click();
+        }
 
         // Update active subject badge
         const badge = document.getElementById('active-subject-badge');
         if (badge) {
-            const shortTitle = book.title.length > 32 ? book.title.substring(0, 30) + '...' : book.title;
+            const shortTitle = book.title.length > 25 ? book.title.substring(0, 23) + '...' : book.title;
             badge.textContent = `📖 ${shortTitle}`;
         }
 
-        // Show toast or reaction
+        // Show toast
         if (window.timerApp) {
-            window.timerApp.showCustomToast(`📚 Session configurée sur : ${book.title}`);
+            window.timerApp.showToast(`📚 Session configurée sur : ${book.title}`);
         }
     }
 }

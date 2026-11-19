@@ -429,13 +429,16 @@ class StudySoukTimerApp {
             } else if (e.key === "?") {
                 shortcutsModal?.classList.toggle("hidden");
                 shortcutsModal?.classList.toggle("flex");
-            } else if (["1", "2", "3", "4", "5", "6", "7"].includes(e.key)) {
-                const tabs = ["tab-timer", "tab-library", "tab-flashcards", "tab-scratchpad", "tab-duel", "tab-tasks", "tab-ambience"];
+            } else if (["1", "2", "3", "4", "5", "6"].includes(e.key)) {
+                const tabs = ["tab-timer", "tab-flashcards", "tab-scratchpad", "tab-duel", "tab-tasks", "tab-ambience"];
                 const targetTab = tabs[parseInt(e.key, 10) - 1];
                 if (targetTab) {
                     window.ambience?.playClick();
                     this.switchTab(targetTab);
                 }
+            } else if (e.key.toLowerCase() === "b" && !e.target.matches("input, textarea, select")) {
+                window.ambience?.playClick();
+                this.switchTab("tab-library");
             }
         });
     }
@@ -449,6 +452,16 @@ class StudySoukTimerApp {
                 const targetId = btn.dataset.tab;
                 this.switchTab(targetId);
             });
+        });
+
+        // Dedicated Library toggles
+        document.getElementById("btn-open-library")?.addEventListener("click", () => {
+            window.ambience?.playClick();
+            this.switchTab("tab-library");
+        });
+        document.getElementById("btn-back-to-timer")?.addEventListener("click", () => {
+            window.ambience?.playClick();
+            this.switchTab("tab-timer");
         });
     }
 
