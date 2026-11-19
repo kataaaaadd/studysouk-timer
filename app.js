@@ -327,10 +327,10 @@ class StudySoukTimerApp {
         const navBtns = document.querySelectorAll(".nav-tab-btn");
         navBtns.forEach(b => {
             if (b.dataset.tab === tabId) {
-                b.classList.add("text-brand-goldLight", "bg-brand-cherry/80", "border-brand-gold", "shadow");
+                b.classList.add("tab-active");
                 b.classList.remove("text-brand-muted", "border-transparent");
             } else {
-                b.classList.remove("text-brand-goldLight", "bg-brand-cherry/80", "border-brand-gold", "shadow");
+                b.classList.remove("tab-active");
                 b.classList.add("text-brand-muted", "border-transparent");
             }
         });
@@ -384,11 +384,11 @@ class StudySoukTimerApp {
 
         document.querySelectorAll(".timer-mode-btn").forEach(b => {
             if (b.dataset.mode === modeKey) {
-                b.classList.remove("bg-brand-card", "text-brand-muted", "border-brand-border");
-                b.classList.add("bg-gradient-to-r", "from-brand-gold", "to-brand-goldLight", "text-brand-darker", "font-extrabold", "shadow-lg", "shadow-brand-goldGlow");
+                b.classList.add("timer-btn-active");
+                b.classList.remove("text-brand-muted");
             } else {
-                b.classList.remove("bg-gradient-to-r", "from-brand-gold", "to-brand-goldLight", "text-brand-darker", "font-extrabold", "shadow-lg", "shadow-brand-goldGlow");
-                b.classList.add("bg-brand-card", "text-brand-muted", "border-brand-border");
+                b.classList.remove("timer-btn-active");
+                b.classList.add("text-brand-muted");
             }
         });
 
@@ -413,13 +413,12 @@ class StudySoukTimerApp {
     startTimer(broadcast = false) {
         if (this.isRunning) return;
         this.isRunning = true;
+        document.body.classList.add("timer-running");
         window.ambience?.ensureRunning();
 
         const btn = document.getElementById("btn-timer-toggle");
         if (btn) {
-            btn.innerHTML = `<i class="fa-solid fa-pause text-xl"></i><span>Pause</span>`;
-            btn.classList.remove("from-brand-cherry", "via-brand-gold", "to-brand-goldLight");
-            btn.classList.add("from-brand-cherry", "to-brand-cherryVibrant", "text-brand-goldLight");
+            btn.innerHTML = `<i class="fa-solid fa-pause text-xl text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-lg">Pause</span>`;
         }
 
         clearInterval(this.timerInterval);
@@ -448,12 +447,11 @@ class StudySoukTimerApp {
 
     pauseTimer(broadcast = false) {
         this.isRunning = false;
+        document.body.classList.remove("timer-running");
         clearInterval(this.timerInterval);
         const btn = document.getElementById("btn-timer-toggle");
         if (btn) {
-            btn.innerHTML = `<i class="fa-solid fa-play text-xl ml-0.5"></i><span>Commencer</span>`;
-            btn.classList.add("from-brand-cherry", "via-brand-gold", "to-brand-goldLight");
-            btn.classList.remove("from-brand-cherry", "to-brand-cherryVibrant", "text-brand-goldLight");
+            btn.innerHTML = `<i class="fa-solid fa-play text-xl text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-lg">Reprendre</span>`;
         }
 
         if (broadcast && this.sync) {
@@ -468,8 +466,13 @@ class StudySoukTimerApp {
 
     resetTimer(broadcast = false) {
         this.pauseTimer(false);
+        document.body.classList.remove("timer-running");
         this.timeLeft = this.totalDuration;
         this.updateTimerDisplay();
+        const btn = document.getElementById("btn-timer-toggle");
+        if (btn) {
+            btn.innerHTML = `<i class="fa-solid fa-play text-xl text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-lg">Commencer</span>`;
+        }
 
         if (broadcast && this.sync) {
             this.sync.syncPomodoro("reset", {
@@ -525,8 +528,9 @@ class StudySoukTimerApp {
         const circle = document.getElementById("timer-progress-circle");
         const progress = this.timeLeft / this.totalDuration;
         if (circle) {
-            const radius = 130;
+            const radius = circle.r?.baseVal?.value || 126;
             const circumference = 2 * Math.PI * radius;
+            circle.style.strokeDasharray = `${circumference}`;
             const offset = circumference * (1 - progress);
             circle.style.strokeDashoffset = offset;
         }

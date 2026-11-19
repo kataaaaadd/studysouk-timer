@@ -59,30 +59,135 @@
 
     <style>
         body {
-            background-color: #0B0B0E;
+            background-color: #08080B;
             color: #F3F4F6;
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             overflow-x: hidden;
             min-height: 100vh;
             background-image: 
-                radial-gradient(circle at 50% 15%, rgba(138, 21, 56, 0.22) 0%, transparent 60%),
-                radial-gradient(circle at 80% 85%, rgba(212, 175, 55, 0.12) 0%, transparent 50%),
-                radial-gradient(circle at 20% 85%, rgba(88, 101, 242, 0.10) 0%, transparent 50%);
+                /* STEM Mathematical Coordinate Grid */
+                linear-gradient(to right, rgba(212, 175, 55, 0.035) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(212, 175, 55, 0.035) 1px, transparent 1px),
+                /* Luxury Royal Lighting Vignettes */
+                radial-gradient(ellipse 80% 45% at 50% -10%, rgba(138, 21, 56, 0.35) 0%, transparent 70%),
+                radial-gradient(circle 600px at 85% 90%, rgba(212, 175, 55, 0.10) 0%, transparent 60%),
+                radial-gradient(circle 500px at 15% 85%, rgba(184, 35, 75, 0.12) 0%, transparent 60%);
+            background-size: 38px 38px, 38px 38px, auto, auto, auto;
             background-attachment: fixed;
         }
 
         .glass-panel {
-            background: rgba(18, 18, 24, 0.82);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(212, 175, 55, 0.18);
+            background: rgba(14, 14, 19, 0.82);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(212, 175, 55, 0.16);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
         }
 
         .glass-card {
-            background: rgba(26, 26, 36, 0.72);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(84, 28, 47, 0.45);
+            background: rgba(20, 20, 28, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(138, 21, 56, 0.35);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(212, 175, 55, 0.45);
+            box-shadow: 0 8px 30px rgba(138, 21, 56, 0.25), 0 0 15px rgba(212, 175, 55, 0.15);
+            transform: translateY(-1px);
+        }
+
+        /* Gold Shimmer & Luxury Text Gradients */
+        @keyframes goldShimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .gold-shimmer {
+            background: linear-gradient(90deg, #D4AF37 0%, #FFF3B0 50%, #D4AF37 100%);
+            background-size: 200% auto;
+            color: #08080B !important;
+            animation: goldShimmer 4s ease-in-out infinite;
+        }
+
+        .gold-text-gradient {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F5C542 35%, #D4AF37 75%, #AA820A 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cherry-glow-btn {
+            background: linear-gradient(135deg, #8A1538 0%, #B8234B 50%, #8A1538 100%);
+            box-shadow: 0 4px 20px rgba(184, 35, 75, 0.45);
+            transition: all 0.2s ease;
+        }
+        .cherry-glow-btn:hover {
+            box-shadow: 0 6px 25px rgba(184, 35, 75, 0.65), 0 0 15px rgba(212, 175, 55, 0.35);
+            transform: translateY(-1px);
+        }
+
+        /* Chronometer & Timer Enhancements */
+        .timer-running #timer-display {
+            animation: timerRunningPulse 2.5s ease-in-out infinite;
+        }
+        @keyframes timerRunningPulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.35));
+            }
+            50% {
+                filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.8)) drop-shadow(0 0 45px rgba(184, 35, 75, 0.55));
+            }
+        }
+
+        .timer-btn-active {
+            background: linear-gradient(135deg, #F5C542 0%, #D4AF37 50%, #B8860B 100%) !important;
+            color: #08080B !important;
+            font-weight: 900 !important;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.65), 0 4px 12px rgba(0,0,0,0.4) !important;
+            border-color: #FFF3B0 !important;
+        }
+
+        .action-circle-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .action-circle-btn:hover {
+            border-color: rgba(212, 175, 55, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4), 0 0 12px rgba(212, 175, 55, 0.25);
+        }
+        .action-circle-btn:active {
+            transform: scale(0.94);
+        }
+
+        /* Navigation Tab Dock Enhancements */
+        .nav-tab-btn {
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav-tab-btn:hover:not(.tab-active) {
+            border-color: rgba(212, 175, 55, 0.35);
+            color: #FFFFFF;
+            background: rgba(30, 30, 42, 0.7);
+            transform: translateY(-1px);
+        }
+        .tab-active {
+            background: linear-gradient(135deg, rgba(138, 21, 56, 0.95) 0%, rgba(84, 28, 47, 0.95) 100%) !important;
+            border-color: rgba(212, 175, 55, 0.8) !important;
+            color: #FFF3B0 !important;
+            box-shadow: 0 0 16px rgba(212, 175, 55, 0.4), 0 4px 14px rgba(138, 21, 56, 0.5) !important;
+            transform: translateY(-2px);
+        }
+        .tab-active i {
+            color: #F5C542 !important;
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.85));
+            transform: scale(1.15);
         }
 
         .zen-mode header,
@@ -182,11 +287,11 @@
     <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
     <!-- Official StudySouk Elite Header Bar -->
-    <header class="w-full border-b border-brand-border glass-panel sticky top-0 z-40 px-3 sm:px-5 py-2.5 flex items-center justify-between">
+    <header class="w-full border-b border-brand-borderSubtle glass-panel sticky top-0 z-40 px-3 sm:px-6 py-2.5 flex items-center justify-between">
         <div class="flex items-center gap-3">
             <!-- Official StudySouk Academy Logo Emblem -->
-            <div class="relative w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center">
-                <div class="absolute inset-0 rounded-2xl bg-gradient-to-tr from-brand-cherry via-brand-gold to-brand-goldLight p-[1px] shadow-lg shadow-brand-cherryGlow opacity-80"></div>
+            <div class="relative w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center group cursor-pointer">
+                <div class="absolute inset-0 rounded-2xl bg-gradient-to-tr from-brand-cherry via-brand-gold to-brand-goldLight p-[1.5px] shadow-lg shadow-brand-cherryGlow opacity-90 group-hover:scale-105 transition duration-300"></div>
                 <div class="w-full h-full bg-brand-darker rounded-[14px] flex items-center justify-center p-1.5 overflow-hidden">
                     <img src="assets/logo.png" alt="StudySouk Plume" class="w-7 h-7 sm:w-8 sm:h-8 object-contain animated-emblem">
                 </div>
@@ -194,14 +299,14 @@
 
             <div>
                 <div class="flex items-center gap-2">
-                    <h1 class="font-extrabold text-sm sm:text-base tracking-tight text-brand-text flex items-center gap-1.5 font-outfit">
-                        StudySouk <span class="text-brand-goldLight">Academy</span>
+                    <h1 class="font-black text-sm sm:text-base tracking-tight text-white flex items-center gap-1.5 font-outfit">
+                        StudySouk <span class="gold-text-gradient">Academy</span>
                     </h1>
-                    <span class="text-[9px] uppercase tracking-wider font-extrabold bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant text-brand-goldLight px-2 py-0.5 rounded-md border border-brand-borderSubtle shadow-sm font-outfit">
+                    <span class="text-[9px] uppercase tracking-wider font-extrabold gold-shimmer px-2 py-0.5 rounded-full border border-brand-gold/40 shadow-sm font-outfit">
                         Excellence STEM
                     </span>
                 </div>
-                <div id="discord-status-badge" class="text-[10px] text-brand-muted flex items-center gap-1.5 font-sans">
+                <div id="discord-status-badge" class="text-[10px] text-brand-muted flex items-center gap-1.5 font-sans mt-0.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
                     <span id="discord-status-text">Salon Vocal Actif • CPGE & 2BAC</span>
                 </div>
@@ -211,22 +316,26 @@
         <!-- Header Controls: Voice Roster, Invite, Zen Mode & Profile -->
         <div class="flex items-center gap-1.5 sm:gap-2.5">
             
-            <!-- Live Voice Channel Participants Pill -->
-            <button id="btn-room-roster" title="Membres dans ce salon vocal" class="text-xs px-2.5 py-1.5 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-borderSubtle text-brand-goldLight transition flex items-center gap-1.5 font-outfit font-bold shadow-sm active:scale-95">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <i class="fa-solid fa-users text-brand-gold"></i>
+            <!-- Live Voice Channel Participants Pill with Animated Equalizer -->
+            <button id="btn-room-roster" title="Membres connectés dans ce salon" class="text-xs px-3 py-1.5 rounded-xl glass-card border border-brand-gold/30 text-brand-goldLight hover:border-brand-gold transition flex items-center gap-2 font-outfit font-bold shadow active:scale-95">
+                <div class="flex items-end gap-[2px] h-3">
+                    <span class="eq-bar"></span>
+                    <span class="eq-bar"></span>
+                    <span class="eq-bar"></span>
+                </div>
                 <span id="room-users-count" class="font-mono text-xs">1</span>
+                <span class="hidden sm:inline text-[11px] text-brand-muted font-medium">dans la salle</span>
             </button>
 
             <!-- Invite & Join Room Button -->
-            <button id="btn-invite-room" title="Inviter des amis ou changer de salle" class="text-xs px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant hover:brightness-110 border border-brand-gold/60 text-brand-goldLight transition flex items-center gap-1.5 font-outfit font-bold shadow-sm active:scale-95">
-                <i class="fa-solid fa-user-plus text-brand-gold"></i>
+            <button id="btn-invite-room" title="Inviter des camarades ou changer de salle" class="cherry-glow-btn text-xs px-3 py-1.5 rounded-xl border border-brand-gold/50 text-white transition flex items-center gap-1.5 font-outfit font-extrabold shadow active:scale-95">
+                <i class="fa-solid fa-user-plus text-brand-goldLight text-[11px]"></i>
                 <span class="hidden sm:inline">Inviter</span>
             </button>
 
             <!-- Zen Focus Mode Button -->
-            <button id="btn-zen-mode" title="Activer le mode plein écran Zen" class="text-xs px-2.5 py-1.5 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-borderSubtle text-brand-goldLight transition flex items-center gap-1.5 font-outfit font-semibold shadow-sm">
-                <i class="fa-solid fa-expand text-brand-gold"></i>
+            <button id="btn-zen-mode" title="Activer le mode plein écran Zen" class="text-xs px-2.5 py-1.5 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:border-brand-gold transition flex items-center gap-1.5 font-outfit font-semibold shadow active:scale-95">
+                <i class="fa-solid fa-expand text-brand-gold text-xs"></i>
                 <span class="hidden md:inline">Zen</span>
             </button>
 
@@ -234,15 +343,18 @@
             <div id="user-level-badge"></div>
 
             <!-- Sound Mute Button -->
-            <button id="btn-mute-all" class="text-xs px-2.5 py-1.5 rounded-xl bg-brand-card hover:bg-brand-cardHover border border-brand-borderSubtle text-brand-text transition flex items-center gap-1.5 font-outfit">
-                <i class="fa-solid fa-volume-high text-brand-gold"></i>
+            <button id="btn-mute-all" title="Couper / Activer les sons" class="text-xs px-2.5 py-1.5 rounded-xl glass-card border border-brand-borderSubtle text-brand-text hover:text-brand-gold transition flex items-center gap-1.5 font-outfit active:scale-95">
+                <i class="fa-solid fa-volume-high text-brand-gold text-xs"></i>
                 <span class="hidden sm:inline">Sons</span>
             </button>
 
             <!-- User Avatar & Tag (Clickable to Edit Profile) -->
-            <div id="user-profile-trigger" title="Personnaliser ton profil académique" class="flex items-center gap-2 pl-2 border-l border-brand-border cursor-pointer hover:opacity-80 transition group">
-                <img id="user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=StudySouk" alt="Avatar" class="w-8 h-8 rounded-full border border-brand-gold/60 bg-brand-darker group-hover:scale-105 transition">
-                <span id="user-name" class="text-xs font-bold text-brand-text hidden md:inline max-w-[95px] truncate font-outfit">
+            <div id="user-profile-trigger" title="Personnaliser ton profil académique" class="flex items-center gap-2 pl-2 border-l border-brand-borderSubtle cursor-pointer hover:opacity-90 transition group">
+                <div class="relative">
+                    <img id="user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=StudySouk" alt="Avatar" class="w-8 h-8 rounded-full border border-brand-gold/70 bg-brand-darker group-hover:scale-105 group-hover:border-brand-goldLight transition shadow-sm">
+                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-brand-darker"></span>
+                </div>
+                <span id="user-name" class="text-xs font-bold text-brand-text hidden md:inline max-w-[95px] truncate font-outfit group-hover:text-brand-goldLight transition">
                     Étudiant
                 </span>
             </div>
@@ -250,19 +362,36 @@
     </header>
 
     <!-- Concours & Deadlines Live Countdown Banner -->
-    <section id="countdown-hub" class="w-full z-30 py-2 px-3 sm:px-6">
-        <div class="max-w-4xl mx-auto grid grid-cols-3 gap-2 text-center text-xs font-outfit">
-            <div class="glass-card rounded-xl p-2 border border-brand-borderSubtle flex flex-col items-center justify-center">
-                <span class="text-[9px] uppercase tracking-wider text-brand-muted font-bold block truncate max-w-full">🏛️ Concours CNC Maroc</span>
-                <span id="countdown-cnc" class="font-mono text-xs sm:text-sm font-extrabold text-brand-goldLight mt-0.5">--j --h</span>
+    <section id="countdown-hub" class="w-full z-30 py-2.5 px-3 sm:px-6">
+        <div class="max-w-4xl mx-auto grid grid-cols-3 gap-2.5 text-center font-outfit">
+            <div class="glass-card rounded-2xl p-2.5 border border-brand-borderSubtle flex flex-col items-center justify-center relative overflow-hidden group">
+                <div class="absolute -top-6 -right-6 w-12 h-12 bg-brand-cherry/20 rounded-full blur-xl group-hover:bg-brand-cherry/40 transition"></div>
+                <div class="flex items-center gap-1.5 mb-0.5">
+                    <span class="text-xs">🏛️</span>
+                    <span class="text-[10px] uppercase tracking-wider text-brand-muted font-extrabold truncate max-w-full">CNC Maroc</span>
+                </div>
+                <span id="countdown-cnc" class="font-mono text-xs sm:text-sm font-black gold-text-gradient drop-shadow-sm">--j --h</span>
+                <span class="text-[9px] text-brand-dim mt-0.5 font-medium hidden sm:inline">Concours National Commun</span>
             </div>
-            <div class="glass-card rounded-xl p-2 border border-brand-borderSubtle flex flex-col items-center justify-center">
-                <span class="text-[9px] uppercase tracking-wider text-brand-muted font-bold block truncate max-w-full">🎓 Mines-Ponts / Centrale</span>
-                <span id="countdown-fr" class="font-mono text-xs sm:text-sm font-extrabold text-brand-goldLight mt-0.5">--j --h</span>
+
+            <div class="glass-card rounded-2xl p-2.5 border border-brand-gold/30 flex flex-col items-center justify-center relative overflow-hidden group shadow-sm">
+                <div class="absolute -top-6 -right-6 w-12 h-12 bg-brand-gold/20 rounded-full blur-xl group-hover:bg-brand-gold/40 transition"></div>
+                <div class="flex items-center gap-1.5 mb-0.5">
+                    <span class="text-xs">🎓</span>
+                    <span class="text-[10px] uppercase tracking-wider text-brand-goldLight font-extrabold truncate max-w-full">Mines • Centrale</span>
+                </div>
+                <span id="countdown-fr" class="font-mono text-xs sm:text-sm font-black text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]">--j --h</span>
+                <span class="text-[9px] text-brand-goldLight/70 mt-0.5 font-medium hidden sm:inline">Concours Français CPGE</span>
             </div>
-            <div class="glass-card rounded-xl p-2 border border-brand-borderSubtle flex flex-col items-center justify-center">
-                <span class="text-[9px] uppercase tracking-wider text-brand-muted font-bold block truncate max-w-full">📝 National 2BAC SM/PC</span>
-                <span id="countdown-bac" class="font-mono text-xs sm:text-sm font-extrabold text-brand-goldLight mt-0.5">--j --h</span>
+
+            <div class="glass-card rounded-2xl p-2.5 border border-brand-borderSubtle flex flex-col items-center justify-center relative overflow-hidden group">
+                <div class="absolute -top-6 -right-6 w-12 h-12 bg-brand-cherry/20 rounded-full blur-xl group-hover:bg-brand-cherry/40 transition"></div>
+                <div class="flex items-center gap-1.5 mb-0.5">
+                    <span class="text-xs">📝</span>
+                    <span class="text-[10px] uppercase tracking-wider text-brand-muted font-extrabold truncate max-w-full">National 2BAC</span>
+                </div>
+                <span id="countdown-bac" class="font-mono text-xs sm:text-sm font-black gold-text-gradient drop-shadow-sm">--j --h</span>
+                <span class="text-[9px] text-brand-dim mt-0.5 font-medium hidden sm:inline">Examen National SM / PC</span>
             </div>
         </div>
     </section>
@@ -274,11 +403,12 @@
         <section id="tab-timer" class="tab-content w-full flex flex-col items-center max-w-xl">
             
             <!-- Subject / Module Selector (Deep Work Focus Subject) -->
-            <div class="w-full max-w-md glass-card rounded-xl p-2 mb-4 border border-brand-borderSubtle flex items-center justify-between text-xs">
-                <span class="text-[11px] font-bold text-brand-gold font-outfit flex items-center gap-1.5 pl-1">
-                    <i class="fa-solid fa-graduation-cap"></i> Module Actif :
+            <div class="w-full max-w-md glass-card rounded-2xl p-2.5 mb-5 border border-brand-borderSubtle flex items-center justify-between text-xs shadow-md">
+                <span class="text-[11px] font-extrabold text-brand-goldLight font-outfit flex items-center gap-2 pl-1">
+                    <span class="w-2 h-2 rounded-full bg-brand-gold animate-ping"></span>
+                    <i class="fa-solid fa-graduation-cap text-brand-gold"></i> Module Actif :
                 </span>
-                <select id="select-active-subject" class="bg-brand-darker border border-brand-border rounded-lg px-2.5 py-1 text-xs text-brand-goldLight font-outfit font-semibold focus:outline-none focus:border-brand-gold">
+                <select id="select-active-subject" class="bg-brand-darker border border-brand-borderSubtle rounded-xl px-3 py-1.5 text-xs text-brand-goldLight font-outfit font-bold focus:outline-none focus:border-brand-gold cursor-pointer transition hover:border-brand-gold/60 shadow-inner">
                     <option value="Maths: Analyse">📐 Maths • Analyse & Intégrales</option>
                     <option value="Maths: Algèbre">📐 Maths • Algèbre Linéaire & Réduction</option>
                     <option value="Maths: Probas">📐 Maths • Probabilités & Dénombrement</option>
@@ -293,75 +423,92 @@
             </div>
 
             <!-- Mode Selector Pills (StudySouk Gold & Cherry) -->
-            <div class="flex flex-wrap items-center justify-center gap-1.5 p-1.5 rounded-xl glass-card mb-6 border border-brand-borderSubtle max-w-md w-full shadow-lg">
-                <button data-mode="focus25" class="timer-mode-btn flex-1 py-1.5 px-2.5 rounded-lg text-xs transition duration-200 bg-gradient-to-r from-brand-gold to-brand-goldLight text-brand-darker font-extrabold shadow-lg shadow-brand-goldGlow font-outfit">
+            <div class="flex flex-wrap items-center justify-center gap-1.5 p-1.5 rounded-2xl glass-card mb-6 border border-brand-borderSubtle max-w-md w-full shadow-xl">
+                <button data-mode="focus25" class="timer-mode-btn flex-1 py-2 px-2.5 rounded-xl text-xs transition duration-200 timer-btn-active font-outfit">
                     🎯 25m Focus
                 </button>
-                <button data-mode="focus50" class="timer-mode-btn flex-1 py-1.5 px-2.5 rounded-lg text-xs transition duration-200 bg-brand-card text-brand-muted hover:text-brand-text border border-brand-border font-outfit font-semibold">
-                    ⚡ 50m Deep Work
+                <button data-mode="focus50" class="timer-mode-btn flex-1 py-2 px-2.5 rounded-xl text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
+                    ⚡ 50m Deep
                 </button>
-                <button data-mode="focus90" class="timer-mode-btn flex-1 py-1.5 px-2.5 rounded-lg text-xs transition duration-200 bg-brand-card text-brand-muted hover:text-brand-text border border-brand-border font-outfit font-semibold">
+                <button data-mode="focus90" class="timer-mode-btn flex-1 py-2 px-2.5 rounded-xl text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
                     🏛️ 90m Épreuve
                 </button>
-                <button data-mode="break5" class="timer-mode-btn flex-1 py-1.5 px-2.5 rounded-lg text-xs transition duration-200 bg-brand-card text-brand-muted hover:text-brand-text border border-brand-border font-outfit font-semibold">
+                <button data-mode="break5" class="timer-mode-btn flex-1 py-2 px-2.5 rounded-xl text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
                     ☕ 5m Pause
                 </button>
-                <button data-mode="break15" class="timer-mode-btn flex-1 py-1.5 px-2.5 rounded-lg text-xs transition duration-200 bg-brand-card text-brand-muted hover:text-brand-text border border-brand-border font-outfit font-semibold">
+                <button data-mode="break15" class="timer-mode-btn flex-1 py-2 px-2.5 rounded-xl text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
                     🌴 15m Longue
                 </button>
             </div>
 
-            <!-- Sleek Master Circular Timer Display -->
+            <!-- Sleek Master Circular Chronometer Display -->
             <div class="relative flex items-center justify-center mb-6">
-                <div class="relative w-72 h-72 sm:w-84 sm:h-84 flex items-center justify-center">
-                    <div class="absolute inset-4 rounded-full bg-gradient-to-tr from-brand-cherry/35 via-brand-gold/15 to-transparent blur-3xl"></div>
+                <div class="relative w-76 h-76 sm:w-88 sm:h-88 flex items-center justify-center">
+                    <!-- Deep Radial Glow Halo behind timer -->
+                    <div class="absolute inset-2 rounded-full bg-gradient-to-tr from-brand-cherry/40 via-brand-gold/20 to-transparent blur-3xl pointer-events-none"></div>
                     
                     <svg class="w-full h-full transform -rotate-90" viewBox="0 0 300 300">
-                        <circle cx="150" cy="150" r="130" stroke="rgba(138, 21, 56, 0.22)" stroke-width="8" class="fill-transparent" />
-                        <circle id="timer-progress-circle" cx="150" cy="150" r="130" stroke="url(#studysoukGoldGradient)" stroke-width="8" 
-                            class="fill-transparent transition-all duration-1000 ease-linear drop-shadow-[0_0_15px_rgba(212,175,55,0.65)]"
+                        <!-- Outer Chronometer Precision Minute Ticks -->
+                        <circle cx="150" cy="150" r="140" stroke="rgba(212, 175, 55, 0.15)" stroke-width="3" stroke-dasharray="2 12.65" class="fill-transparent" />
+                        
+                        <!-- Base Track -->
+                        <circle cx="150" cy="150" r="126" stroke="rgba(138, 21, 56, 0.25)" stroke-width="9" class="fill-transparent" />
+                        
+                        <!-- Active Progress Track with StudySouk Gold Gradient & Glow -->
+                        <circle id="timer-progress-circle" cx="150" cy="150" r="126" stroke="url(#studysoukGoldGradient)" stroke-width="9" 
+                            class="fill-transparent transition-all duration-1000 ease-linear drop-shadow-[0_0_18px_rgba(212,175,55,0.75)]"
                             stroke-linecap="round"
-                            stroke-dasharray="816.8"
+                            stroke-dasharray="791.68"
                             stroke-dashoffset="0" />
                         <defs>
                             <linearGradient id="studysoukGoldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#F5C542" />
-                                <stop offset="50%" stop-color="#D4AF37" />
-                                <stop offset="100%" stop-color="#B8860B" />
+                                <stop offset="0%" stop-color="#FFF3B0" />
+                                <stop offset="40%" stop-color="#F5C542" />
+                                <stop offset="80%" stop-color="#D4AF37" />
+                                <stop offset="100%" stop-color="#996515" />
                             </linearGradient>
                         </defs>
                     </svg>
 
                     <!-- Center Stack: Academic Emblem + Time + Active Subject -->
                     <div class="absolute flex flex-col items-center justify-center text-center px-4">
-                        <img src="assets/logo.png" alt="StudySouk Plume" class="w-11 h-11 object-contain timer-center-emblem mb-1 drop-shadow-[0_0_12px_rgba(212,175,55,0.7)]">
+                        <div class="relative mb-1">
+                            <img src="assets/logo.png" alt="StudySouk Plume" class="w-12 h-12 object-contain timer-center-emblem drop-shadow-[0_0_14px_rgba(212,175,55,0.85)]">
+                        </div>
                         
-                        <span id="timer-display" class="font-mono text-5xl sm:text-6xl font-extrabold tracking-tighter text-brand-text drop-shadow-[0_2px_15px_rgba(212,175,55,0.35)]">
+                        <span id="timer-display" class="font-mono text-5xl sm:text-6xl font-black tracking-tight text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.45)] select-none">
                             25:00
                         </span>
 
-                        <span id="active-subject-badge" class="text-[11px] font-bold text-brand-goldLight mt-1.5 font-outfit uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-brand-card border border-brand-borderSubtle">
-                            📐 Maths • Analyse
-                        </span>
+                        <div class="flex items-center gap-1.5 mt-2">
+                            <span id="active-subject-badge" class="text-[11px] font-extrabold text-brand-goldLight font-outfit uppercase tracking-wider px-3 py-1 rounded-full glass-card border border-brand-gold/40 shadow-sm">
+                                📐 Maths • Analyse
+                            </span>
+                        </div>
 
-                        <span id="timer-sync-label" class="text-[10px] uppercase tracking-widest text-brand-muted font-bold mt-1 font-outfit">
-                            Session Salon Vocal
+                        <span id="timer-sync-label" class="text-[10px] uppercase tracking-widest text-brand-muted font-bold mt-1.5 font-outfit flex items-center gap-1">
+                            <i class="fa-solid fa-satellite-dish text-brand-gold text-[9px] animate-pulse"></i> Salon Vocal Synchronisé
                         </span>
                     </div>
                 </div>
             </div>
 
             <!-- Timer Action Controls -->
-            <div class="flex items-center gap-3.5 mb-6">
-                <button id="btn-timer-reset" title="Réinitialiser pour le salon" class="w-12 h-12 rounded-xl glass-card hover:bg-brand-cardHover text-brand-muted hover:text-brand-text transition flex items-center justify-center text-sm border border-brand-borderSubtle active:scale-95 shadow">
-                    <i class="fa-solid fa-rotate-left text-base"></i>
+            <div class="flex items-center gap-4 mb-6">
+                <!-- Reset Button -->
+                <button id="btn-timer-reset" title="Réinitialiser pour le salon vocal" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-muted hover:text-white group">
+                    <i class="fa-solid fa-rotate-left text-base group-hover:-rotate-45 transition duration-200"></i>
                 </button>
-                <button id="btn-timer-toggle" class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight text-brand-darker font-extrabold text-base transition duration-200 shadow-xl shadow-brand-goldGlow active:scale-95 flex items-center gap-2.5 font-outfit">
-                    <i class="fa-solid fa-play text-xl ml-0.5"></i>
-                    <span>Commencer</span>
+
+                <!-- Big Primary Play/Pause Button -->
+                <button id="btn-timer-toggle" class="px-9 py-4 rounded-2xl cherry-glow-btn border border-brand-gold/70 text-white font-black text-base tracking-wide flex items-center gap-3 font-outfit active:scale-95 shadow-2xl group">
+                    <i class="fa-solid fa-play text-xl text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i>
+                    <span class="gold-text-gradient font-black text-lg">Commencer</span>
                 </button>
-                <button id="btn-timer-skip" title="Passer à la pause" class="w-12 h-12 rounded-xl glass-card hover:bg-brand-cardHover text-brand-muted hover:text-brand-text transition flex items-center justify-center text-sm border border-brand-borderSubtle active:scale-95 shadow">
-                    <i class="fa-solid fa-forward-step text-base"></i>
+
+                <!-- Skip Button -->
+                <button id="btn-timer-skip" title="Passer à la pause suivante" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-muted hover:text-white group">
+                    <i class="fa-solid fa-forward-step text-base group-hover:translate-x-0.5 transition duration-200"></i>
                 </button>
             </div>
 
@@ -550,7 +697,7 @@
     <!-- Official StudySouk Bottom Navigation Bar -->
     <footer class="w-full glass-panel border-t border-brand-borderSubtle sticky bottom-0 z-40 py-1.5 px-2">
         <div class="max-w-xl mx-auto flex items-center justify-between gap-1 overflow-x-auto py-0.5">
-            <button data-tab="tab-timer" class="nav-tab-btn shrink-0 flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl text-xs font-semibold transition text-brand-goldLight bg-brand-cherry/80 border border-brand-gold shadow">
+            <button data-tab="tab-timer" class="nav-tab-btn tab-active shrink-0 flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl text-xs font-semibold">
                 <i class="fa-solid fa-stopwatch text-sm text-brand-gold"></i>
                 <span class="text-[10px] font-outfit">Minuteur</span>
             </button>
