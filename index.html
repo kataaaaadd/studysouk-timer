@@ -4,61 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>StudySouk Academy — Focus & Excellence STEM</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            base: '#0B0B0E',
-                            dark: '#08080B',
-                            darker: '#050507',
-                            card: 'rgba(22, 22, 29, 0.78)',
-                            cardHover: 'rgba(30, 30, 42, 0.92)',
-                            border: 'rgba(84, 28, 47, 0.55)',
-                            borderSubtle: 'rgba(212, 175, 55, 0.22)',
-                            cherry: '#8A1538',
-                            cherryVibrant: '#B8234B',
-                            cherryGlow: 'rgba(184, 35, 75, 0.35)',
-                            gold: '#D4AF37',
-                            goldLight: '#F5C542',
-                            goldGlow: 'rgba(212, 175, 55, 0.45)',
-                            text: '#F3F4F6',
-                            muted: '#9CA3AF',
-                            dim: '#6B7280'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-                        outfit: ['"Outfit"', 'sans-serif'],
-                        mono: ['"JetBrains Mono"', 'monospace']
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Google Fonts -->
+    <!-- 1. Self-Hosted Compiled Tailwind CSS (Zero CSP Blocking) -->
+    <link rel="stylesheet" href="assets/tailwind.css">
+
+    <!-- 2. Self-Hosted FontAwesome 6 Icons (Zero CSP Blocking) -->
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
+
+    <!-- 3. Self-Hosted Canvas Confetti -->
+    <script src="assets/confetti.browser.min.js"></script>
+
+    <!-- 4. Self-Hosted Discord Embedded App SDK (Zero CSP Blocking) -->
+    <script type="module" src="assets/discord-init.js"></script>
+
+    <!-- 5. Self-Hosted MQTT.js for Realtime Room Synchronization -->
+    <script src="assets/mqtt.min.js"></script>
+
+    <!-- 6. Self-Hosted KaTeX Mathematical Typography -->
+    <link rel="stylesheet" href="assets/katex/katex.min.css">
+    <script defer src="assets/katex/katex.min.js"></script>
+    <script defer src="assets/katex/auto-render.min.js"></script>
+
+    <!-- Optional Fonts for Standard Browsers with System Fallbacks -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Canvas Confetti -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-    <!-- Discord Embedded App SDK -->
-    <script type="module">
-        import { DiscordSDK } from "https://esm.sh/@discord/embedded-app-sdk@2.5.0/es2022/embedded-app-sdk.bundle.mjs";
-        window.DiscordSDK = DiscordSDK;
-    </script>
-    <!-- MQTT.js for Realtime Zero-Backend Room Synchronization -->
-    <script src="https://cdn.jsdelivr.net/npm/mqtt@5.3.5/dist/mqtt.min.js"></script>
-    <!-- KaTeX Mathematical Typography -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
     <style>
         body {
