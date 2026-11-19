@@ -468,8 +468,8 @@ class StudySoukTimerApp {
             } else if (e.key === "?") {
                 shortcutsModal?.classList.toggle("hidden");
                 shortcutsModal?.classList.toggle("flex");
-            } else if (["1", "2", "3", "4", "5", "6"].includes(e.key)) {
-                const tabs = ["tab-timer", "tab-flashcards", "tab-scratchpad", "tab-duel", "tab-tasks", "tab-ambience"];
+            } else if (["1", "2", "3", "4", "5", "6", "7"].includes(e.key)) {
+                const tabs = ["tab-timer", "tab-library", "tab-scratchpad", "tab-duel", "tab-flashcards", "tab-tasks", "tab-ambience"];
                 const targetTab = tabs[parseInt(e.key, 10) - 1];
                 if (targetTab) {
                     window.ambience?.playClick();
@@ -489,9 +489,27 @@ class StudySoukTimerApp {
             btn.addEventListener("click", () => {
                 window.ambience?.playClick();
                 const targetId = btn.dataset.tab;
-                this.switchTab(targetId);
+                if (targetId) this.switchTab(targetId);
             });
         });
+
+        // Dedicated More Tools Popover Toggle
+        const toggleMoreBtn = document.getElementById("btn-toggle-more-tools");
+        const morePopover = document.getElementById("more-tools-popover");
+        if (toggleMoreBtn && morePopover) {
+            toggleMoreBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                window.ambience?.playClick();
+                morePopover.classList.toggle("hidden");
+            });
+
+            // Close popover when clicking anywhere outside
+            document.addEventListener("click", (e) => {
+                if (!morePopover.contains(e.target) && !toggleMoreBtn.contains(e.target)) {
+                    morePopover.classList.add("hidden");
+                }
+            });
+        }
 
         // Dedicated Library toggles
         document.getElementById("btn-open-library")?.addEventListener("click", () => {
@@ -505,6 +523,9 @@ class StudySoukTimerApp {
     }
 
     switchTab(tabId) {
+        // Hide more tools popover if open
+        document.getElementById("more-tools-popover")?.classList.add("hidden");
+
         const navBtns = document.querySelectorAll(".nav-tab-btn");
         navBtns.forEach(b => {
             if (b.dataset.tab === tabId) {
@@ -515,6 +536,19 @@ class StudySoukTimerApp {
                 b.classList.add("text-brand-muted", "border-transparent");
             }
         });
+
+        // Highlight "Plus" trigger if one of the secondary tools is active
+        const moreToolsBtn = document.getElementById("btn-toggle-more-tools");
+        const secondaryTabs = ["tab-duel", "tab-flashcards", "tab-tasks", "tab-ambience"];
+        if (moreToolsBtn) {
+            if (secondaryTabs.includes(tabId)) {
+                moreToolsBtn.classList.add("tab-active");
+                moreToolsBtn.classList.remove("text-brand-muted", "border-transparent");
+            } else {
+                moreToolsBtn.classList.remove("tab-active");
+                moreToolsBtn.classList.add("text-brand-muted", "border-transparent");
+            }
+        }
 
         document.querySelectorAll(".tab-content").forEach(tc => tc.classList.add("hidden"));
         document.getElementById(tabId)?.classList.remove("hidden");

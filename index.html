@@ -1350,32 +1350,79 @@
         <div id="reactions-container"></div>
     </div>
 
-    <!-- Official StudySouk Bottom Navigation Bar -->
-    <footer class="w-full glass-panel border-t border-brand-borderSubtle sticky bottom-0 z-40 py-1.5 px-2">
-        <div class="max-w-xl mx-auto grid grid-cols-6 gap-1 w-full py-0.5">
-            <button data-tab="tab-timer" class="nav-tab-btn tab-active flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold">
-                <i class="fa-solid fa-stopwatch text-base text-brand-gold"></i>
-                <span class="text-xs font-black font-outfit truncate">Minuteur</span>
+    <!-- Official StudySouk Streamlined Luxury Navigation Dock -->
+    <footer class="w-full glass-panel border-t border-brand-borderSubtle sticky bottom-0 z-40 py-1.5 px-3">
+        <!-- Floating Secondary Tools Popover Menu -->
+        <div id="more-tools-popover" class="hidden absolute bottom-full mb-3 right-3 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 w-64 glass-panel rounded-2xl border border-brand-gold/40 p-2 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_25px_rgba(212,175,55,0.25)] backdrop-blur-2xl animate-fadeIn z-50">
+            <div class="px-2.5 py-1.5 border-b border-brand-borderSubtle flex items-center justify-between mb-1.5">
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-brand-goldLight">Autres Outils</span>
+                <span class="text-[9px] font-mono text-brand-muted">StudySouk Elite</span>
+            </div>
+            <div class="flex flex-col gap-1">
+                <button data-tab="tab-duel" class="nav-tab-btn more-tab-item flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-brand-muted hover:text-white hover:bg-white/5 transition text-left group">
+                    <div class="w-7 h-7 rounded-lg bg-brand-cherry/80 border border-brand-gold/40 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow-sm">
+                        <i class="fa-solid fa-bolt text-xs"></i>
+                    </div>
+                    <div>
+                        <div class="font-outfit font-black text-white text-xs">Duel STEM 1v1</div>
+                        <div class="text-[10px] text-brand-muted font-normal">Défis & classements live</div>
+                    </div>
+                </button>
+                <button data-tab="tab-flashcards" class="nav-tab-btn more-tab-item flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-brand-muted hover:text-white hover:bg-white/5 transition text-left group">
+                    <div class="w-7 h-7 rounded-lg bg-brand-cherry/80 border border-brand-gold/40 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow-sm">
+                        <i class="fa-solid fa-graduation-cap text-xs"></i>
+                    </div>
+                    <div>
+                        <div class="font-outfit font-black text-white text-xs">Flashcards CPGE</div>
+                        <div class="text-[10px] text-brand-muted font-normal">Mémorisation espacée SM</div>
+                    </div>
+                </button>
+                <button data-tab="tab-tasks" class="nav-tab-btn more-tab-item flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-brand-muted hover:text-white hover:bg-white/5 transition text-left group">
+                    <div class="w-7 h-7 rounded-lg bg-brand-cherry/80 border border-brand-gold/40 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow-sm">
+                        <i class="fa-solid fa-chart-pie text-xs"></i>
+                    </div>
+                    <div>
+                        <div class="font-outfit font-black text-white text-xs">Dashboard & Badges</div>
+                        <div class="text-[10px] text-brand-muted font-normal">Niveaux & progression</div>
+                    </div>
+                </button>
+                <button data-tab="tab-ambience" class="nav-tab-btn more-tab-item flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-brand-muted hover:text-white hover:bg-white/5 transition text-left group">
+                    <div class="w-7 h-7 rounded-lg bg-brand-cherry/80 border border-brand-gold/40 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow-sm">
+                        <i class="fa-solid fa-sliders text-xs"></i>
+                    </div>
+                    <div>
+                        <div class="font-outfit font-black text-white text-xs">Ambiance & ASMR</div>
+                        <div class="text-[10px] text-brand-muted font-normal">Pluie, bibliothèque & lofi</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sleek Main 3 Pillars + More Trigger -->
+        <div class="max-w-md mx-auto flex items-center justify-between gap-1.5 sm:gap-2 w-full py-0.5">
+            <!-- 1. Chrono (Primary) -->
+            <button data-tab="tab-timer" class="nav-tab-btn tab-active flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 px-2.5 sm:px-3 rounded-xl text-xs font-bold transition group active:scale-95">
+                <i class="fa-solid fa-stopwatch text-sm sm:text-base text-brand-goldLight group-hover:scale-110 transition"></i>
+                <span class="text-xs font-black font-outfit truncate">Chrono</span>
             </button>
-            <button data-tab="tab-flashcards" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent">
-                <i class="fa-solid fa-graduation-cap text-base"></i>
-                <span class="text-xs font-black font-outfit truncate">Flashcards</span>
+
+            <!-- 2. Maktaba (149 Volumes) -->
+            <button data-tab="tab-library" class="nav-tab-btn flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 px-2.5 sm:px-3 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent group active:scale-95">
+                <i class="fa-solid fa-book-bookmark text-sm sm:text-base text-brand-gold group-hover:scale-110 transition"></i>
+                <span class="text-xs font-black font-outfit truncate">Maktaba</span>
+                <span class="px-1.5 py-0.5 rounded-full text-[9px] font-mono bg-brand-gold/20 text-brand-goldLight border border-brand-gold/40 font-bold hidden xs:inline">149</span>
             </button>
-            <button data-tab="tab-scratchpad" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent">
-                <i class="fa-solid fa-pen-ruler text-base"></i>
-                <span class="text-xs font-black font-outfit truncate">Ardoise</span>
+
+            <!-- 3. Ardoise / Whiteboard -->
+            <button data-tab="tab-scratchpad" class="nav-tab-btn flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 px-2.5 sm:px-3 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent group active:scale-95">
+                <i class="fa-solid fa-pen-ruler text-sm sm:text-base text-brand-goldLight group-hover:scale-110 transition"></i>
+                <span class="text-xs font-black font-outfit truncate">Whiteboard</span>
             </button>
-            <button data-tab="tab-duel" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent">
-                <i class="fa-solid fa-bolt text-base"></i>
-                <span class="text-xs font-black font-outfit truncate">Duel STEM</span>
-            </button>
-            <button data-tab="tab-tasks" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent">
-                <i class="fa-solid fa-chart-pie text-base"></i>
-                <span class="text-xs font-black font-outfit truncate">Dashboard</span>
-            </button>
-            <button data-tab="tab-ambience" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent">
-                <i class="fa-solid fa-sliders text-base"></i>
-                <span class="text-xs font-black font-outfit truncate">Ambiance</span>
+
+            <!-- 4. Plus / Outils Menu Trigger -->
+            <button id="btn-toggle-more-tools" title="Autres outils (Duels, Flashcards, Dashboard, Sons)" class="px-3 py-2 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent flex items-center gap-1.5 group active:scale-95">
+                <i class="fa-solid fa-ellipsis text-sm sm:text-base text-brand-gold group-hover:scale-125 transition duration-200"></i>
+                <span class="text-xs font-black font-outfit hidden sm:inline">Plus</span>
             </button>
         </div>
     </footer>
