@@ -27,8 +27,14 @@ app.use((req, _res, next) => {
   next();
 });
 
-// Forgive Discord URL mapping prefix mistakes
+// Forgive Discord URL mapping prefix mistakes and strip /.proxy
 app.use((req, _res, next) => {
+  if (req.url.startsWith('/.proxy/index.html')) {
+    req.url = req.url.replace(/^\/\.proxy\/index\.html/, '') || '/';
+  } else if (req.url.startsWith('/.proxy')) {
+    req.url = req.url.replace(/^\/\.proxy/, '') || '/';
+  }
+
   if (req.url.startsWith('/%3F')) {
     const slash = req.url.indexOf('/', 1);
     req.url = slash === -1 ? '/' : req.url.slice(slash);
@@ -63,7 +69,7 @@ app.post('/api/token', async (req, res) => {
 // ===========================================================================
 // StudySouk Maktaba & STEM Library API (149 Volumes)
 // ===========================================================================
-app.get('/api/library/books', (_req, res) => {
+app.get(['/api/library/books', '/.proxy/api/library/books'], (_req, res) => {
   try {
     if (fs.existsSync(LIBRARY_CATALOG_FILE)) {
       const data = JSON.parse(fs.readFileSync(LIBRARY_CATALOG_FILE, 'utf8'));
@@ -130,7 +136,7 @@ function findBookPdfOnDisk(book) {
   return null;
 }
 
-app.get('/api/library/pdf/:id', (req, res) => {
+app.get(['/api/library/pdf/:id', '/.proxy/api/library/pdf/:id'], (req, res) => {
   try {
     const bookId = Number(req.params.id);
     if (!fs.existsSync(LIBRARY_CATALOG_FILE)) {

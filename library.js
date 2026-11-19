@@ -5,6 +5,7 @@
 
 class StudySoukLibrary {
     constructor() {
+        window.library = this;
         this.books = [];
         this.filteredBooks = [];
         this.currentFilter = 'all';
@@ -20,8 +21,12 @@ class StudySoukLibrary {
         this.scale = 1.25;
 
         if (window.pdfjsLib) {
-            if (window.pdfjsWorker && window.pdfjsWorker.WorkerMessageHandler) {
-                window.pdfjsLib.PDFWorker._mainThreadWorkerMessageHandler = window.pdfjsWorker.WorkerMessageHandler;
+            if (window.pdfjsWorker && window.pdfjsWorker.WorkerMessageHandler && window.pdfjsLib.PDFWorker) {
+                try {
+                    window.pdfjsLib.PDFWorker._mainThreadWorkerMessageHandler = window.pdfjsWorker.WorkerMessageHandler;
+                } catch (e) {
+                    console.warn('[Library] Notice setting worker handler:', e);
+                }
             }
             window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/pdfjs/pdf.worker.min.js';
         }
@@ -36,22 +41,38 @@ class StudySoukLibrary {
     }
 
     async loadBooks() {
+        let apiPrefix = '';
+        if (window.location.pathname.includes('/.proxy')) {
+            apiPrefix = window.location.pathname.replace(/\/index\.html.*$/, '').replace(/\/+$/, '');
+            if (!apiPrefix.startsWith('/.proxy')) apiPrefix = '/.proxy';
+        }
+
         try {
-            // First try live server API
-            const res = await fetch('/api/library/books');
+            // First try live server API (with proxy prefix if in Discord)
+            const apiUrl = `${apiPrefix}/api/library/books`.replace(/^\/\//, '/');
+            const res = await fetch(apiUrl);
             if (res.ok) {
                 this.books = await res.json();
             } else {
                 throw new Error('API non disponible');
             }
         } catch (e) {
-            console.warn('[Library] API fallback to local assets/data/library.json');
+            console.warn('[Library] API fallback to direct or local assets/data/library.json');
             try {
-                const res = await fetch('assets/data/library.json');
-                this.books = await res.json();
-            } catch (err) {
-                console.error('[Library] Failed to load catalog:', err);
-                this.books = [];
+                const res = await fetch('/api/library/books');
+                if (res.ok) {
+                    this.books = await res.json();
+                } else {
+                    throw new Error('Fallback failed');
+                }
+            } catch (err2) {
+                try {
+                    const res = await fetch('assets/data/library.json');
+                    this.books = await res.json();
+                } catch (err) {
+                    console.error('[Library] Failed to load catalog:', err);
+                    this.books = [];
+                }
             }
         }
         this.filteredBooks = [...this.books];
@@ -302,8 +323,23 @@ class StudySoukLibrary {
     }
 
     async openReader(bookId) {
-        const book = this.books.find(b => b.id === bookId);
-        if (!book) return;
+        console.log('[Library] openReader called with bookId:', bookId);
+        const idNum = Number(bookId);
+        let book = this.books.find(b => b.id === idNum || Number(b.id) === idNum || b.id == bookId);
+
+        if (!book && this.books.length === 0) {
+            console.log('[Library] Catalog empty, reloading books...');
+            await this.loadBooks();
+            book = this.books.find(b => b.id === idNum || Number(b.id) === idNum || b.id == bookId);
+        }
+
+        if (!book) {
+            console.error('[Library] Livre introuvable pour ID:', bookId);
+            if (window.timerApp && window.timerApp.showToast) {
+                window.timerApp.showToast("⚠️ Ouvrage introuvable dans le catalogue");
+            }
+            return;
+        }
 
         this.activeBook = book;
         const modal = document.getElementById('library-reader-modal');
@@ -315,8 +351,11 @@ class StudySoukLibrary {
         if (titleEl) titleEl.textContent = book.title;
         if (badgeEl) badgeEl.textContent = `${book.pages} pages • ${book.subject} • ${book.level}`;
 
-        const isProxied = window.location.pathname.includes('/.proxy');
-        const basePath = isProxied ? window.location.pathname.replace(/\/+$/, '') : '';
+        let basePath = '';
+        if (window.location.pathname.includes('/.proxy')) {
+            basePath = window.location.pathname.replace(/\/index\.html.*$/, '').replace(/\/+$/, '');
+            if (!basePath.startsWith('/.proxy')) basePath = '/.proxy';
+        }
         const pdfUrl = `${basePath}/api/library/pdf/${book.id}`.replace(/^\/\//, '/');
 
         if (openTabBtn) {
@@ -345,6 +384,7 @@ class StudySoukLibrary {
         if (modal) {
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+            modal.style.display = 'flex';
             document.body.classList.add('overflow-hidden');
         }
 
@@ -361,15 +401,33 @@ class StudySoukLibrary {
                 throw new Error("Moteur PDF.js non chargé.");
             }
 
-            if (window.pdfjsWorker && window.pdfjsWorker.WorkerMessageHandler) {
-                window.pdfjsLib.PDFWorker._mainThreadWorkerMessageHandler = window.pdfjsWorker.WorkerMessageHandler;
+            if (window.pdfjsWorker && window.pdfjsWorker.WorkerMessageHandler && window.pdfjsLib.PDFWorker) {
+                try {
+                    window.pdfjsLib.PDFWorker._mainThreadWorkerMessageHandler = window.pdfjsWorker.WorkerMessageHandler;
+                } catch (e) {
+                    console.warn('[Library] Notice setting worker handler:', e);
+                }
             }
 
-            // Fetch PDF binary directly for absolute reliability in Discord's proxy sandbox
-            const res = await fetch(url);
+            console.log('[Library] Loading PDF binary from:', url);
+            let res = await fetch(url);
+            
+            // If failed with proxy prefix, retry with direct /api/ path
+            if (!res.ok && url.includes('/.proxy/')) {
+                const fallbackUrl = url.replace(/^\/\.proxy/, '');
+                console.warn('[Library] Retrying fetch directly without .proxy:', fallbackUrl);
+                res = await fetch(fallbackUrl);
+            }
+
             if (!res.ok) {
                 throw new Error(`Erreur réseau HTTP ${res.status}: ${res.statusText || 'Document non disponible'}`);
             }
+
+            const contentType = res.headers.get('content-type') || '';
+            if (contentType.includes('text/html')) {
+                throw new Error("Format PDF invalide (reçu HTML au lieu du fichier binaire PDF).");
+            }
+
             const data = await res.arrayBuffer();
 
             const loadingTask = window.pdfjsLib.getDocument({
@@ -504,7 +562,14 @@ class StudySoukLibrary {
         const textEl = document.getElementById('pdf-error-text');
         const dlBtn = document.getElementById('pdf-fallback-download-btn');
         if (textEl) textEl.textContent = msg;
-        if (dlBtn && this.activeBook) dlBtn.href = `/api/library/pdf/${this.activeBook.id}`;
+        if (dlBtn && this.activeBook) {
+            let basePath = '';
+            if (window.location.pathname.includes('/.proxy')) {
+                basePath = window.location.pathname.replace(/\/index\.html.*$/, '').replace(/\/+$/, '');
+                if (!basePath.startsWith('/.proxy')) basePath = '/.proxy';
+            }
+            dlBtn.href = `${basePath}/api/library/pdf/${this.activeBook.id}`.replace(/^\/\//, '/');
+        }
         if (el) el.classList.remove('hidden');
     }
 
@@ -518,6 +583,7 @@ class StudySoukLibrary {
         if (modal) {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+            modal.style.display = 'none';
             document.body.classList.remove('overflow-hidden');
         }
 
@@ -542,7 +608,8 @@ class StudySoukLibrary {
     }
 
     studyWithTimer(bookId) {
-        const book = this.books.find(b => b.id === bookId);
+        const idNum = Number(bookId);
+        const book = this.books.find(b => b.id === idNum || Number(b.id) === idNum || b.id == bookId);
         if (!book) return;
 
         // Switch to Timer Tab
@@ -567,7 +634,15 @@ class StudySoukLibrary {
     }
 }
 
-// Global initialization
-document.addEventListener('DOMContentLoaded', () => {
-    window.library = new StudySoukLibrary();
-});
+// Global initialization - robust against timing of DOMContentLoaded
+function initStudySoukLibrary() {
+    if (!window.library) {
+        window.library = new StudySoukLibrary();
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStudySoukLibrary);
+} else {
+    initStudySoukLibrary();
+}
