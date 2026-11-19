@@ -18,9 +18,13 @@ class StudySoukLibrary {
         this.pageNum = 1;
         this.pageRendering = false;
         this.pageNumPending = null;
-        this.scale = 1.25;
+        this.scale = 1.0;
+        this.fitMode = 'width'; // 'width', 'page', or 'custom'
         this.currentPdfUrl = null;
         this.isIframeView = false;
+        this.resizeTimer = null;
+        this.touchStartX = 0;
+        this.touchStartY = 0;
 
         if (window.pdfjsLib) {
             window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/pdfjs/pdf.worker.min.js';
@@ -160,8 +164,22 @@ class StudySoukLibrary {
         }
 
         // PDF Navigator & Zoom Buttons
+        document.getElementById('pdf-first')?.addEventListener('click', () => {
+            if (this.pdfDoc && this.pageNum !== 1) {
+                this.pageNum = 1;
+                this.queueRenderPage(1);
+            }
+        });
+        document.getElementById('pdf-last')?.addEventListener('click', () => {
+            if (this.pdfDoc && this.pageNum !== this.pdfDoc.numPages) {
+                this.pageNum = this.pdfDoc.numPages;
+                this.queueRenderPage(this.pageNum);
+            }
+        });
         document.getElementById('pdf-prev')?.addEventListener('click', () => this.onPrevPage());
         document.getElementById('pdf-next')?.addEventListener('click', () => this.onNextPage());
+        document.getElementById('pdf-fit-width')?.addEventListener('click', () => this.fitToWidth());
+        document.getElementById('pdf-fit-page')?.addEventListener('click', () => this.fitToPage());
         document.getElementById('pdf-zoom-in')?.addEventListener('click', () => this.zoomIn());
         document.getElementById('pdf-zoom-out')?.addEventListener('click', () => this.zoomOut());
         document.getElementById('pdf-zoom-reset')?.addEventListener('click', () => this.zoomReset());
@@ -178,6 +196,49 @@ class StudySoukLibrary {
                     e.target.value = this.pageNum;
                 }
             });
+            pageInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.target.blur();
+                }
+            });
+        }
+
+        // Window resize handler for dynamic auto-fit
+        window.addEventListener('resize', () => {
+            const modal = document.getElementById('library-reader-modal');
+            if (!modal || modal.classList.contains('hidden') || !this.pdfDoc) return;
+            if (this.fitMode === 'width' || this.fitMode === 'page') {
+                clearTimeout(this.resizeTimer);
+                this.resizeTimer = setTimeout(async () => {
+                    this.scale = await this.calculateFitScale(this.pageNum, this.fitMode);
+                    this.renderPdfPage(this.pageNum);
+                }, 150);
+            }
+        });
+
+        // Touch Swipe Navigation for Mobile
+        const viewerContainer = document.getElementById('pdf-viewer-container');
+        if (viewerContainer) {
+            viewerContainer.addEventListener('touchstart', (e) => {
+                if (e.touches.length === 1) {
+                    this.touchStartX = e.touches[0].clientX;
+                    this.touchStartY = e.touches[0].clientY;
+                }
+            }, { passive: true });
+
+            viewerContainer.addEventListener('touchend', (e) => {
+                if (e.changedTouches.length === 1) {
+                    const dx = e.changedTouches[0].clientX - this.touchStartX;
+                    const dy = e.changedTouches[0].clientY - this.touchStartY;
+                    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+                        if (dx < 0) {
+                            this.onNextPage();
+                        } else {
+                            this.onPrevPage();
+                        }
+                    }
+                }
+            }, { passive: true });
         }
 
         // Keyboard navigation for PDF reader
@@ -186,20 +247,48 @@ class StudySoukLibrary {
             const isModalOpen = modal && !modal.classList.contains('hidden');
             if (!isModalOpen) return;
 
+            // Ignore if active element is an input
+            if (document.activeElement && document.activeElement.tagName === 'INPUT' && document.activeElement.id !== 'pdf-page-num') {
+                return;
+            }
+
             if (e.key === 'Escape') {
                 this.closeReader();
-            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'k') {
                 e.preventDefault();
                 this.onPrevPage();
-            } else if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+            } else if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === 'j') {
                 e.preventDefault();
                 this.onNextPage();
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                if (this.pdfDoc && this.pageNum !== 1) {
+                    this.pageNum = 1;
+                    this.queueRenderPage(1);
+                }
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                if (this.pdfDoc && this.pageNum !== this.pdfDoc.numPages) {
+                    this.pageNum = this.pdfDoc.numPages;
+                    this.queueRenderPage(this.pageNum);
+                }
             } else if (e.key === '+' || e.key === '=') {
                 e.preventDefault();
                 this.zoomIn();
             } else if (e.key === '-') {
                 e.preventDefault();
                 this.zoomOut();
+            } else if (e.key.toLowerCase() === 'w') {
+                e.preventDefault();
+                this.fitToWidth();
+            } else if (e.key.toLowerCase() === 'p') {
+                e.preventDefault();
+                this.fitToPage();
+            } else if (e.key === '0') {
+                e.preventDefault();
+                this.fitMode = 'custom';
+                this.scale = 1.0;
+                this.renderPdfPage(this.pageNum);
             }
         });
     }
@@ -420,6 +509,49 @@ class StudySoukLibrary {
         await this.loadPdfDocument(pdfUrl);
     }
 
+    async calculateFitScale(pageNum, mode = 'width') {
+        if (!this.pdfDoc) return 1.0;
+        try {
+            const page = await this.pdfDoc.getPage(pageNum || this.pageNum);
+            const container = document.getElementById('pdf-viewer-container');
+            if (!container) return 1.0;
+
+            const isMobile = window.innerWidth < 640;
+            const padX = isMobile ? 16 : 36;
+            const padY = isMobile ? 16 : 36;
+
+            const availableW = Math.max(260, container.clientWidth - padX);
+            const availableH = Math.max(300, container.clientHeight - padY);
+
+            const unscaledViewport = page.getViewport({ scale: 1.0 });
+
+            if (mode === 'page') {
+                const scaleW = availableW / unscaledViewport.width;
+                const scaleH = availableH / unscaledViewport.height;
+                return Math.max(0.35, Math.min(scaleW, scaleH, 2.5));
+            }
+
+            // mode === 'width' (Fit neatly to width)
+            const scaleW = availableW / unscaledViewport.width;
+            return Math.max(0.35, Math.min(scaleW, 3.2));
+        } catch (e) {
+            console.warn('[PDF.js] calculateFitScale fallback:', e);
+            return 1.0;
+        }
+    }
+
+    async fitToWidth() {
+        this.fitMode = 'width';
+        this.scale = await this.calculateFitScale(this.pageNum, 'width');
+        this.renderPdfPage(this.pageNum);
+    }
+
+    async fitToPage() {
+        this.fitMode = 'page';
+        this.scale = await this.calculateFitScale(this.pageNum, 'page');
+        this.renderPdfPage(this.pageNum);
+    }
+
     async loadPdfDocument(url) {
         this.showPdfLoading(true);
         this.hidePdfError();
@@ -467,6 +599,8 @@ class StudySoukLibrary {
             }
 
             this.pageNum = 1;
+            this.fitMode = 'width'; // Start in auto-fit to width!
+            this.scale = await this.calculateFitScale(1, 'width');
             this.renderPdfPage(this.pageNum);
             this.showPdfLoading(false);
         } catch (err) {
@@ -486,19 +620,27 @@ class StudySoukLibrary {
 
         this.pdfDoc.getPage(num).then((page) => {
             const canvas = document.getElementById('pdf-render-canvas');
+            const wrapper = document.getElementById('pdf-canvas-wrapper');
             if (!canvas) {
                 this.pageRendering = false;
                 return;
             }
             const ctx = canvas.getContext('2d');
 
-            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
             const viewport = page.getViewport({ scale: this.scale * dpr });
 
             canvas.width = Math.floor(viewport.width);
             canvas.height = Math.floor(viewport.height);
-            canvas.style.height = `${Math.floor(viewport.height / dpr)}px`;
-            canvas.style.width = `${Math.floor(viewport.width / dpr)}px`;
+            const cssW = Math.floor(viewport.width / dpr);
+            const cssH = Math.floor(viewport.height / dpr);
+            canvas.style.height = `${cssH}px`;
+            canvas.style.width = `${cssW}px`;
+
+            if (wrapper) {
+                wrapper.style.width = `${cssW}px`;
+                wrapper.style.height = `${cssH}px`;
+            }
 
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -532,7 +674,24 @@ class StudySoukLibrary {
         if (pageNumInput) pageNumInput.value = num;
 
         const zoomLevelEl = document.getElementById('pdf-zoom-level');
-        if (zoomLevelEl) zoomLevelEl.textContent = `${Math.round(this.scale * 100)}%`;
+        if (zoomLevelEl) {
+            let label = `${Math.round(this.scale * 100)}%`;
+            if (this.fitMode === 'width') label += ' ↔';
+            else if (this.fitMode === 'page') label += ' ↕';
+            zoomLevelEl.textContent = label;
+        }
+
+        // Highlight active fit buttons
+        const btnWidth = document.getElementById('pdf-fit-width');
+        const btnPage = document.getElementById('pdf-fit-page');
+        if (btnWidth) {
+            btnWidth.classList.toggle('border-brand-gold', this.fitMode === 'width');
+            btnWidth.classList.toggle('bg-brand-gold/15', this.fitMode === 'width');
+        }
+        if (btnPage) {
+            btnPage.classList.toggle('border-brand-gold', this.fitMode === 'page');
+            btnPage.classList.toggle('bg-brand-gold/15', this.fitMode === 'page');
+        }
     }
 
     queueRenderPage(num) {
@@ -556,20 +715,29 @@ class StudySoukLibrary {
     }
 
     zoomIn() {
-        if (this.scale >= 3.0) return;
-        this.scale += 0.2;
+        if (this.scale >= 3.5) return;
+        this.fitMode = 'custom';
+        this.scale = Math.min(3.5, +(this.scale + 0.15).toFixed(2));
         this.renderPdfPage(this.pageNum);
     }
 
     zoomOut() {
-        if (this.scale <= 0.6) return;
-        this.scale -= 0.2;
+        if (this.scale <= 0.35) return;
+        this.fitMode = 'custom';
+        this.scale = Math.max(0.35, +(this.scale - 0.15).toFixed(2));
         this.renderPdfPage(this.pageNum);
     }
 
     zoomReset() {
-        this.scale = 1.25;
-        this.renderPdfPage(this.pageNum);
+        if (this.fitMode === 'width') {
+            this.fitToPage();
+        } else if (this.fitMode === 'page') {
+            this.fitMode = 'custom';
+            this.scale = 1.0;
+            this.renderPdfPage(this.pageNum);
+        } else {
+            this.fitToWidth();
+        }
     }
 
     showPdfLoading(show) {

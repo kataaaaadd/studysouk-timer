@@ -1480,20 +1480,22 @@
     </footer>
 
     <!-- PDF & DOCUMENT READER MODAL (HIGH PERFORMANCE PDF.JS VIEWER) -->
-    <div id="library-reader-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-2 sm:p-4 animate-fadeIn">
-        <div class="w-full max-w-5xl h-[94vh] glass-panel rounded-2xl border border-brand-gold/50 flex flex-col shadow-2xl overflow-hidden">
+    <div id="library-reader-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-0 sm:p-3 md:p-5 animate-fadeIn">
+        <div class="w-full sm:max-w-6xl h-full sm:h-[95vh] glass-panel rounded-none sm:rounded-2xl border-0 sm:border border-brand-gold/50 flex flex-col shadow-2xl overflow-hidden bg-[#09090e]">
             <!-- Reader Main Header -->
-            <div class="px-4 py-2.5 border-b border-brand-borderSubtle flex items-center justify-between bg-brand-darker/95">
+            <div class="px-3 sm:px-5 py-2.5 sm:py-3 border-b border-brand-borderSubtle flex items-center justify-between bg-brand-darker/95 shrink-0">
                 <div class="flex items-center gap-2.5 min-w-0 pr-2">
-                    <div class="w-8 h-8 rounded-xl bg-brand-cherry border border-brand-gold/60 flex items-center justify-center text-brand-gold text-sm shadow shrink-0">
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-br from-brand-cherry to-brand-cherryDark border border-brand-gold/60 flex items-center justify-center text-brand-gold text-sm shadow shrink-0">
                         <i class="fa-solid fa-book-open"></i>
                     </div>
                     <div class="min-w-0">
                         <h3 id="reader-modal-title" class="text-xs sm:text-sm font-black text-white font-outfit truncate">Chargement de l'ouvrage...</h3>
-                        <span id="reader-modal-badge" class="text-[10px] sm:text-[11px] font-mono text-brand-goldLight font-bold truncate block">Volume StudySouk</span>
+                        <div class="flex items-center gap-2 mt-0.5">
+                            <span id="reader-modal-badge" class="text-[10px] sm:text-[11px] font-mono text-brand-goldLight font-bold truncate">Volume StudySouk</span>
+                        </div>
                     </div>
                 </div>
-                <div class="flex items-center gap-1.5 shrink-0">
+                <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
                     <button id="btn-study-this-book" title="Étudier ce volume dans le minuteur" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-brand-cherry hover:bg-brand-cherryVibrant border border-brand-gold/60 text-brand-goldLight text-xs font-bold font-outfit flex items-center gap-1.5 transition active:scale-95 shadow">
                         <i class="fa-solid fa-stopwatch text-brand-gold"></i>
                         <span class="hidden md:inline">Étudier ce Livre</span>
@@ -1508,37 +1510,57 @@
                     <button id="btn-download-pdf" title="Télécharger l'ouvrage (PDF)" class="p-1.5 sm:p-2 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white transition active:scale-95">
                         <i class="fa-solid fa-download text-xs"></i>
                     </button>
-                    <button id="btn-close-reader-modal" title="Fermer (Échap)" class="p-1.5 sm:p-2 rounded-xl glass-card border border-brand-borderSubtle text-brand-muted hover:text-white transition active:scale-95">
+                    <button id="btn-close-reader-modal" title="Fermer (Échap)" class="p-1.5 sm:p-2 rounded-xl glass-card border border-brand-borderSubtle hover:border-rose-500/50 hover:bg-rose-500/10 text-brand-muted hover:text-white transition active:scale-95">
                         <i class="fa-solid fa-xmark text-sm"></i>
                     </button>
                 </div>
             </div>
 
             <!-- PDF Controls Navigation Sub-Toolbar -->
-            <div class="px-3 sm:px-4 py-1.5 border-b border-brand-borderSubtle bg-brand-darker/80 flex items-center justify-between text-xs font-mono">
+            <div class="px-2 sm:px-4 py-1.5 border-b border-brand-borderSubtle bg-brand-darker/90 flex flex-wrap items-center justify-between gap-1.5 text-xs font-mono shrink-0">
                 <!-- Page Navigator -->
                 <div class="flex items-center gap-1 sm:gap-2">
+                    <button id="pdf-first" title="Première Page (Home)" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center transition active:scale-90">
+                        <i class="fa-solid fa-angles-left text-[10px]"></i>
+                    </button>
                     <button id="pdf-prev" title="Page Précédente (Flèche Gauche)" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-goldLight flex items-center justify-center transition active:scale-90">
                         <i class="fa-solid fa-chevron-left text-[11px]"></i>
                     </button>
                     <div class="flex items-center gap-1 text-[11px] font-bold text-white bg-brand-card px-2 py-0.5 rounded-lg border border-brand-borderSubtle">
-                        <span>Page</span>
-                        <input id="pdf-page-num" type="number" min="1" value="1" class="w-10 text-center bg-transparent border-0 text-brand-gold font-mono font-bold focus:outline-none">
+                        <span class="text-brand-muted hidden xs:inline">Page</span>
+                        <input id="pdf-page-num" type="number" min="1" value="1" class="w-11 text-center bg-transparent border-0 text-brand-gold font-mono font-bold focus:outline-none">
                         <span class="text-brand-muted">/</span>
-                        <span id="pdf-page-count" class="text-brand-muted">--</span>
+                        <span id="pdf-page-count" class="text-brand-goldLight">--</span>
                     </div>
                     <button id="pdf-next" title="Page Suivante (Flèche Droite)" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-goldLight flex items-center justify-center transition active:scale-90">
                         <i class="fa-solid fa-chevron-right text-[11px]"></i>
                     </button>
+                    <button id="pdf-last" title="Dernière Page (End)" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center transition active:scale-90">
+                        <i class="fa-solid fa-angles-right text-[10px]"></i>
+                    </button>
                 </div>
 
-                <!-- Zoom & View Controls -->
+                <!-- Zoom & Presets Controls -->
                 <div class="flex items-center gap-1 sm:gap-1.5">
+                    <!-- Fit Width Button -->
+                    <button id="pdf-fit-width" title="Ajuster à la Largeur (W)" class="px-2 sm:px-2.5 py-1 rounded-lg glass-card border border-brand-gold/50 text-brand-goldLight hover:text-white hover:bg-brand-gold/15 text-[10px] sm:text-[11px] font-bold flex items-center gap-1 transition active:scale-95 shadow-sm">
+                        <i class="fa-solid fa-arrows-left-right-to-line text-[10px] text-brand-gold"></i>
+                        <span>Largeur</span>
+                    </button>
+                    <!-- Fit Page Button -->
+                    <button id="pdf-fit-page" title="Ajuster à la Page Entière (P)" class="px-2 sm:px-2.5 py-1 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-muted hover:text-white text-[10px] sm:text-[11px] font-bold flex items-center gap-1 transition active:scale-95">
+                        <i class="fa-solid fa-expand text-[10px]"></i>
+                        <span class="hidden sm:inline">Page</span>
+                    </button>
+                    
+                    <span class="w-[1px] h-4 bg-brand-borderSubtle mx-0.5"></span>
+
+                    <!-- Zoom Controls -->
                     <button id="pdf-zoom-out" title="Dézoomer (-)" class="w-7 h-7 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center transition active:scale-90">
                         <i class="fa-solid fa-minus text-[10px]"></i>
                     </button>
-                    <button id="pdf-zoom-reset" title="Ajuster à la largeur" class="px-2 py-0.5 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-goldLight text-[10px] sm:text-[11px] font-bold transition">
-                        <span id="pdf-zoom-level">120%</span>
+                    <button id="pdf-zoom-reset" title="Changer d'échelle (Largeur / 100% / Page)" class="px-2 py-0.5 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-goldLight text-[10px] sm:text-[11px] font-bold transition">
+                        <span id="pdf-zoom-level">Auto</span>
                     </button>
                     <button id="pdf-zoom-in" title="Zoomer (+)" class="w-7 h-7 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center transition active:scale-90">
                         <i class="fa-solid fa-plus text-[10px]"></i>
@@ -1547,7 +1569,7 @@
             </div>
 
             <!-- PDF Viewer Canvas Container -->
-            <div id="pdf-viewer-container" class="flex-1 w-full bg-[#18181b] overflow-auto relative flex flex-col items-center justify-start p-2 sm:p-4">
+            <div id="pdf-viewer-container" class="flex-1 w-full bg-[#09090e] overflow-auto relative p-2 sm:p-4" style="scroll-behavior: smooth;">
                 <!-- Loading State -->
                 <div id="pdf-loading-spinner" class="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-brand-darker/90 backdrop-blur-sm z-20">
                     <div class="w-10 h-10 border-3 border-brand-gold border-t-transparent rounded-full animate-spin"></div>
@@ -1568,9 +1590,9 @@
                     </div>
                 </div>
 
-                <!-- High-DPI Render Canvas Container -->
-                <div id="pdf-canvas-wrapper" class="shadow-[0_10px_40px_rgba(0,0,0,0.8)] rounded-lg overflow-hidden border border-brand-borderSubtle bg-white">
-                    <canvas id="pdf-render-canvas" class="block max-w-full"></canvas>
+                <!-- High-DPI Render Canvas Container (Centering with margin:auto, safe for overflow scrolling) -->
+                <div id="pdf-canvas-wrapper" class="m-auto shadow-[0_15px_50px_rgba(0,0,0,0.85)] rounded-xl overflow-hidden border border-brand-borderSubtle/60 bg-white block transition-all duration-150">
+                    <canvas id="pdf-render-canvas" class="block"></canvas>
                 </div>
 
                 <!-- iFrame Fallback Viewer -->
