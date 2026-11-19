@@ -20,6 +20,9 @@ class StudySoukLibrary {
         this.scale = 1.25;
 
         if (window.pdfjsLib) {
+            if (window.pdfjsWorker && window.pdfjsWorker.WorkerMessageHandler) {
+                window.pdfjsLib.PDFWorker._mainThreadWorkerMessageHandler = window.pdfjsWorker.WorkerMessageHandler;
+            }
             window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/pdfjs/pdf.worker.min.js';
         }
 
@@ -312,7 +315,9 @@ class StudySoukLibrary {
         if (titleEl) titleEl.textContent = book.title;
         if (badgeEl) badgeEl.textContent = `${book.pages} pages • ${book.subject} • ${book.level}`;
 
-        const pdfUrl = `/api/library/pdf/${book.id}`;
+        const isProxied = window.location.pathname.includes('/.proxy');
+        const basePath = isProxied ? window.location.pathname.replace(/\/+$/, '') : '';
+        const pdfUrl = `${basePath}/api/library/pdf/${book.id}`.replace(/^\/\//, '/');
 
         if (openTabBtn) {
             openTabBtn.onclick = () => window.open(pdfUrl, '_blank');
@@ -356,8 +361,19 @@ class StudySoukLibrary {
                 throw new Error("Moteur PDF.js non chargé.");
             }
 
+            if (window.pdfjsWorker && window.pdfjsWorker.WorkerMessageHandler) {
+                window.pdfjsLib.PDFWorker._mainThreadWorkerMessageHandler = window.pdfjsWorker.WorkerMessageHandler;
+            }
+
+            // Fetch PDF binary directly for absolute reliability in Discord's proxy sandbox
+            const res = await fetch(url);
+            if (!res.ok) {
+                throw new Error(`Erreur réseau HTTP ${res.status}: ${res.statusText || 'Document non disponible'}`);
+            }
+            const data = await res.arrayBuffer();
+
             const loadingTask = window.pdfjsLib.getDocument({
-                url: url,
+                data: data,
                 cMapPacked: true
             });
 
@@ -378,42 +394,55 @@ class StudySoukLibrary {
         } catch (err) {
             console.error("[PDF.js] Erreur:", err);
             this.showPdfLoading(false);
-            this.showPdfError(`Impossible de lire le document dans Discord : ${err.message || 'Erreur réseau'}`);
+            this.showPdfError(`Impossible de lire le document : ${err.message || 'Erreur réseau'}`);
         }
     }
 
     renderPdfPage(num) {
         if (!this.pdfDoc) return;
+        if (this.pageRendering) {
+            this.pageNumPending = num;
+            return;
+        }
         this.pageRendering = true;
 
         this.pdfDoc.getPage(num).then((page) => {
             const canvas = document.getElementById('pdf-render-canvas');
-            if (!canvas) return;
+            if (!canvas) {
+                this.pageRendering = false;
+                return;
+            }
             const ctx = canvas.getContext('2d');
 
-            const pixelRatio = window.devicePixelRatio || 1;
-            const viewport = page.getViewport({ scale: this.scale });
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            const viewport = page.getViewport({ scale: this.scale * dpr });
 
-            canvas.height = viewport.height * pixelRatio;
-            canvas.width = viewport.width * pixelRatio;
-            canvas.style.height = `${viewport.height}px`;
-            canvas.style.width = `${viewport.width}px`;
+            canvas.width = Math.floor(viewport.width);
+            canvas.height = Math.floor(viewport.height);
+            canvas.style.height = `${Math.floor(viewport.height / dpr)}px`;
+            canvas.style.width = `${Math.floor(viewport.width / dpr)}px`;
+
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             const renderContext = {
                 canvasContext: ctx,
-                viewport: viewport,
-                transform: [pixelRatio, 0, 0, pixelRatio, 0, 0]
+                viewport: viewport
             };
 
             const renderTask = page.render(renderContext);
             renderTask.promise.then(() => {
                 this.pageRendering = false;
                 if (this.pageNumPending !== null) {
-                    this.renderPdfPage(this.pageNumPending);
+                    const nextNum = this.pageNumPending;
                     this.pageNumPending = null;
+                    this.renderPdfPage(nextNum);
                 }
-            }).catch(e => {
-                console.warn("[PDF.js] Render error (or cancelled):", e);
+            }).catch((err) => {
+                if (err && err.name === 'RenderingCancelledException') {
+                    return;
+                }
+                console.warn("[PDF.js] Render error:", err);
                 this.pageRendering = false;
             });
         }).catch(err => {
