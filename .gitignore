@@ -7,3 +7,5 @@ __pycache__/
 .idea/
 .DS_Store
 deploy_vps.py
+extracted_logos/
+assets/logo_v3_backup.png
