@@ -114,6 +114,7 @@ class StudySoukTimerApp {
 
         this.startCountdownHub();
         this.updateTimerDisplay();
+        this.renderCycleDots();
         this.renderTasks();
         this.renderStats();
         this.rotateQuote();
@@ -372,6 +373,62 @@ class StudySoukTimerApp {
             window.ambience?.playClick();
             this.completeSession(true);
         });
+
+        // Quick -5m / +5m Session Time Modifiers
+        document.getElementById("btn-timer-sub5")?.addEventListener("click", () => {
+            window.ambience?.playClick();
+            if (this.timeLeft > 300) {
+                this.timeLeft -= 300;
+                this.totalDuration = Math.max(this.totalDuration - 300, 300);
+                this.updateTimerDisplay();
+                if (this.sync) {
+                    this.sync.syncPomodoro("adjust", {
+                        modeKey: this.currentModeKey,
+                        timeLeft: this.timeLeft,
+                        isRunning: this.isRunning,
+                        subject: this.currentSubject
+                    });
+                }
+                this.showToast("⏱️ -5 minutes");
+            }
+        });
+
+        document.getElementById("btn-timer-add5")?.addEventListener("click", () => {
+            window.ambience?.playClick();
+            this.timeLeft += 300;
+            this.totalDuration += 300;
+            this.updateTimerDisplay();
+            if (this.sync) {
+                this.sync.syncPomodoro("adjust", {
+                    modeKey: this.currentModeKey,
+                    timeLeft: this.timeLeft,
+                    isRunning: this.isRunning,
+                    subject: this.currentSubject
+                });
+            }
+            this.showToast("⏱️ +5 minutes ajoutées");
+        });
+    }
+
+    renderCycleDots() {
+        const dotsContainer = document.getElementById("cycle-dots");
+        const label = document.getElementById("cycle-label");
+        if (!dotsContainer) return;
+        const currentInCycle = (this.sessionsCompleted % 4); // 0, 1, 2, 3
+        const cycleNum = currentInCycle + 1;
+        if (label) label.textContent = `${cycleNum}/4`;
+
+        let html = '';
+        for (let i = 0; i < 4; i++) {
+            if (i < currentInCycle) {
+                html += '<span class="cycle-dot completed" title="Bloc validé ✓"></span>';
+            } else if (i === currentInCycle) {
+                html += '<span class="cycle-dot active" title="Bloc en cours"></span>';
+            } else {
+                html += '<span class="cycle-dot" title="Bloc restant"></span>';
+            }
+        }
+        dotsContainer.innerHTML = html;
     }
 
     setTimerMode(modeKey, broadcast = false) {
@@ -381,6 +438,26 @@ class StudySoukTimerApp {
         this.totalDuration = this.modes[modeKey].duration;
         this.timeLeft = this.totalDuration;
         this.updateTimerDisplay();
+        this.renderCycleDots();
+
+        // Dynamic visual mood shift based on Focus vs Breaks
+        const circle = document.getElementById("timer-progress-circle");
+        const halo = document.getElementById("timer-ambient-halo");
+        const baseTrack = document.getElementById("timer-base-track");
+
+        if (modeKey === 'break5') {
+            if (circle) circle.setAttribute('stroke', 'url(#studysoukBreakGradient)');
+            if (halo) halo.className = "absolute inset-2 rounded-full bg-gradient-to-tr from-emerald-950/50 via-emerald-500/25 to-transparent blur-3xl pointer-events-none transition-all duration-700";
+            if (baseTrack) baseTrack.setAttribute('stroke', 'rgba(6, 95, 70, 0.35)');
+        } else if (modeKey === 'break15') {
+            if (circle) circle.setAttribute('stroke', 'url(#studysoukLongBreakGradient)');
+            if (halo) halo.className = "absolute inset-2 rounded-full bg-gradient-to-tr from-blue-950/50 via-blue-500/25 to-transparent blur-3xl pointer-events-none transition-all duration-700";
+            if (baseTrack) baseTrack.setAttribute('stroke', 'rgba(30, 58, 138, 0.35)');
+        } else {
+            if (circle) circle.setAttribute('stroke', 'url(#studysoukGoldGradient)');
+            if (halo) halo.className = "absolute inset-2 rounded-full bg-gradient-to-tr from-brand-cherry/40 via-brand-gold/20 to-transparent blur-3xl pointer-events-none transition-all duration-700";
+            if (baseTrack) baseTrack.setAttribute('stroke', 'rgba(138, 21, 56, 0.25)');
+        }
 
         document.querySelectorAll(".timer-mode-btn").forEach(b => {
             if (b.dataset.mode === modeKey) {
@@ -425,6 +502,11 @@ class StudySoukTimerApp {
         this.timerInterval = setInterval(() => {
             this.timeLeft--;
             this.updateTimerDisplay();
+
+            // Subtle countdown acoustic cue in the final 5 seconds
+            if (this.timeLeft <= 5 && this.timeLeft > 0) {
+                window.ambience?.playCountdownTick(500 + (5 - this.timeLeft) * 80);
+            }
 
             if (this.timeLeft % 60 === 0 && this.modes[this.currentModeKey].type === "focus") {
                 this.levelSystem?.addXP(10);
@@ -543,6 +625,7 @@ class StudySoukTimerApp {
         const elMinutes = document.getElementById("stat-minutes");
         if (elSessions) elSessions.textContent = this.sessionsCompleted;
         if (elMinutes) elMinutes.textContent = `${this.totalFocusMinutes} min`;
+        this.renderCycleDots();
     }
 
     rotateQuote() {

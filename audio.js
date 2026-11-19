@@ -412,6 +412,27 @@ class AmbienceEngine {
         osc.stop(now + 0.07);
     }
 
+    playCountdownTick(freq = 660) {
+        if (this.isMuted) return;
+        this.ensureRunning();
+        try {
+            const now = this.ctx.currentTime;
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now);
+            osc.frequency.exponentialRampToValueAtTime(freq * 0.5, now + 0.04);
+
+            gain.gain.setValueAtTime(0.045, now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+
+            osc.connect(gain);
+            gain.connect(this.masterGain || this.ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.045);
+        } catch (e) {}
+    }
+
     // --- LO-FI LIVE RADIO STREAMING ---
     setupRadioListeners() {
         this.radioAudio.volume = this.volumes.radio * this.volumes.master;

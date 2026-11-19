@@ -167,6 +167,31 @@
             transform: scale(0.94);
         }
 
+        /* 4-Cycle Pomodoro Progress Dots */
+        .cycle-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .cycle-dot.completed {
+            background: #D4AF37;
+            border-color: #F5C542;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.75);
+        }
+        .cycle-dot.active {
+            background: #FFF3B0;
+            border-color: #D4AF37;
+            box-shadow: 0 0 12px rgba(245, 197, 66, 0.95);
+            animation: dotPulse 1.8s ease-in-out infinite;
+        }
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); opacity: 0.85; }
+            50% { transform: scale(1.4); opacity: 1; filter: drop-shadow(0 0 8px rgba(212, 175, 55, 1)); }
+        }
+
         /* Navigation Tab Dock Enhancements */
         .nav-tab-btn {
             transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
@@ -441,31 +466,58 @@
                 </button>
             </div>
 
+            <!-- 4-Cycle Pomodoro Progress Tracker -->
+            <div id="pomodoro-cycle-tracker" class="flex items-center gap-2 mb-4 px-3.5 py-1.5 rounded-full glass-card border border-brand-borderSubtle text-xs shadow-md">
+                <span class="text-[10px] uppercase tracking-wider text-brand-muted font-extrabold font-outfit">Série Deep Work :</span>
+                <div id="cycle-dots" class="flex items-center gap-1.5">
+                    <span class="cycle-dot active" title="Bloc 1 en cours"></span>
+                    <span class="cycle-dot" title="Bloc 2"></span>
+                    <span class="cycle-dot" title="Bloc 3"></span>
+                    <span class="cycle-dot" title="Bloc 4 (suivi de la longue pause)"></span>
+                </div>
+                <span id="cycle-label" class="text-[10px] font-mono font-black text-brand-goldLight ml-1">1/4</span>
+            </div>
+
             <!-- Sleek Master Circular Chronometer Display -->
             <div class="relative flex items-center justify-center mb-6">
                 <div class="relative w-76 h-76 sm:w-88 sm:h-88 flex items-center justify-center">
-                    <!-- Deep Radial Glow Halo behind timer -->
-                    <div class="absolute inset-2 rounded-full bg-gradient-to-tr from-brand-cherry/40 via-brand-gold/20 to-transparent blur-3xl pointer-events-none"></div>
+                    <!-- Dynamic Radial Glow Halo behind timer -->
+                    <div id="timer-ambient-halo" class="absolute inset-2 rounded-full bg-gradient-to-tr from-brand-cherry/40 via-brand-gold/20 to-transparent blur-3xl pointer-events-none transition-all duration-700"></div>
                     
                     <svg class="w-full h-full transform -rotate-90" viewBox="0 0 300 300">
                         <!-- Outer Chronometer Precision Minute Ticks -->
                         <circle cx="150" cy="150" r="140" stroke="rgba(212, 175, 55, 0.15)" stroke-width="3" stroke-dasharray="2 12.65" class="fill-transparent" />
                         
                         <!-- Base Track -->
-                        <circle cx="150" cy="150" r="126" stroke="rgba(138, 21, 56, 0.25)" stroke-width="9" class="fill-transparent" />
+                        <circle id="timer-base-track" cx="150" cy="150" r="126" stroke="rgba(138, 21, 56, 0.25)" stroke-width="9" class="fill-transparent transition-all duration-700" />
                         
-                        <!-- Active Progress Track with StudySouk Gold Gradient & Glow -->
+                        <!-- Active Progress Track with Dynamic Gradient & Glow -->
                         <circle id="timer-progress-circle" cx="150" cy="150" r="126" stroke="url(#studysoukGoldGradient)" stroke-width="9" 
                             class="fill-transparent transition-all duration-1000 ease-linear drop-shadow-[0_0_18px_rgba(212,175,55,0.75)]"
                             stroke-linecap="round"
                             stroke-dasharray="791.68"
                             stroke-dashoffset="0" />
                         <defs>
+                            <!-- Focus Gold Gradient -->
                             <linearGradient id="studysoukGoldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" stop-color="#FFF3B0" />
                                 <stop offset="40%" stop-color="#F5C542" />
                                 <stop offset="80%" stop-color="#D4AF37" />
                                 <stop offset="100%" stop-color="#996515" />
+                            </linearGradient>
+                            <!-- Break 5m Emerald Jade Gradient -->
+                            <linearGradient id="studysoukBreakGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#A7F3D0" />
+                                <stop offset="40%" stop-color="#34D399" />
+                                <stop offset="80%" stop-color="#10B981" />
+                                <stop offset="100%" stop-color="#047857" />
+                            </linearGradient>
+                            <!-- Break 15m Sapphire Azure Gradient -->
+                            <linearGradient id="studysoukLongBreakGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#BFDBFE" />
+                                <stop offset="40%" stop-color="#60A5FA" />
+                                <stop offset="80%" stop-color="#3B82F6" />
+                                <stop offset="100%" stop-color="#1D4ED8" />
                             </linearGradient>
                         </defs>
                     </svg>
@@ -493,15 +545,20 @@
                 </div>
             </div>
 
-            <!-- Timer Action Controls -->
-            <div class="flex items-center gap-4 mb-6">
+            <!-- Timer Action Controls (with -5m and +5m Quick Modifiers) -->
+            <div class="flex items-center gap-2.5 sm:gap-4 mb-6">
+                <!-- -5m Quick Modifier -->
+                <button id="btn-timer-sub5" title="Retirer 5 minutes" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-xs font-black shadow active:scale-90">
+                    -5m
+                </button>
+
                 <!-- Reset Button -->
                 <button id="btn-timer-reset" title="Réinitialiser pour le salon vocal" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-muted hover:text-white group">
                     <i class="fa-solid fa-rotate-left text-base group-hover:-rotate-45 transition duration-200"></i>
                 </button>
 
                 <!-- Big Primary Play/Pause Button -->
-                <button id="btn-timer-toggle" class="px-9 py-4 rounded-2xl cherry-glow-btn border border-brand-gold/70 text-white font-black text-base tracking-wide flex items-center gap-3 font-outfit active:scale-95 shadow-2xl group">
+                <button id="btn-timer-toggle" class="px-7 sm:px-9 py-4 rounded-2xl cherry-glow-btn border border-brand-gold/70 text-white font-black text-base tracking-wide flex items-center gap-2.5 sm:gap-3 font-outfit active:scale-95 shadow-2xl group">
                     <i class="fa-solid fa-play text-xl text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i>
                     <span class="gold-text-gradient font-black text-lg">Commencer</span>
                 </button>
@@ -509,6 +566,11 @@
                 <!-- Skip Button -->
                 <button id="btn-timer-skip" title="Passer à la pause suivante" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-muted hover:text-white group">
                     <i class="fa-solid fa-forward-step text-base group-hover:translate-x-0.5 transition duration-200"></i>
+                </button>
+
+                <!-- +5m Quick Modifier -->
+                <button id="btn-timer-add5" title="Ajouter 5 minutes" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-xs font-black shadow active:scale-90">
+                    +5m
                 </button>
             </div>
 
