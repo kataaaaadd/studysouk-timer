@@ -104,7 +104,10 @@ class LevelSystem {
         const myInfo = this.getLevelInfo();
 
         const userName = targetUser ? (targetUser.name || "Étudiant StudySouk") : (localStorage.getItem("ss_user_name") || "Étudiant StudySouk");
-        const userAvatar = targetUser ? (targetUser.avatar || "https://api.dicebear.com/7.x/bottts/svg?seed=StudySouk") : (localStorage.getItem("ss_user_avatar") || "https://api.dicebear.com/7.x/bottts/svg?seed=StudySouk");
+        let userAvatar = targetUser ? (targetUser.avatar || "assets/avatars/default.svg") : (localStorage.getItem("ss_user_avatar") || "assets/avatars/default.svg");
+        if (userAvatar.includes("api.dicebear.com")) {
+            userAvatar = "assets/avatars/default.svg";
+        }
         const userFiliere = targetUser ? (targetUser.filiere || "CPGE MP*") : (localStorage.getItem("ss_user_filiere") || "CPGE MP*");
         const userBio = targetUser ? (targetUser.bio || "Objectif Concours 2026") : (localStorage.getItem("ss_user_bio") || "« La rigueur surclasse l'improvisation »");
 

@@ -15,14 +15,18 @@ const STUDY_QUOTES = [
 ];
 
 const AVATAR_PRESETS = [
-    { name: "Al-Khwarizmi", url: "https://api.dicebear.com/7.x/bottts/svg?seed=Khwarizmi" },
-    { name: "Ibn Sina", url: "https://api.dicebear.com/7.x/bottts/svg?seed=IbnSina" },
-    { name: "Euler", url: "https://api.dicebear.com/7.x/bottts/svg?seed=Euler" },
-    { name: "Poincaré", url: "https://api.dicebear.com/7.x/bottts/svg?seed=Poincare" },
-    { name: "Marie Curie", url: "https://api.dicebear.com/7.x/bottts/svg?seed=MarieCurie" },
-    { name: "Ada Lovelace", url: "https://api.dicebear.com/7.x/bottts/svg?seed=AdaLovelace" },
-    { name: "Khwanss", url: "https://api.dicebear.com/7.x/bottts/svg?seed=Khwanss" },
-    { name: "Major STEM", url: "https://api.dicebear.com/7.x/bottts/svg?seed=MajorSTEM" }
+    { name: "Al-Khwarizmi", url: "assets/avatars/khwarizmi.svg" },
+    { name: "Ibn Sina", url: "assets/avatars/ibnsina.svg" },
+    { name: "Euler", url: "assets/avatars/euler.svg" },
+    { name: "Poincaré", url: "assets/avatars/poincare.svg" },
+    { name: "Marie Curie", url: "assets/avatars/mariecurie.svg" },
+    { name: "Ada Lovelace", url: "assets/avatars/adalovelace.svg" },
+    { name: "Khwanss", url: "assets/avatars/khwanss.svg" },
+    { name: "Major STEM", url: "assets/avatars/majorstem.svg" },
+    { name: "Alan Turing", url: "assets/avatars/turing.svg" },
+    { name: "Ramanujan", url: "assets/avatars/ramanujan.svg" },
+    { name: "Hypatia", url: "assets/avatars/hypatia.svg" },
+    { name: "StudySouk", url: "assets/avatars/default.svg" }
 ];
 
 class StudySoukTimerApp {
@@ -205,7 +209,11 @@ class StudySoukTimerApp {
         const userFiliere = document.getElementById("user-filiere");
 
         const storedName = localStorage.getItem("ss_user_name");
-        const storedAvatar = localStorage.getItem("ss_user_avatar");
+        let storedAvatar = localStorage.getItem("ss_user_avatar");
+        if (!storedAvatar || storedAvatar.includes("api.dicebear.com")) {
+            storedAvatar = "assets/avatars/default.svg";
+            localStorage.setItem("ss_user_avatar", storedAvatar);
+        }
         const storedFiliere = localStorage.getItem("ss_user_filiere") || "CPGE MP*";
         const storedBio = localStorage.getItem("ss_user_bio") || "Objectif Concours 2026";
         let storedMatricule = localStorage.getItem("ss_matricule");
@@ -217,7 +225,7 @@ class StudySoukTimerApp {
         this.discordUser = {
             id: (this.sync && this.sync.clientId) ? this.sync.clientId : ("user_" + Math.random().toString(36).substring(2, 9)),
             name: storedName || "Étudiant StudySouk",
-            avatar: storedAvatar || ("https://api.dicebear.com/7.x/bottts/svg?seed=" + Math.floor(Math.random() * 10000)),
+            avatar: storedAvatar,
             filiere: storedFiliere,
             bio: storedBio,
             matricule: storedMatricule
@@ -1101,7 +1109,7 @@ class StudySoukTimerApp {
             const filiere = u.filiere || "CPGE MP*";
             const subject = u.activeSubject || "STEM Focus";
             const mins = u.focusMinutes || 0;
-            const avatar = u.avatar || "https://api.dicebear.com/7.x/bottts/svg?seed=Study";
+            const avatar = (u.avatar && !u.avatar.includes("api.dicebear.com")) ? u.avatar : "assets/avatars/default.svg";
 
             return `
                 <div class="flex items-center justify-between p-3 rounded-2xl bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/60 transition gap-2 group shadow-sm">
@@ -1211,7 +1219,7 @@ class StudySoukTimerApp {
         toast.innerHTML = `
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                    <img src="${host.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=Study'}" class="w-7 h-7 rounded-full border border-brand-gold">
+                    <img src="${(host.avatar && !host.avatar.includes('api.dicebear.com')) ? host.avatar : 'assets/avatars/default.svg'}" class="w-7 h-7 rounded-full border border-brand-gold object-cover">
                     <div>
                         <span class="font-bold text-brand-goldLight block">${host.name}</span>
                         <span class="text-[10px] text-brand-muted">Défi STEM 1v1 (${subject})</span>

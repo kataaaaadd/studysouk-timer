@@ -16,7 +16,7 @@ class RoomSyncEngine {
         this.currentUser = {
             id: this.clientId,
             name: "Étudiant StudySouk",
-            avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=" + this.clientId,
+            avatar: "assets/avatars/default.svg",
             level: 1,
             rank: "Apprenti",
             focusMinutes: 0
