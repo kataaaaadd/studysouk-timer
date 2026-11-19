@@ -306,9 +306,10 @@ class RoomSyncEngine {
         });
     }
 
-    sendReaction(emoji) {
+    sendReaction(emojiKey) {
         this.send("reaction", {
-            emoji,
+            emojiKey: emojiKey,
+            emoji: emojiKey,
             author: this.currentUser
         });
     }

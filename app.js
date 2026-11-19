@@ -59,6 +59,11 @@ class StudySoukTimerApp {
 
         // Tasks & Objectives
         this.tasks = JSON.parse(localStorage.getItem("ss_timer_tasks") || "[]");
+
+        // STEM Dashboard & Analytics
+        this.subjectMinutes = JSON.parse(localStorage.getItem("ss_subject_minutes") || '{"Maths":0,"Physique":0,"Chimie":0,"Info":0}');
+        this.focusHistory = JSON.parse(localStorage.getItem("ss_focus_history") || '[]');
+        this.activeTaskFilter = "all";
     }
 
     async init() {
@@ -110,6 +115,7 @@ class StudySoukTimerApp {
         this.bindAmbienceControls();
         this.bindRadioControls();
         this.bindTaskControls();
+        this.bindDashboardControls();
         this.bindModals();
         this.initMultiplayerTimerSync();
 
@@ -117,6 +123,7 @@ class StudySoukTimerApp {
         this.updateTimerDisplay();
         this.renderCycleDots();
         this.renderTasks();
+        this.renderDashboard();
         this.renderStats();
         this.rotateQuote();
 
@@ -392,6 +399,8 @@ class StudySoukTimerApp {
             this.flashcards.render();
         } else if (tabId === "tab-scratchpad" && this.scratchpad) {
             this.scratchpad.render();
+        } else if (tabId === "tab-tasks") {
+            this.renderDashboard();
         }
     }
 
@@ -613,6 +622,34 @@ class StudySoukTimerApp {
         }
     }
 
+    getSubjectCategory(subject) {
+        if (!subject) return "Maths";
+        const s = subject.toLowerCase();
+        if (s.includes("math")) return "Maths";
+        if (s.includes("physique")) return "Physique";
+        if (s.includes("chimie")) return "Chimie";
+        if (s.includes("info") || s.includes("si") || s.includes("ingénieur") || s.includes("algo")) return "Info";
+        return "Maths";
+    }
+
+    updateStreak() {
+        const today = new Date().toISOString().slice(0, 10);
+        const streakData = JSON.parse(localStorage.getItem("ss_timer_streak_data") || '{"lastDate":"","streak":0}');
+        if (streakData.lastDate === today) {
+            return streakData.streak || 1;
+        }
+
+        const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+        let newStreak = 1;
+        if (streakData.lastDate === yesterday) {
+            newStreak = (streakData.streak || 0) + 1;
+        }
+        streakData.lastDate = today;
+        streakData.streak = newStreak;
+        localStorage.setItem("ss_timer_streak_data", JSON.stringify(streakData));
+        return newStreak;
+    }
+
     completeSession(skipped = false) {
         this.pauseTimer(true);
         window.ambience?.playTibetanGong();
@@ -624,7 +661,29 @@ class StudySoukTimerApp {
             this.totalFocusMinutes += sessionMins;
             localStorage.setItem("ss_timer_sessions", this.sessionsCompleted);
             localStorage.setItem("ss_timer_minutes", this.totalFocusMinutes);
+
+            // Log STEM subject breakdown
+            const cat = this.getSubjectCategory(this.currentSubject);
+            this.subjectMinutes[cat] = (this.subjectMinutes[cat] || 0) + sessionMins;
+            localStorage.setItem("ss_subject_minutes", JSON.stringify(this.subjectMinutes));
+
+            // Log to Session History
+            const histItem = {
+                id: Date.now(),
+                subject: this.currentSubject,
+                category: cat,
+                duration: sessionMins,
+                time: new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }),
+                date: new Date().toLocaleDateString("fr-FR", { day: "numeric", month: "short" }),
+                xp: 60
+            };
+            this.focusHistory.unshift(histItem);
+            if (this.focusHistory.length > 30) this.focusHistory.pop();
+            localStorage.setItem("ss_focus_history", JSON.stringify(this.focusHistory));
+
+            this.updateStreak();
             this.renderStats();
+            this.renderDashboard();
 
             this.levelSystem?.addXP(60, "Bloc de Deep Work Validé 🎯");
             this.triggerConfetti();
@@ -996,7 +1055,7 @@ class StudySoukTimerApp {
         setTimeout(dismiss, 12000);
     }
 
-    // --- OBJECTIFS / TASKS ---
+    // --- OBJECTIFS / TASKS & DASHBOARD ---
     bindTaskControls() {
         const form = document.getElementById("task-form");
         const input = document.getElementById("task-input");
@@ -1020,7 +1079,74 @@ class StudySoukTimerApp {
             input.value = "";
             window.ambience?.playClick();
             this.renderTasks();
+            this.renderDashboard();
             this.levelSystem?.addXP(15, "Objectif Ajouté");
+        });
+    }
+
+    bindDashboardControls() {
+        // Clear history button
+        document.getElementById("btn-clear-history")?.addEventListener("click", () => {
+            if (this.focusHistory.length === 0) return;
+            this.focusHistory = [];
+            localStorage.removeItem("ss_focus_history");
+            this.renderHistoryList();
+            this.showToast("🗑️ Historique des sessions effacé.");
+        });
+
+        // Export stats summary button
+        document.getElementById("btn-export-stats")?.addEventListener("click", () => {
+            const h = Math.floor(this.totalFocusMinutes / 60);
+            const m = this.totalFocusMinutes % 60;
+            const timeStr = h > 0 ? `${h}h ${m}m` : `${m} min`;
+            const mMaths = this.subjectMinutes["Maths"] || 0;
+            const mPhys = this.subjectMinutes["Physique"] || 0;
+            const mChim = this.subjectMinutes["Chimie"] || 0;
+            const mInfo = this.subjectMinutes["Info"] || 0;
+
+            const summary = `🎓 **StudySouk Academy - Rapport d'Étude CPGE & 2BAC**\n` +
+                `⏱️ **Focus Total :** ${timeStr} (${this.sessionsCompleted} blocs validés)\n` +
+                `📊 **Répartition STEM :** 📐 Maths ${mMaths}m | ⚛️ Physique ${mPhys}m | 🧪 Chimie ${mChim}m | 💻 Info ${mInfo}m\n` +
+                `🎯 **Exercices & TD :** ${this.tasks.filter(t => t.completed).length}/${this.tasks.length} validés\n` +
+                `🔥 **StudySouk Timer :** https://techniques-school-discount-job.trycloudflare.com`;
+
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(summary);
+                window.ambience?.playSuccess();
+                this.showToast("📋 Rapport CPGE copié dans le presse-papier !");
+            }
+        });
+
+        // Clear completed tasks
+        document.getElementById("btn-clear-completed-tasks")?.addEventListener("click", () => {
+            const prevCount = this.tasks.length;
+            this.tasks = this.tasks.filter(t => !t.completed);
+            if (this.tasks.length !== prevCount) {
+                localStorage.setItem("ss_timer_tasks", JSON.stringify(this.tasks));
+                window.ambience?.playClick();
+                this.renderDashboard();
+                this.showToast("🧹 Tâches terminées archivées.");
+            }
+        });
+
+        // Filter chips
+        const filterBtns = document.querySelectorAll(".task-filter-btn");
+        filterBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const filter = btn.dataset.filter || "all";
+                this.activeTaskFilter = filter;
+                filterBtns.forEach(b => {
+                    if (b.dataset.filter === filter) {
+                        b.classList.remove("bg-brand-card", "text-brand-muted", "border-brand-borderSubtle");
+                        b.classList.add("bg-brand-cherry", "text-brand-goldLight", "border-brand-gold");
+                    } else {
+                        b.classList.remove("bg-brand-cherry", "text-brand-goldLight", "border-brand-gold");
+                        b.classList.add("bg-brand-card", "text-brand-muted", "border-brand-borderSubtle");
+                    }
+                });
+                window.ambience?.playClick();
+                this.renderTasks();
+            });
         });
     }
 
@@ -1037,6 +1163,7 @@ class StudySoukTimerApp {
                 window.ambience?.playClick();
             }
             this.renderTasks();
+            this.renderDashboard();
         }
     }
 
@@ -1045,17 +1172,161 @@ class StudySoukTimerApp {
         localStorage.setItem("ss_timer_tasks", JSON.stringify(this.tasks));
         window.ambience?.playClick();
         this.renderTasks();
+        this.renderDashboard();
+    }
+
+    renderDashboard() {
+        // 1. KPI: Total Focus Time
+        const elTotalTime = document.getElementById("dash-total-time");
+        if (elTotalTime) {
+            const h = Math.floor(this.totalFocusMinutes / 60);
+            const m = this.totalFocusMinutes % 60;
+            elTotalTime.textContent = h > 0 ? `${h}h ${m}m` : `${m} min`;
+        }
+
+        // 2. KPI: Sessions
+        const elSessions = document.getElementById("dash-sessions-count");
+        if (elSessions) elSessions.textContent = this.sessionsCompleted;
+
+        // 3. KPI: Streak
+        const streakData = JSON.parse(localStorage.getItem("ss_timer_streak_data") || '{"lastDate":"","streak":1}');
+        const streak = Math.max(1, streakData.streak || (this.sessionsCompleted > 0 ? 1 : 0));
+        const elStreak = document.getElementById("dash-streak-days");
+        if (elStreak) elStreak.textContent = `${streak} ${streak > 1 ? "jours" : "jour"}`;
+
+        // 4. KPI: Tasks rate
+        const totalTasks = this.tasks.length;
+        const completedTasks = this.tasks.filter(t => t.completed).length;
+        const rate = totalTasks === 0 ? 100 : Math.round((completedTasks / totalTasks) * 100);
+        const elTasksRate = document.getElementById("dash-tasks-rate");
+        const elTasksCount = document.getElementById("dash-tasks-count");
+        if (elTasksRate) elTasksRate.textContent = `${rate}%`;
+        if (elTasksCount) elTasksCount.textContent = `${completedTasks}/${totalTasks} terminés`;
+
+        // 5. STEM Subject Distribution
+        const mMaths = this.subjectMinutes["Maths"] || 0;
+        const mPhys = this.subjectMinutes["Physique"] || 0;
+        const mChim = this.subjectMinutes["Chimie"] || 0;
+        const mInfo = this.subjectMinutes["Info"] || 0;
+        const totalStem = mMaths + mPhys + mChim + mInfo;
+
+        const pMaths = totalStem > 0 ? Math.round((mMaths / totalStem) * 100) : 25;
+        const pPhys = totalStem > 0 ? Math.round((mPhys / totalStem) * 100) : 25;
+        const pChim = totalStem > 0 ? Math.round((mChim / totalStem) * 100) : 25;
+        const pInfo = totalStem > 0 ? Math.max(0, 100 - (pMaths + pPhys + pChim)) : 25;
+
+        // Multi-segment top bar
+        const segMaths = document.getElementById("bar-seg-maths");
+        const segPhys = document.getElementById("bar-seg-phys");
+        const segChim = document.getElementById("bar-seg-chim");
+        const segInfo = document.getElementById("bar-seg-info");
+        if (segMaths) segMaths.style.width = `${pMaths}%`;
+        if (segPhys) segPhys.style.width = `${pPhys}%`;
+        if (segChim) segChim.style.width = `${pChim}%`;
+        if (segInfo) segInfo.style.width = `${pInfo}%`;
+
+        // Individual cards
+        const elDashSubjectCount = document.getElementById("dash-subject-count");
+        if (elDashSubjectCount) {
+            const h = Math.floor(totalStem / 60);
+            const m = totalStem % 60;
+            elDashSubjectCount.textContent = `${h}h ${m < 10 ? '0' : ''}${m}m total`;
+        }
+
+        const elMathsTime = document.getElementById("dash-maths-time");
+        const elMathsBar = document.getElementById("dash-maths-bar");
+        if (elMathsTime) elMathsTime.textContent = `${mMaths}m (${pMaths}%)`;
+        if (elMathsBar) elMathsBar.style.width = `${pMaths}%`;
+
+        const elPhysTime = document.getElementById("dash-phys-time");
+        const elPhysBar = document.getElementById("dash-phys-bar");
+        if (elPhysTime) elPhysTime.textContent = `${mPhys}m (${pPhys}%)`;
+        if (elPhysBar) elPhysBar.style.width = `${pPhys}%`;
+
+        const elChimTime = document.getElementById("dash-chim-time");
+        const elChimBar = document.getElementById("dash-chim-bar");
+        if (elChimTime) elChimTime.textContent = `${mChim}m (${pChim}%)`;
+        if (elChimBar) elChimBar.style.width = `${pChim}%`;
+
+        const elInfoTime = document.getElementById("dash-info-time");
+        const elInfoBar = document.getElementById("dash-info-bar");
+        if (elInfoTime) elInfoTime.textContent = `${mInfo}m (${pInfo}%)`;
+        if (elInfoBar) elInfoBar.style.width = `${pInfo}%`;
+
+        // 6. History List
+        this.renderHistoryList();
+
+        // 7. Tasks list with active filter
+        this.renderTasks();
+    }
+
+    renderHistoryList() {
+        const container = document.getElementById("focus-history-list");
+        if (!container) return;
+
+        if (this.focusHistory.length === 0) {
+            container.innerHTML = `
+                <div class="py-5 text-center text-brand-muted text-xs flex flex-col items-center gap-1.5">
+                    <i class="fa-solid fa-clock-rotate-left text-lg text-brand-borderSubtle"></i>
+                    <span>Aucun bloc enregistré. Valide une session Pomodoro de 25m ou 50m !</span>
+                </div>
+            `;
+            return;
+        }
+
+        const catIcons = {
+            "Maths": { icon: "fa-calculator", bg: "bg-blue-900/40 text-blue-300 border-blue-500/40" },
+            "Physique": { icon: "fa-atom", bg: "bg-emerald-900/40 text-emerald-300 border-emerald-500/40" },
+            "Chimie": { icon: "fa-flask", bg: "bg-teal-900/40 text-teal-300 border-teal-500/40" },
+            "Info": { icon: "fa-laptop-code", bg: "bg-purple-900/40 text-purple-300 border-purple-500/40" }
+        };
+
+        container.innerHTML = this.focusHistory.map(item => {
+            const style = catIcons[item.category] || catIcons["Maths"];
+            return `
+                <div class="flex items-center justify-between p-2.5 rounded-xl bg-brand-card border border-brand-borderSubtle hover:border-brand-gold/40 transition">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-7 h-7 rounded-lg ${style.bg} border flex items-center justify-center text-xs">
+                            <i class="fa-solid ${style.icon}"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-bold text-white font-outfit truncate max-w-[180px] sm:max-w-xs">
+                                ${item.subject}
+                            </span>
+                            <span class="text-[10px] text-brand-muted font-mono">
+                                ${item.date || ""} à ${item.time || ""} • ${item.duration} min
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] font-extrabold text-brand-goldLight bg-brand-cherry/80 px-2 py-0.5 rounded-full border border-brand-gold/40 font-mono shadow-sm">
+                            +${item.xp || 60} XP
+                        </span>
+                    </div>
+                </div>
+            `;
+        }).join("");
     }
 
     renderTasks() {
         const container = document.getElementById("tasks-list");
+        const pill = document.getElementById("tasks-count-pill");
         if (!container) return;
 
-        if (this.tasks.length === 0) {
+        const remaining = this.tasks.filter(t => !t.completed).length;
+        if (pill) {
+            pill.textContent = `${remaining} ${remaining > 1 ? "restants" : "restant"}`;
+        }
+
+        const filteredTasks = this.activeTaskFilter === "all"
+            ? this.tasks
+            : this.tasks.filter(t => (t.subject || "Général").toLowerCase().includes(this.activeTaskFilter.toLowerCase()));
+
+        if (filteredTasks.length === 0) {
             container.innerHTML = `
-                <div class="py-8 text-center text-brand-muted text-xs flex flex-col items-center gap-2">
-                    <i class="fa-solid fa-list-check text-2xl text-brand-borderSubtle"></i>
-                    <span>Aucun objectif défini. Ajoute tes exercices, TD et devoirs de concours !</span>
+                <div class="py-6 text-center text-brand-muted text-xs flex flex-col items-center gap-1.5">
+                    <i class="fa-solid fa-list-check text-xl text-brand-borderSubtle"></i>
+                    <span>${this.activeTaskFilter === "all" ? "Aucun objectif défini. Ajoute tes devoirs et TD !" : "Aucun devoir pour cette matière."}</span>
                 </div>
             `;
             return;
@@ -1070,9 +1341,9 @@ class StudySoukTimerApp {
             "Général": "bg-brand-cherry text-brand-goldLight border-brand-gold/40"
         };
 
-        container.innerHTML = this.tasks.map(t => `
-            <div class="flex items-center justify-between p-3 rounded-lg bg-brand-card border border-brand-border hover:border-brand-gold/50 transition ${t.completed ? 'opacity-50 bg-brand-darker' : ''}">
-                <div class="flex items-center gap-3 overflow-hidden">
+        container.innerHTML = filteredTasks.map(t => `
+            <div class="flex items-center justify-between p-2.5 rounded-xl bg-brand-card border border-brand-borderSubtle hover:border-brand-gold/40 transition ${t.completed ? 'opacity-50 bg-brand-darker' : ''}">
+                <div class="flex items-center gap-2.5 overflow-hidden">
                     <button onclick="window.studyApp.toggleTask(${t.id})" class="w-5 h-5 rounded-md border flex items-center justify-center transition ${t.completed ? 'bg-emerald-600 border-emerald-400 text-white' : 'border-brand-border hover:border-brand-gold text-transparent'}">
                         <i class="fa-solid fa-check text-xs"></i>
                     </button>
@@ -1081,10 +1352,10 @@ class StudySoukTimerApp {
                             ${t.text}
                         </span>
                         <div class="flex items-center gap-2 mt-0.5">
-                            <span class="text-[10px] font-mono px-1.5 py-0.2 rounded border ${subjectColors[t.subject] || subjectColors['Général']}">
+                            <span class="text-[9px] font-mono px-1.5 py-0.2 rounded border ${subjectColors[t.subject] || subjectColors['Général']}">
                                 ${t.subject}
                             </span>
-                            <span class="text-[10px] text-brand-muted">${t.createdAt}</span>
+                            <span class="text-[9px] text-brand-muted">${t.createdAt}</span>
                         </div>
                     </div>
                 </div>

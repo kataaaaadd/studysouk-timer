@@ -607,17 +607,190 @@
             <div id="duel-container" class="w-full"></div>
         </section>
 
-        <!-- TAB 5: TABLEAU DE BORD & OBJECTIFS CONCOURS -->
-        <section id="tab-tasks" class="tab-content w-full hidden max-w-md flex flex-col items-center">
+        <!-- TAB 5: TABLEAU DE BORD & ANALYTICS STEM CPGE/2BAC -->
+        <section id="tab-tasks" class="tab-content w-full hidden max-w-xl flex flex-col items-center space-y-4">
             
-            <div class="w-full glass-panel rounded-2xl p-5 border border-brand-borderSubtle space-y-4 shadow-lg">
-                <div class="flex items-center justify-between pb-2 border-b border-brand-border">
-                    <div>
-                        <h2 class="text-sm font-bold text-brand-text flex items-center gap-2 font-outfit">
-                            <i class="fa-solid fa-list-check text-brand-gold"></i> Objectifs & Exercices de la Session
-                        </h2>
-                        <p class="text-[11px] text-brand-muted font-sans">Organise tes devoirs, TD et annales de concours.</p>
+            <!-- Dashboard Header -->
+            <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle flex items-center justify-between shadow-lg">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-cherry to-brand-cherryDark border border-brand-gold flex items-center justify-center shadow">
+                        <i class="fa-solid fa-chart-pie text-brand-gold text-lg"></i>
                     </div>
+                    <div>
+                        <h2 class="text-sm font-extrabold text-white font-outfit flex items-center gap-2">
+                            Tableau de Bord & Analytics STEM
+                            <span class="text-[9px] bg-brand-gold/20 text-brand-goldLight border border-brand-gold/40 px-2 py-0.5 rounded-full font-mono uppercase">CPGE & 2BAC</span>
+                        </h2>
+                        <p class="text-[11px] text-brand-muted font-sans">Suivi rigoureux du temps de révision, répartition par matière & objectifs de concours.</p>
+                    </div>
+                </div>
+                <button id="btn-export-stats" title="Copier le résumé de la session" class="p-2 rounded-lg bg-brand-card hover:bg-brand-cherry border border-brand-borderSubtle text-brand-goldLight text-xs transition active:scale-95">
+                    <i class="fa-solid fa-share-nodes"></i>
+                </button>
+            </div>
+
+            <!-- 4 KPI Summary Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full">
+                <!-- Focus Total -->
+                <div class="glass-card rounded-xl p-3 border border-brand-borderSubtle flex flex-col justify-between shadow">
+                    <div class="flex items-center justify-between text-brand-muted text-[11px] font-outfit">
+                        <span>Focus Total</span>
+                        <i class="fa-solid fa-clock text-brand-gold"></i>
+                    </div>
+                    <div class="my-1">
+                        <span id="dash-total-time" class="text-xl font-black text-white font-mono">0 min</span>
+                    </div>
+                    <span class="text-[10px] text-brand-goldLight/80 font-sans">Temps pur d'étude</span>
+                </div>
+
+                <!-- Sessions / Blocs -->
+                <div class="glass-card rounded-xl p-3 border border-brand-borderSubtle flex flex-col justify-between shadow">
+                    <div class="flex items-center justify-between text-brand-muted text-[11px] font-outfit">
+                        <span>Blocs Validés</span>
+                        <i class="fa-solid fa-bullseye text-brand-gold"></i>
+                    </div>
+                    <div class="my-1">
+                        <span id="dash-sessions-count" class="text-xl font-black text-brand-gold font-mono">0</span>
+                    </div>
+                    <span class="text-[10px] text-brand-muted font-sans">Obj: 6 blocs/j</span>
+                </div>
+
+                <!-- Streak -->
+                <div class="glass-card rounded-xl p-3 border border-brand-borderSubtle flex flex-col justify-between shadow">
+                    <div class="flex items-center justify-between text-brand-muted text-[11px] font-outfit">
+                        <span>Série Active</span>
+                        <i class="fa-solid fa-fire text-amber-500"></i>
+                    </div>
+                    <div class="my-1">
+                        <span id="dash-streak-days" class="text-xl font-black text-amber-400 font-mono">1 jour</span>
+                    </div>
+                    <span class="text-[10px] text-emerald-400 font-sans">En régularité 🔥</span>
+                </div>
+
+                <!-- Taux Objectifs -->
+                <div class="glass-card rounded-xl p-3 border border-brand-borderSubtle flex flex-col justify-between shadow">
+                    <div class="flex items-center justify-between text-brand-muted text-[11px] font-outfit">
+                        <span>Taux Exercices</span>
+                        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                    </div>
+                    <div class="my-1">
+                        <span id="dash-tasks-rate" class="text-xl font-black text-emerald-400 font-mono">100%</span>
+                    </div>
+                    <span id="dash-tasks-count" class="text-[10px] text-brand-muted font-sans">0/0 terminés</span>
+                </div>
+            </div>
+
+            <!-- STEM Time Breakdown Card -->
+            <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle space-y-3 shadow-lg">
+                <div class="flex items-center justify-between pb-2 border-b border-brand-border">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-scale-balanced text-brand-gold"></i>
+                        <h3 class="text-xs font-extrabold text-brand-text font-outfit">Répartition du Temps par Pôle STEM</h3>
+                    </div>
+                    <span id="dash-subject-count" class="text-[10px] text-brand-goldLight font-mono">0h 00m total</span>
+                </div>
+
+                <!-- Multi-segment visual bar -->
+                <div class="w-full h-2 rounded-full bg-brand-darker overflow-hidden flex shadow-inner">
+                    <div id="bar-seg-maths" class="h-full bg-blue-500 transition-all duration-500" style="width: 25%"></div>
+                    <div id="bar-seg-phys" class="h-full bg-emerald-500 transition-all duration-500" style="width: 25%"></div>
+                    <div id="bar-seg-chim" class="h-full bg-teal-500 transition-all duration-500" style="width: 25%"></div>
+                    <div id="bar-seg-info" class="h-full bg-purple-500 transition-all duration-500" style="width: 25%"></div>
+                </div>
+
+                <!-- 4 Subject Progress Items -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                    <!-- Maths -->
+                    <div class="bg-brand-card rounded-xl p-2.5 border border-brand-borderSubtle space-y-1.5">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-blue-300 font-bold font-outfit flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-blue-500"></span> 📐 Mathématiques
+                            </span>
+                            <span id="dash-maths-time" class="font-mono text-[11px] text-blue-200">0m (0%)</span>
+                        </div>
+                        <div class="w-full h-1.5 rounded-full bg-brand-darker overflow-hidden">
+                            <div id="dash-maths-bar" class="h-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <p class="text-[9px] text-brand-muted truncate">Analyse, Algèbre linéaire, Topologie, Probas</p>
+                    </div>
+
+                    <!-- Physique -->
+                    <div class="bg-brand-card rounded-xl p-2.5 border border-brand-borderSubtle space-y-1.5">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-emerald-300 font-bold font-outfit flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> ⚛️ Physique
+                            </span>
+                            <span id="dash-phys-time" class="font-mono text-[11px] text-emerald-200">0m (0%)</span>
+                        </div>
+                        <div class="w-full h-1.5 rounded-full bg-brand-darker overflow-hidden">
+                            <div id="dash-phys-bar" class="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <p class="text-[9px] text-brand-muted truncate">Mécanique, Électromagnétisme, Thermo, Ondes</p>
+                    </div>
+
+                    <!-- Chimie -->
+                    <div class="bg-brand-card rounded-xl p-2.5 border border-brand-borderSubtle space-y-1.5">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-teal-300 font-bold font-outfit flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-teal-500"></span> 🧪 Chimie
+                            </span>
+                            <span id="dash-chim-time" class="font-mono text-[11px] text-teal-200">0m (0%)</span>
+                        </div>
+                        <div class="w-full h-1.5 rounded-full bg-brand-darker overflow-hidden">
+                            <div id="dash-chim-bar" class="h-full bg-gradient-to-r from-teal-600 to-teal-400 transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <p class="text-[9px] text-brand-muted truncate">Thermodynamique chimique, Solutions, Redox</p>
+                    </div>
+
+                    <!-- Info & SI -->
+                    <div class="bg-brand-card rounded-xl p-2.5 border border-brand-borderSubtle space-y-1.5">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-purple-300 font-bold font-outfit flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-purple-500"></span> 💻 Info & SI
+                            </span>
+                            <span id="dash-info-time" class="font-mono text-[11px] text-purple-200">0m (0%)</span>
+                        </div>
+                        <div class="w-full h-1.5 rounded-full bg-brand-darker overflow-hidden">
+                            <div id="dash-info-bar" class="h-full bg-gradient-to-r from-purple-600 to-purple-400 transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                        <p class="text-[9px] text-brand-muted truncate">Algorithmique Python, SQL, Automatique, SLCI</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session History Log Card -->
+            <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle space-y-3 shadow-lg">
+                <div class="flex items-center justify-between pb-2 border-b border-brand-border">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left text-brand-gold"></i>
+                        <h3 class="text-xs font-extrabold text-brand-text font-outfit">Journal Récent des Sessions</h3>
+                    </div>
+                    <button id="btn-clear-history" class="text-[10px] text-brand-muted hover:text-rose-400 transition">
+                        Effacer
+                    </button>
+                </div>
+
+                <div id="focus-history-list" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
+            </div>
+
+            <!-- Task & TD Objective Manager Card -->
+            <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle space-y-3 shadow-lg">
+                <div class="flex items-center justify-between pb-2 border-b border-brand-border">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-brand-gold"></i>
+                        <h3 class="text-xs font-extrabold text-brand-text font-outfit">Objectifs & Devoirs de Concours</h3>
+                    </div>
+                    <span id="tasks-count-pill" class="text-[10px] bg-brand-darker border border-brand-border px-2 py-0.5 rounded-full text-brand-goldLight font-mono">0 restant</span>
+                </div>
+
+                <!-- Subject Quick Filter Chips -->
+                <div id="task-filter-chips" class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-[11px] font-outfit font-semibold">
+                    <button data-filter="all" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-cherry text-brand-goldLight border border-brand-gold transition shadow-sm">Tous</button>
+                    <button data-filter="Maths" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Maths</button>
+                    <button data-filter="Physique" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Physique</button>
+                    <button data-filter="Chimie" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Chimie</button>
+                    <button data-filter="Info" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Info</button>
+                    <button data-filter="SI" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">SI</button>
                 </div>
 
                 <form id="task-form" class="flex flex-col gap-2">
@@ -637,7 +810,14 @@
                     </button>
                 </form>
 
-                <div id="tasks-list" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
+                <div id="tasks-list" class="space-y-2 max-h-52 overflow-y-auto pr-1"></div>
+
+                <div class="flex items-center justify-between pt-1 border-t border-brand-border text-[11px]">
+                    <button id="btn-clear-completed-tasks" class="text-brand-muted hover:text-rose-400 transition flex items-center gap-1 font-outfit">
+                        <i class="fa-solid fa-trash-can text-[10px]"></i> Nettoyer les tâches terminées
+                    </button>
+                    <span class="text-brand-muted font-sans">+30 XP par TD validé</span>
+                </div>
             </div>
 
         </section>
@@ -816,8 +996,8 @@
                 <span class="text-[9px] sm:text-[10px] font-outfit truncate">Duel STEM</span>
             </button>
             <button data-tab="tab-tasks" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
-                <i class="fa-solid fa-list-check text-sm"></i>
-                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Objectifs</span>
+                <i class="fa-solid fa-chart-pie text-sm"></i>
+                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Dashboard</span>
             </button>
             <button data-tab="tab-ambience" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
                 <i class="fa-solid fa-sliders text-sm"></i>
