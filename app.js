@@ -146,23 +146,27 @@ class StudySoukTimerApp {
             const currentYear = now.getFullYear();
 
             // Next exam dates (Official Moroccan Academic Calendar GMT+1)
-            const getNextDate = (month, day) => {
+            const getNextDate = (month, day, hour = 7, min = 0) => {
                 const currentUtcYear = now.getUTCFullYear();
-                const examUtcThisYear = new Date(Date.UTC(currentUtcYear, month - 1, day, 7, 0, 0));
+                const examUtcThisYear = new Date(Date.UTC(currentUtcYear, month - 1, day, hour, min, 0));
                 if (now.getTime() > examUtcThisYear.getTime()) {
-                    return new Date(Date.UTC(currentUtcYear + 1, month - 1, day, 7, 0, 0));
+                    return new Date(Date.UTC(currentUtcYear + 1, month - 1, day, hour, min, 0));
                 }
                 return examUtcThisYear;
             };
 
-            // 1. Examen National 2BAC (Sciences Maths, PC/SVT): Starts 8 Juin 2027, 08:00 GMT+1
-            const bacDate = getNextDate(6, 8);
-            // 2. Examen Régional 1BAC: Starts 28 Mai 2027, 08:00 GMT+1
+            // 1. Examen National 2BAC (1, 2, 3 Juin): Starts 1 Juin 2027, 08:00 GMT+1
+            const bacDate = getNextDate(6, 1);
+            // 2. Examen Régional 1BAC (28, 29 Mai): Starts 28 Mai 2027, 08:00 GMT+1
             const regioDate = getNextDate(5, 28);
-            // 3. CNC (Concours National Commun CPGE): Starts 10 Mai 2027, 08:00 GMT+1
-            const cncDate = getNextDate(5, 10);
+            // 3. CNC (Concours National Commun CPGE): Starts 14 Mai 2027, 08:00 GMT+1
+            const cncDate = getNextDate(5, 14);
             // 4. Concours Français (Mines-Ponts / Centrale / CCINP): Starts 19 Avril 2027, 08:00 GMT+1
             const frDate = getNextDate(4, 19);
+            // 5. Examens Facultés & Universités — Session d'Automne (S1/S3/S5): Starts 11 Janvier, 08:30 GMT+1
+            const automneDate = getNextDate(1, 11, 7, 30);
+            // 6. Examens Facultés & Universités — Session de Printemps (S2/S4/S6): Starts 24 Mai, 08:30 GMT+1
+            const printempsDate = getNextDate(5, 24, 7, 30);
 
             const formatDiff = (target) => {
                 const diffMs = target.getTime() - Date.now();
@@ -178,11 +182,15 @@ class StudySoukTimerApp {
             const elRegio = document.getElementById("countdown-regio");
             const elCnc = document.getElementById("countdown-cnc");
             const elFr = document.getElementById("countdown-fr");
+            const elAutomne = document.getElementById("countdown-automne");
+            const elPrintemps = document.getElementById("countdown-printemps");
 
             if (elBac) elBac.textContent = formatDiff(bacDate);
             if (elRegio) elRegio.textContent = formatDiff(regioDate);
             if (elCnc) elCnc.textContent = formatDiff(cncDate);
             if (elFr) elFr.textContent = formatDiff(frDate);
+            if (elAutomne) elAutomne.textContent = formatDiff(automneDate);
+            if (elPrintemps) elPrintemps.textContent = formatDiff(printempsDate);
         };
 
         updateCountdowns();
