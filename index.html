@@ -127,25 +127,26 @@
             filter: brightness(1.08);
         }
 
-        /* Haute Horlogerie Luxury Time Display */
+        /* Haute Horlogerie Luxury Time Display (Refined Proportions) */
         #timer-display {
-            font-size: clamp(3.8rem, 11vw, 5.8rem) !important;
+            font-size: clamp(2.5rem, 7vw, 3.85rem) !important;
             line-height: 1 !important;
             font-weight: 900 !important;
-            letter-spacing: -0.04em !important;
+            letter-spacing: -0.02em !important;
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
         }
 
         .timer-digits {
-            background: var(--timer-gradient, linear-gradient(180deg, #FFFFFF 0%, #FFF9D2 28%, #F7C948 60%, #D4AF37 85%, #AA820A 100%));
+            background: var(--timer-gradient, linear-gradient(180deg, #FFFFFF 0%, #FFFDE5 18%, #F7CE60 48%, #D4AF37 78%, #8E650C 100%));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 22px rgba(212, 175, 55, 0.6));
+            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 16px rgba(212, 175, 55, 0.5));
             font-variant-numeric: tabular-nums lining-nums;
             font-feature-settings: "tnum" 1, "zero" 1;
             display: inline-block;
+            position: relative;
         }
 
         .timer-colon {
@@ -153,8 +154,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             opacity: 0.95;
-            margin: 0 -0.02em;
-            transform: translateY(-0.04em);
+            margin: 0 0.04em;
+            transform: translateY(-0.05em);
             display: inline-block;
             transition: all 0.3s ease;
         }
@@ -166,13 +167,13 @@
         @keyframes colonPulse {
             0%, 100% {
                 opacity: 1;
-                filter: drop-shadow(0 0 12px rgba(255, 243, 176, 0.95));
-                transform: translateY(-0.04em) scale(1.06);
+                filter: drop-shadow(0 0 10px rgba(255, 243, 176, 0.95));
+                transform: translateY(-0.05em) scale(1.08);
             }
             50% {
-                opacity: 0.2;
+                opacity: 0.25;
                 filter: none;
-                transform: translateY(-0.04em) scale(0.94);
+                transform: translateY(-0.05em) scale(0.92);
             }
         }
         .timer-running #timer-display {
@@ -469,7 +470,7 @@
     </section>
 
     <!-- Main Workspace Container -->
-    <main class="flex-1 max-w-4xl w-full mx-auto px-3 sm:px-6 py-1 flex flex-col items-center justify-center relative z-20">
+    <main class="flex-1 max-w-5xl sm:max-w-6xl w-full mx-auto px-2 sm:px-4 py-1 flex flex-col items-center justify-center relative z-20">
 
         <!-- TAB 1: MINUTEUR DE DEEP WORK & FOCUS PAR MATIÈRE -->
         <section id="tab-timer" class="tab-content w-full flex flex-col items-center max-w-xl">
@@ -879,8 +880,8 @@
             <div id="flashcards-container" class="w-full"></div>
         </section>
 
-        <!-- TAB 3: ARDOISE & FORMULAIRE LATEX -->
-        <section id="tab-scratchpad" class="tab-content w-full hidden max-w-lg flex flex-col items-center">
+        <!-- TAB 3: ARDOISE GRAND FORMAT & FORMULAIRE LATEX -->
+        <section id="tab-scratchpad" class="tab-content w-full hidden max-w-5xl flex flex-col items-center">
             <div id="scratchpad-container" class="w-full"></div>
         </section>
 

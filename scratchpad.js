@@ -62,15 +62,15 @@ class FormulaScratchpad {
     render() {
         if (!this.container) return;
         this.container.innerHTML = `
-            <div class="flex flex-col h-full max-w-lg mx-auto space-y-3">
+            <div class="flex flex-col h-full w-full max-w-5xl mx-auto space-y-3">
                 
                 <!-- Submode Switcher (Tableau vs LaTeX) -->
                 <div class="flex items-center justify-between pb-1 border-b border-brand-borderSubtle">
                     <div class="flex items-center gap-1.5 p-1 rounded-2xl glass-card border border-brand-borderSubtle shadow-inner">
-                        <button id="sp-tab-board" class="px-3.5 py-1.5 rounded-xl text-xs font-black font-outfit transition ${this.activeMode === 'board' ? 'bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-md' : 'text-brand-muted hover:text-white'}">
-                            <i class="fa-solid fa-paintbrush mr-1.5 text-brand-gold"></i> Tableau Blanc
+                        <button id="sp-tab-board" class="px-4 py-1.5 rounded-xl text-xs font-black font-outfit transition ${this.activeMode === 'board' ? 'bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-md' : 'text-brand-muted hover:text-white'}">
+                            <i class="fa-solid fa-paintbrush mr-1.5 text-brand-gold"></i> Tableau Grand Format
                         </button>
-                        <button id="sp-tab-latex" class="px-3.5 py-1.5 rounded-xl text-xs font-black font-outfit transition ${this.activeMode === 'latex' ? 'bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-md' : 'text-brand-muted hover:text-white'}">
+                        <button id="sp-tab-latex" class="px-4 py-1.5 rounded-xl text-xs font-black font-outfit transition ${this.activeMode === 'latex' ? 'bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-md' : 'text-brand-muted hover:text-white'}">
                             <i class="fa-solid fa-square-root-variable mr-1.5 text-brand-gold"></i> Formulaire LaTeX
                         </button>
                     </div>
@@ -83,27 +83,29 @@ class FormulaScratchpad {
                     </div>
                 </div>
 
-                <!-- MODE 1: COLLABORATIVE DRAWING WHITEBOARD -->
-                <div id="sp-view-board" class="${this.activeMode === 'board' ? 'block' : 'hidden'} space-y-2.5">
+                <!-- MODE 1: COLLABORATIVE DRAWING WHITEBOARD (Widescreen + Lateral Controls Dock "f jnab") -->
+                <div id="sp-view-board" class="${this.activeMode === 'board' ? 'flex' : 'hidden'} flex-col md:flex-row items-stretch gap-3 w-full">
                     
-                    <!-- Drawing Controls Island -->
-                    <div class="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-2xl glass-panel border border-brand-borderSubtle text-xs shadow-lg">
+                    <!-- LATERAL DRAWING CONTROLS DOCK (On the side / "f jnab") -->
+                    <div class="flex flex-row md:flex-col items-center justify-between md:justify-start gap-2.5 p-2 sm:p-2.5 rounded-2xl glass-panel border border-brand-gold/30 text-xs shadow-xl shrink-0 w-full md:w-20 lg:w-24 bg-brand-card/90">
                         
-                        <!-- Tool Selectors -->
-                        <div class="flex items-center gap-1 bg-brand-darker p-1 rounded-xl border border-brand-borderSubtle">
-                            <button id="wb-tool-pen" title="Stylo Plume (Tracé net)" class="wb-tool-btn px-2.5 py-1 rounded-lg bg-brand-cherry border border-brand-gold text-brand-goldLight font-bold">
-                                <i class="fa-solid fa-pen-nib"></i>
+                        <!-- Tool Selectors (Vertical on md) -->
+                        <div class="flex flex-row md:flex-col items-center gap-1.5 bg-brand-darker p-1 rounded-xl border border-brand-borderSubtle w-full justify-center">
+                            <button id="wb-tool-pen" title="Stylo Plume (Tracé net)" class="wb-tool-btn w-9 h-9 rounded-xl bg-brand-cherry border border-brand-gold text-brand-goldLight font-bold flex items-center justify-center transition active:scale-90 shadow-md">
+                                <i class="fa-solid fa-pen-nib text-sm"></i>
                             </button>
-                            <button id="wb-tool-highlighter" title="Surligneur (Fluorescent)" class="wb-tool-btn px-2.5 py-1 rounded-lg text-brand-muted hover:text-white border border-transparent">
-                                <i class="fa-solid fa-highlighter"></i>
+                            <button id="wb-tool-highlighter" title="Surligneur Fluorescent" class="wb-tool-btn w-9 h-9 rounded-xl text-brand-muted hover:text-white border border-transparent flex items-center justify-center transition active:scale-90">
+                                <i class="fa-solid fa-highlighter text-sm"></i>
                             </button>
-                            <button id="wb-tool-eraser" title="Gomme" class="wb-tool-btn px-2.5 py-1 rounded-lg text-brand-muted hover:text-white border border-transparent">
-                                <i class="fa-solid fa-eraser"></i>
+                            <button id="wb-tool-eraser" title="Gomme" class="wb-tool-btn w-9 h-9 rounded-xl text-brand-muted hover:text-white border border-transparent flex items-center justify-center transition active:scale-90">
+                                <i class="fa-solid fa-eraser text-sm"></i>
                             </button>
                         </div>
 
-                        <!-- Color Palette Palette -->
-                        <div class="flex items-center gap-1.5">
+                        <div class="hidden md:block w-full h-[1px] bg-brand-borderSubtle"></div>
+
+                        <!-- Color Palette (Vertical on md) -->
+                        <div class="grid grid-cols-6 md:grid-cols-2 gap-1.5 p-1 bg-brand-darker rounded-xl border border-brand-borderSubtle">
                             ${[
                                 { c: "#D4AF37", title: "Or Impérial" },
                                 { c: "#E63946", title: "Rouge Cerise" },
@@ -112,40 +114,45 @@ class FormulaScratchpad {
                                 { c: "#FFFFFF", title: "Craie Blanche" },
                                 { c: "#A855F7", title: "Lavande Math" }
                             ].map(item => `
-                                <button data-color="${item.c}" title="${item.title}" class="wb-color-btn w-5 h-5 rounded-full border ${item.c === this.currentColor ? 'border-white scale-125 shadow-lg' : 'border-black/60 opacity-80'} transition-all hover:scale-110" style="background-color: ${item.c};"></button>
+                                <button data-color="${item.c}" title="${item.title}" class="wb-color-btn w-5 h-5 rounded-full border ${item.c === this.currentColor ? 'border-white scale-125 shadow-lg ring-1 ring-brand-gold' : 'border-black/60 opacity-80'} transition-all hover:scale-110" style="background-color: ${item.c};"></button>
                             `).join('')}
                         </div>
 
-                        <!-- Thickness Presets -->
-                        <div class="flex items-center gap-1.5 bg-brand-darker px-2 py-1 rounded-xl border border-brand-borderSubtle">
-                            <button data-size="2" class="wb-size-btn text-xs px-2 py-0.5 rounded font-bold ${this.currentSize === 2 ? 'text-brand-goldLight font-black' : 'text-brand-muted'}">Fin</button>
-                            <button data-size="4" class="wb-size-btn text-xs px-2 py-0.5 rounded font-bold ${this.currentSize === 4 ? 'text-brand-goldLight font-black' : 'text-brand-muted'}">Moyen</button>
-                            <button data-size="8" class="wb-size-btn text-xs px-2 py-0.5 rounded font-bold ${this.currentSize === 8 ? 'text-brand-goldLight font-black' : 'text-brand-muted'}">Épais</button>
+                        <div class="hidden md:block w-full h-[1px] bg-brand-borderSubtle"></div>
+
+                        <!-- Thickness Presets (Vertical on md) -->
+                        <div class="flex flex-row md:flex-col items-center gap-1 bg-brand-darker p-1 rounded-xl border border-brand-borderSubtle w-full justify-center">
+                            <button data-size="2" title="Trait Fin" class="wb-size-btn text-[10px] w-full py-1 rounded-lg font-bold ${this.currentSize === 2 ? 'bg-brand-cherry text-brand-goldLight font-black border border-brand-gold/40' : 'text-brand-muted'} text-center transition">Fin</button>
+                            <button data-size="4" title="Trait Moyen" class="wb-size-btn text-[10px] w-full py-1 rounded-lg font-bold ${this.currentSize === 4 ? 'bg-brand-cherry text-brand-goldLight font-black border border-brand-gold/40' : 'text-brand-muted'} text-center transition">Moy</button>
+                            <button data-size="8" title="Trait Épais" class="wb-size-btn text-[10px] w-full py-1 rounded-lg font-bold ${this.currentSize === 8 ? 'bg-brand-cherry text-brand-goldLight font-black border border-brand-gold/40' : 'text-brand-muted'} text-center transition">Épais</button>
                         </div>
 
+                        <div class="hidden md:block w-full h-[1px] bg-brand-borderSubtle"></div>
+
                         <!-- Action Buttons: Undo, Export & Clear -->
-                        <div class="flex items-center gap-1">
-                            <button id="wb-undo-btn" title="Annuler le dernier trait (Ctrl+Z)" class="action-circle-btn !w-7 !h-7 !rounded-lg glass-card text-brand-muted hover:text-white text-xs">
+                        <div class="flex flex-row md:flex-col items-center gap-1.5 w-full justify-center">
+                            <button id="wb-undo-btn" title="Annuler le dernier trait (Ctrl+Z)" class="w-8 h-8 rounded-xl glass-card text-brand-muted hover:text-white text-xs flex items-center justify-center border border-brand-borderSubtle active:scale-90 transition shadow-sm hover:border-brand-gold">
                                 <i class="fa-solid fa-arrow-rotate-left"></i>
                             </button>
-                            <button id="wb-export-btn" title="Télécharger le schéma (PNG)" class="action-circle-btn !w-7 !h-7 !rounded-lg glass-card text-brand-goldLight hover:text-white text-xs">
+                            <button id="wb-export-btn" title="Télécharger le schéma (PNG)" class="w-8 h-8 rounded-xl glass-card text-brand-goldLight hover:text-white text-xs flex items-center justify-center border border-brand-gold/40 active:scale-90 transition shadow-sm hover:border-brand-gold">
                                 <i class="fa-solid fa-download"></i>
                             </button>
-                            <button id="wb-clear-btn" title="Effacer tout le tableau" class="action-circle-btn !w-7 !h-7 !rounded-lg glass-card border-rose-950 text-rose-400 hover:text-rose-300 text-xs">
+                            <button id="wb-clear-btn" title="Effacer tout le tableau" class="w-8 h-8 rounded-xl glass-card border-rose-950/80 text-rose-400 hover:text-rose-300 text-xs flex items-center justify-center border active:scale-90 transition shadow-sm hover:border-rose-600">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Whiteboard Canvas Box with Graph Paper Dot Grid -->
-                    <div class="relative w-full rounded-2xl overflow-hidden border border-brand-borderSubtle shadow-2xl bg-[#08080C]">
+                    <!-- EXPANDED WHITEBOARD CANVAS BOX ("kbr white board") -->
+                    <div class="relative flex-1 rounded-2xl overflow-hidden border border-brand-gold/40 shadow-2xl bg-[#08080C] min-h-[480px] sm:min-h-[550px] md:min-h-[620px] flex flex-col">
                         <!-- Engineering Dot Grid Watermark -->
-                        <div class="absolute inset-0 pointer-events-none opacity-20" style="background-image: radial-gradient(rgba(212, 175, 55, 0.4) 1px, transparent 1px); background-size: 22px 22px;"></div>
+                        <div class="absolute inset-0 pointer-events-none opacity-25" style="background-image: radial-gradient(rgba(212, 175, 55, 0.45) 1px, transparent 1px); background-size: 24px 24px;"></div>
                         
-                        <canvas id="whiteboard-canvas" width="600" height="380" class="relative z-10 w-full h-72 sm:h-84 cursor-crosshair touch-none"></canvas>
+                        <canvas id="whiteboard-canvas" width="1200" height="700" class="relative z-10 w-full h-full flex-1 cursor-crosshair touch-none"></canvas>
                         
-                        <div class="absolute bottom-2 left-3 z-20 pointer-events-none text-[10px] text-brand-muted/70 font-mono flex items-center gap-1">
-                            <i class="fa-solid fa-pen text-[9px] text-brand-gold"></i> Schéma STEM synchronisé en direct avec le salon vocal
+                        <div class="absolute bottom-2 left-3 z-20 pointer-events-none text-[10px] text-brand-muted/80 font-mono flex items-center gap-1.5 bg-brand-darker/85 px-2.5 py-1 rounded-lg border border-brand-borderSubtle backdrop-blur-sm shadow-md">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <i class="fa-solid fa-pen text-[9px] text-brand-gold"></i> Tableau Grand Format • Synchronisé en direct avec le salon vocal
                         </div>
                     </div>
                 </div>
@@ -257,9 +264,10 @@ class FormulaScratchpad {
         btnBoard?.addEventListener("click", () => {
             window.ambience?.playClick();
             this.activeMode = "board";
-            btnBoard.className = "px-3.5 py-1.5 rounded-xl text-xs font-black font-outfit transition bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-md";
-            btnLatex.className = "px-3.5 py-1.5 rounded-xl text-xs font-black font-outfit transition text-brand-muted hover:text-white";
+            btnBoard.className = "px-4 py-1.5 rounded-xl text-xs font-black font-outfit transition bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-md";
+            btnLatex.className = "px-4 py-1.5 rounded-xl text-xs font-black font-outfit transition text-brand-muted hover:text-white";
             viewBoard?.classList.remove("hidden");
+            viewBoard?.classList.add("flex");
             viewLatex?.classList.add("hidden");
             this.resizeCanvas();
         });
@@ -267,10 +275,11 @@ class FormulaScratchpad {
         btnLatex?.addEventListener("click", () => {
             window.ambience?.playClick();
             this.activeMode = "latex";
-            btnLatex.className = "px-3.5 py-1.5 rounded-xl text-xs font-black font-outfit transition bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-md";
-            btnBoard.className = "px-3.5 py-1.5 rounded-xl text-xs font-black font-outfit transition text-brand-muted hover:text-white";
+            btnLatex.className = "px-4 py-1.5 rounded-xl text-xs font-black font-outfit transition bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-md";
+            btnBoard.className = "px-4 py-1.5 rounded-xl text-xs font-black font-outfit transition text-brand-muted hover:text-white";
             viewLatex?.classList.remove("hidden");
             viewBoard?.classList.add("hidden");
+            viewBoard?.classList.remove("flex");
             this.updateLatexPreview();
         });
     }
@@ -376,9 +385,9 @@ class FormulaScratchpad {
                 const b = toolBtns[k];
                 if (!b) return;
                 if (k === tool) {
-                    b.className = "wb-tool-btn px-2.5 py-1 rounded-lg bg-brand-cherry border border-brand-gold text-brand-goldLight font-bold";
+                    b.className = "wb-tool-btn w-9 h-9 rounded-xl bg-brand-cherry border border-brand-gold text-brand-goldLight font-bold flex items-center justify-center transition active:scale-90 shadow-md";
                 } else {
-                    b.className = "wb-tool-btn px-2.5 py-1 rounded-lg text-brand-muted hover:text-white border border-transparent";
+                    b.className = "wb-tool-btn w-9 h-9 rounded-xl text-brand-muted hover:text-white border border-transparent flex items-center justify-center transition active:scale-90";
                 }
             });
         };
@@ -393,10 +402,10 @@ class FormulaScratchpad {
                 this.currentColor = btn.dataset.color;
                 window.ambience?.playClick();
                 this.container.querySelectorAll(".wb-color-btn").forEach(b => {
-                    b.classList.remove("border-white", "scale-125", "shadow-lg");
+                    b.classList.remove("border-white", "scale-125", "shadow-lg", "ring-1", "ring-brand-gold");
                     b.classList.add("border-black/60", "opacity-80");
                 });
-                btn.classList.add("border-white", "scale-125", "shadow-lg");
+                btn.classList.add("border-white", "scale-125", "shadow-lg", "ring-1", "ring-brand-gold");
                 btn.classList.remove("border-black/60", "opacity-80");
                 selectTool("pen");
             });
@@ -408,10 +417,10 @@ class FormulaScratchpad {
                 this.currentSize = parseInt(btn.dataset.size, 10);
                 window.ambience?.playClick();
                 this.container.querySelectorAll(".wb-size-btn").forEach(b => {
-                    b.classList.remove("text-brand-goldLight", "font-black");
+                    b.classList.remove("bg-brand-cherry", "text-brand-goldLight", "font-black", "border", "border-brand-gold/40");
                     b.classList.add("text-brand-muted");
                 });
-                btn.classList.add("text-brand-goldLight", "font-black");
+                btn.classList.add("bg-brand-cherry", "text-brand-goldLight", "font-black", "border", "border-brand-gold/40");
                 btn.classList.remove("text-brand-muted");
             });
         });
@@ -449,10 +458,22 @@ class FormulaScratchpad {
 
     resizeCanvas() {
         if (!this.canvas) return;
-        const rect = this.canvas.parentElement.getBoundingClientRect();
-        if (rect.width > 0 && (this.canvas.width !== 600 || this.canvas.height !== 380)) {
-            this.canvas.width = 600;
-            this.canvas.height = 380;
+        const targetW = 1200;
+        const targetH = 700;
+        if (this.canvas.width !== targetW || this.canvas.height !== targetH) {
+            let tempImg = null;
+            if (this.ctx && this.canvas.width > 0 && this.canvas.height > 0) {
+                try {
+                    tempImg = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
+                } catch(e) {}
+            }
+            this.canvas.width = targetW;
+            this.canvas.height = targetH;
+            if (tempImg && this.ctx) {
+                try {
+                    this.ctx.putImageData(tempImg, 0, 0);
+                } catch(e) {}
+            }
         }
     }
 
