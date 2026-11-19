@@ -56,6 +56,12 @@ class LevelSystem {
                 window.confetti({ particleCount: 100, spread: 85, origin: { y: 0.5 } });
             }
             window.studyApp?.showToast(`👑 RANG SUPÉRIEUR ! Niveau ${newLevelInfo.level} — ${newLevelInfo.rank.title} !`);
+            if (window.roomSync) {
+                window.roomSync.setUser({
+                    level: newLevelInfo.level,
+                    rankTitle: newLevelInfo.rank.title
+                });
+            }
         } else if (reason) {
             window.studyApp?.showToast(`✨ +${amount} XP (${reason})`);
         }
@@ -90,28 +96,37 @@ class LevelSystem {
         });
     }
 
-    openStudentCardModal() {
+    openStudentCardModal(targetUser = null) {
         const modal = document.getElementById("student-card-modal");
         if (!modal) return;
 
-        const info = this.getLevelInfo();
-        const userName = localStorage.getItem("ss_user_name") || "Étudiant StudySouk";
-        const userAvatar = localStorage.getItem("ss_user_avatar") || "https://api.dicebear.com/7.x/bottts/svg?seed=StudySouk";
-        const sessions = parseInt(localStorage.getItem("ss_timer_sessions") || "0", 10);
-        const minutes = parseInt(localStorage.getItem("ss_timer_minutes") || "0", 10);
-        const masteredCount = JSON.parse(localStorage.getItem("ss_mastered_cards") || "[]").length;
-        const duelsWon = parseInt(localStorage.getItem("ss_duels_won") || "0", 10);
-        const usedZen = localStorage.getItem("ss_used_zen") === "true";
+        const isPeer = targetUser && !targetUser.isSelf;
+        const myInfo = this.getLevelInfo();
 
-        let matricule = localStorage.getItem("ss_matricule");
-        if (!matricule) {
-            matricule = "SS-" + Math.floor(1000 + Math.random() * 9000);
+        const userName = targetUser ? (targetUser.name || "Étudiant StudySouk") : (localStorage.getItem("ss_user_name") || "Étudiant StudySouk");
+        const userAvatar = targetUser ? (targetUser.avatar || "https://api.dicebear.com/7.x/bottts/svg?seed=StudySouk") : (localStorage.getItem("ss_user_avatar") || "https://api.dicebear.com/7.x/bottts/svg?seed=StudySouk");
+        const userFiliere = targetUser ? (targetUser.filiere || "CPGE MP*") : (localStorage.getItem("ss_user_filiere") || "CPGE MP*");
+        const userBio = targetUser ? (targetUser.bio || "Objectif Concours 2026") : (localStorage.getItem("ss_user_bio") || "« La rigueur surclasse l'improvisation »");
+
+        let matricule = targetUser ? (targetUser.matricule || "SS-2026-????") : localStorage.getItem("ss_matricule");
+        if (!matricule && !targetUser) {
+            matricule = "SS-2026-" + Math.floor(1000 + Math.random() * 9000);
             localStorage.setItem("ss_matricule", matricule);
         }
+
+        const userLevel = targetUser ? (targetUser.level || 1) : myInfo.level;
+        const userRankTitle = targetUser ? (targetUser.rankTitle || targetUser.rank || "Major de Promotion 🥇") : `${myInfo.rank.icon} ${myInfo.rank.title}`;
+        const userRankDesc = targetUser ? `Étudiant STEM • Filière ${userFiliere}` : myInfo.rank.desc;
+
+        const sessions = targetUser ? (targetUser.sessions || (targetUser.focusMinutes ? Math.max(1, Math.floor(targetUser.focusMinutes / 25)) : 0)) : parseInt(localStorage.getItem("ss_timer_sessions") || "0", 10);
+        const minutes = targetUser ? (targetUser.focusMinutes || 0) : parseInt(localStorage.getItem("ss_timer_minutes") || "0", 10);
+        const masteredCount = targetUser ? (targetUser.masteredCards || 0) : JSON.parse(localStorage.getItem("ss_mastered_cards") || "[]").length;
 
         // Set card values
         const elName = document.getElementById("sc-name");
         const elAvatar = document.getElementById("sc-avatar");
+        const elFiliere = document.getElementById("sc-filiere-badge");
+        const elBio = document.getElementById("sc-bio");
         const elMatricule = document.getElementById("sc-matricule");
         const elRankTitle = document.getElementById("sc-rank-title");
         const elRankDesc = document.getElementById("sc-rank-desc");
@@ -122,22 +137,44 @@ class LevelSystem {
         const elStatSessions = document.getElementById("sc-stat-sessions");
         const elStatCards = document.getElementById("sc-stat-cards");
         const elTrophiesGrid = document.getElementById("sc-trophies-grid");
+        const elChallengeBtn = document.getElementById("btn-challenge-from-card");
 
         if (elName) elName.textContent = userName;
         if (elAvatar) elAvatar.src = userAvatar;
+        if (elFiliere) elFiliere.textContent = userFiliere;
+        if (elBio) elBio.textContent = userBio ? `« ${userBio} »` : "« Rigueur & Excellence STEM »";
         if (elMatricule) elMatricule.textContent = matricule;
-        if (elRankTitle) elRankTitle.innerHTML = `${info.rank.icon} ${info.rank.title}`;
-        if (elRankDesc) elRankDesc.textContent = info.rank.desc;
-        if (elLevel) elLevel.textContent = `Niveau ${info.level}`;
-        if (elXpText) elXpText.textContent = `${info.xp} / ${info.nextLevelXp} XP (${Math.round(info.progress * 100)}%)`;
-        if (elXpBar) elXpBar.style.width = `${Math.round(info.progress * 100)}%`;
+        if (elRankTitle) elRankTitle.innerHTML = userRankTitle;
+        if (elRankDesc) elRankDesc.textContent = userRankDesc;
+        if (elLevel) elLevel.textContent = `Niveau ${userLevel}`;
+
+        const xpProgress = isPeer ? 75 : Math.round(myInfo.progress * 100);
+        if (elXpText) elXpText.textContent = isPeer ? `Niveau STEM ${userLevel}` : `${myInfo.xp} / ${myInfo.nextLevelXp} XP (${xpProgress}%)`;
+        if (elXpBar) elXpBar.style.width = `${xpProgress}%`;
         if (elStatMins) elStatMins.textContent = `${minutes} min`;
         if (elStatSessions) elStatSessions.textContent = `${sessions}`;
         if (elStatCards) elStatCards.textContent = `${masteredCount}`;
 
+        // Challenge Button (Visible only when inspecting a peer)
+        if (elChallengeBtn) {
+            if (isPeer) {
+                elChallengeBtn.classList.remove("hidden");
+                elChallengeBtn.onclick = () => {
+                    this.closeStudentCardModal();
+                    window.studyApp?.challengeUserToDuel(targetUser.id, targetUser.name);
+                };
+            } else {
+                elChallengeBtn.classList.add("hidden");
+                elChallengeBtn.onclick = null;
+            }
+        }
+
         // Render Trophies
         if (elTrophiesGrid) {
-            const stats = { sessions, minutes, level: info.level, masteredCount, duelsWon, usedZen };
+            const stats = isPeer
+                ? { sessions, minutes, level: userLevel, masteredCount, duelsWon: 1, usedZen: true }
+                : { sessions, minutes, level: myInfo.level, masteredCount, duelsWon: parseInt(localStorage.getItem("ss_duels_won") || "0", 10), usedZen: localStorage.getItem("ss_used_zen") === "true" };
+
             elTrophiesGrid.innerHTML = TROPHIES.map(t => {
                 const isUnlocked = t.check(stats);
                 return `

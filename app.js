@@ -202,13 +202,25 @@ class StudySoukTimerApp {
         const statusText = document.getElementById("discord-status-text");
         const userAvatar = document.getElementById("user-avatar");
         const userName = document.getElementById("user-name");
+        const userFiliere = document.getElementById("user-filiere");
 
         const storedName = localStorage.getItem("ss_user_name");
         const storedAvatar = localStorage.getItem("ss_user_avatar");
+        const storedFiliere = localStorage.getItem("ss_user_filiere") || "CPGE MP*";
+        const storedBio = localStorage.getItem("ss_user_bio") || "Objectif Concours 2026";
+        let storedMatricule = localStorage.getItem("ss_matricule");
+        if (!storedMatricule) {
+            storedMatricule = "SS-2026-" + Math.floor(1000 + Math.random() * 9000);
+            localStorage.setItem("ss_matricule", storedMatricule);
+        }
 
         this.discordUser = {
+            id: (this.sync && this.sync.clientId) ? this.sync.clientId : ("user_" + Math.random().toString(36).substring(2, 9)),
             name: storedName || "Étudiant StudySouk",
-            avatar: storedAvatar || ("https://api.dicebear.com/7.x/bottts/svg?seed=" + Math.floor(Math.random() * 10000))
+            avatar: storedAvatar || ("https://api.dicebear.com/7.x/bottts/svg?seed=" + Math.floor(Math.random() * 10000)),
+            filiere: storedFiliere,
+            bio: storedBio,
+            matricule: storedMatricule
         };
 
         let SdkClass = (window.DiscordSDK && window.DiscordSDK.DiscordSDK) || window.DiscordSDK;
@@ -229,6 +241,43 @@ class StudySoukTimerApp {
                 if (statusText) {
                     statusText.textContent = `Discord Salon Connecté #${this.sdk.channelId ? this.sdk.channelId.substring(0, 6) : 'StudySouk'}`;
                 }
+
+                // Optional Discord OAuth2 Token Exchange
+                try {
+                    const { code } = await this.sdk.commands.authorize({
+                        client_id: CLIENT_ID,
+                        response_type: "code",
+                        state: "",
+                        prompt: "none",
+                        scope: ["identify", "guilds.members.read"]
+                    });
+                    const res = await fetch("/api/token", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ code })
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.access_token) {
+                            const userRes = await fetch("https://discord.com/api/v10/users/@me", {
+                                headers: { Authorization: `Bearer ${data.access_token}` }
+                            });
+                            if (userRes.ok) {
+                                const discordUserData = await userRes.json();
+                                if (discordUserData.username && !storedName) {
+                                    this.discordUser.name = discordUserData.global_name || discordUserData.username;
+                                    localStorage.setItem("ss_user_name", this.discordUser.name);
+                                }
+                                if (discordUserData.avatar && !storedAvatar) {
+                                    this.discordUser.avatar = `https://cdn.discordapp.com/avatars/${discordUserData.id}/${discordUserData.avatar}.png`;
+                                    localStorage.setItem("ss_user_avatar", this.discordUser.avatar);
+                                }
+                            }
+                        }
+                    }
+                } catch (oauthErr) {
+                    console.log("[DiscordAuth] OAuth skipped or unconfigured:", oauthErr?.message || oauthErr);
+                }
             } catch (err) {
                 console.warn("[DiscordSDK] Running in browser preview:", err?.message || err);
                 if (statusText) statusText.textContent = "Mode Navigateur • Multi-Utilisateurs Actif";
@@ -239,11 +288,19 @@ class StudySoukTimerApp {
 
         if (userName) userName.textContent = this.discordUser.name;
         if (userAvatar) userAvatar.src = this.discordUser.avatar;
+        if (userFiliere) userFiliere.textContent = this.discordUser.filiere;
 
         if (this.sync) {
+            const levelInfo = this.levelSystem?.getLevelInfo();
             this.sync.setUser({
+                id: this.discordUser.id,
                 name: this.discordUser.name,
                 avatar: this.discordUser.avatar,
+                filiere: this.discordUser.filiere,
+                bio: this.discordUser.bio,
+                matricule: this.discordUser.matricule,
+                level: levelInfo?.level || 1,
+                rankTitle: levelInfo?.rank?.title || "Apprenti STEM",
                 focusMinutes: this.totalFocusMinutes,
                 activeSubject: this.currentSubject
             });
@@ -671,6 +728,10 @@ class StudySoukTimerApp {
             localStorage.setItem("ss_timer_sessions", this.sessionsCompleted);
             localStorage.setItem("ss_timer_minutes", this.totalFocusMinutes);
 
+            if (this.sync) {
+                this.sync.setUser({ focusMinutes: this.totalFocusMinutes });
+            }
+
             // Log STEM subject breakdown
             const cat = this.getSubjectCategory(this.currentSubject);
             this.subjectMinutes[cat] = (this.subjectMinutes[cat] || 0) + sessionMins;
@@ -826,6 +887,13 @@ class StudySoukTimerApp {
         const rosterModal = document.getElementById("roster-modal");
         document.getElementById("btn-room-roster")?.addEventListener("click", () => {
             window.ambience?.playClick();
+            if (this.sync) {
+                const users = Array.from(this.sync.roster.values()).map(m => ({
+                    ...m.user,
+                    isSelf: !!m.isSelf
+                }));
+                this.renderRosterModal(users);
+            }
             rosterModal?.classList.remove("hidden");
             rosterModal?.classList.add("flex");
         });
@@ -837,11 +905,36 @@ class StudySoukTimerApp {
         // 2. Profile Modal
         const profileModal = document.getElementById("profile-modal");
         const nameInput = document.getElementById("profile-name-input");
+        const filiereSelect = document.getElementById("profile-filiere-select");
+        const bioInput = document.getElementById("profile-bio-input");
+        const customAvatarInput = document.getElementById("profile-custom-avatar-input");
+        const matriculeTag = document.getElementById("profile-matricule-tag");
         const avatarsGrid = document.getElementById("avatar-presets-grid");
+
+        let selectedAvatarUrl = this.discordUser?.avatar || AVATAR_PRESETS[0].url;
 
         document.getElementById("user-profile-trigger")?.addEventListener("click", () => {
             window.ambience?.playClick();
-            if (nameInput) nameInput.value = this.discordUser.name;
+            if (nameInput) nameInput.value = this.discordUser.name || "";
+            if (filiereSelect) filiereSelect.value = this.discordUser.filiere || "CPGE MP*";
+            if (bioInput) bioInput.value = this.discordUser.bio || "";
+            if (matriculeTag) matriculeTag.textContent = this.discordUser.matricule || "SS-2026-0001";
+            if (customAvatarInput) {
+                const isPreset = AVATAR_PRESETS.some(p => p.url === this.discordUser.avatar);
+                customAvatarInput.value = isPreset ? "" : (this.discordUser.avatar || "");
+            }
+            selectedAvatarUrl = this.discordUser.avatar;
+
+            if (avatarsGrid) {
+                avatarsGrid.querySelectorAll(".avatar-pick-btn").forEach(btn => {
+                    if (btn.dataset.avatar === selectedAvatarUrl) {
+                        btn.classList.add("border-brand-gold", "bg-brand-cherry/80");
+                    } else {
+                        btn.classList.remove("border-brand-gold", "bg-brand-cherry/80");
+                    }
+                });
+            }
+
             profileModal?.classList.remove("hidden");
             profileModal?.classList.add("flex");
         });
@@ -852,40 +945,70 @@ class StudySoukTimerApp {
         });
 
         if (avatarsGrid) {
-            avatarsGrid.innerHTML = AVATAR_PRESETS.map((p, idx) => `
-                <button data-avatar="${p.url}" data-name="${p.name}" class="avatar-pick-btn p-1.5 rounded-xl bg-brand-darker border border-brand-border hover:border-brand-gold transition flex flex-col items-center gap-1">
-                    <img src="${p.url}" alt="${p.name}" class="w-10 h-10 rounded-full">
-                    <span class="text-[9px] font-outfit text-brand-goldLight truncate max-w-full">${p.name}</span>
+            avatarsGrid.innerHTML = AVATAR_PRESETS.map((p) => `
+                <button type="button" data-avatar="${p.url}" data-name="${p.name}" class="avatar-pick-btn p-1.5 rounded-xl bg-brand-darker border border-brand-border hover:border-brand-gold transition flex flex-col items-center gap-1">
+                    <img src="${p.url}" alt="${p.name}" class="w-8 h-8 rounded-full pointer-events-none object-cover">
+                    <span class="text-[8px] font-outfit text-brand-goldLight truncate max-w-full pointer-events-none">${p.name}</span>
                 </button>
             `).join("");
 
             avatarsGrid.querySelectorAll(".avatar-pick-btn").forEach(btn => {
                 btn.addEventListener("click", () => {
-                    this.discordUser.avatar = btn.dataset.avatar;
-                    if (nameInput && !nameInput.value.trim()) {
+                    selectedAvatarUrl = btn.dataset.avatar;
+                    if (customAvatarInput) customAvatarInput.value = "";
+                    if (nameInput && (!nameInput.value.trim() || nameInput.value === "Étudiant StudySouk")) {
                         nameInput.value = btn.dataset.name;
                     }
-                    avatarsGrid.querySelectorAll(".avatar-pick-btn").forEach(b => b.classList.remove("border-brand-gold", "bg-brand-cherry"));
-                    btn.classList.add("border-brand-gold", "bg-brand-cherry");
+                    avatarsGrid.querySelectorAll(".avatar-pick-btn").forEach(b => b.classList.remove("border-brand-gold", "bg-brand-cherry/80"));
+                    btn.classList.add("border-brand-gold", "bg-brand-cherry/80");
                 });
             });
         }
 
+        if (customAvatarInput) {
+            customAvatarInput.addEventListener("input", (e) => {
+                const url = e.target.value.trim();
+                if (url) {
+                    selectedAvatarUrl = url;
+                    avatarsGrid?.querySelectorAll(".avatar-pick-btn").forEach(b => b.classList.remove("border-brand-gold", "bg-brand-cherry/80"));
+                }
+            });
+        }
+
         document.getElementById("btn-save-profile")?.addEventListener("click", () => {
-            const newName = nameInput.value.trim() || this.discordUser.name;
+            const newName = nameInput ? (nameInput.value.trim() || this.discordUser.name) : this.discordUser.name;
+            const newFiliere = filiereSelect ? (filiereSelect.value || "CPGE MP*") : "CPGE MP*";
+            const newBio = bioInput ? (bioInput.value.trim() || "Objectif Concours 2026") : "Objectif Concours 2026";
+            const customUrl = customAvatarInput ? customAvatarInput.value.trim() : "";
+            const newAvatar = customUrl || selectedAvatarUrl || this.discordUser.avatar;
+
             this.discordUser.name = newName;
+            this.discordUser.filiere = newFiliere;
+            this.discordUser.bio = newBio;
+            this.discordUser.avatar = newAvatar;
+
             localStorage.setItem("ss_user_name", newName);
-            localStorage.setItem("ss_user_avatar", this.discordUser.avatar);
+            localStorage.setItem("ss_user_filiere", newFiliere);
+            localStorage.setItem("ss_user_bio", newBio);
+            localStorage.setItem("ss_user_avatar", newAvatar);
 
             const userAvatar = document.getElementById("user-avatar");
             const userName = document.getElementById("user-name");
-            if (userAvatar) userAvatar.src = this.discordUser.avatar;
+            const userFiliere = document.getElementById("user-filiere");
+            if (userAvatar) userAvatar.src = newAvatar;
             if (userName) userName.textContent = newName;
+            if (userFiliere) userFiliere.textContent = newFiliere;
 
             if (this.sync) {
+                const levelInfo = this.levelSystem?.getLevelInfo();
                 this.sync.setUser({
                     name: newName,
-                    avatar: this.discordUser.avatar,
+                    avatar: newAvatar,
+                    filiere: newFiliere,
+                    bio: newBio,
+                    matricule: this.discordUser.matricule,
+                    level: levelInfo?.level || 1,
+                    rankTitle: levelInfo?.rank?.title || "Apprenti STEM",
                     focusMinutes: this.totalFocusMinutes,
                     activeSubject: this.currentSubject
                 });
@@ -894,7 +1017,7 @@ class StudySoukTimerApp {
             profileModal?.classList.add("hidden");
             profileModal?.classList.remove("flex");
             window.ambience?.playSuccess();
-            this.showToast("✨ Profil académique mis à jour !");
+            this.showToast(`✨ Profil STEM mis à jour : ${newName} (${newFiliere}) !`);
         });
 
         // 3. Invite & Join Room Modal
@@ -963,31 +1086,95 @@ class StudySoukTimerApp {
         const list = document.getElementById("roster-users-list");
         if (!list) return;
 
-        if (users.length === 0) {
-            list.innerHTML = `<div class="text-center text-xs text-brand-muted py-3">Toi seul es connecté dans ce salon.</div>`;
+        if (!users || users.length === 0) {
+            list.innerHTML = `
+                <div class="text-center text-xs text-brand-muted py-5 font-outfit">
+                    <i class="fa-solid fa-user-astronaut text-2xl text-brand-gold/40 mb-2 block"></i>
+                    Toi seul es connecté dans cette salle vocale pour le moment.
+                </div>`;
             return;
         }
 
-        list.innerHTML = users.map(u => `
-            <div class="flex items-center justify-between p-2.5 rounded-xl bg-brand-darker border border-brand-border">
-                <div class="flex items-center gap-2.5">
-                    <img src="${u.avatar || 'https://api.dicebear.com/7.x/bottts/svg?seed=Study'}" class="w-8 h-8 rounded-full border border-brand-gold/50 bg-brand-card">
-                    <div>
-                        <div class="flex items-center gap-1.5">
-                            <span class="text-xs font-bold text-brand-text font-outfit truncate max-w-[120px]">${u.name || 'Étudiant'}</span>
-                            ${u.isSelf ? '<span class="text-[9px] bg-brand-cherry text-brand-goldLight px-1 rounded font-outfit">Toi</span>' : ''}
+        list.innerHTML = users.map(u => {
+            const safeName = (u.name || "Étudiant").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+            const safeId = (u.id || "").replace(/"/g, "&quot;");
+            const filiere = u.filiere || "CPGE MP*";
+            const subject = u.activeSubject || "STEM Focus";
+            const mins = u.focusMinutes || 0;
+            const avatar = u.avatar || "https://api.dicebear.com/7.x/bottts/svg?seed=Study";
+
+            return `
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/50 transition gap-2 group">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <div class="relative shrink-0">
+                            <img src="${avatar}" class="w-10 h-10 rounded-full border border-brand-gold/60 bg-brand-card object-cover group-hover:scale-105 transition">
+                            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-brand-darker"></span>
                         </div>
-                        <span class="text-[10px] text-brand-gold font-sans flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> ${u.activeSubject || 'STEM Focus'}
-                        </span>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span class="text-xs font-bold text-white font-outfit truncate max-w-[110px]">${safeName}</span>
+                                ${u.isSelf ? '<span class="text-[8px] bg-brand-cherry text-brand-goldLight px-1.5 py-0.2 rounded font-outfit font-black border border-brand-gold/30">Moi</span>' : ''}
+                                <span class="text-[9px] font-mono px-1 py-0.2 rounded bg-brand-gold/15 text-brand-goldLight border border-brand-gold/30">${filiere}</span>
+                            </div>
+                            <div class="flex items-center gap-2 mt-0.5">
+                                <span class="text-[10px] text-brand-goldLight font-sans truncate max-w-[115px] flex items-center gap-1">
+                                    <i class="fa-solid fa-book-open text-[8px] text-brand-gold"></i> ${subject}
+                                </span>
+                                <span class="text-[9px] font-mono text-brand-muted">• ${mins}m</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <button onclick="window.studyApp.inspectStudentCard('${safeId}')" title="Inspecter la Carte d'Étudiant" class="px-2.5 py-1.5 rounded-xl bg-brand-card hover:bg-brand-gold/20 text-brand-goldLight border border-brand-border text-[11px] font-outfit font-bold transition active:scale-95 flex items-center gap-1 shadow-sm">
+                            <i class="fa-solid fa-id-card"></i>
+                            <span class="hidden sm:inline text-[10px]">Carte</span>
+                        </button>
+                        ${!u.isSelf ? `
+                        <button onclick="window.studyApp.challengeUserToDuel('${safeId}', '${safeName}')" title="Défier en Duel STEM 1v1" class="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white border border-amber-400/40 text-[11px] font-outfit font-black transition active:scale-95 shadow flex items-center gap-1">
+                            <i class="fa-solid fa-bolt"></i>
+                            <span class="hidden sm:inline text-[10px]">Duel</span>
+                        </button>
+                        ` : ''}
                     </div>
                 </div>
-                <div class="text-right">
-                    <span class="text-[10px] font-mono text-brand-gold font-bold block">${u.focusMinutes || 0} min</span>
-                    <span class="text-[9px] text-brand-muted uppercase font-outfit">Focus</span>
-                </div>
-            </div>
-        `).join("");
+            `;
+        }).join("");
+    }
+
+    inspectStudentCard(userId) {
+        window.ambience?.playClick();
+        let targetUser = null;
+        if (this.sync && this.sync.roster) {
+            const member = this.sync.roster.get(userId);
+            if (member) {
+                targetUser = { ...member.user, isSelf: !!member.isSelf };
+            }
+        }
+        if (!targetUser) {
+            if (userId === this.discordUser?.id || userId === this.sync?.clientId) {
+                targetUser = { ...this.discordUser, isSelf: true };
+            }
+        }
+        document.getElementById("roster-modal")?.classList.add("hidden");
+        document.getElementById("roster-modal")?.classList.remove("flex");
+
+        this.levelSystem?.openStudentCardModal(targetUser);
+    }
+
+    challengeUserToDuel(userId, userName) {
+        window.ambience?.playClick();
+        document.getElementById("roster-modal")?.classList.add("hidden");
+        document.getElementById("roster-modal")?.classList.remove("flex");
+        document.getElementById("student-card-modal")?.classList.add("hidden");
+        document.getElementById("student-card-modal")?.classList.remove("flex");
+
+        this.switchTab("tab-duel");
+
+        if (this.duel) {
+            this.duel.mode = "multiplayer";
+            this.duel.launchMultiplayerChallenge();
+            this.showToast(`⚔️ Défi STEM 1v1 lancé contre ${userName || 'l\'étudiant'} !`);
+        }
     }
 
     // --- TOAST NOTIFICATIONS ---
