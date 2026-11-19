@@ -592,6 +592,25 @@ class StudySoukTimerApp {
         setupSlider("slider-solfeggio", val => window.ambience?.setSolfeggioVolume(val));
         setupSlider("slider-master", val => window.ambience?.setMasterVolume(val));
 
+        // Visual Theme Selector (Canvas Ambient & STEM Formulas)
+        const themeBtns = document.querySelectorAll(".canvas-theme-btn");
+        themeBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                window.ambience?.playClick();
+                const theme = btn.dataset.canvasTheme;
+                if (this.canvas && this.canvas.setTheme) {
+                    this.canvas.setTheme(theme);
+                }
+                themeBtns.forEach(b => {
+                    b.classList.remove("bg-brand-cherry", "border-brand-gold", "text-brand-goldLight", "shadow");
+                    b.classList.add("glass-card", "border-brand-borderSubtle", "text-brand-muted");
+                });
+                btn.classList.add("bg-brand-cherry", "border-brand-gold", "text-brand-goldLight", "shadow");
+                btn.classList.remove("glass-card", "border-brand-borderSubtle", "text-brand-muted");
+                this.showToast(`🌌 Atmosphère Visuelle : ${btn.querySelector(".leading-tight")?.textContent || theme}`);
+            });
+        });
+
         document.getElementById("btn-mute-all")?.addEventListener("click", () => {
             const isMuted = window.ambience?.toggleMute();
             const btn = document.getElementById("btn-mute-all");
