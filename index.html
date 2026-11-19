@@ -402,10 +402,13 @@
                 <span class="hidden sm:inline">Bibliothèque</span>
             </button>
 
-            <!-- Quick Action Cluster (Zen, Mute, Shortcuts) -->
+            <!-- Quick Action Cluster (Zen, Mute, Tic-Tac, Shortcuts) -->
             <div class="flex items-center gap-1 p-0.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
                 <button id="btn-zen-mode" title="Mode Zen plein écran (Z)" class="h-7 w-7 rounded-lg glass-card text-brand-goldLight hover:border-brand-gold hover:text-white transition flex items-center justify-center active:scale-95">
                     <i class="fa-solid fa-expand text-xs text-brand-gold"></i>
+                </button>
+                <button id="btn-tictac-toggle-quick" title="Son Tic-Tac Mécanique (T)" class="h-7 w-7 rounded-lg glass-card text-brand-goldLight hover:border-brand-gold hover:text-white transition flex items-center justify-center active:scale-95">
+                    <i class="fa-solid fa-stopwatch text-xs text-brand-gold"></i>
                 </button>
                 <button id="btn-mute-all" title="Couper / Activer les sons (M)" class="h-7 w-7 rounded-lg glass-card text-white hover:text-brand-gold transition flex items-center justify-center active:scale-95">
                     <i class="fa-solid fa-volume-high text-xs text-brand-gold"></i>
@@ -527,9 +530,41 @@
                 <span id="cycle-label" class="text-xs font-mono font-black text-brand-goldLight ml-1">1/4</span>
             </div>
 
-            <!-- Sleek Master Circular Chronometer Display (Haute Horlogerie Academic Chronometer) -->
-            <div class="relative flex items-center justify-center mb-3">
-                <div class="relative w-72 h-72 sm:w-80 sm:h-80 md:w-84 md:h-84 flex items-center justify-center">
+            <!-- Mobile Dual Flank Indicators (Matière & Salon - Small Screens) -->
+            <div class="flex sm:hidden items-center justify-between w-full max-w-xs px-2 mb-2 text-xs">
+                <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl glass-card border border-brand-gold/30 max-w-[145px] truncate shadow-sm">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-gold"></span>
+                    <span id="active-subject-badge-mobile" class="font-outfit font-black text-brand-goldLight text-[11px] truncate">📐 Maths • Analyse</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <button id="btn-tictac-toggle-mobile" title="Son Tic-Tac (T)" class="px-2 py-1 rounded-xl glass-card border border-brand-gold/40 text-[10px] font-mono text-brand-goldLight flex items-center gap-1 shadow-sm active:scale-95">
+                        <i class="fa-solid fa-stopwatch text-[10px] text-brand-gold"></i>
+                        <span id="tictac-mobile-text">Tic-Tac ON</span>
+                    </button>
+                    <div class="flex items-center gap-1 px-2 py-1 rounded-xl glass-card border border-emerald-500/30 text-emerald-400 text-[11px] font-outfit font-bold shadow-sm">
+                        <i class="fa-solid fa-satellite-dish text-[9px] animate-pulse"></i>
+                        <span id="timer-sync-label-mobile">Synchro</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sleek Master Circular Chronometer Display with Lateral Horlogerie Flanks -->
+            <div class="relative w-full max-w-xl flex items-center justify-center mb-3">
+                
+                <!-- Left Flank: Module / Matière Complication Pod (Side) -->
+                <div class="hidden sm:flex absolute left-0 lg:left-2 flex-col items-start gap-1 p-2.5 rounded-2xl glass-card border border-brand-gold/30 shadow-xl max-w-[135px] z-10 transition hover:border-brand-gold/60 group">
+                    <div class="flex items-center gap-1.5 text-brand-goldLight">
+                        <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-ping"></span>
+                        <span class="text-[9px] uppercase tracking-widest font-mono font-bold text-brand-muted">Matière</span>
+                    </div>
+                    <span id="active-subject-badge" class="text-xs font-black text-brand-goldLight font-outfit leading-tight line-clamp-2">
+                        📐 Maths • Analyse
+                    </span>
+                    <span class="text-[9px] font-mono text-brand-dim mt-0.5">Focus Actif</span>
+                </div>
+
+                <!-- Center Chrono Face -->
+                <div class="relative w-72 h-72 sm:w-80 sm:h-80 md:w-84 md:h-84 flex items-center justify-center shrink-0">
                     <!-- Dynamic Radial Glow Halo behind timer -->
                     <div id="timer-ambient-halo" class="absolute inset-1 rounded-full bg-gradient-to-tr from-brand-cherry/40 via-brand-gold/20 to-transparent blur-3xl pointer-events-none transition-all duration-700"></div>
                     
@@ -746,7 +781,7 @@
                         </g>
                     </svg>
 
-                    <!-- Center Stack: Dominant Chrono Timing & Minimal Luxury Complications -->
+                    <!-- Center Stack: Dominant Chrono Timing & Pure Horlogerie Dial (Uncluttered) -->
                     <div class="absolute flex flex-col items-center justify-center text-center px-2 pointer-events-none w-full">
                         <!-- Top StudySouk Royal Plume -->
                         <div class="relative mb-0.5 sm:mb-1">
@@ -758,22 +793,28 @@
                             <span class="timer-digits">25</span><span class="timer-colon">:</span><span class="timer-digits">00</span>
                         </div>
 
-                        <!-- Complications Line: Live Status & Active Subject Badge -->
-                        <div class="flex items-center justify-center gap-1.5 mt-1 sm:mt-1.5 max-w-[220px]">
-                            <div id="timer-status-indicator" class="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-brand-darker/90 border border-brand-gold/40 shadow-sm shrink-0">
-                                <span class="w-1.5 h-1.5 rounded-full bg-brand-gold"></span>
-                                <span class="text-[10px] sm:text-[11px] font-mono font-bold text-brand-goldLight uppercase tracking-wider">Prêt</span>
-                            </div>
-                            <span id="active-subject-badge" class="text-[11px] sm:text-xs font-black text-brand-goldLight font-outfit uppercase tracking-wider px-2.5 py-0.5 rounded-full glass-card border border-brand-gold/60 shadow-md truncate max-w-[150px]">
-                                📐 Maths • Analyse
-                            </span>
+                        <!-- Minimal Haute Horlogerie Status Complication -->
+                        <div id="timer-status-indicator" class="flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-brand-darker/95 border border-brand-gold/40 shadow-sm mt-1 sm:mt-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></span>
+                            <span class="text-[10px] sm:text-[11px] font-mono font-bold text-brand-goldLight uppercase tracking-wider">Prêt • Focus</span>
                         </div>
-
-                        <!-- Sync Status -->
-                        <span id="timer-sync-label" class="text-[10px] sm:text-[11px] uppercase tracking-wider text-brand-muted font-bold mt-1 font-outfit flex items-center gap-1">
-                            <i class="fa-solid fa-satellite-dish text-emerald-400 text-xs animate-pulse"></i> Salon Synchronisé
-                        </span>
                     </div>
+                </div>
+
+                <!-- Right Flank: Salon Synchronisé & Tic-Tac Complication Pod (Side) -->
+                <div class="hidden sm:flex absolute right-0 lg:right-2 flex-col items-end gap-1.5 p-2.5 rounded-2xl glass-card border border-brand-gold/30 shadow-xl max-w-[135px] text-right z-10 transition hover:border-brand-gold/60 group">
+                    <div class="flex items-center gap-1.5 text-emerald-400">
+                        <span class="text-[9px] uppercase tracking-widest font-mono font-bold text-brand-muted">Vocal Salon</span>
+                        <i class="fa-solid fa-satellite-dish text-[10px] animate-pulse"></i>
+                    </div>
+                    <span id="timer-sync-label" class="text-xs font-black text-emerald-400 font-outfit leading-tight">
+                        Salon Synchronisé
+                    </span>
+                    <!-- Tic-Tac Sound Toggle Pill -->
+                    <button id="btn-tictac-toggle-side" title="Activer / Couper le son Tic-Tac mécanique (T)" class="mt-1 flex items-center gap-1 px-2 py-0.5 rounded-lg bg-brand-darker border border-brand-gold/40 hover:border-brand-gold text-[10px] font-mono text-brand-goldLight transition active:scale-95 shadow-sm">
+                        <i class="fa-solid fa-stopwatch text-[10px] text-brand-gold"></i>
+                        <span id="tictac-side-text">Tic-Tac ON</span>
+                    </button>
                 </div>
             </div>
 
@@ -1620,6 +1661,10 @@
                 <div class="flex items-center justify-between p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
                     <span class="text-brand-text">Couper / Activer les Sons</span>
                     <kbd class="px-2 py-0.5 rounded bg-brand-card border border-brand-gold/40 text-brand-goldLight font-mono text-[11px] font-bold">M</kbd>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-brand-text">Son Tic-Tac Mécanique</span>
+                    <kbd class="px-2 py-0.5 rounded bg-brand-card border border-brand-gold/40 text-brand-goldLight font-mono text-[11px] font-bold">T</kbd>
                 </div>
                 <div class="flex items-center justify-between p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
                     <span class="text-brand-text">Changer d'Onglet</span>

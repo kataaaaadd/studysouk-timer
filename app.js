@@ -52,6 +52,7 @@ class StudySoukTimerApp {
         this.timerInterval = null;
         this.sessionsCompleted = parseInt(localStorage.getItem("ss_timer_sessions") || "0", 10);
         this.totalFocusMinutes = parseInt(localStorage.getItem("ss_timer_minutes") || "0", 10);
+        this.ticTacEnabled = localStorage.getItem("ss_tictac_enabled") !== "false";
 
         // Academic Modules
         this.canvas = null;
@@ -124,6 +125,8 @@ class StudySoukTimerApp {
         this.initMultiplayerTimerSync();
 
         this.bindLiveMoroccoClock();
+        this.updateTicTacUI();
+        this.renderSubjectLabels();
         this.startCountdownHub();
         this.updateTimerDisplay();
         this.renderCycleDots();
@@ -199,17 +202,23 @@ class StudySoukTimerApp {
         setInterval(updateClock, 1000);
     }
 
+    renderSubjectLabels() {
+        const badge = document.getElementById("active-subject-badge");
+        const badgeMobile = document.getElementById("active-subject-badge-mobile");
+        if (badge) badge.textContent = this.currentSubject;
+        if (badgeMobile) badgeMobile.textContent = this.currentSubject;
+    }
+
     // --- ACTIVE SUBJECT SELECTOR ---
     bindSubjectSelector() {
         const selector = document.getElementById("select-active-subject");
-        const badge = document.getElementById("active-subject-badge");
 
         if (selector) {
             selector.value = this.currentSubject;
             selector.addEventListener("change", (e) => {
                 this.currentSubject = e.target.value;
                 localStorage.setItem("ss_active_subject", this.currentSubject);
-                if (badge) badge.textContent = this.currentSubject;
+                this.renderSubjectLabels();
                 window.ambience?.playClick();
 
                 if (this.sync) {
@@ -220,7 +229,7 @@ class StudySoukTimerApp {
                 }
             });
         }
-        if (badge) badge.textContent = this.currentSubject;
+        this.renderSubjectLabels();
     }
 
     // --- DISCORD SDK INTEGRATION ---
@@ -349,18 +358,21 @@ class StudySoukTimerApp {
             const { action, modeKey, timeLeft, author, subject } = data;
 
             const syncLabel = document.getElementById("timer-sync-label");
-            if (syncLabel && author && author.name) {
+            const syncLabelMobile = document.getElementById("timer-sync-label-mobile");
+            if (author && author.name) {
                 const short = author.name.split(" ")[0];
-                syncLabel.textContent = `⏱️ Synchro par ${short}`;
+                if (syncLabel) syncLabel.textContent = `⏱️ Par ${short}`;
+                if (syncLabelMobile) syncLabelMobile.textContent = `${short}`;
                 clearTimeout(this.syncLabelTimer);
                 this.syncLabelTimer = setTimeout(() => {
-                    syncLabel.textContent = "Session Salon Vocal";
+                    if (syncLabel) syncLabel.textContent = "Salon Synchronisé";
+                    if (syncLabelMobile) syncLabelMobile.textContent = "Synchro";
                 }, 4000);
             }
 
             if (subject && subject !== this.currentSubject) {
-                const badge = document.getElementById("active-subject-badge");
-                if (badge) badge.textContent = subject;
+                this.currentSubject = subject;
+                this.renderSubjectLabels();
             }
 
             if (modeKey && this.currentModeKey !== modeKey) {
@@ -451,6 +463,8 @@ class StudySoukTimerApp {
                 document.getElementById("btn-zen-mode")?.click();
             } else if (e.key === "m" || e.key === "M") {
                 document.getElementById("btn-mute-all")?.click();
+            } else if (e.key === "t" || e.key === "T") {
+                this.toggleTicTac();
             } else if (e.key === "?") {
                 shortcutsModal?.classList.toggle("hidden");
                 shortcutsModal?.classList.toggle("flex");
@@ -578,6 +592,11 @@ class StudySoukTimerApp {
             }
             this.showToast("⏱️ +5 minutes ajoutées");
         });
+
+        // Tic-Tac Sound Toggles (Side Pod, Quick Action, Mobile)
+        document.getElementById("btn-tictac-toggle-side")?.addEventListener("click", () => this.toggleTicTac());
+        document.getElementById("btn-tictac-toggle-quick")?.addEventListener("click", () => this.toggleTicTac());
+        document.getElementById("btn-tictac-toggle-mobile")?.addEventListener("click", () => this.toggleTicTac());
     }
 
     renderCycleDots() {
@@ -681,6 +700,11 @@ class StudySoukTimerApp {
         this.timerInterval = setInterval(() => {
             this.timeLeft--;
             this.updateTimerDisplay();
+
+            // Haute Horlogerie Mechanical Tic-Tac ASMR Sound
+            if (this.ticTacEnabled && this.timeLeft > 0) {
+                window.ambience?.playMechanicalTick(this.timeLeft % 2 === 0);
+            }
 
             // Subtle countdown acoustic cue in the final 5 seconds
             if (this.timeLeft <= 5 && this.timeLeft > 0) {
@@ -865,6 +889,58 @@ class StudySoukTimerApp {
         }
 
         document.title = `${formatted} - ${this.modes[this.currentModeKey].label} | StudySouk Academy`;
+    }
+
+    // --- TIC-TAC ASMR AUDIO CONTROLS ---
+    updateTicTacUI() {
+        const sideBtn = document.getElementById("btn-tictac-toggle-side");
+        const sideTxt = document.getElementById("tictac-side-text");
+        const quickBtn = document.getElementById("btn-tictac-toggle-quick");
+        const mobileTxt = document.getElementById("tictac-mobile-text");
+        const mobileBtn = document.getElementById("btn-tictac-toggle-mobile");
+
+        if (sideTxt) sideTxt.textContent = this.ticTacEnabled ? "Tic-Tac ON" : "Tic-Tac OFF";
+        if (mobileTxt) mobileTxt.textContent = this.ticTacEnabled ? "Tic-Tac ON" : "Tic-Tac OFF";
+
+        if (sideBtn) {
+            if (this.ticTacEnabled) {
+                sideBtn.classList.remove("opacity-50", "border-brand-borderSubtle");
+                sideBtn.classList.add("border-brand-gold/60", "text-brand-goldLight");
+            } else {
+                sideBtn.classList.remove("border-brand-gold/60", "text-brand-goldLight");
+                sideBtn.classList.add("opacity-50", "border-brand-borderSubtle");
+            }
+        }
+        if (quickBtn) {
+            if (this.ticTacEnabled) {
+                quickBtn.classList.remove("opacity-40");
+                quickBtn.classList.add("text-brand-goldLight", "border-brand-gold/50");
+            } else {
+                quickBtn.classList.add("opacity-40");
+                quickBtn.classList.remove("text-brand-goldLight", "border-brand-gold/50");
+            }
+        }
+        if (mobileBtn) {
+            if (this.ticTacEnabled) {
+                mobileBtn.classList.remove("opacity-50");
+                mobileBtn.classList.add("text-brand-goldLight");
+            } else {
+                mobileBtn.classList.add("opacity-50");
+                mobileBtn.classList.remove("text-brand-goldLight");
+            }
+        }
+    }
+
+    toggleTicTac() {
+        this.ticTacEnabled = !this.ticTacEnabled;
+        localStorage.setItem("ss_tictac_enabled", this.ticTacEnabled);
+        this.updateTicTacUI();
+        if (this.ticTacEnabled) {
+            window.ambience?.playMechanicalTick(false);
+            this.showToast("⏱️ Son Tic-Tac mécanique activé");
+        } else {
+            this.showToast("🔇 Son Tic-Tac désactivé");
+        }
     }
 
     renderStats() {

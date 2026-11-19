@@ -433,6 +433,47 @@ class AmbienceEngine {
         } catch (e) { }
     }
 
+    // --- HAUTE HORLOGERIE MECHANICAL TIC-TAC ASMR ---
+    playMechanicalTick(isTac = false) {
+        if (this.isMuted) return;
+        this.ensureRunning();
+        try {
+            const now = this.ctx.currentTime;
+
+            // Escapement click (Crisp metallic pallet tooth strike)
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            const baseFreq = isTac ? 1180 : 1580;
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(baseFreq, now);
+            osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.35, now + 0.022);
+
+            gain.gain.setValueAtTime(0.065, now);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
+
+            osc.connect(gain);
+            gain.connect(this.masterGain || this.ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.028);
+
+            // Subtle pocket watch casing acoustic body resonance
+            const bodyOsc = this.ctx.createOscillator();
+            const bodyGain = this.ctx.createGain();
+            bodyOsc.type = 'sine';
+            const bodyFreq = isTac ? 420 : 500;
+            bodyOsc.frequency.setValueAtTime(bodyFreq, now);
+
+            bodyGain.gain.setValueAtTime(0.025, now);
+            bodyGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.032);
+
+            bodyOsc.connect(bodyGain);
+            bodyGain.connect(this.masterGain || this.ctx.destination);
+            bodyOsc.start(now);
+            bodyOsc.stop(now + 0.035);
+        } catch (e) { }
+    }
+
     // --- LO-FI LIVE RADIO STREAMING ---
     setupRadioListeners() {
         this.radioAudio.volume = this.volumes.radio * this.volumes.master;
