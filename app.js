@@ -688,7 +688,7 @@ class StudySoukTimerApp {
 
         const btn = document.getElementById("btn-timer-toggle");
         if (btn) {
-            btn.innerHTML = `<i class="fa-solid fa-pause text-sm sm:text-base text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-sm sm:text-base">Pause</span>`;
+            btn.innerHTML = `<i class="fa-solid fa-pause text-xs sm:text-sm text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-xs sm:text-sm">Pause</span>`;
         }
 
         const statusEl = document.getElementById("timer-status-indicator");
@@ -736,7 +736,7 @@ class StudySoukTimerApp {
         clearInterval(this.timerInterval);
         const btn = document.getElementById("btn-timer-toggle");
         if (btn) {
-            btn.innerHTML = `<i class="fa-solid fa-play text-sm sm:text-base text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-sm sm:text-base">Reprendre</span>`;
+            btn.innerHTML = `<i class="fa-solid fa-play text-xs sm:text-sm text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-xs sm:text-sm">Reprendre</span>`;
         }
 
         const statusEl = document.getElementById("timer-status-indicator");
@@ -761,7 +761,7 @@ class StudySoukTimerApp {
         this.updateTimerDisplay();
         const btn = document.getElementById("btn-timer-toggle");
         if (btn) {
-            btn.innerHTML = `<i class="fa-solid fa-play text-sm sm:text-base text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-sm sm:text-base">Commencer</span>`;
+            btn.innerHTML = `<i class="fa-solid fa-play text-xs sm:text-sm text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-xs sm:text-sm">Commencer</span>`;
         }
 
         const statusEl = document.getElementById("timer-status-indicator");

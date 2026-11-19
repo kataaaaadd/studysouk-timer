@@ -271,6 +271,18 @@ class StudySoukLibrary {
             openTabBtn.onclick = () => window.open(pdfUrl, '_blank');
         }
 
+        const downloadBtn = document.getElementById('btn-download-pdf');
+        if (downloadBtn) {
+            downloadBtn.onclick = () => {
+                const a = document.createElement('a');
+                a.href = pdfUrl;
+                a.download = book.filename || `${book.title}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+        }
+
         if (studyBtn) {
             studyBtn.onclick = () => {
                 this.closeReader();
