@@ -334,11 +334,11 @@ class StudySoukLibrary {
 
                     <!-- Action Buttons -->
                     <div class="pt-2.5 border-t border-brand-borderSubtle flex items-center gap-1.5">
-                        <button data-action="open-reader" data-book-id="${book.id}" onclick="window.library.openReader(${book.id})" class="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant hover:from-brand-cherryLight hover:to-brand-cherry border border-brand-gold/60 text-white font-black text-xs font-outfit flex items-center justify-center gap-1.5 active:scale-95 transition shadow">
+                        <button data-action="open-reader" data-book-id="${book.id}" class="flex-1 py-2 px-3 rounded-xl bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant hover:from-brand-cherryLight hover:to-brand-cherry border border-brand-gold/60 text-white font-black text-xs font-outfit flex items-center justify-center gap-1.5 active:scale-95 transition shadow">
                             <i class="fa-solid fa-book-open text-brand-goldLight text-xs pointer-events-none"></i>
                             <span class="gold-text-gradient pointer-events-none">Consulter 📖</span>
                         </button>
-                        <button data-action="study-book" data-book-id="${book.id}" onclick="window.library.studyWithTimer(${book.id})" title="Lancer une session de Deep Work sur cet ouvrage" class="w-8 h-8 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-goldLight hover:text-white flex items-center justify-center active:scale-95 transition shadow">
+                        <button data-action="study-book" data-book-id="${book.id}" title="Lancer une session de Deep Work sur cet ouvrage" class="w-8 h-8 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-goldLight hover:text-white flex items-center justify-center active:scale-95 transition shadow">
                             <i class="fa-solid fa-stopwatch text-xs pointer-events-none"></i>
                         </button>
                     </div>
@@ -427,14 +427,6 @@ class StudySoukLibrary {
         try {
             if (!window.pdfjsLib) {
                 throw new Error("Moteur PDF.js non chargé.");
-            }
-
-            if (window.pdfjsWorker && window.pdfjsWorker.WorkerMessageHandler && window.pdfjsLib.PDFWorker) {
-                try {
-                    window.pdfjsLib.PDFWorker._mainThreadWorkerMessageHandler = window.pdfjsWorker.WorkerMessageHandler;
-                } catch (e) {
-                    console.warn('[Library] Notice setting worker handler:', e);
-                }
             }
 
             console.log('[Library] Loading PDF binary from:', url);
