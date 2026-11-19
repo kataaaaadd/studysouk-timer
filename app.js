@@ -144,38 +144,44 @@ class StudySoukTimerApp {
             const now = new Date();
             const currentYear = now.getFullYear();
 
-            // Next exam dates (Official Moroccan Schedule)
+            // Next exam dates (Official Moroccan Academic Calendar GMT+1)
             const getNextDate = (month, day) => {
-                let target = new Date(currentYear, month - 1, day, 8, 0, 0);
-                if (now > target) {
-                    target = new Date(currentYear + 1, month - 1, day, 8, 0, 0);
+                const currentUtcYear = now.getUTCFullYear();
+                const examUtcThisYear = new Date(Date.UTC(currentUtcYear, month - 1, day, 7, 0, 0));
+                if (now.getTime() > examUtcThisYear.getTime()) {
+                    return new Date(Date.UTC(currentUtcYear + 1, month - 1, day, 7, 0, 0));
                 }
-                return target;
+                return examUtcThisYear;
             };
 
-            // CNC (Concours National Commun CPGE): Starts 10 Mai 2027, 08:00
-            const cncDate = getNextDate(5, 10);
-            // Concours Français (Mines-Ponts / Centrale / CCINP): Starts 19 Avril 2027, 08:00
-            const frDate = getNextDate(4, 19);
-            // Examen National 2BAC (Sciences Maths & PC/SVT): Starts 8 Juin 2027, 08:00
+            // 1. Examen National 2BAC (Sciences Maths, PC/SVT): Starts 8 Juin 2027, 08:00 GMT+1
             const bacDate = getNextDate(6, 8);
+            // 2. Examen Régional 1BAC: Starts 28 Mai 2027, 08:00 GMT+1
+            const regioDate = getNextDate(5, 28);
+            // 3. CNC (Concours National Commun CPGE): Starts 10 Mai 2027, 08:00 GMT+1
+            const cncDate = getNextDate(5, 10);
+            // 4. Concours Français (Mines-Ponts / Centrale / CCINP): Starts 19 Avril 2027, 08:00 GMT+1
+            const frDate = getNextDate(4, 19);
 
             const formatDiff = (target) => {
-                const diffMs = target - now;
+                const diffMs = target.getTime() - Date.now();
                 if (diffMs <= 0) return "En cours !";
-                const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                const totalSeconds = Math.floor(diffMs / 1000);
+                const days = Math.floor(totalSeconds / 86400);
+                const hours = Math.floor((totalSeconds % 86400) / 3600);
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
                 return `${days}j ${hours}h ${minutes}m`;
             };
 
+            const elBac = document.getElementById("countdown-bac");
+            const elRegio = document.getElementById("countdown-regio");
             const elCnc = document.getElementById("countdown-cnc");
             const elFr = document.getElementById("countdown-fr");
-            const elBac = document.getElementById("countdown-bac");
 
+            if (elBac) elBac.textContent = formatDiff(bacDate);
+            if (elRegio) elRegio.textContent = formatDiff(regioDate);
             if (elCnc) elCnc.textContent = formatDiff(cncDate);
             if (elFr) elFr.textContent = formatDiff(frDate);
-            if (elBac) elBac.textContent = formatDiff(bacDate);
         };
 
         updateCountdowns();

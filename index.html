@@ -359,8 +359,8 @@
             <!-- Official StudySouk Academy Logo Emblem -->
             <div class="relative w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center group cursor-pointer">
                 <div class="absolute inset-0 rounded-2xl bg-gradient-to-tr from-brand-cherry via-brand-gold to-brand-goldLight p-[1.5px] shadow-lg shadow-brand-cherryGlow opacity-90 group-hover:scale-105 transition duration-300"></div>
-                <div class="w-full h-full bg-brand-darker rounded-[14px] flex items-center justify-center p-1 overflow-hidden">
-                    <img src="assets/logo.png" alt="StudySouk Plume" class="w-6 h-6 sm:w-7 sm:h-7 object-contain animated-emblem">
+                <div class="w-full h-full bg-brand-darker rounded-[14px] flex items-center justify-center p-0.5 overflow-hidden">
+                    <img src="assets/logo.png?v=2.4" alt="StudySouk Plume" class="w-full h-full object-contain animated-emblem">
                 </div>
             </div>
 
@@ -450,47 +450,62 @@
         </div>
     </header>
 
-    <!-- Concours & Deadlines Live Countdown Banner (Compact Zero-Scroll Luxury Strip) -->
-    <section id="countdown-hub" class="w-full z-30 py-2 px-3 sm:px-6">
-        <div class="max-w-2xl mx-auto grid grid-cols-3 gap-2 sm:gap-3 text-center font-outfit">
-            <!-- 1. CNC -->
+    <!-- Concours & Deadlines Live Countdown Banner (4-Pillar Moroccan Academic Grid) -->
+    <section id="countdown-hub" class="w-full z-30 py-2 px-2.5 sm:px-6">
+        <div class="max-w-4xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 text-center font-outfit">
+            
+            <!-- 1. 2BAC National -->
+            <div class="glass-card rounded-2xl py-2 px-2.5 sm:px-3 border border-brand-gold/40 hover:border-brand-gold transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden group shadow-md hover:shadow-brand-cherry/30 bg-gradient-to-b from-brand-cherry/25 to-transparent">
+                <div class="absolute -right-6 -top-6 w-16 h-16 bg-brand-gold/15 rounded-full blur-xl pointer-events-none group-hover:bg-brand-gold/30 transition"></div>
+                <div class="flex items-center justify-between w-full mb-1">
+                    <div class="flex items-center gap-1.5 min-w-0">
+                        <span class="text-xs sm:text-sm">🇲🇦</span>
+                        <span class="text-[11px] sm:text-xs uppercase tracking-wider text-brand-goldLight font-extrabold truncate">2BAC National</span>
+                    </div>
+                    <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-brand-cherry border border-brand-gold/50 text-white shadow-sm">8 Juin</span>
+                </div>
+                <span id="countdown-bac" class="font-mono text-xs sm:text-sm font-black gold-text-gradient drop-shadow-[0_0_10px_rgba(226,232,240,0.35)] tracking-tight">--j --h --m</span>
+            </div>
+
+            <!-- 2. 1BAC Régional -->
+            <div class="glass-card rounded-2xl py-2 px-2.5 sm:px-3 border border-brand-borderSubtle hover:border-brand-cherryLight transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden group shadow-md hover:shadow-brand-cherry/20">
+                <div class="absolute -right-6 -top-6 w-16 h-16 bg-brand-cherry/15 rounded-full blur-xl pointer-events-none group-hover:bg-brand-cherry/30 transition"></div>
+                <div class="flex items-center justify-between w-full mb-1">
+                    <div class="flex items-center gap-1.5 min-w-0">
+                        <span class="text-xs sm:text-sm">🎒</span>
+                        <span class="text-[11px] sm:text-xs uppercase tracking-wider text-brand-muted group-hover:text-white font-extrabold truncate">1BAC Régional</span>
+                    </div>
+                    <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-brand-darker border border-brand-borderSubtle text-brand-goldLight">28 Mai</span>
+                </div>
+                <span id="countdown-regio" class="font-mono text-xs sm:text-sm font-black text-white group-hover:text-brand-goldLight drop-shadow-sm tracking-tight">--j --h --m</span>
+            </div>
+
+            <!-- 3. CNC CPGE -->
             <div class="glass-card rounded-2xl py-2 px-2.5 sm:px-3 border border-brand-borderSubtle hover:border-brand-cherryLight transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden group shadow-md hover:shadow-brand-cherry/20">
                 <div class="absolute -right-6 -top-6 w-16 h-16 bg-brand-cherry/15 rounded-full blur-xl pointer-events-none group-hover:bg-brand-cherry/30 transition"></div>
                 <div class="flex items-center justify-between w-full mb-1">
                     <div class="flex items-center gap-1.5 min-w-0">
                         <span class="text-xs sm:text-sm">🏛️</span>
-                        <span class="text-[11px] sm:text-xs uppercase tracking-wider text-brand-muted group-hover:text-white font-extrabold truncate">CNC</span>
+                        <span class="text-[11px] sm:text-xs uppercase tracking-wider text-brand-muted group-hover:text-white font-extrabold truncate">CNC CPGE</span>
                     </div>
                     <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-brand-darker border border-brand-borderSubtle text-brand-goldLight">10 Mai</span>
                 </div>
                 <span id="countdown-cnc" class="font-mono text-xs sm:text-sm font-black text-white group-hover:text-brand-goldLight drop-shadow-sm tracking-tight">--j --h --m</span>
             </div>
 
-            <!-- 2. Mines / Centrale -->
-            <div class="glass-card rounded-2xl py-2 px-2.5 sm:px-3 border border-brand-gold/50 hover:border-brand-gold transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden group shadow-lg shadow-brand-cherryDark/30 bg-gradient-to-b from-brand-cherry/20 to-transparent">
-                <div class="absolute -right-6 -top-6 w-16 h-16 bg-brand-gold/15 rounded-full blur-xl pointer-events-none group-hover:bg-brand-gold/30 transition"></div>
-                <div class="flex items-center justify-between w-full mb-1">
-                    <div class="flex items-center gap-1.5 min-w-0">
-                        <span class="text-xs sm:text-sm">🎓</span>
-                        <span class="text-[11px] sm:text-xs uppercase tracking-wider text-brand-goldLight font-extrabold truncate">Mines/Centrale</span>
-                    </div>
-                    <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-brand-cherry border border-brand-gold/50 text-white shadow-sm">19 Avr</span>
-                </div>
-                <span id="countdown-fr" class="font-mono text-xs sm:text-sm font-black gold-text-gradient drop-shadow-[0_0_12px_rgba(226,232,240,0.4)] tracking-tight">--j --h --m</span>
-            </div>
-
-            <!-- 3. 2BAC National -->
+            <!-- 4. Mines / Centrale -->
             <div class="glass-card rounded-2xl py-2 px-2.5 sm:px-3 border border-brand-borderSubtle hover:border-brand-cherryLight transition-all duration-300 flex flex-col items-center justify-center relative overflow-hidden group shadow-md hover:shadow-brand-cherry/20">
                 <div class="absolute -right-6 -top-6 w-16 h-16 bg-brand-cherry/15 rounded-full blur-xl pointer-events-none group-hover:bg-brand-cherry/30 transition"></div>
                 <div class="flex items-center justify-between w-full mb-1">
                     <div class="flex items-center gap-1.5 min-w-0">
-                        <span class="text-xs sm:text-sm">📝</span>
-                        <span class="text-[11px] sm:text-xs uppercase tracking-wider text-brand-muted group-hover:text-white font-extrabold truncate">2BAC National</span>
+                        <span class="text-xs sm:text-sm">🎓</span>
+                        <span class="text-[11px] sm:text-xs uppercase tracking-wider text-brand-muted group-hover:text-white font-extrabold truncate">Mines/Centrale</span>
                     </div>
-                    <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-brand-darker border border-brand-borderSubtle text-brand-goldLight">8 Juin</span>
+                    <span class="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-brand-darker border border-brand-borderSubtle text-brand-goldLight">19 Avr</span>
                 </div>
-                <span id="countdown-bac" class="font-mono text-xs sm:text-sm font-black text-white group-hover:text-brand-goldLight drop-shadow-sm tracking-tight">--j --h --m</span>
+                <span id="countdown-fr" class="font-mono text-xs sm:text-sm font-black text-white group-hover:text-brand-goldLight drop-shadow-sm tracking-tight">--j --h --m</span>
             </div>
+
         </div>
     </section>
 
@@ -1830,17 +1845,17 @@
     </div>
 
     <!-- Logic Scripts Stack -->
-    <script src="assets/pdfjs/pdf.min.js?v=2.3"></script>
-    <script src="assets/pdfjs/pdf.worker.min.js?v=2.3"></script>
-    <script src="audio.js?v=2.3"></script>
-    <script src="canvas-effects.js?v=2.3"></script>
-    <script src="sync-engine.js?v=2.3"></script>
-    <script src="reactions.js?v=2.3"></script>
-    <script src="levels.js?v=2.3"></script>
-    <script src="duel.js?v=2.3"></script>
-    <script src="flashcards.js?v=2.3"></script>
-    <script src="scratchpad.js?v=2.3"></script>
-    <script src="library.js?v=2.3"></script>
-    <script src="app.js?v=2.3"></script>
+    <script src="assets/pdfjs/pdf.min.js?v=2.4"></script>
+    <script src="assets/pdfjs/pdf.worker.min.js?v=2.4"></script>
+    <script src="audio.js?v=2.4"></script>
+    <script src="canvas-effects.js?v=2.4"></script>
+    <script src="sync-engine.js?v=2.4"></script>
+    <script src="reactions.js?v=2.4"></script>
+    <script src="levels.js?v=2.4"></script>
+    <script src="duel.js?v=2.4"></script>
+    <script src="flashcards.js?v=2.4"></script>
+    <script src="scratchpad.js?v=2.4"></script>
+    <script src="library.js?v=2.4"></script>
+    <script src="app.js?v=2.4"></script>
 </body>
 </html>
