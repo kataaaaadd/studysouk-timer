@@ -42,6 +42,7 @@ async def on_ready():
     for g in bot.guilds:
         print(f" - {g.name} ({g.id})")
         try:
+            bot.tree.copy_global_to(guild=discord.Object(id=g.id))
             synced = await bot.tree.sync(guild=discord.Object(id=g.id))
             print(f"   Synced {len(synced)} slash commands to '{g.name}'!")
         except Exception as e:
