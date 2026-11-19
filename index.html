@@ -32,43 +32,67 @@
     <style>
         body {
             background-color: #08080B;
-            color: #F3F4F6;
+            color: #FFFFFF;
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             overflow-x: hidden;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
             background-image: 
                 /* STEM Mathematical Coordinate Grid */
-                linear-gradient(to right, rgba(212, 175, 55, 0.035) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(212, 175, 55, 0.035) 1px, transparent 1px),
+                linear-gradient(to right, rgba(212, 175, 55, 0.045) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(212, 175, 55, 0.045) 1px, transparent 1px),
                 /* Luxury Royal Lighting Vignettes */
-                radial-gradient(ellipse 80% 45% at 50% -10%, rgba(138, 21, 56, 0.35) 0%, transparent 70%),
-                radial-gradient(circle 600px at 85% 90%, rgba(212, 175, 55, 0.10) 0%, transparent 60%),
-                radial-gradient(circle 500px at 15% 85%, rgba(184, 35, 75, 0.12) 0%, transparent 60%);
+                radial-gradient(ellipse 80% 45% at 50% -10%, rgba(138, 21, 56, 0.40) 0%, transparent 70%),
+                radial-gradient(circle 600px at 85% 90%, rgba(212, 175, 55, 0.14) 0%, transparent 60%),
+                radial-gradient(circle 500px at 15% 85%, rgba(184, 35, 75, 0.16) 0%, transparent 60%);
             background-size: 38px 38px, 38px 38px, auto, auto, auto;
             background-attachment: fixed;
         }
 
+        /* High-Contrast Readability Overrides */
         .glass-panel {
-            background: rgba(14, 14, 19, 0.82);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(212, 175, 55, 0.16);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+            background: rgba(13, 13, 18, 0.94);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.7);
         }
 
         .glass-card {
-            background: rgba(20, 20, 28, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(138, 21, 56, 0.35);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            background: rgba(22, 22, 32, 0.90);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.30);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .glass-card:hover {
-            border-color: rgba(212, 175, 55, 0.45);
-            box-shadow: 0 8px 30px rgba(138, 21, 56, 0.25), 0 0 15px rgba(212, 175, 55, 0.15);
+            border-color: rgba(212, 175, 55, 0.7);
+            box-shadow: 0 8px 30px rgba(138, 21, 56, 0.35), 0 0 18px rgba(212, 175, 55, 0.25);
             transform: translateY(-1px);
+        }
+
+        /* High Contrast Text Enforcements */
+        .text-brand-muted {
+            color: #E2E8F0 !important;
+        }
+        .text-brand-dim {
+            color: #CBD5E1 !important;
+        }
+        .text-brand-text {
+            color: #FFFFFF !important;
+        }
+
+        /* Form Inputs & Selects Ultra-Crisp */
+        input, select, textarea {
+            color: #FFFFFF !important;
+            font-weight: 600 !important;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #94A3B8 !important;
         }
 
         /* Gold Shimmer & Luxury Text Gradients */
@@ -299,13 +323,13 @@
                     <h1 class="font-black text-xs sm:text-sm tracking-tight text-white flex items-center gap-1 font-outfit">
                         StudySouk <span class="gold-text-gradient">Academy</span>
                     </h1>
-                    <span class="text-[8px] sm:text-[9px] uppercase tracking-wider font-extrabold gold-shimmer px-1.5 py-0.5 rounded-full border border-brand-gold/40 shadow-sm font-outfit">
+                    <span class="text-[10px] sm:text-xs uppercase tracking-wider font-black gold-shimmer px-2 py-0.5 rounded-full border border-brand-gold/60 shadow-sm font-outfit">
                         STEM
                     </span>
                 </div>
-                <div id="discord-status-badge" class="text-[9px] sm:text-[10px] text-brand-muted flex items-center gap-1 font-sans">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span id="discord-status-text" class="truncate max-w-[120px] sm:max-w-none">Salon Vocal Actif • CPGE & 2BAC</span>
+                <div id="discord-status-badge" class="text-xs text-brand-muted flex items-center gap-1 font-sans">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="discord-status-text" class="truncate max-w-[140px] sm:max-w-none font-semibold">Salon Vocal Actif • CPGE & 2BAC</span>
                 </div>
             </div>
         </div>
@@ -314,31 +338,31 @@
         <div class="flex items-center gap-1.5 sm:gap-2">
             
             <!-- Live Voice Channel Participants Pill -->
-            <button id="btn-room-roster" title="Membres connectés dans ce salon" class="h-8 text-xs px-2.5 rounded-xl glass-card border border-brand-gold/30 text-brand-goldLight hover:border-brand-gold transition flex items-center gap-1.5 font-outfit font-bold shadow active:scale-95">
+            <button id="btn-room-roster" title="Membres connectés dans ce salon" class="h-8 text-xs px-2.5 rounded-xl glass-card border border-brand-gold/40 text-brand-goldLight hover:border-brand-gold transition flex items-center gap-1.5 font-outfit font-black shadow active:scale-95">
                 <div class="flex items-end gap-[2px] h-2.5">
                     <span class="eq-bar"></span>
                     <span class="eq-bar"></span>
                     <span class="eq-bar"></span>
                 </div>
-                <span id="room-users-count" class="font-mono text-xs">1</span>
+                <span id="room-users-count" class="font-mono text-xs font-black">1</span>
             </button>
 
             <!-- Invite & Join Room Button -->
-            <button id="btn-invite-room" title="Inviter des camarades" class="h-8 cherry-glow-btn text-xs px-2.5 sm:px-3 rounded-xl border border-brand-gold/50 text-white transition flex items-center gap-1 font-outfit font-extrabold shadow active:scale-95">
-                <i class="fa-solid fa-user-plus text-brand-goldLight text-[10px]"></i>
+            <button id="btn-invite-room" title="Inviter des camarades" class="h-8 cherry-glow-btn text-xs px-2.5 sm:px-3 rounded-xl border border-brand-gold/60 text-white transition flex items-center gap-1 font-outfit font-black shadow active:scale-95">
+                <i class="fa-solid fa-user-plus text-brand-goldLight text-xs"></i>
                 <span class="hidden sm:inline">Inviter</span>
             </button>
 
             <!-- Quick Action Cluster (Zen, Mute, Shortcuts) -->
             <div class="flex items-center gap-1 p-0.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
                 <button id="btn-zen-mode" title="Mode Zen plein écran (Z)" class="h-7 w-7 rounded-lg glass-card text-brand-goldLight hover:border-brand-gold hover:text-white transition flex items-center justify-center active:scale-95">
-                    <i class="fa-solid fa-expand text-[11px] text-brand-gold"></i>
+                    <i class="fa-solid fa-expand text-xs text-brand-gold"></i>
                 </button>
-                <button id="btn-mute-all" title="Couper / Activer les sons (M)" class="h-7 w-7 rounded-lg glass-card text-brand-text hover:text-brand-gold transition flex items-center justify-center active:scale-95">
-                    <i class="fa-solid fa-volume-high text-[11px] text-brand-gold"></i>
+                <button id="btn-mute-all" title="Couper / Activer les sons (M)" class="h-7 w-7 rounded-lg glass-card text-white hover:text-brand-gold transition flex items-center justify-center active:scale-95">
+                    <i class="fa-solid fa-volume-high text-xs text-brand-gold"></i>
                 </button>
                 <button id="btn-shortcuts" title="Raccourcis clavier (?)" class="h-7 w-7 rounded-lg glass-card text-brand-muted hover:text-brand-gold transition flex items-center justify-center active:scale-95">
-                    <i class="fa-solid fa-keyboard text-[11px] text-brand-gold"></i>
+                    <i class="fa-solid fa-keyboard text-xs text-brand-gold"></i>
                 </button>
             </div>
 
@@ -348,14 +372,14 @@
             <!-- User Avatar & Tag (Clickable to Edit Profile) -->
             <div id="user-profile-trigger" title="Personnaliser ton profil académique" class="flex items-center gap-1.5 pl-1.5 border-l border-brand-borderSubtle cursor-pointer hover:opacity-90 transition group">
                 <div class="relative">
-                    <img id="user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=StudySouk" alt="Avatar" class="w-8 h-8 rounded-full border border-brand-gold/70 bg-brand-darker group-hover:scale-105 group-hover:border-brand-goldLight transition shadow-sm object-cover">
-                    <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-500 border border-brand-darker"></span>
+                    <img id="user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=StudySouk" alt="Avatar" class="w-8 h-8 rounded-full border-2 border-brand-gold bg-brand-darker group-hover:scale-105 group-hover:border-brand-goldLight transition shadow-sm object-cover">
+                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-brand-darker"></span>
                 </div>
                 <div class="hidden sm:flex flex-col text-left">
-                    <span id="user-name" class="text-xs font-bold text-brand-text truncate max-w-[95px] font-outfit group-hover:text-brand-goldLight transition leading-tight">
+                    <span id="user-name" class="text-xs font-black text-white truncate max-w-[100px] font-outfit group-hover:text-brand-goldLight transition leading-tight">
                         Étudiant
                     </span>
-                    <span id="user-filiere" class="text-[9px] font-mono text-brand-goldLight leading-none">
+                    <span id="user-filiere" class="text-[11px] font-mono font-bold text-brand-goldLight leading-none">
                         CPGE MP*
                     </span>
                 </div>
@@ -366,28 +390,28 @@
     <!-- Concours & Deadlines Live Countdown Banner (Compact Zero-Scroll Luxury Strip) -->
     <section id="countdown-hub" class="w-full z-30 py-1.5 px-3 sm:px-6">
         <div class="max-w-xl mx-auto grid grid-cols-3 gap-2 text-center font-outfit">
-            <div class="glass-card rounded-xl py-1.5 px-2.5 border border-brand-borderSubtle flex items-center justify-between sm:justify-center sm:gap-2 relative overflow-hidden group">
-                <div class="flex items-center gap-1">
-                    <span class="text-xs">🏛️</span>
-                    <span class="text-[9px] uppercase tracking-wider text-brand-muted font-extrabold truncate">CNC</span>
+            <div class="glass-card rounded-xl py-2 px-2.5 border border-brand-borderSubtle flex items-center justify-between sm:justify-center sm:gap-2 relative overflow-hidden group">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-sm">🏛️</span>
+                    <span class="text-xs uppercase tracking-wider text-brand-muted font-black truncate">CNC</span>
                 </div>
-                <span id="countdown-cnc" class="font-mono text-xs font-black gold-text-gradient drop-shadow-sm">--j --h</span>
+                <span id="countdown-cnc" class="font-mono text-xs sm:text-sm font-black gold-text-gradient drop-shadow-sm">--j --h</span>
             </div>
 
-            <div class="glass-card rounded-xl py-1.5 px-2.5 border border-brand-gold/30 flex items-center justify-between sm:justify-center sm:gap-2 relative overflow-hidden group shadow-sm">
-                <div class="flex items-center gap-1">
-                    <span class="text-xs">🎓</span>
-                    <span class="text-[9px] uppercase tracking-wider text-brand-goldLight font-extrabold truncate">Mines/Centrale</span>
+            <div class="glass-card rounded-xl py-2 px-2.5 border border-brand-gold/40 flex items-center justify-between sm:justify-center sm:gap-2 relative overflow-hidden group shadow-sm">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-sm">🎓</span>
+                    <span class="text-xs uppercase tracking-wider text-brand-goldLight font-black truncate">Mines/Centrale</span>
                 </div>
-                <span id="countdown-fr" class="font-mono text-xs font-black text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]">--j --h</span>
+                <span id="countdown-fr" class="font-mono text-xs sm:text-sm font-black text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]">--j --h</span>
             </div>
 
-            <div class="glass-card rounded-xl py-1.5 px-2.5 border border-brand-borderSubtle flex items-center justify-between sm:justify-center sm:gap-2 relative overflow-hidden group">
-                <div class="flex items-center gap-1">
-                    <span class="text-xs">📝</span>
-                    <span class="text-[9px] uppercase tracking-wider text-brand-muted font-extrabold truncate">2BAC</span>
+            <div class="glass-card rounded-xl py-2 px-2.5 border border-brand-borderSubtle flex items-center justify-between sm:justify-center sm:gap-2 relative overflow-hidden group">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-sm">📝</span>
+                    <span class="text-xs uppercase tracking-wider text-brand-muted font-black truncate">2BAC</span>
                 </div>
-                <span id="countdown-bac" class="font-mono text-xs font-black gold-text-gradient drop-shadow-sm">--j --h</span>
+                <span id="countdown-bac" class="font-mono text-xs sm:text-sm font-black gold-text-gradient drop-shadow-sm">--j --h</span>
             </div>
         </div>
     </section>
@@ -399,12 +423,12 @@
         <section id="tab-timer" class="tab-content w-full flex flex-col items-center max-w-xl">
             
             <!-- Subject / Module Selector (Deep Work Focus Subject) -->
-            <div class="w-full max-w-md glass-card rounded-xl px-3 py-1.5 mb-2.5 border border-brand-borderSubtle flex items-center justify-between text-xs shadow-md">
-                <span class="text-[11px] font-extrabold text-brand-goldLight font-outfit flex items-center gap-1.5 pl-0.5">
+            <div class="w-full max-w-md glass-card rounded-xl px-3 py-2 mb-2.5 border border-brand-borderSubtle flex items-center justify-between text-xs shadow-md">
+                <span class="text-xs font-black text-brand-goldLight font-outfit flex items-center gap-1.5 pl-0.5">
                     <span class="w-2 h-2 rounded-full bg-brand-gold animate-ping"></span>
                     <i class="fa-solid fa-graduation-cap text-brand-gold"></i> Module :
                 </span>
-                <select id="select-active-subject" class="bg-brand-darker border border-brand-borderSubtle rounded-lg px-2.5 py-1 text-xs text-brand-goldLight font-outfit font-bold focus:outline-none focus:border-brand-gold cursor-pointer transition hover:border-brand-gold/60 shadow-inner">
+                <select id="select-active-subject" class="bg-brand-darker border border-brand-borderSubtle rounded-lg px-2.5 py-1.5 text-xs sm:text-sm text-brand-goldLight font-outfit font-bold focus:outline-none focus:border-brand-gold cursor-pointer transition hover:border-brand-gold/60 shadow-inner">
                     <option value="Maths: Analyse">📐 Maths • Analyse & Intégrales</option>
                     <option value="Maths: Algèbre">📐 Maths • Algèbre Linéaire & Réduction</option>
                     <option value="Maths: Probas">📐 Maths • Probabilités & Dénombrement</option>
@@ -419,34 +443,34 @@
             </div>
 
             <!-- Mode Selector Pills (5-Column Segmented Grid) -->
-            <div class="grid grid-cols-5 gap-1 p-1 rounded-xl glass-card mb-2 border border-brand-borderSubtle max-w-md w-full shadow-lg">
-                <button data-mode="focus25" class="timer-mode-btn py-1.5 px-1 rounded-lg text-[11px] sm:text-xs transition duration-200 timer-btn-active font-outfit text-center truncate font-bold">
+            <div class="grid grid-cols-5 gap-1.5 p-1 rounded-xl glass-card mb-2 border border-brand-borderSubtle max-w-md w-full shadow-lg">
+                <button data-mode="focus25" class="timer-mode-btn py-2 px-1 rounded-lg text-xs sm:text-sm transition duration-200 timer-btn-active font-outfit text-center truncate font-black">
                     🎯 25m
                 </button>
-                <button data-mode="focus50" class="timer-mode-btn py-1.5 px-1 rounded-lg text-[11px] sm:text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold text-center truncate">
+                <button data-mode="focus50" class="timer-mode-btn py-2 px-1 rounded-lg text-xs sm:text-sm transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-black text-center truncate">
                     ⚡ 50m
                 </button>
-                <button data-mode="focus90" class="timer-mode-btn py-1.5 px-1 rounded-lg text-[11px] sm:text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold text-center truncate">
+                <button data-mode="focus90" class="timer-mode-btn py-2 px-1 rounded-lg text-xs sm:text-sm transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-black text-center truncate">
                     🏛️ 90m
                 </button>
-                <button data-mode="break5" class="timer-mode-btn py-1.5 px-1 rounded-lg text-[11px] sm:text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold text-center truncate">
+                <button data-mode="break5" class="timer-mode-btn py-2 px-1 rounded-lg text-xs sm:text-sm transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-black text-center truncate">
                     ☕ 5m
                 </button>
-                <button data-mode="break15" class="timer-mode-btn py-1.5 px-1 rounded-lg text-[11px] sm:text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold text-center truncate">
+                <button data-mode="break15" class="timer-mode-btn py-2 px-1 rounded-lg text-xs sm:text-sm transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-black text-center truncate">
                     🌴 15m
                 </button>
             </div>
 
             <!-- 4-Cycle Pomodoro Progress Tracker -->
             <div id="pomodoro-cycle-tracker" class="flex items-center gap-2 mb-2 px-3 py-1 rounded-full glass-card border border-brand-borderSubtle text-xs shadow-sm">
-                <span class="text-[10px] uppercase tracking-wider text-brand-muted font-extrabold font-outfit">Série Deep Work :</span>
+                <span class="text-xs uppercase tracking-wider text-brand-muted font-black font-outfit">Série Deep Work :</span>
                 <div id="cycle-dots" class="flex items-center gap-1.5">
                     <span class="cycle-dot active" title="Bloc 1 en cours"></span>
                     <span class="cycle-dot" title="Bloc 2"></span>
                     <span class="cycle-dot" title="Bloc 3"></span>
                     <span class="cycle-dot" title="Bloc 4 (suivi de la longue pause)"></span>
                 </div>
-                <span id="cycle-label" class="text-[10px] font-mono font-black text-brand-goldLight ml-1">1/4</span>
+                <span id="cycle-label" class="text-xs font-mono font-black text-brand-goldLight ml-1">1/4</span>
             </div>
 
             <!-- Sleek Master Circular Chronometer Display -->
@@ -457,10 +481,10 @@
                     
                     <svg class="w-full h-full transform -rotate-90" viewBox="0 0 300 300">
                         <!-- Outer Chronometer Precision Minute Ticks -->
-                        <circle cx="150" cy="150" r="140" stroke="rgba(212, 175, 55, 0.15)" stroke-width="3" stroke-dasharray="2 12.65" class="fill-transparent" />
+                        <circle cx="150" cy="150" r="140" stroke="rgba(212, 175, 55, 0.20)" stroke-width="3" stroke-dasharray="2 12.65" class="fill-transparent" />
                         
                         <!-- Base Track -->
-                        <circle id="timer-base-track" cx="150" cy="150" r="126" stroke="rgba(138, 21, 56, 0.25)" stroke-width="9" class="fill-transparent transition-all duration-700" />
+                        <circle id="timer-base-track" cx="150" cy="150" r="126" stroke="rgba(138, 21, 56, 0.35)" stroke-width="9" class="fill-transparent transition-all duration-700" />
                         
                         <!-- Active Progress Track with Dynamic Gradient & Glow -->
                         <circle id="timer-progress-circle" cx="150" cy="150" r="126" stroke="url(#studysoukGoldGradient)" stroke-width="9" 
@@ -499,18 +523,18 @@
                             <img src="assets/logo.png" alt="StudySouk Plume" class="w-9 h-9 sm:w-10 sm:h-10 object-contain timer-center-emblem drop-shadow-[0_0_14px_rgba(212,175,55,0.85)]">
                         </div>
                         
-                        <span id="timer-display" class="font-mono text-4xl sm:text-5xl font-black tracking-tight text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.45)] select-none">
+                        <span id="timer-display" class="font-mono text-5xl sm:text-6xl font-black tracking-tight text-white drop-shadow-[0_0_24px_rgba(212,175,55,0.65)] select-none">
                             25:00
                         </span>
 
                         <div class="flex items-center gap-1.5 mt-1.5">
-                            <span id="active-subject-badge" class="text-[10px] font-extrabold text-brand-goldLight font-outfit uppercase tracking-wider px-2.5 py-0.5 rounded-full glass-card border border-brand-gold/40 shadow-sm">
+                            <span id="active-subject-badge" class="text-xs font-black text-brand-goldLight font-outfit uppercase tracking-wider px-3 py-1 rounded-full glass-card border border-brand-gold/50 shadow-md">
                                 📐 Maths • Analyse
                             </span>
                         </div>
 
-                        <span id="timer-sync-label" class="text-[9px] uppercase tracking-widest text-brand-muted font-bold mt-1 font-outfit flex items-center gap-1">
-                            <i class="fa-solid fa-satellite-dish text-brand-gold text-[8px] animate-pulse"></i> Salon Synchronisé
+                        <span id="timer-sync-label" class="text-xs uppercase tracking-wider text-brand-goldLight font-bold mt-1 font-outfit flex items-center gap-1.5">
+                            <i class="fa-solid fa-satellite-dish text-brand-gold text-xs animate-pulse"></i> Salon Synchronisé
                         </span>
                     </div>
                 </div>
@@ -519,7 +543,7 @@
             <!-- Unified Luxury Control Dock (Apple Dynamic Island & Linear Style) -->
             <div class="glass-panel rounded-2xl p-1.5 mb-2 border border-brand-borderSubtle flex items-center gap-1.5 sm:gap-2 shadow-2xl">
                 <!-- -5m Quick Modifier -->
-                <button id="btn-timer-sub5" title="Retirer 5 minutes" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-[11px] font-black flex items-center justify-center shadow active:scale-90 transition">
+                <button id="btn-timer-sub5" title="Retirer 5 minutes" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-xs font-black flex items-center justify-center shadow active:scale-90 transition">
                     -5m
                 </button>
 
@@ -540,28 +564,28 @@
                 </button>
 
                 <!-- +5m Quick Modifier -->
-                <button id="btn-timer-add5" title="Ajouter 5 minutes" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-[11px] font-black flex items-center justify-center shadow active:scale-90 transition">
+                <button id="btn-timer-add5" title="Ajouter 5 minutes" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-xs font-black flex items-center justify-center shadow active:scale-90 transition">
                     +5m
                 </button>
             </div>
 
             <!-- Academic Stats & Quotation Card (Compact Luxury) -->
-            <div class="stats-card w-full max-w-md glass-panel rounded-xl p-2.5 border border-brand-borderSubtle flex flex-col gap-1.5 shadow-md">
+            <div class="stats-card w-full max-w-md glass-panel rounded-xl p-3 border border-brand-borderSubtle flex flex-col gap-2 shadow-md">
                 <div class="grid grid-cols-2 divide-x divide-brand-border text-center">
                     <div>
-                        <span class="text-[10px] text-brand-muted uppercase tracking-wider block font-outfit font-bold">Sessions Validées</span>
-                        <span id="stat-sessions" class="font-mono text-base font-bold text-brand-gold">0</span>
+                        <span class="text-xs text-brand-muted uppercase tracking-wider block font-outfit font-black">Sessions Validées</span>
+                        <span id="stat-sessions" class="font-mono text-lg font-black text-brand-goldLight">0</span>
                     </div>
                     <div>
-                        <span class="text-[10px] text-brand-muted uppercase tracking-wider block font-outfit font-bold">Temps de Deep Work</span>
-                        <span id="stat-minutes" class="font-mono text-base font-bold text-brand-gold">0 min</span>
+                        <span class="text-xs text-brand-muted uppercase tracking-wider block font-outfit font-black">Temps de Deep Work</span>
+                        <span id="stat-minutes" class="font-mono text-lg font-black text-brand-goldLight">0 min</span>
                     </div>
                 </div>
-                <div class="border-t border-brand-border pt-1.5 text-center">
-                    <p id="study-quote-text" class="text-[11px] text-brand-text italic font-medium leading-tight">
+                <div class="border-t border-brand-border pt-2 text-center">
+                    <p id="study-quote-text" class="text-xs sm:text-sm text-white italic font-semibold leading-normal">
                         « In Mathematics, the mind resolves during the pause that follows intense effort. »
                     </p>
-                    <span id="study-quote-author" class="text-[9px] text-brand-goldLight block mt-0.5 font-outfit font-semibold">
+                    <span id="study-quote-author" class="text-xs text-brand-goldLight block mt-1 font-outfit font-bold">
                         — Henri Poincaré
                     </span>
                 </div>
@@ -594,66 +618,66 @@
                         <i class="fa-solid fa-chart-pie text-brand-gold text-lg"></i>
                     </div>
                     <div>
-                        <h2 class="text-sm font-extrabold text-white font-outfit flex items-center gap-2">
+                        <h2 class="text-sm sm:text-base font-black text-white font-outfit flex items-center gap-2">
                             Tableau de Bord & Analytics STEM
-                            <span class="text-[9px] bg-brand-gold/20 text-brand-goldLight border border-brand-gold/40 px-2 py-0.5 rounded-full font-mono uppercase">CPGE & 2BAC</span>
+                            <span class="text-xs bg-brand-gold/20 text-brand-goldLight border border-brand-gold/40 px-2.5 py-0.5 rounded-full font-mono uppercase font-bold">CPGE & 2BAC</span>
                         </h2>
-                        <p class="text-[11px] text-brand-muted font-sans">Suivi rigoureux du temps de révision, répartition par matière & objectifs de concours.</p>
+                        <p class="text-xs text-brand-muted font-medium mt-0.5">Suivi rigoureux du temps de révision, répartition par matière & objectifs de concours.</p>
                     </div>
                 </div>
-                <button id="btn-export-stats" title="Copier le résumé de la session" class="p-2 rounded-lg bg-brand-card hover:bg-brand-cherry border border-brand-borderSubtle text-brand-goldLight text-xs transition active:scale-95">
-                    <i class="fa-solid fa-share-nodes"></i>
+                <button id="btn-export-stats" title="Copier le résumé de la session" class="p-2.5 rounded-xl bg-brand-card hover:bg-brand-cherry border border-brand-borderSubtle text-brand-goldLight text-xs transition active:scale-95 shadow">
+                    <i class="fa-solid fa-share-nodes text-sm"></i>
                 </button>
             </div>
 
             <!-- 4 KPI Summary Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full">
                 <!-- Focus Total -->
-                <div class="glass-card rounded-xl p-3 border border-brand-borderSubtle flex flex-col justify-between shadow">
-                    <div class="flex items-center justify-between text-brand-muted text-[11px] font-outfit">
+                <div class="glass-card rounded-xl p-3.5 border border-brand-borderSubtle flex flex-col justify-between shadow">
+                    <div class="flex items-center justify-between text-brand-muted text-xs font-outfit font-bold">
                         <span>Focus Total</span>
                         <i class="fa-solid fa-clock text-brand-gold"></i>
                     </div>
-                    <div class="my-1">
-                        <span id="dash-total-time" class="text-xl font-black text-white font-mono">0 min</span>
+                    <div class="my-1.5">
+                        <span id="dash-total-time" class="text-2xl font-black text-white font-mono">0 min</span>
                     </div>
-                    <span class="text-[10px] text-brand-goldLight/80 font-sans">Temps pur d'étude</span>
+                    <span class="text-xs text-brand-goldLight font-semibold">Temps pur d'étude</span>
                 </div>
 
                 <!-- Sessions / Blocs -->
-                <div class="glass-card rounded-xl p-3 border border-brand-borderSubtle flex flex-col justify-between shadow">
-                    <div class="flex items-center justify-between text-brand-muted text-[11px] font-outfit">
+                <div class="glass-card rounded-xl p-3.5 border border-brand-borderSubtle flex flex-col justify-between shadow">
+                    <div class="flex items-center justify-between text-brand-muted text-xs font-outfit font-bold">
                         <span>Blocs Validés</span>
                         <i class="fa-solid fa-bullseye text-brand-gold"></i>
                     </div>
-                    <div class="my-1">
-                        <span id="dash-sessions-count" class="text-xl font-black text-brand-gold font-mono">0</span>
+                    <div class="my-1.5">
+                        <span id="dash-sessions-count" class="text-2xl font-black text-brand-goldLight font-mono">0</span>
                     </div>
-                    <span class="text-[10px] text-brand-muted font-sans">Obj: 6 blocs/j</span>
+                    <span class="text-xs text-brand-muted font-medium">Obj: 6 blocs/j</span>
                 </div>
 
                 <!-- Streak -->
-                <div class="glass-card rounded-xl p-3 border border-brand-borderSubtle flex flex-col justify-between shadow">
-                    <div class="flex items-center justify-between text-brand-muted text-[11px] font-outfit">
+                <div class="glass-card rounded-xl p-3.5 border border-brand-borderSubtle flex flex-col justify-between shadow">
+                    <div class="flex items-center justify-between text-brand-muted text-xs font-outfit font-bold">
                         <span>Série Active</span>
                         <i class="fa-solid fa-fire text-amber-500"></i>
                     </div>
-                    <div class="my-1">
-                        <span id="dash-streak-days" class="text-xl font-black text-amber-400 font-mono">1 jour</span>
+                    <div class="my-1.5">
+                        <span id="dash-streak-days" class="text-2xl font-black text-amber-400 font-mono">1 jour</span>
                     </div>
-                    <span class="text-[10px] text-emerald-400 font-sans">En régularité 🔥</span>
+                    <span class="text-xs text-emerald-400 font-bold">En régularité 🔥</span>
                 </div>
 
                 <!-- Taux Objectifs -->
-                <div class="glass-card rounded-xl p-3 border border-brand-borderSubtle flex flex-col justify-between shadow">
-                    <div class="flex items-center justify-between text-brand-muted text-[11px] font-outfit">
+                <div class="glass-card rounded-xl p-3.5 border border-brand-borderSubtle flex flex-col justify-between shadow">
+                    <div class="flex items-center justify-between text-brand-muted text-xs font-outfit font-bold">
                         <span>Taux Exercices</span>
                         <i class="fa-solid fa-circle-check text-emerald-400"></i>
                     </div>
-                    <div class="my-1">
-                        <span id="dash-tasks-rate" class="text-xl font-black text-emerald-400 font-mono">100%</span>
+                    <div class="my-1.5">
+                        <span id="dash-tasks-rate" class="text-2xl font-black text-emerald-400 font-mono">100%</span>
                     </div>
-                    <span id="dash-tasks-count" class="text-[10px] text-brand-muted font-sans">0/0 terminés</span>
+                    <span id="dash-tasks-count" class="text-xs text-brand-muted font-medium">0/0 terminés</span>
                 </div>
             </div>
 
@@ -661,10 +685,10 @@
             <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle space-y-3 shadow-lg">
                 <div class="flex items-center justify-between pb-2 border-b border-brand-border">
                     <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-scale-balanced text-brand-gold"></i>
-                        <h3 class="text-xs font-extrabold text-brand-text font-outfit">Répartition du Temps par Pôle STEM</h3>
+                        <i class="fa-solid fa-scale-balanced text-brand-gold text-sm"></i>
+                        <h3 class="text-xs sm:text-sm font-extrabold text-white font-outfit">Répartition du Temps par Pôle STEM</h3>
                     </div>
-                    <span id="dash-subject-count" class="text-[10px] text-brand-goldLight font-mono">0h 00m total</span>
+                    <span id="dash-subject-count" class="text-xs text-brand-goldLight font-mono font-bold">0h 00m total</span>
                 </div>
 
                 <!-- Multi-segment visual bar -->
@@ -676,61 +700,61 @@
                 </div>
 
                 <!-- 4 Subject Progress Items -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
                     <!-- Maths -->
-                    <div class="bg-brand-card rounded-xl p-2.5 border border-brand-borderSubtle space-y-1.5">
-                        <div class="flex items-center justify-between text-xs">
-                            <span class="text-blue-300 font-bold font-outfit flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-blue-500"></span> 📐 Mathématiques
+                    <div class="bg-brand-card rounded-xl p-3 border border-brand-borderSubtle space-y-1.5 shadow-sm">
+                        <div class="flex items-center justify-between text-xs sm:text-sm">
+                            <span class="text-blue-300 font-extrabold font-outfit flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> 📐 Mathématiques
                             </span>
-                            <span id="dash-maths-time" class="font-mono text-[11px] text-blue-200">0m (0%)</span>
+                            <span id="dash-maths-time" class="font-mono text-xs font-bold text-blue-200">0m (0%)</span>
                         </div>
-                        <div class="w-full h-1.5 rounded-full bg-brand-darker overflow-hidden">
+                        <div class="w-full h-2 rounded-full bg-brand-darker overflow-hidden">
                             <div id="dash-maths-bar" class="h-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-500" style="width: 0%"></div>
                         </div>
-                        <p class="text-[9px] text-brand-muted truncate">Analyse, Algèbre linéaire, Topologie, Probas</p>
+                        <p class="text-xs text-brand-muted truncate font-medium">Analyse, Algèbre linéaire, Topologie, Probas</p>
                     </div>
 
                     <!-- Physique -->
-                    <div class="bg-brand-card rounded-xl p-2.5 border border-brand-borderSubtle space-y-1.5">
-                        <div class="flex items-center justify-between text-xs">
-                            <span class="text-emerald-300 font-bold font-outfit flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> ⚛️ Physique
+                    <div class="bg-brand-card rounded-xl p-3 border border-brand-borderSubtle space-y-1.5 shadow-sm">
+                        <div class="flex items-center justify-between text-xs sm:text-sm">
+                            <span class="text-emerald-300 font-extrabold font-outfit flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> ⚛️ Physique
                             </span>
-                            <span id="dash-phys-time" class="font-mono text-[11px] text-emerald-200">0m (0%)</span>
+                            <span id="dash-phys-time" class="font-mono text-xs font-bold text-emerald-200">0m (0%)</span>
                         </div>
-                        <div class="w-full h-1.5 rounded-full bg-brand-darker overflow-hidden">
+                        <div class="w-full h-2 rounded-full bg-brand-darker overflow-hidden">
                             <div id="dash-phys-bar" class="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-500" style="width: 0%"></div>
                         </div>
-                        <p class="text-[9px] text-brand-muted truncate">Mécanique, Électromagnétisme, Thermo, Ondes</p>
+                        <p class="text-xs text-brand-muted truncate font-medium">Mécanique, Électromagnétisme, Thermo, Ondes</p>
                     </div>
 
                     <!-- Chimie -->
-                    <div class="bg-brand-card rounded-xl p-2.5 border border-brand-borderSubtle space-y-1.5">
-                        <div class="flex items-center justify-between text-xs">
-                            <span class="text-teal-300 font-bold font-outfit flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-teal-500"></span> 🧪 Chimie
+                    <div class="bg-brand-card rounded-xl p-3 border border-brand-borderSubtle space-y-1.5 shadow-sm">
+                        <div class="flex items-center justify-between text-xs sm:text-sm">
+                            <span class="text-teal-300 font-extrabold font-outfit flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-teal-500"></span> 🧪 Chimie
                             </span>
-                            <span id="dash-chim-time" class="font-mono text-[11px] text-teal-200">0m (0%)</span>
+                            <span id="dash-chim-time" class="font-mono text-xs font-bold text-teal-200">0m (0%)</span>
                         </div>
-                        <div class="w-full h-1.5 rounded-full bg-brand-darker overflow-hidden">
+                        <div class="w-full h-2 rounded-full bg-brand-darker overflow-hidden">
                             <div id="dash-chim-bar" class="h-full bg-gradient-to-r from-teal-600 to-teal-400 transition-all duration-500" style="width: 0%"></div>
                         </div>
-                        <p class="text-[9px] text-brand-muted truncate">Thermodynamique chimique, Solutions, Redox</p>
+                        <p class="text-xs text-brand-muted truncate font-medium">Thermodynamique chimique, Solutions, Redox</p>
                     </div>
 
                     <!-- Info & SI -->
-                    <div class="bg-brand-card rounded-xl p-2.5 border border-brand-borderSubtle space-y-1.5">
-                        <div class="flex items-center justify-between text-xs">
-                            <span class="text-purple-300 font-bold font-outfit flex items-center gap-1.5">
-                                <span class="w-2 h-2 rounded-full bg-purple-500"></span> 💻 Info & SI
+                    <div class="bg-brand-card rounded-xl p-3 border border-brand-borderSubtle space-y-1.5 shadow-sm">
+                        <div class="flex items-center justify-between text-xs sm:text-sm">
+                            <span class="text-purple-300 font-extrabold font-outfit flex items-center gap-1.5">
+                                <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> 💻 Info & SI
                             </span>
-                            <span id="dash-info-time" class="font-mono text-[11px] text-purple-200">0m (0%)</span>
+                            <span id="dash-info-time" class="font-mono text-xs font-bold text-purple-200">0m (0%)</span>
                         </div>
-                        <div class="w-full h-1.5 rounded-full bg-brand-darker overflow-hidden">
+                        <div class="w-full h-2 rounded-full bg-brand-darker overflow-hidden">
                             <div id="dash-info-bar" class="h-full bg-gradient-to-r from-purple-600 to-purple-400 transition-all duration-500" style="width: 0%"></div>
                         </div>
-                        <p class="text-[9px] text-brand-muted truncate">Algorithmique Python, SQL, Automatique, SLCI</p>
+                        <p class="text-xs text-brand-muted truncate font-medium">Algorithmique Python, SQL, Automatique, SLCI</p>
                     </div>
                 </div>
             </div>
@@ -739,10 +763,10 @@
             <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle space-y-3 shadow-lg">
                 <div class="flex items-center justify-between pb-2 border-b border-brand-border">
                     <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-clock-rotate-left text-brand-gold"></i>
-                        <h3 class="text-xs font-extrabold text-brand-text font-outfit">Journal Récent des Sessions</h3>
+                        <i class="fa-solid fa-clock-rotate-left text-brand-gold text-sm"></i>
+                        <h3 class="text-xs sm:text-sm font-extrabold text-white font-outfit">Journal Récent des Sessions</h3>
                     </div>
-                    <button id="btn-clear-history" class="text-[10px] text-brand-muted hover:text-rose-400 transition">
+                    <button id="btn-clear-history" class="text-xs text-brand-muted hover:text-rose-400 font-bold transition">
                         Effacer
                     </button>
                 </div>
@@ -754,26 +778,26 @@
             <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle space-y-3 shadow-lg">
                 <div class="flex items-center justify-between pb-2 border-b border-brand-border">
                     <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-brand-gold"></i>
-                        <h3 class="text-xs font-extrabold text-brand-text font-outfit">Objectifs & Devoirs de Concours</h3>
+                        <i class="fa-solid fa-list-check text-brand-gold text-sm"></i>
+                        <h3 class="text-xs sm:text-sm font-extrabold text-white font-outfit">Objectifs & Devoirs de Concours</h3>
                     </div>
-                    <span id="tasks-count-pill" class="text-[10px] bg-brand-darker border border-brand-border px-2 py-0.5 rounded-full text-brand-goldLight font-mono">0 restant</span>
+                    <span id="tasks-count-pill" class="text-xs bg-brand-darker border border-brand-border px-2.5 py-0.5 rounded-full text-brand-goldLight font-mono font-bold">0 restant</span>
                 </div>
 
                 <!-- Subject Quick Filter Chips -->
-                <div id="task-filter-chips" class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-[11px] font-outfit font-semibold">
-                    <button data-filter="all" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-cherry text-brand-goldLight border border-brand-gold transition shadow-sm">Tous</button>
-                    <button data-filter="Maths" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Maths</button>
-                    <button data-filter="Physique" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Physique</button>
-                    <button data-filter="Chimie" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Chimie</button>
-                    <button data-filter="Info" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Info</button>
-                    <button data-filter="SI" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">SI</button>
+                <div id="task-filter-chips" class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-xs font-outfit font-bold">
+                    <button data-filter="all" class="task-filter-btn px-3 py-1.5 rounded-lg bg-brand-cherry text-brand-goldLight border border-brand-gold transition shadow-sm">Tous</button>
+                    <button data-filter="Maths" class="task-filter-btn px-3 py-1.5 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Maths</button>
+                    <button data-filter="Physique" class="task-filter-btn px-3 py-1.5 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Physique</button>
+                    <button data-filter="Chimie" class="task-filter-btn px-3 py-1.5 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Chimie</button>
+                    <button data-filter="Info" class="task-filter-btn px-3 py-1.5 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Info</button>
+                    <button data-filter="SI" class="task-filter-btn px-3 py-1.5 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">SI</button>
                 </div>
 
                 <form id="task-form" class="flex flex-col gap-2">
                     <div class="flex gap-2">
-                        <input id="task-input" type="text" placeholder="Ex: TD Analyse Exercice 2 (Riemann), CNC 2024 MP..." class="flex-1 bg-brand-darker border border-brand-border rounded-lg px-3 py-2 text-xs text-brand-text placeholder-brand-muted focus:outline-none focus:border-brand-gold font-sans">
-                        <select id="task-subject" class="bg-brand-darker border border-brand-border rounded-lg px-2.5 py-2 text-xs text-brand-goldLight focus:outline-none focus:border-brand-gold font-outfit">
+                        <input id="task-input" type="text" placeholder="Ex: TD Analyse Exercice 2 (Riemann), CNC 2024 MP..." class="flex-1 bg-brand-darker border border-brand-border rounded-xl px-3 py-2.5 text-xs sm:text-sm text-white placeholder-brand-muted focus:outline-none focus:border-brand-gold font-sans font-medium">
+                        <select id="task-subject" class="bg-brand-darker border border-brand-border rounded-xl px-3 py-2.5 text-xs sm:text-sm text-brand-goldLight focus:outline-none focus:border-brand-gold font-outfit font-bold">
                             <option value="Maths">Maths</option>
                             <option value="Physique">Physique</option>
                             <option value="Chimie">Chimie</option>
@@ -782,18 +806,18 @@
                             <option value="Général" selected>Général</option>
                         </select>
                     </div>
-                    <button type="submit" class="w-full py-2.5 bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant text-brand-goldLight font-extrabold text-xs rounded-lg transition active:scale-95 shadow font-outfit">
+                    <button type="submit" class="w-full py-2.5 bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant text-brand-goldLight font-black text-xs sm:text-sm rounded-xl transition active:scale-95 shadow font-outfit border border-brand-gold/40">
                         <i class="fa-solid fa-plus mr-1"></i> Ajouter à la session (+15 XP)
                     </button>
                 </form>
 
                 <div id="tasks-list" class="space-y-2 max-h-52 overflow-y-auto pr-1"></div>
 
-                <div class="flex items-center justify-between pt-1 border-t border-brand-border text-[11px]">
-                    <button id="btn-clear-completed-tasks" class="text-brand-muted hover:text-rose-400 transition flex items-center gap-1 font-outfit">
-                        <i class="fa-solid fa-trash-can text-[10px]"></i> Nettoyer les tâches terminées
+                <div class="flex items-center justify-between pt-1 border-t border-brand-border text-xs">
+                    <button id="btn-clear-completed-tasks" class="text-brand-muted hover:text-rose-400 transition flex items-center gap-1 font-outfit font-bold">
+                        <i class="fa-solid fa-trash-can text-xs"></i> Nettoyer les tâches terminées
                     </button>
-                    <span class="text-brand-muted font-sans">+30 XP par TD validé</span>
+                    <span class="text-brand-goldLight font-sans font-semibold">+30 XP par TD validé</span>
                 </div>
             </div>
 
@@ -954,42 +978,42 @@
     </div>
 
     <!-- Official StudySouk Bottom Navigation Bar -->
-    <footer class="w-full glass-panel border-t border-brand-borderSubtle sticky bottom-0 z-40 py-1 px-2">
+    <footer class="w-full glass-panel border-t border-brand-borderSubtle sticky bottom-0 z-40 py-1.5 px-2">
         <div class="max-w-xl mx-auto grid grid-cols-6 gap-1 w-full py-0.5">
-            <button data-tab="tab-timer" class="nav-tab-btn tab-active flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold">
-                <i class="fa-solid fa-stopwatch text-sm text-brand-gold"></i>
-                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Minuteur</span>
+            <button data-tab="tab-timer" class="nav-tab-btn tab-active flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold">
+                <i class="fa-solid fa-stopwatch text-base text-brand-gold"></i>
+                <span class="text-xs font-black font-outfit truncate">Minuteur</span>
             </button>
-            <button data-tab="tab-flashcards" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
-                <i class="fa-solid fa-graduation-cap text-sm"></i>
-                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Flashcards</span>
+            <button data-tab="tab-flashcards" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent">
+                <i class="fa-solid fa-graduation-cap text-base"></i>
+                <span class="text-xs font-black font-outfit truncate">Flashcards</span>
             </button>
-            <button data-tab="tab-scratchpad" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
-                <i class="fa-solid fa-pen-ruler text-sm"></i>
-                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Ardoise</span>
+            <button data-tab="tab-scratchpad" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent">
+                <i class="fa-solid fa-pen-ruler text-base"></i>
+                <span class="text-xs font-black font-outfit truncate">Ardoise</span>
             </button>
-            <button data-tab="tab-duel" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
-                <i class="fa-solid fa-bolt text-sm"></i>
-                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Duel STEM</span>
+            <button data-tab="tab-duel" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent">
+                <i class="fa-solid fa-bolt text-base"></i>
+                <span class="text-xs font-black font-outfit truncate">Duel STEM</span>
             </button>
-            <button data-tab="tab-tasks" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
-                <i class="fa-solid fa-chart-pie text-sm"></i>
-                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Dashboard</span>
+            <button data-tab="tab-tasks" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent">
+                <i class="fa-solid fa-chart-pie text-base"></i>
+                <span class="text-xs font-black font-outfit truncate">Dashboard</span>
             </button>
-            <button data-tab="tab-ambience" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
-                <i class="fa-solid fa-sliders text-sm"></i>
-                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Ambiance</span>
+            <button data-tab="tab-ambience" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent">
+                <i class="fa-solid fa-sliders text-base"></i>
+                <span class="text-xs font-black font-outfit truncate">Ambiance</span>
             </button>
         </div>
     </footer>
 
     <!-- MODAL: ROOM ROSTER (Connected Members) -->
-    <div id="roster-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div id="roster-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="glass-panel rounded-2xl border border-brand-borderSubtle p-5 max-w-sm w-full space-y-4 shadow-2xl">
             <div class="flex items-center justify-between pb-2 border-b border-brand-border">
                 <div class="flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <h3 class="text-sm font-bold text-brand-text font-outfit">Étudiants dans ce Salon Vocal</h3>
+                    <h3 class="text-sm font-extrabold text-white font-outfit">Étudiants dans ce Salon Vocal</h3>
                 </div>
                 <button id="btn-close-roster" class="text-brand-muted hover:text-white text-xs p-1">
                     <i class="fa-solid fa-xmark text-sm"></i>
@@ -999,7 +1023,7 @@
             <div id="roster-users-list" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
 
             <div class="pt-2 border-t border-brand-border text-center">
-                <p class="text-[10px] text-brand-muted font-sans">
+                <p class="text-xs text-brand-muted font-sans font-medium">
                     Le minuteur et les duels sont synchronisés entre tous les participants.
                 </p>
             </div>
@@ -1007,12 +1031,12 @@
     </div>
 
     <!-- MODAL: INVITE & JOIN ROOM -->
-    <div id="invite-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div id="invite-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
         <div class="glass-panel rounded-2xl border border-brand-borderSubtle p-5 max-w-sm w-full space-y-4 shadow-2xl">
             <div class="flex items-center justify-between pb-2 border-b border-brand-border">
                 <div class="flex items-center gap-2">
                     <i class="fa-solid fa-user-plus text-brand-gold"></i>
-                    <h3 class="text-sm font-bold text-brand-text font-outfit">Inviter & Rejoindre</h3>
+                    <h3 class="text-sm font-extrabold text-white font-outfit">Inviter & Rejoindre</h3>
                 </div>
                 <button id="btn-close-invite" class="text-brand-muted hover:text-white text-xs p-1">
                     <i class="fa-solid fa-xmark text-sm"></i>
@@ -1020,11 +1044,11 @@
             </div>
 
             <!-- Current Room Info -->
-            <div class="p-3 rounded-xl bg-brand-darker border border-brand-border space-y-1">
-                <span class="text-[10px] text-brand-muted uppercase font-bold block font-outfit">Salle Actuelle :</span>
+            <div class="p-3.5 rounded-xl bg-brand-darker border border-brand-border space-y-1.5">
+                <span class="text-xs text-brand-muted uppercase font-black block font-outfit">Salle Actuelle :</span>
                 <div class="flex items-center justify-between">
-                    <code id="current-room-code" class="text-xs font-mono font-bold text-brand-goldLight truncate">studysouk-main-hall</code>
-                    <button id="btn-copy-room-link" class="px-2 py-1 rounded bg-brand-card hover:bg-brand-cardHover text-[10px] font-bold text-brand-goldLight border border-brand-border transition active:scale-95 font-outfit flex items-center gap-1">
+                    <code id="current-room-code" class="text-sm font-mono font-black text-brand-goldLight truncate">studysouk-main-hall</code>
+                    <button id="btn-copy-room-link" class="px-2.5 py-1.5 rounded-lg bg-brand-card hover:bg-brand-cardHover text-xs font-bold text-brand-goldLight border border-brand-border transition active:scale-95 font-outfit flex items-center gap-1.5 shadow">
                         <i class="fa-regular fa-copy"></i> Copier Lien
                     </button>
                 </div>
@@ -1032,21 +1056,21 @@
 
             <!-- Discord Native Invite Button -->
             <div id="discord-native-invite-box">
-                <button id="btn-discord-open-invite" class="w-full py-2.5 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white font-extrabold text-xs font-outfit transition active:scale-95 shadow flex items-center justify-center gap-2">
+                <button id="btn-discord-open-invite" class="w-full py-3 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white font-black text-xs sm:text-sm font-outfit transition active:scale-95 shadow-lg flex items-center justify-center gap-2">
                     <i class="fa-brands fa-discord text-base"></i>
                     <span>Inviter des Amis sur Discord</span>
                 </button>
-                <p class="text-[10px] text-brand-muted text-center mt-1 font-sans">
+                <p class="text-xs text-brand-muted text-center mt-1.5 font-sans font-medium">
                     Ouvre le sélecteur d'amis Discord natif pour les ajouter en 1 clic.
                 </p>
             </div>
 
             <!-- Custom Room Code Join Section -->
             <div class="pt-3 border-t border-brand-border space-y-2">
-                <span class="text-[11px] font-bold text-brand-gold block font-outfit">Rejoindre une autre Salle / Groupe :</span>
-                <div class="flex gap-1.5">
-                    <input id="input-join-room-code" type="text" placeholder="Ex: cpge-mp-rabat, sm-casablanca..." class="flex-1 bg-brand-darker border border-brand-border rounded-lg px-2.5 py-2 text-xs text-brand-text placeholder-brand-muted focus:outline-none focus:border-brand-gold font-mono">
-                    <button id="btn-do-join-room" class="px-3 py-2 rounded-lg bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight text-brand-darker font-extrabold text-xs font-outfit transition active:scale-95 shadow">
+                <span class="text-xs font-extrabold text-brand-gold block font-outfit">Rejoindre une autre Salle / Groupe :</span>
+                <div class="flex gap-2">
+                    <input id="input-join-room-code" type="text" placeholder="Ex: cpge-mp-rabat, sm-casablanca..." class="flex-1 bg-brand-darker border border-brand-border rounded-xl px-3 py-2 text-xs sm:text-sm text-white placeholder-brand-muted focus:outline-none focus:border-brand-gold font-mono font-medium">
+                    <button id="btn-do-join-room" class="px-4 py-2 rounded-xl bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight text-brand-darker font-black text-xs font-outfit transition active:scale-95 shadow">
                         Rejoindre
                     </button>
                 </div>
@@ -1055,7 +1079,7 @@
     </div>
 
     <!-- MODAL: PROFILE CUSTOMIZER -->
-    <div id="profile-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-3">
+    <div id="profile-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-3">
         <div class="glass-panel rounded-3xl border border-brand-gold/60 p-5 max-w-sm w-full space-y-4 shadow-2xl relative overflow-hidden">
             <!-- Moroccan Royal Gold Glow Backdrop -->
             <div class="absolute -top-12 -right-12 w-28 h-28 bg-brand-gold/20 rounded-full blur-2xl pointer-events-none"></div>
@@ -1064,8 +1088,8 @@
                 <div class="flex items-center gap-2">
                     <img src="assets/logo.png" alt="StudySouk Plume" class="w-6 h-6 object-contain">
                     <div>
-                        <h3 class="text-xs font-black text-white font-outfit uppercase tracking-wider">Profil Étudiant STEM</h3>
-                        <span class="text-[9px] text-brand-goldLight font-mono">Personnalisation & Identité Concours</span>
+                        <h3 class="text-xs sm:text-sm font-black text-white font-outfit uppercase tracking-wider">Profil Étudiant STEM</h3>
+                        <span class="text-xs text-brand-goldLight font-mono font-bold">Personnalisation & Identité Concours</span>
                     </div>
                 </div>
                 <button id="btn-close-profile" class="text-brand-muted hover:text-white text-xs p-1">
@@ -1073,15 +1097,15 @@
                 </button>
             </div>
 
-            <div class="space-y-2.5">
+            <div class="space-y-3">
                 <div>
-                    <label class="text-[10px] font-bold text-brand-goldLight uppercase tracking-wider block mb-1 font-outfit">Nom / Pseudo :</label>
-                    <input id="profile-name-input" type="text" maxlength="24" placeholder="Ex: Al-Khwarizmi, Reda..." class="w-full bg-brand-darker border border-brand-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-gold font-sans">
+                    <label class="text-xs font-black text-brand-goldLight uppercase tracking-wider block mb-1 font-outfit">Nom / Pseudo :</label>
+                    <input id="profile-name-input" type="text" maxlength="24" placeholder="Ex: Al-Khwarizmi, Reda..." class="w-full bg-brand-darker border border-brand-border rounded-xl px-3 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-brand-gold font-sans font-semibold">
                 </div>
 
                 <div>
-                    <label class="text-[10px] font-bold text-brand-goldLight uppercase tracking-wider block mb-1 font-outfit">Filière / Niveau CPGE & 2BAC :</label>
-                    <select id="profile-filiere-select" class="w-full bg-brand-darker border border-brand-border rounded-xl px-3 py-2 text-xs text-brand-goldLight focus:outline-none focus:border-brand-gold font-outfit font-bold">
+                    <label class="text-xs font-black text-brand-goldLight uppercase tracking-wider block mb-1 font-outfit">Filière / Niveau CPGE & 2BAC :</label>
+                    <select id="profile-filiere-select" class="w-full bg-brand-darker border border-brand-border rounded-xl px-3 py-2.5 text-xs sm:text-sm text-brand-goldLight focus:outline-none focus:border-brand-gold font-outfit font-bold">
                         <option value="CPGE MP*">🏆 CPGE MP* (Maths-Physique Étoile)</option>
                         <option value="CPGE MP">📐 CPGE MP (Maths-Physique)</option>
                         <option value="CPGE PSI*">⚙️ CPGE PSI* (Physique & SI Étoile)</option>
@@ -1096,33 +1120,33 @@
                 </div>
 
                 <div>
-                    <label class="text-[10px] font-bold text-brand-goldLight uppercase tracking-wider block mb-1 font-outfit">Devise / Objectif de Concours :</label>
-                    <input id="profile-bio-input" type="text" maxlength="40" placeholder="Ex: Major CNC 2026 InchaAllah, Mines..." class="w-full bg-brand-darker border border-brand-border rounded-xl px-3 py-2 text-xs text-white placeholder-brand-dim focus:outline-none focus:border-brand-gold font-sans">
+                    <label class="text-xs font-black text-brand-goldLight uppercase tracking-wider block mb-1 font-outfit">Devise / Objectif de Concours :</label>
+                    <input id="profile-bio-input" type="text" maxlength="40" placeholder="Ex: Major CNC 2026 InchaAllah, Mines..." class="w-full bg-brand-darker border border-brand-border rounded-xl px-3 py-2.5 text-xs sm:text-sm text-white placeholder-brand-muted focus:outline-none focus:border-brand-gold font-sans font-semibold">
                 </div>
 
                 <div>
                     <div class="flex items-center justify-between mb-1">
-                        <label class="text-[10px] font-bold text-brand-goldLight uppercase tracking-wider block font-outfit">Avatar Savant STEM :</label>
-                        <span id="profile-matricule-tag" class="text-[9px] font-mono text-brand-muted">SS-2026-0001</span>
+                        <label class="text-xs font-black text-brand-goldLight uppercase tracking-wider block font-outfit">Avatar Savant STEM :</label>
+                        <span id="profile-matricule-tag" class="text-xs font-mono font-bold text-brand-muted">SS-2026-0001</span>
                     </div>
                     <div class="grid grid-cols-4 gap-1.5" id="avatar-presets-grid"></div>
                 </div>
 
                 <!-- Custom Avatar URL (Optional) -->
                 <div>
-                    <label class="text-[9px] font-semibold text-brand-muted block mb-0.5 font-outfit">Ou lien d'avatar personnalisé (URL) :</label>
-                    <input id="profile-custom-avatar-input" type="url" placeholder="https://..." class="w-full bg-brand-darker border border-brand-border rounded-lg px-2.5 py-1.5 text-[11px] text-brand-muted focus:text-white focus:outline-none focus:border-brand-gold font-mono">
+                    <label class="text-xs font-bold text-brand-muted block mb-0.5 font-outfit">Ou lien d'avatar personnalisé (URL) :</label>
+                    <input id="profile-custom-avatar-input" type="url" placeholder="https://..." class="w-full bg-brand-darker border border-brand-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-gold font-mono">
                 </div>
             </div>
 
-            <button id="btn-save-profile" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-brand-cherry via-brand-cherryVibrant to-brand-gold text-brand-goldLight font-black text-xs font-outfit transition active:scale-95 shadow-lg border border-brand-gold/40">
+            <button id="btn-save-profile" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-cherry via-brand-cherryVibrant to-brand-gold text-brand-goldLight font-black text-xs sm:text-sm font-outfit transition active:scale-95 shadow-lg border border-brand-gold/40">
                 <i class="fa-solid fa-check mr-1"></i> Enregistrer & Synchroniser
             </button>
         </div>
     </div>
 
     <!-- MODAL: CARTE D'ÉTUDIANT & PALMARÈS CPGE -->
-    <div id="student-card-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-3">
+    <div id="student-card-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3">
         <div class="glass-panel rounded-3xl border border-brand-gold/60 p-5 max-w-sm w-full space-y-4 shadow-2xl relative overflow-hidden">
             <!-- Moroccan Royal Gold Glow Backdrop -->
             <div class="absolute -top-12 -right-12 w-28 h-28 bg-brand-gold/20 rounded-full blur-2xl pointer-events-none"></div>
@@ -1133,8 +1157,8 @@
                 <div class="flex items-center gap-2">
                     <img src="assets/logo.png" alt="StudySouk Plume" class="w-6 h-6 object-contain">
                     <div>
-                        <h3 class="text-xs font-black text-white font-outfit uppercase tracking-wider">Carte d'Étudiant STEM</h3>
-                        <span class="text-[9px] text-brand-goldLight font-mono">StudySouk Academy • CPGE & 2BAC</span>
+                        <h3 class="text-xs sm:text-sm font-black text-white font-outfit uppercase tracking-wider">Carte d'Étudiant STEM</h3>
+                        <span class="text-xs text-brand-goldLight font-mono font-bold">StudySouk Academy • CPGE & 2BAC</span>
                     </div>
                 </div>
                 <button id="btn-close-student-card" class="text-brand-muted hover:text-white text-xs p-1">
@@ -1143,61 +1167,61 @@
             </div>
 
             <!-- Student Identity Badge -->
-            <div class="flex items-center gap-3 p-3 rounded-2xl bg-brand-darker border border-brand-gold/30 relative">
+            <div class="flex items-center gap-3 p-3.5 rounded-2xl bg-brand-darker border border-brand-gold/40 relative">
                 <div class="relative shrink-0">
                     <img id="sc-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=StudySouk" alt="Avatar" class="w-14 h-14 rounded-2xl border-2 border-brand-gold bg-brand-card shadow-md object-cover">
-                    <span id="sc-filiere-badge" class="absolute -bottom-1 -right-1 px-1.5 py-0.2 bg-brand-cherry text-brand-goldLight text-[8px] font-black rounded font-outfit border border-brand-gold">STEM</span>
+                    <span id="sc-filiere-badge" class="absolute -bottom-1 -right-1 px-2 py-0.5 bg-brand-cherry text-brand-goldLight text-xs font-black rounded font-outfit border border-brand-gold">STEM</span>
                 </div>
                 <div class="overflow-hidden flex-1">
-                    <div id="sc-name" class="text-sm font-black text-white font-outfit truncate">Étudiant StudySouk</div>
-                    <div id="sc-rank-title" class="text-xs font-bold text-brand-goldLight font-outfit truncate">Major de Promotion 🥇</div>
-                    <div id="sc-bio" class="text-[10px] text-brand-muted italic truncate mt-0.5 font-sans">« La rigueur surclasse l'improvisation »</div>
-                    <div class="flex items-center gap-2 mt-1">
-                        <span id="sc-level" class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-brand-cherry/60 text-white font-black border border-brand-gold/40">Niveau 1</span>
-                        <span class="text-[9px] font-mono text-brand-muted">Matricule: <span id="sc-matricule" class="text-brand-text font-bold">SS-2026-0001</span></span>
+                    <div id="sc-name" class="text-base font-black text-white font-outfit truncate">Étudiant StudySouk</div>
+                    <div id="sc-rank-title" class="text-xs sm:text-sm font-bold text-brand-goldLight font-outfit truncate">Major de Promotion 🥇</div>
+                    <div id="sc-bio" class="text-xs text-brand-muted italic truncate mt-0.5 font-sans font-medium">« La rigueur surclasse l'improvisation »</div>
+                    <div class="flex items-center gap-2 mt-1.5">
+                        <span id="sc-level" class="text-xs font-mono px-2 py-0.5 rounded bg-brand-cherry/80 text-white font-black border border-brand-gold/40">Niveau 1</span>
+                        <span class="text-xs font-mono text-brand-muted">Matricule: <span id="sc-matricule" class="text-white font-bold">SS-2026-0001</span></span>
                     </div>
                 </div>
             </div>
 
             <!-- Duel Challenge Button from Card (Shown when inspecting another student) -->
-            <button id="btn-challenge-from-card" class="w-full py-2 rounded-xl bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-white font-extrabold text-xs font-outfit transition active:scale-95 shadow flex items-center justify-center gap-1.5 hidden">
+            <button id="btn-challenge-from-card" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-white font-black text-xs sm:text-sm font-outfit transition active:scale-95 shadow flex items-center justify-center gap-2 hidden border border-amber-400/50">
                 <i class="fa-solid fa-bolt"></i> Défier en Duel STEM 1v1
             </button>
 
             <!-- XP Progression Gauge -->
-            <div class="space-y-1">
-                <div class="flex items-center justify-between text-[10px] font-outfit">
+            <div class="space-y-1.5">
+                <div class="flex items-center justify-between text-xs font-outfit">
                     <span class="text-brand-muted font-bold">Progression vers le Rang Suivant :</span>
                     <span id="sc-xp-text" class="font-mono text-brand-goldLight font-black">0 / 45 XP (0%)</span>
                 </div>
-                <div class="w-full h-2 bg-brand-darker rounded-full overflow-hidden border border-brand-border">
+                <div class="w-full h-2.5 bg-brand-darker rounded-full overflow-hidden border border-brand-border">
                     <div id="sc-xp-bar" class="h-full bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight rounded-full transition-all duration-500" style="width: 0%"></div>
                 </div>
-                <p id="sc-rank-desc" class="text-[9px] text-brand-dim italic text-center font-sans mt-0.5">La régularité et la rigueur surclassent toujours l'improvisation.</p>
+                <p id="sc-rank-desc" class="text-xs text-brand-dim italic text-center font-sans mt-0.5 font-medium">La régularité et la rigueur surclassent toujours l'improvisation.</p>
             </div>
 
             <!-- Performance Stats Grid -->
             <div class="grid grid-cols-3 gap-2 text-center">
-                <div class="p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
-                    <span class="text-[9px] text-brand-muted uppercase font-bold block font-outfit">Deep Work</span>
-                    <span id="sc-stat-mins" class="font-mono text-xs font-black text-brand-gold">0 min</span>
+                <div class="p-2.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-xs text-brand-muted uppercase font-black block font-outfit">Deep Work</span>
+                    <span id="sc-stat-mins" class="font-mono text-sm sm:text-base font-black text-brand-goldLight">0 min</span>
                 </div>
-                <div class="p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
-                    <span class="text-[9px] text-brand-muted uppercase font-bold block font-outfit">Sessions</span>
-                    <span id="sc-stat-sessions" class="font-mono text-xs font-black text-brand-gold">0</span>
+                <div class="p-2.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-xs text-brand-muted uppercase font-black block font-outfit">Sessions</span>
+                    <span id="sc-stat-sessions" class="font-mono text-sm sm:text-base font-black text-brand-goldLight">0</span>
                 </div>
-                <div class="p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
-                    <span class="text-[9px] text-brand-muted uppercase font-bold block font-outfit">Flashcards</span>
-                    <span id="sc-stat-cards" class="font-mono text-xs font-black text-brand-gold">0</span>
+                <div class="p-2.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-xs text-brand-muted uppercase font-black block font-outfit">Flashcards</span>
+                    <span id="sc-stat-cards" class="font-mono text-sm sm:text-base font-black text-brand-goldLight">0</span>
                 </div>
             </div>
 
             <!-- Trophies & Distinctions Shelf -->
-            <div class="space-y-1.5">
-                <span class="text-[10px] uppercase tracking-wider text-brand-gold font-black block font-outfit flex items-center gap-1">
+            <div class="space-y-2">
+                <span class="text-xs uppercase tracking-wider text-brand-gold font-black block font-outfit flex items-center gap-1.5">
                     <i class="fa-solid fa-trophy text-brand-gold"></i> Trophées & Distinctions CPGE :
                 </span>
-                <div id="sc-trophies-grid" class="grid grid-cols-2 gap-1.5 max-h-36 overflow-y-auto pr-1"></div>
+                <div id="sc-trophies-grid" class="grid grid-cols-2 gap-2 max-h-36 overflow-y-auto pr-1"></div>
             </div>
         </div>
     </div>

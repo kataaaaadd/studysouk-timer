@@ -118,9 +118,9 @@ class FormulaScratchpad {
 
                         <!-- Thickness Presets -->
                         <div class="flex items-center gap-1.5 bg-brand-darker px-2 py-1 rounded-xl border border-brand-borderSubtle">
-                            <button data-size="2" class="wb-size-btn text-[10px] px-1.5 py-0.5 rounded ${this.currentSize === 2 ? 'text-brand-goldLight font-black' : 'text-brand-muted'}">Fin</button>
-                            <button data-size="4" class="wb-size-btn text-[10px] px-1.5 py-0.5 rounded ${this.currentSize === 4 ? 'text-brand-goldLight font-black' : 'text-brand-muted'}">Moyen</button>
-                            <button data-size="8" class="wb-size-btn text-[10px] px-1.5 py-0.5 rounded ${this.currentSize === 8 ? 'text-brand-goldLight font-black' : 'text-brand-muted'}">Épais</button>
+                            <button data-size="2" class="wb-size-btn text-xs px-2 py-0.5 rounded font-bold ${this.currentSize === 2 ? 'text-brand-goldLight font-black' : 'text-brand-muted'}">Fin</button>
+                            <button data-size="4" class="wb-size-btn text-xs px-2 py-0.5 rounded font-bold ${this.currentSize === 4 ? 'text-brand-goldLight font-black' : 'text-brand-muted'}">Moyen</button>
+                            <button data-size="8" class="wb-size-btn text-xs px-2 py-0.5 rounded font-bold ${this.currentSize === 8 ? 'text-brand-goldLight font-black' : 'text-brand-muted'}">Épais</button>
                         </div>
 
                         <!-- Action Buttons: Undo, Export & Clear -->

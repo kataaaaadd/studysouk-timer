@@ -948,7 +948,7 @@ class StudySoukTimerApp {
             avatarsGrid.innerHTML = AVATAR_PRESETS.map((p) => `
                 <button type="button" data-avatar="${p.url}" data-name="${p.name}" class="avatar-pick-btn p-1.5 rounded-xl bg-brand-darker border border-brand-border hover:border-brand-gold transition flex flex-col items-center gap-1">
                     <img src="${p.url}" alt="${p.name}" class="w-8 h-8 rounded-full pointer-events-none object-cover">
-                    <span class="text-[8px] font-outfit text-brand-goldLight truncate max-w-full pointer-events-none">${p.name}</span>
+                    <span class="text-[10px] font-bold text-brand-goldLight truncate max-w-full pointer-events-none">${p.name}</span>
                 </button>
             `).join("");
 
@@ -1104,35 +1104,35 @@ class StudySoukTimerApp {
             const avatar = u.avatar || "https://api.dicebear.com/7.x/bottts/svg?seed=Study";
 
             return `
-                <div class="flex items-center justify-between p-3 rounded-2xl bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/50 transition gap-2 group">
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/60 transition gap-2 group shadow-sm">
                     <div class="flex items-center gap-2.5 min-w-0">
                         <div class="relative shrink-0">
-                            <img src="${avatar}" class="w-10 h-10 rounded-full border border-brand-gold/60 bg-brand-card object-cover group-hover:scale-105 transition">
+                            <img src="${avatar}" class="w-10 h-10 rounded-full border-2 border-brand-gold bg-brand-card object-cover group-hover:scale-105 transition shadow">
                             <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-brand-darker"></span>
                         </div>
                         <div class="min-w-0">
                             <div class="flex items-center gap-1.5 flex-wrap">
-                                <span class="text-xs font-bold text-white font-outfit truncate max-w-[110px]">${safeName}</span>
-                                ${u.isSelf ? '<span class="text-[8px] bg-brand-cherry text-brand-goldLight px-1.5 py-0.2 rounded font-outfit font-black border border-brand-gold/30">Moi</span>' : ''}
-                                <span class="text-[9px] font-mono px-1 py-0.2 rounded bg-brand-gold/15 text-brand-goldLight border border-brand-gold/30">${filiere}</span>
+                                <span class="text-sm font-extrabold text-white font-outfit truncate max-w-[120px]">${safeName}</span>
+                                ${u.isSelf ? '<span class="text-xs bg-brand-cherry text-brand-goldLight px-2 py-0.5 rounded font-outfit font-black border border-brand-gold/40">Moi</span>' : ''}
+                                <span class="text-xs font-mono px-1.5 py-0.5 rounded bg-brand-gold/20 text-brand-goldLight border border-brand-gold/40 font-bold">${filiere}</span>
                             </div>
                             <div class="flex items-center gap-2 mt-0.5">
-                                <span class="text-[10px] text-brand-goldLight font-sans truncate max-w-[115px] flex items-center gap-1">
-                                    <i class="fa-solid fa-book-open text-[8px] text-brand-gold"></i> ${subject}
+                                <span class="text-xs text-white font-sans truncate max-w-[130px] flex items-center gap-1.5 font-medium">
+                                    <i class="fa-solid fa-book-open text-xs text-brand-gold"></i> ${subject}
                                 </span>
-                                <span class="text-[9px] font-mono text-brand-muted">• ${mins}m</span>
+                                <span class="text-xs font-mono text-brand-goldLight font-bold">• ${mins}m</span>
                             </div>
                         </div>
                     </div>
                     <div class="flex items-center gap-1.5 shrink-0">
-                        <button onclick="window.studyApp.inspectStudentCard('${safeId}')" title="Inspecter la Carte d'Étudiant" class="px-2.5 py-1.5 rounded-xl bg-brand-card hover:bg-brand-gold/20 text-brand-goldLight border border-brand-border text-[11px] font-outfit font-bold transition active:scale-95 flex items-center gap-1 shadow-sm">
+                        <button onclick="window.studyApp.inspectStudentCard('${safeId}')" title="Inspecter la Carte d'Étudiant" class="px-2.5 py-1.5 rounded-xl bg-brand-card hover:bg-brand-gold/20 text-brand-goldLight border border-brand-border text-xs font-outfit font-bold transition active:scale-95 flex items-center gap-1 shadow-sm">
                             <i class="fa-solid fa-id-card"></i>
-                            <span class="hidden sm:inline text-[10px]">Carte</span>
+                            <span class="hidden sm:inline text-xs">Carte</span>
                         </button>
                         ${!u.isSelf ? `
-                        <button onclick="window.studyApp.challengeUserToDuel('${safeId}', '${safeName}')" title="Défier en Duel STEM 1v1" class="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white border border-amber-400/40 text-[11px] font-outfit font-black transition active:scale-95 shadow flex items-center gap-1">
+                        <button onclick="window.studyApp.challengeUserToDuel('${safeId}', '${safeName}')" title="Défier en Duel STEM 1v1" class="px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white border border-amber-400/50 text-xs font-outfit font-black transition active:scale-95 shadow flex items-center gap-1">
                             <i class="fa-solid fa-bolt"></i>
-                            <span class="hidden sm:inline text-[10px]">Duel</span>
+                            <span class="hidden sm:inline text-xs">Duel</span>
                         </button>
                         ` : ''}
                     </div>
@@ -1486,16 +1486,16 @@ class StudySoukTimerApp {
                             <i class="fa-solid ${style.icon}"></i>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-xs font-bold text-white font-outfit truncate max-w-[180px] sm:max-w-xs">
+                            <span class="text-xs sm:text-sm font-bold text-white font-outfit truncate max-w-[180px] sm:max-w-xs">
                                 ${item.subject}
                             </span>
-                            <span class="text-[10px] text-brand-muted font-mono">
+                            <span class="text-xs text-brand-muted font-mono font-medium">
                                 ${item.date || ""} à ${item.time || ""} • ${item.duration} min
                             </span>
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="text-[10px] font-extrabold text-brand-goldLight bg-brand-cherry/80 px-2 py-0.5 rounded-full border border-brand-gold/40 font-mono shadow-sm">
+                        <span class="text-xs font-black text-brand-goldLight bg-brand-cherry px-2.5 py-0.5 rounded-full border border-brand-gold font-mono shadow-sm">
                             +${item.xp || 60} XP
                         </span>
                     </div>
@@ -1544,14 +1544,14 @@ class StudySoukTimerApp {
                         <i class="fa-solid fa-check text-xs"></i>
                     </button>
                     <div class="flex flex-col truncate">
-                        <span class="text-xs font-medium text-brand-text truncate ${t.completed ? 'line-through text-brand-muted' : ''}">
+                        <span class="text-xs sm:text-sm font-bold text-white truncate ${t.completed ? 'line-through text-brand-muted opacity-60' : ''}">
                             ${t.text}
                         </span>
                         <div class="flex items-center gap-2 mt-0.5">
-                            <span class="text-[9px] font-mono px-1.5 py-0.2 rounded border ${subjectColors[t.subject] || subjectColors['Général']}">
+                            <span class="text-xs font-mono font-bold px-2 py-0.5 rounded border ${subjectColors[t.subject] || subjectColors['Général']}">
                                 ${t.subject}
                             </span>
-                            <span class="text-[9px] text-brand-muted">${t.createdAt}</span>
+                            <span class="text-xs text-brand-muted font-medium">${t.createdAt}</span>
                         </div>
                     </div>
                 </div>

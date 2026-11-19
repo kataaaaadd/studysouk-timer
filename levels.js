@@ -74,8 +74,8 @@ class LevelSystem {
             <div id="btn-open-student-card" class="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold transition cursor-pointer shadow-sm active:scale-95 group" title="Voir ma Carte d'Étudiant & Trophées">
                 <span class="text-xs sm:text-sm group-hover:scale-110 transition">${info.rank.icon}</span>
                 <div class="flex flex-col">
-                    <span class="text-[10px] sm:text-[11px] font-bold text-brand-text leading-tight flex items-center gap-1 font-outfit">
-                        Niv. ${info.level} <span class="text-brand-goldLight text-[10px] font-semibold hidden sm:inline">• ${info.rank.title}</span>
+                    <span class="text-xs sm:text-sm font-black text-white leading-tight flex items-center gap-1 font-outfit">
+                        Niv. ${info.level} <span class="text-brand-goldLight text-xs font-bold hidden sm:inline">• ${info.rank.title}</span>
                     </span>
                     <div class="w-16 sm:w-20 h-1.5 bg-brand-darker rounded-full overflow-hidden mt-0.5 border border-brand-border">
                         <div class="h-full bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight rounded-full transition-all duration-500" style="width: ${Math.round(info.progress * 100)}%"></div>
@@ -181,8 +181,8 @@ class LevelSystem {
                     <div class="p-2 rounded-xl ${isUnlocked ? 'bg-brand-darker border border-brand-gold/60 shadow-md' : 'bg-brand-darker/50 border border-brand-borderSubtle opacity-40'} flex items-center gap-2">
                         <span class="text-xl ${isUnlocked ? 'drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]' : 'grayscale'}">${t.icon}</span>
                         <div class="overflow-hidden">
-                            <div class="text-[11px] font-black ${isUnlocked ? 'text-brand-goldLight' : 'text-brand-muted'} font-outfit truncate">${t.title}</div>
-                            <div class="text-[9px] text-brand-dim leading-tight truncate">${t.desc}</div>
+                            <div class="text-xs font-black ${isUnlocked ? 'text-brand-goldLight' : 'text-brand-muted'} font-outfit truncate">${t.title}</div>
+                            <div class="text-xs text-brand-muted font-medium leading-tight truncate">${t.desc}</div>
                         </div>
                     </div>
                 `;

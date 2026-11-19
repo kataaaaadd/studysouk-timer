@@ -414,14 +414,14 @@ class FlashcardViewer {
                     
                     <!-- Decorative Golden Shimmer Pill for Mastered Cards -->
                     ${isMastered ? `
-                        <div class="absolute top-2 right-2 flex items-center gap-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[9px] font-extrabold px-2 py-0.5 rounded-full font-outfit">
+                        <div class="absolute top-2 right-2 flex items-center gap-1 bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-black px-2.5 py-0.5 rounded-full font-outfit">
                             <i class="fa-solid fa-check"></i> Maîtrisé
                         </div>
                     ` : ''}
 
                     <!-- Top Info Badges -->
                     <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-mono px-2 py-0.5 rounded-lg bg-brand-darker text-brand-goldLight border border-brand-borderSubtle font-bold">
+                        <span class="text-xs font-mono px-2.5 py-0.5 rounded-lg bg-brand-darker text-brand-goldLight border border-brand-borderSubtle font-bold">
                             ${card.level} • ${card.chapter}
                         </span>
                         <span class="text-xs text-brand-muted group-hover:text-brand-gold transition pr-1">
@@ -432,23 +432,23 @@ class FlashcardViewer {
                     <!-- Main Content (Front or Back) -->
                     <div class="my-3 text-center flex flex-col items-center justify-center flex-1">
                         ${!this.isFlipped ? `
-                            <span class="text-xs uppercase tracking-wider text-brand-gold font-extrabold mb-1.5 font-outfit">
+                            <span class="text-xs sm:text-sm uppercase tracking-wider text-brand-gold font-black mb-1.5 font-outfit">
                                 ${card.title}
                             </span>
-                            <p class="text-xs sm:text-sm font-semibold text-brand-text leading-relaxed fc-latex-render px-2" id="fc-q-text">
+                            <p class="text-sm sm:text-base font-bold text-white leading-relaxed fc-latex-render px-2" id="fc-q-text">
                                 ${card.question}
                             </p>
-                            <span class="text-[10px] text-brand-muted mt-3 italic flex items-center gap-1 font-outfit">
+                            <span class="text-xs text-brand-muted mt-3 italic flex items-center gap-1 font-outfit font-medium">
                                 <i class="fa-solid fa-hand-pointer animate-bounce text-brand-gold"></i> Clique pour révéler la formule
                             </span>
                         ` : `
-                            <span class="text-[11px] uppercase tracking-wider text-emerald-400 font-extrabold mb-1.5 font-outfit">
+                            <span class="text-xs uppercase tracking-wider text-emerald-400 font-black mb-1.5 font-outfit">
                                 Formule d'Excellence
                             </span>
-                            <div class="my-1.5 p-2.5 rounded-xl bg-brand-darker border border-brand-borderSubtle text-brand-goldLight font-mono text-xs sm:text-sm font-bold shadow-inner fc-latex-render max-w-full overflow-x-auto" id="fc-math-render">
+                            <div class="my-1.5 p-2.5 rounded-xl bg-brand-darker border border-brand-borderSubtle text-brand-goldLight font-mono text-sm sm:text-base font-bold shadow-inner fc-latex-render max-w-full overflow-x-auto" id="fc-math-render">
                                 $$${card.latex}$$
                             </div>
-                            <p class="text-[10px] text-brand-goldLight/90 mt-1.5 p-2 rounded-lg bg-brand-card border border-brand-borderSubtle text-left leading-normal font-sans">
+                            <p class="text-xs text-brand-goldLight mt-1.5 p-2 rounded-lg bg-brand-card border border-brand-borderSubtle text-left leading-normal font-sans font-medium">
                                 ${card.tip}
                             </p>
                         `}

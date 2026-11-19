@@ -85,7 +85,7 @@ class ReactionsEngine {
         if (author && author.name) {
             const shortName = author.name.split(" ")[0];
             authorBadge = `
-                <span class="text-[9px] font-bold text-brand-goldLight bg-brand-darker/95 px-2 py-0.5 rounded-full border border-brand-gold/40 font-outfit shadow-md whitespace-nowrap">
+                <span class="text-xs font-bold text-white bg-brand-darker px-2 py-0.5 rounded-full border border-brand-gold font-outfit shadow-md whitespace-nowrap">
                     ${shortName}
                 </span>
             `;

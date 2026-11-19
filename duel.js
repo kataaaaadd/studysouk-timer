@@ -563,7 +563,7 @@ class DuelArena {
                         <span class="font-mono font-extrabold text-sm text-brand-text" id="duel-my-score">${this.playerScore}</span>
                     </div>
 
-                    <div class="px-2 py-0.5 rounded bg-brand-cherry text-[10px] font-bold text-brand-goldLight font-outfit border border-brand-borderLight">
+                    <div class="px-2.5 py-0.5 rounded bg-brand-cherry text-xs font-black text-brand-goldLight font-outfit border border-brand-borderLight">
                         Round ${this.currentRound + 1}/${this.totalRounds}
                     </div>
 
@@ -578,17 +578,17 @@ class DuelArena {
                 <div class="w-full bg-brand-darker rounded-full h-2 overflow-hidden border border-brand-borderLight relative">
                     <div id="duel-timer-bar" class="h-full bg-gradient-to-r from-brand-accent to-brand-gold transition-all duration-300" style="width: 100%"></div>
                 </div>
-                <div class="flex justify-between text-[10px] text-brand-muted px-1 font-mono">
+                <div class="flex justify-between text-xs text-white px-1 font-mono font-bold">
                     <span>${q.subject} • ${q.level}</span>
-                    <span id="duel-timer-text" class="font-bold text-brand-goldLight">${this.timeLeft}s</span>
+                    <span id="duel-timer-text" class="font-black text-brand-goldLight">${this.timeLeft}s</span>
                 </div>
 
                 <!-- Question Card -->
                 <div class="rounded-2xl glass-panel border border-brand-borderLight p-4 shadow-xl">
-                    <span class="text-[10px] uppercase font-bold text-brand-gold font-outfit block mb-1">
+                    <span class="text-xs uppercase font-black text-brand-gold font-outfit block mb-1">
                         ${q.chapter}
                     </span>
-                    <p class="text-xs sm:text-sm font-semibold text-brand-text leading-relaxed duel-latex-render" id="duel-q-text">
+                    <p class="text-sm sm:text-base font-bold text-white leading-relaxed duel-latex-render" id="duel-q-text">
                         ${q.question}
                     </p>
                 </div>
@@ -596,12 +596,12 @@ class DuelArena {
                 <!-- Options Grid -->
                 <div class="grid grid-cols-1 gap-2 pt-1" id="duel-options-grid">
                     ${Object.entries(q.options).map(([key, val]) => `
-                        <button data-opt="${key}" class="duel-opt-btn p-3 rounded-xl glass-card border border-brand-border hover:border-brand-gold hover:bg-brand-cherry text-left text-xs font-semibold text-brand-text transition flex items-center justify-between group active:scale-[0.98]">
+                        <button data-opt="${key}" class="duel-opt-btn p-3 rounded-xl glass-card border border-brand-border hover:border-brand-gold hover:bg-brand-cherry text-left text-xs sm:text-sm font-bold text-white transition flex items-center justify-between group active:scale-[0.98]">
                             <div class="flex items-center gap-2.5">
-                                <span class="w-6 h-6 rounded-lg bg-brand-darker group-hover:bg-brand-accent text-brand-goldLight flex items-center justify-center font-mono font-bold text-[11px] border border-brand-borderLight">
+                                <span class="w-6 h-6 rounded-lg bg-brand-darker group-hover:bg-brand-accent text-brand-goldLight flex items-center justify-center font-mono font-bold text-xs border border-brand-borderLight">
                                     ${key}
                                 </span>
-                                <span class="duel-latex-render font-mono text-xs">${val}</span>
+                                <span class="duel-latex-render font-mono text-xs sm:text-sm text-white font-semibold">${val}</span>
                             </div>
                         </button>
                     `).join('')}
@@ -611,9 +611,9 @@ class DuelArena {
                 <div id="duel-explanation" class="hidden p-3 rounded-xl glass-card border border-brand-borderLight text-xs space-y-1">
                     <div class="flex items-center justify-between">
                         <span id="duel-result-text" class="font-bold text-xs font-outfit"></span>
-                        <span id="duel-opp-answer-text" class="text-[10px] text-brand-muted font-outfit"></span>
+                        <span id="duel-opp-answer-text" class="text-xs text-brand-muted font-outfit"></span>
                     </div>
-                    <p id="duel-expl-text" class="text-[11px] text-brand-text duel-latex-render leading-relaxed"></p>
+                    <p id="duel-expl-text" class="text-xs text-white duel-latex-render leading-relaxed font-medium"></p>
                     <button id="duel-next-round-btn" class="w-full mt-2 py-2 rounded-lg bg-brand-cherry hover:bg-brand-accent border border-brand-gold text-brand-goldLight font-bold text-xs font-outfit transition">
                         ${this.currentRound + 1 >= this.totalRounds ? "Voir le Podium Final 🏆" : "Round Suivant ➡️"}
                     </button>
