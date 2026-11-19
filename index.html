@@ -150,9 +150,9 @@
         }
 
         .action-circle-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -386,54 +386,48 @@
         </div>
     </header>
 
-    <!-- Concours & Deadlines Live Countdown Banner -->
-    <section id="countdown-hub" class="w-full z-30 py-2.5 px-3 sm:px-6">
-        <div class="max-w-4xl mx-auto grid grid-cols-3 gap-2.5 text-center font-outfit">
-            <div class="glass-card rounded-2xl p-2.5 border border-brand-borderSubtle flex flex-col items-center justify-center relative overflow-hidden group">
-                <div class="absolute -top-6 -right-6 w-12 h-12 bg-brand-cherry/20 rounded-full blur-xl group-hover:bg-brand-cherry/40 transition"></div>
-                <div class="flex items-center gap-1.5 mb-0.5">
+    <!-- Concours & Deadlines Live Countdown Banner (Compact Zero-Scroll Luxury Strip) -->
+    <section id="countdown-hub" class="w-full z-30 py-1.5 px-3 sm:px-6">
+        <div class="max-w-xl mx-auto grid grid-cols-3 gap-2 text-center font-outfit">
+            <div class="glass-card rounded-xl py-1.5 px-2.5 border border-brand-borderSubtle flex items-center justify-between sm:justify-center sm:gap-2 relative overflow-hidden group">
+                <div class="flex items-center gap-1">
                     <span class="text-xs">🏛️</span>
-                    <span class="text-[10px] uppercase tracking-wider text-brand-muted font-extrabold truncate max-w-full">CNC Maroc</span>
+                    <span class="text-[9px] uppercase tracking-wider text-brand-muted font-extrabold truncate">CNC</span>
                 </div>
-                <span id="countdown-cnc" class="font-mono text-xs sm:text-sm font-black gold-text-gradient drop-shadow-sm">--j --h</span>
-                <span class="text-[9px] text-brand-dim mt-0.5 font-medium hidden sm:inline">Concours National Commun</span>
+                <span id="countdown-cnc" class="font-mono text-xs font-black gold-text-gradient drop-shadow-sm">--j --h</span>
             </div>
 
-            <div class="glass-card rounded-2xl p-2.5 border border-brand-gold/30 flex flex-col items-center justify-center relative overflow-hidden group shadow-sm">
-                <div class="absolute -top-6 -right-6 w-12 h-12 bg-brand-gold/20 rounded-full blur-xl group-hover:bg-brand-gold/40 transition"></div>
-                <div class="flex items-center gap-1.5 mb-0.5">
+            <div class="glass-card rounded-xl py-1.5 px-2.5 border border-brand-gold/30 flex items-center justify-between sm:justify-center sm:gap-2 relative overflow-hidden group shadow-sm">
+                <div class="flex items-center gap-1">
                     <span class="text-xs">🎓</span>
-                    <span class="text-[10px] uppercase tracking-wider text-brand-goldLight font-extrabold truncate max-w-full">Mines • Centrale</span>
+                    <span class="text-[9px] uppercase tracking-wider text-brand-goldLight font-extrabold truncate">Mines/Centrale</span>
                 </div>
-                <span id="countdown-fr" class="font-mono text-xs sm:text-sm font-black text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]">--j --h</span>
-                <span class="text-[9px] text-brand-goldLight/70 mt-0.5 font-medium hidden sm:inline">Concours Français CPGE</span>
+                <span id="countdown-fr" class="font-mono text-xs font-black text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]">--j --h</span>
             </div>
 
-            <div class="glass-card rounded-2xl p-2.5 border border-brand-borderSubtle flex flex-col items-center justify-center relative overflow-hidden group">
-                <div class="absolute -top-6 -right-6 w-12 h-12 bg-brand-cherry/20 rounded-full blur-xl group-hover:bg-brand-cherry/40 transition"></div>
-                <div class="flex items-center gap-1.5 mb-0.5">
+            <div class="glass-card rounded-xl py-1.5 px-2.5 border border-brand-borderSubtle flex items-center justify-between sm:justify-center sm:gap-2 relative overflow-hidden group">
+                <div class="flex items-center gap-1">
                     <span class="text-xs">📝</span>
-                    <span class="text-[10px] uppercase tracking-wider text-brand-muted font-extrabold truncate max-w-full">National 2BAC</span>
+                    <span class="text-[9px] uppercase tracking-wider text-brand-muted font-extrabold truncate">2BAC</span>
                 </div>
-                <span id="countdown-bac" class="font-mono text-xs sm:text-sm font-black gold-text-gradient drop-shadow-sm">--j --h</span>
-                <span class="text-[9px] text-brand-dim mt-0.5 font-medium hidden sm:inline">Examen National SM / PC</span>
+                <span id="countdown-bac" class="font-mono text-xs font-black gold-text-gradient drop-shadow-sm">--j --h</span>
             </div>
         </div>
     </section>
 
     <!-- Main Workspace Container -->
-    <main class="flex-1 max-w-4xl w-full mx-auto p-3 sm:p-6 flex flex-col items-center justify-center relative z-20">
+    <main class="flex-1 max-w-4xl w-full mx-auto px-3 sm:px-6 py-1 flex flex-col items-center justify-center relative z-20">
 
         <!-- TAB 1: MINUTEUR DE DEEP WORK & FOCUS PAR MATIÈRE -->
         <section id="tab-timer" class="tab-content w-full flex flex-col items-center max-w-xl">
             
             <!-- Subject / Module Selector (Deep Work Focus Subject) -->
-            <div class="w-full max-w-md glass-card rounded-2xl p-2.5 mb-5 border border-brand-borderSubtle flex items-center justify-between text-xs shadow-md">
-                <span class="text-[11px] font-extrabold text-brand-goldLight font-outfit flex items-center gap-2 pl-1">
+            <div class="w-full max-w-md glass-card rounded-xl px-3 py-1.5 mb-2.5 border border-brand-borderSubtle flex items-center justify-between text-xs shadow-md">
+                <span class="text-[11px] font-extrabold text-brand-goldLight font-outfit flex items-center gap-1.5 pl-0.5">
                     <span class="w-2 h-2 rounded-full bg-brand-gold animate-ping"></span>
-                    <i class="fa-solid fa-graduation-cap text-brand-gold"></i> Module Actif :
+                    <i class="fa-solid fa-graduation-cap text-brand-gold"></i> Module :
                 </span>
-                <select id="select-active-subject" class="bg-brand-darker border border-brand-borderSubtle rounded-xl px-3 py-1.5 text-xs text-brand-goldLight font-outfit font-bold focus:outline-none focus:border-brand-gold cursor-pointer transition hover:border-brand-gold/60 shadow-inner">
+                <select id="select-active-subject" class="bg-brand-darker border border-brand-borderSubtle rounded-lg px-2.5 py-1 text-xs text-brand-goldLight font-outfit font-bold focus:outline-none focus:border-brand-gold cursor-pointer transition hover:border-brand-gold/60 shadow-inner">
                     <option value="Maths: Analyse">📐 Maths • Analyse & Intégrales</option>
                     <option value="Maths: Algèbre">📐 Maths • Algèbre Linéaire & Réduction</option>
                     <option value="Maths: Probas">📐 Maths • Probabilités & Dénombrement</option>
@@ -448,26 +442,26 @@
             </div>
 
             <!-- Mode Selector Pills (StudySouk Gold & Cherry) -->
-            <div class="flex flex-wrap items-center justify-center gap-1.5 p-1.5 rounded-2xl glass-card mb-6 border border-brand-borderSubtle max-w-md w-full shadow-xl">
-                <button data-mode="focus25" class="timer-mode-btn flex-1 py-2 px-2.5 rounded-xl text-xs transition duration-200 timer-btn-active font-outfit">
+            <div class="flex flex-wrap items-center justify-center gap-1 p-1 rounded-xl glass-card mb-2.5 border border-brand-borderSubtle max-w-md w-full shadow-lg">
+                <button data-mode="focus25" class="timer-mode-btn flex-1 py-1.5 px-2 rounded-lg text-xs transition duration-200 timer-btn-active font-outfit">
                     🎯 25m Focus
                 </button>
-                <button data-mode="focus50" class="timer-mode-btn flex-1 py-2 px-2.5 rounded-xl text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
+                <button data-mode="focus50" class="timer-mode-btn flex-1 py-1.5 px-2 rounded-lg text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
                     ⚡ 50m Deep
                 </button>
-                <button data-mode="focus90" class="timer-mode-btn flex-1 py-2 px-2.5 rounded-xl text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
+                <button data-mode="focus90" class="timer-mode-btn flex-1 py-1.5 px-2 rounded-lg text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
                     🏛️ 90m Épreuve
                 </button>
-                <button data-mode="break5" class="timer-mode-btn flex-1 py-2 px-2.5 rounded-xl text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
+                <button data-mode="break5" class="timer-mode-btn flex-1 py-1.5 px-2 rounded-lg text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
                     ☕ 5m Pause
                 </button>
-                <button data-mode="break15" class="timer-mode-btn flex-1 py-2 px-2.5 rounded-xl text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
+                <button data-mode="break15" class="timer-mode-btn flex-1 py-1.5 px-2 rounded-lg text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
                     🌴 15m Longue
                 </button>
             </div>
 
             <!-- 4-Cycle Pomodoro Progress Tracker -->
-            <div id="pomodoro-cycle-tracker" class="flex items-center gap-2 mb-4 px-3.5 py-1.5 rounded-full glass-card border border-brand-borderSubtle text-xs shadow-md">
+            <div id="pomodoro-cycle-tracker" class="flex items-center gap-2 mb-2 px-3 py-1 rounded-full glass-card border border-brand-borderSubtle text-xs shadow-sm">
                 <span class="text-[10px] uppercase tracking-wider text-brand-muted font-extrabold font-outfit">Série Deep Work :</span>
                 <div id="cycle-dots" class="flex items-center gap-1.5">
                     <span class="cycle-dot active" title="Bloc 1 en cours"></span>
@@ -479,8 +473,8 @@
             </div>
 
             <!-- Sleek Master Circular Chronometer Display -->
-            <div class="relative flex items-center justify-center mb-6">
-                <div class="relative w-76 h-76 sm:w-88 sm:h-88 flex items-center justify-center">
+            <div class="relative flex items-center justify-center mb-2.5">
+                <div class="relative w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center">
                     <!-- Dynamic Radial Glow Halo behind timer -->
                     <div id="timer-ambient-halo" class="absolute inset-2 rounded-full bg-gradient-to-tr from-brand-cherry/40 via-brand-gold/20 to-transparent blur-3xl pointer-events-none transition-all duration-700"></div>
                     
@@ -524,73 +518,73 @@
 
                     <!-- Center Stack: Academic Emblem + Time + Active Subject -->
                     <div class="absolute flex flex-col items-center justify-center text-center px-4">
-                        <div class="relative mb-1">
-                            <img src="assets/logo.png" alt="StudySouk Plume" class="w-12 h-12 object-contain timer-center-emblem drop-shadow-[0_0_14px_rgba(212,175,55,0.85)]">
+                        <div class="relative mb-0.5">
+                            <img src="assets/logo.png" alt="StudySouk Plume" class="w-9 h-9 sm:w-10 sm:h-10 object-contain timer-center-emblem drop-shadow-[0_0_14px_rgba(212,175,55,0.85)]">
                         </div>
                         
-                        <span id="timer-display" class="font-mono text-5xl sm:text-6xl font-black tracking-tight text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.45)] select-none">
+                        <span id="timer-display" class="font-mono text-4xl sm:text-5xl font-black tracking-tight text-white drop-shadow-[0_0_20px_rgba(212,175,55,0.45)] select-none">
                             25:00
                         </span>
 
-                        <div class="flex items-center gap-1.5 mt-2">
-                            <span id="active-subject-badge" class="text-[11px] font-extrabold text-brand-goldLight font-outfit uppercase tracking-wider px-3 py-1 rounded-full glass-card border border-brand-gold/40 shadow-sm">
+                        <div class="flex items-center gap-1.5 mt-1.5">
+                            <span id="active-subject-badge" class="text-[10px] font-extrabold text-brand-goldLight font-outfit uppercase tracking-wider px-2.5 py-0.5 rounded-full glass-card border border-brand-gold/40 shadow-sm">
                                 📐 Maths • Analyse
                             </span>
                         </div>
 
-                        <span id="timer-sync-label" class="text-[10px] uppercase tracking-widest text-brand-muted font-bold mt-1.5 font-outfit flex items-center gap-1">
-                            <i class="fa-solid fa-satellite-dish text-brand-gold text-[9px] animate-pulse"></i> Salon Vocal Synchronisé
+                        <span id="timer-sync-label" class="text-[9px] uppercase tracking-widest text-brand-muted font-bold mt-1 font-outfit flex items-center gap-1">
+                            <i class="fa-solid fa-satellite-dish text-brand-gold text-[8px] animate-pulse"></i> Salon Synchronisé
                         </span>
                     </div>
                 </div>
             </div>
 
             <!-- Timer Action Controls (with -5m and +5m Quick Modifiers) -->
-            <div class="flex items-center gap-2.5 sm:gap-4 mb-6">
+            <div class="flex items-center gap-2 sm:gap-3 mb-2.5">
                 <!-- -5m Quick Modifier -->
-                <button id="btn-timer-sub5" title="Retirer 5 minutes" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-xs font-black shadow active:scale-90">
+                <button id="btn-timer-sub5" title="Retirer 5 minutes" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-[11px] font-black shadow active:scale-90">
                     -5m
                 </button>
 
                 <!-- Reset Button -->
                 <button id="btn-timer-reset" title="Réinitialiser pour le salon vocal" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-muted hover:text-white group">
-                    <i class="fa-solid fa-rotate-left text-base group-hover:-rotate-45 transition duration-200"></i>
+                    <i class="fa-solid fa-rotate-left text-sm group-hover:-rotate-45 transition duration-200"></i>
                 </button>
 
                 <!-- Big Primary Play/Pause Button -->
-                <button id="btn-timer-toggle" class="px-7 sm:px-9 py-4 rounded-2xl cherry-glow-btn border border-brand-gold/70 text-white font-black text-base tracking-wide flex items-center gap-2.5 sm:gap-3 font-outfit active:scale-95 shadow-2xl group">
-                    <i class="fa-solid fa-play text-xl text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i>
-                    <span class="gold-text-gradient font-black text-lg">Commencer</span>
+                <button id="btn-timer-toggle" class="px-6 sm:px-8 py-2.5 rounded-xl cherry-glow-btn border border-brand-gold/70 text-white font-black text-sm sm:text-base tracking-wide flex items-center gap-2 sm:gap-2.5 font-outfit active:scale-95 shadow-xl group">
+                    <i class="fa-solid fa-play text-base text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i>
+                    <span class="gold-text-gradient font-black text-base">Commencer</span>
                 </button>
 
                 <!-- Skip Button -->
                 <button id="btn-timer-skip" title="Passer à la pause suivante" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-muted hover:text-white group">
-                    <i class="fa-solid fa-forward-step text-base group-hover:translate-x-0.5 transition duration-200"></i>
+                    <i class="fa-solid fa-forward-step text-sm group-hover:translate-x-0.5 transition duration-200"></i>
                 </button>
 
                 <!-- +5m Quick Modifier -->
-                <button id="btn-timer-add5" title="Ajouter 5 minutes" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-xs font-black shadow active:scale-90">
+                <button id="btn-timer-add5" title="Ajouter 5 minutes" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-[11px] font-black shadow active:scale-90">
                     +5m
                 </button>
             </div>
 
-            <!-- Academic Stats & Quotation Card -->
-            <div class="stats-card w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle flex flex-col gap-3 shadow-lg">
+            <!-- Academic Stats & Quotation Card (Compact Luxury) -->
+            <div class="stats-card w-full max-w-md glass-panel rounded-xl p-2.5 border border-brand-borderSubtle flex flex-col gap-1.5 shadow-md">
                 <div class="grid grid-cols-2 divide-x divide-brand-border text-center">
                     <div>
-                        <span class="text-[11px] text-brand-muted uppercase tracking-wider block font-outfit font-bold">Sessions Validées</span>
-                        <span id="stat-sessions" class="font-mono text-xl font-bold text-brand-gold">0</span>
+                        <span class="text-[10px] text-brand-muted uppercase tracking-wider block font-outfit font-bold">Sessions Validées</span>
+                        <span id="stat-sessions" class="font-mono text-base font-bold text-brand-gold">0</span>
                     </div>
                     <div>
-                        <span class="text-[11px] text-brand-muted uppercase tracking-wider block font-outfit font-bold">Temps de Deep Work</span>
-                        <span id="stat-minutes" class="font-mono text-xl font-bold text-brand-gold">0 min</span>
+                        <span class="text-[10px] text-brand-muted uppercase tracking-wider block font-outfit font-bold">Temps de Deep Work</span>
+                        <span id="stat-minutes" class="font-mono text-base font-bold text-brand-gold">0 min</span>
                     </div>
                 </div>
-                <div class="border-t border-brand-border pt-3 text-center">
-                    <p id="study-quote-text" class="text-xs text-brand-text italic font-medium leading-relaxed">
+                <div class="border-t border-brand-border pt-1.5 text-center">
+                    <p id="study-quote-text" class="text-[11px] text-brand-text italic font-medium leading-tight">
                         « In Mathematics, the mind resolves during the pause that follows intense effort. »
                     </p>
-                    <span id="study-quote-author" class="text-[10px] text-brand-goldLight block mt-0.5 font-outfit font-semibold">
+                    <span id="study-quote-author" class="text-[9px] text-brand-goldLight block mt-0.5 font-outfit font-semibold">
                         — Henri Poincaré
                     </span>
                 </div>
