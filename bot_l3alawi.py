@@ -97,7 +97,7 @@ async def slash_activity(interaction: discord.Interaction, channel: discord.Voic
             f"### ◈ SESSION D'ÉTUDE & POMODORO PARTAGÉ\n\n"
             f"> 🎙️ **Salon Vocal :** {target_vc.mention}\n"
             f"> 👑 **Lancé par :** {interaction.user.mention}\n"
-            f"> 🎮 **Inclus :** Minuteur Pomodoro, Bonsaï XP, Speed Math, Mot Mystère, Flashcards & Duel STEM !\n\n"
+            f"> 🎮 **Inclus :** Minuteur Pomodoro Partagé, Concours Countdowns (CNC & Prépa), Tableau Blanc Collaboratif, Formules KaTeX & STEM Duels 1v1 !\n\n"
             f"**Clique sur le bouton ci-dessous pour ouvrir l'activité :**"
         ),
         color=0x7A0E27
