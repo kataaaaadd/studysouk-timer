@@ -154,6 +154,157 @@ const DUEL_QUESTIONS_BANK = [
         },
         correct: "A",
         explanation: "Une file respecte le principe FIFO (Premier entré, premier sorti), contrairement à une pile (LIFO)."
+    },
+    {
+        id: "M_ALG_RANG",
+        subject: "Maths",
+        level: "CPGE / 2BAC SM",
+        chapter: "Algèbre Linéaire",
+        question: "Pour une application linéaire $f: E \\to F$ avec $\\dim(E) < \\infty$, le théorème du rang énonce :",
+        options: {
+            "A": "\\dim(E) = \\dim(\\ker f) + \\mathrm{rg}(f)",
+            "B": "\\dim(F) = \\dim(\\ker f) + \\mathrm{rg}(f)",
+            "C": "\\mathrm{rg}(f) = \\dim(E) \\times \\dim(F)",
+            "D": "\\dim(\\ker f) = \\mathrm{rg}(f)"
+        },
+        correct: "A",
+        explanation: "Théorème du rang : $\\dim(E) = \\dim(\\ker f) + \\dim(\\mathrm{Im} f)$ où $\\mathrm{rg}(f) = \\dim(\\mathrm{Im} f)$."
+    },
+    {
+        id: "M_ANA_EXP",
+        subject: "Maths",
+        level: "2BAC SM/PC",
+        chapter: "Limites & Dérivées",
+        question: "Quelle est la valeur de la limite $\\lim_{x \\to 0} \\frac{e^{5x} - 1}{2x}$ ?",
+        options: {
+            "A": "\\frac{5}{2}",
+            "B": "\\frac{2}{5}",
+            "C": "1",
+            "D": "0"
+        },
+        correct: "A",
+        explanation: "Taux d'accroissement de $x \\mapsto e^{5x}$ en 0 : $\\lim_{x \\to 0} \\frac{e^{5x}-1}{5x} \\times \\frac{5}{2} = 1 \\times \\frac{5}{2} = \\frac{5}{2}$."
+    },
+    {
+        id: "M_PROB_BINOM",
+        subject: "Maths",
+        level: "2BAC SM / CPGE",
+        chapter: "Dénombrement & Probas",
+        question: "Quel est le coefficient de $x^3$ dans le développement de $(1+x)^5$ ?",
+        latex: "\\binom{5}{3} = \\frac{5!}{3!2!} = 10",
+        options: {
+            "A": "10",
+            "B": "5",
+            "C": "15",
+            "D": "20"
+        },
+        correct: "A",
+        explanation: "D'après la formule du binôme de Newton, le terme est $\\binom{5}{3} x^3 = 10 x^3$."
+    },
+    {
+        id: "P_ELEC_COND",
+        subject: "Physique",
+        level: "2BAC SM/PC",
+        chapter: "Électricité RC",
+        question: "Quelle est l'énergie emmagasinée par un condensateur de capacité $C$ sous la tension $U_C$ ?",
+        options: {
+            "A": "\\frac{1}{2} C U_C^2",
+            "B": "C U_C^2",
+            "C": "\\frac{1}{2} C^2 U_C",
+            "D": "\\frac{U_C^2}{2C}"
+        },
+        correct: "A",
+        explanation: "L'énergie électrostatique emmagasinée est $\\mathcal{E}_e = \\frac{1}{2} C U_C^2 = \\frac{q^2}{2C}$."
+    },
+    {
+        id: "P_ELEC_BOBINE",
+        subject: "Physique",
+        level: "2BAC SM/PC",
+        chapter: "Électricité RL",
+        question: "Quelle est l'énergie magnétique stockée dans une bobine d'inductance $L$ traversée par un courant $i$ ?",
+        options: {
+            "A": "\\frac{1}{2} L i^2",
+            "B": "L i^2",
+            "C": "\\frac{1}{2} L^2 i",
+            "D": "\\frac{i^2}{2L}"
+        },
+        correct: "A",
+        explanation: "L'énergie magnétique emmagasinée dans la bobine est $\\mathcal{E}_m = \\frac{1}{2} L i^2$."
+    },
+    {
+        id: "P_KEPLER_3",
+        subject: "Physique",
+        level: "2BAC SM/PC / CPGE",
+        chapter: "Gravitation & Satellites",
+        question: "Selon la 3ème loi de Kepler, pour une planète de période $T$ et de demi-grand axe $a$ :",
+        options: {
+            "A": "\\frac{T^2}{a^3} = \\text{cste}",
+            "B": "\\frac{T^3}{a^2} = \\text{cste}",
+            "C": "T^2 \\cdot a^3 = \\text{cste}",
+            "D": "\\frac{T}{a} = \\text{cste}"
+        },
+        correct: "A",
+        explanation: "La 3ème loi de Kepler stipule que $\\frac{T^2}{a^3} = \\frac{4\\pi^2}{G M_S} = \\text{constante}$."
+    },
+    {
+        id: "C_DO_OXYGENE",
+        subject: "Chimie",
+        level: "2BAC SM/PC / CPGE",
+        chapter: "Oxydoréduction",
+        question: "Quel est le nombre d'oxydation de l'atome de soufre dans l'ion sulfate $\\text{SO}_4^{2-}$ ?",
+        options: {
+            "A": "+VI",
+            "B": "+IV",
+            "C": "+II",
+            "D": "-II"
+        },
+        correct: "A",
+        explanation: "$\\text{n.o.}(S) + 4 \\times (-2) = -2 \\implies \\text{n.o.}(S) = +6$ (+VI)."
+    },
+    {
+        id: "C_GAZ_PARFAIT",
+        subject: "Chimie",
+        level: "2BAC SM/PC / CPGE",
+        chapter: "Thermodynamique",
+        question: "Dans l'équation d'état des gaz parfaits $P \\cdot V = n \\cdot R \\cdot T$, quelle est l'unité de $P$ dans le SI ?",
+        options: {
+            "A": "Pascal (Pa)",
+            "B": "Bar",
+            "C": "Atmosphère (atm)",
+            "D": "Torr"
+        },
+        correct: "A",
+        explanation: "Dans le Système International (SI), la pression $P$ s'exprime impérativement en Pascals ($1 \\text{ bar} = 10^5 \\text{ Pa}$)."
+    },
+    {
+        id: "I_INFO_DICHO",
+        subject: "Informatique",
+        level: "CPGE / SM",
+        chapter: "Algorithmique",
+        question: "Quelle est la complexité dans le pire des cas de la recherche dichotomique dans une liste triée de taille $n$ ?",
+        options: {
+            "A": "O(\\log n)",
+            "B": "O(n)",
+            "C": "O(n \\log n)",
+            "D": "O(1)"
+        },
+        correct: "A",
+        explanation: "À chaque itération, l'espace de recherche est divisé par 2, ce qui donne une complexité logarithmique $O(\\log_2 n)$."
+    },
+    {
+        id: "I_INFO_PYTHON",
+        subject: "Informatique",
+        level: "CPGE / SM",
+        chapter: "Python & Mémoire",
+        question: "En Python, que renvoie l'expression `[x**2 for x in range(4)]` ?",
+        options: {
+            "A": "[0, 1, 4, 9]",
+            "B": "[1, 4, 9, 16]",
+            "C": "[0, 1, 4, 9, 16]",
+            "D": "(0, 1, 4, 9)"
+        },
+        correct: "A",
+        explanation: "`range(4)` produit les entiers de 0 à 3, dont les carrés sont 0, 1, 4, 9 sous forme de liste."
     }
 ];
 

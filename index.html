@@ -368,9 +368,14 @@
             <div id="user-level-badge"></div>
 
             <!-- Sound Mute Button -->
-            <button id="btn-mute-all" title="Couper / Activer les sons" class="text-xs px-2.5 py-1.5 rounded-xl glass-card border border-brand-borderSubtle text-brand-text hover:text-brand-gold transition flex items-center gap-1.5 font-outfit active:scale-95">
+            <button id="btn-mute-all" title="Couper / Activer les sons (M)" class="text-xs px-2.5 py-1.5 rounded-xl glass-card border border-brand-borderSubtle text-brand-text hover:text-brand-gold transition flex items-center gap-1.5 font-outfit active:scale-95">
                 <i class="fa-solid fa-volume-high text-brand-gold text-xs"></i>
                 <span class="hidden sm:inline">Sons</span>
+            </button>
+
+            <!-- Shortcuts Help Button -->
+            <button id="btn-shortcuts" title="Raccourcis clavier (?)" class="text-xs px-2 py-1.5 rounded-xl glass-card border border-brand-borderSubtle text-brand-muted hover:text-brand-gold transition flex items-center justify-center font-outfit active:scale-95">
+                <i class="fa-solid fa-keyboard text-brand-gold text-xs"></i>
             </button>
 
             <!-- User Avatar & Tag (Clickable to Edit Profile) -->
@@ -669,13 +674,13 @@
                         <i class="fa-solid fa-mug-hot text-brand-gold"></i> Chillhop Beats
                     </button>
                     <button data-station="lofigirl" class="radio-station-btn py-1.5 px-2 rounded-lg bg-brand-card border border-brand-border text-brand-muted hover:text-brand-text text-[11px] font-semibold font-outfit transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-headphones text-brand-gold"></i> Lofi Girl Focus
+                        <i class="fa-solid fa-headphones text-brand-gold"></i> Plaza Lo-Fi Focus
                     </button>
                     <button data-station="synthwave" class="radio-station-btn py-1.5 px-2 rounded-lg bg-brand-card border border-brand-border text-brand-muted hover:text-brand-text text-[11px] font-semibold font-outfit transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-bolt text-brand-gold"></i> Night Synthwave
+                        <i class="fa-solid fa-bolt text-brand-gold"></i> ChillSynth Night
                     </button>
                     <button data-station="piano" class="radio-station-btn py-1.5 px-2 rounded-lg bg-brand-card border border-brand-border text-brand-muted hover:text-brand-text text-[11px] font-semibold font-outfit transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-feather text-brand-gold"></i> Piano Classique
+                        <i class="fa-solid fa-feather text-brand-gold"></i> Classique CPGE
                     </button>
                 </div>
 
@@ -922,6 +927,123 @@
             <button id="btn-save-profile" class="w-full py-2.5 rounded-lg bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight text-brand-darker font-extrabold text-xs font-outfit transition active:scale-95 shadow">
                 Enregistrer & Diffuser
             </button>
+        </div>
+    </div>
+
+    <!-- MODAL: CARTE D'ÉTUDIANT & PALMARÈS CPGE -->
+    <div id="student-card-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-3">
+        <div class="glass-panel rounded-3xl border border-brand-gold/60 p-5 max-w-sm w-full space-y-4 shadow-2xl relative overflow-hidden">
+            <!-- Moroccan Royal Gold Glow Backdrop -->
+            <div class="absolute -top-12 -right-12 w-28 h-28 bg-brand-gold/20 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -bottom-12 -left-12 w-28 h-28 bg-brand-cherry/30 rounded-full blur-2xl pointer-events-none"></div>
+
+            <!-- Card Header -->
+            <div class="flex items-center justify-between pb-2 border-b border-brand-borderSubtle">
+                <div class="flex items-center gap-2">
+                    <img src="assets/logo.png" alt="StudySouk Plume" class="w-6 h-6 object-contain">
+                    <div>
+                        <h3 class="text-xs font-black text-white font-outfit uppercase tracking-wider">Carte d'Étudiant STEM</h3>
+                        <span class="text-[9px] text-brand-goldLight font-mono">StudySouk Academy • CPGE & 2BAC</span>
+                    </div>
+                </div>
+                <button id="btn-close-student-card" class="text-brand-muted hover:text-white text-xs p-1">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+
+            <!-- Student Identity Badge -->
+            <div class="flex items-center gap-3 p-3 rounded-2xl bg-brand-darker border border-brand-gold/30 relative">
+                <div class="relative shrink-0">
+                    <img id="sc-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=StudySouk" alt="Avatar" class="w-14 h-14 rounded-2xl border-2 border-brand-gold bg-brand-card shadow-md">
+                    <span class="absolute -bottom-1 -right-1 px-1.5 py-0.2 bg-brand-cherry text-brand-goldLight text-[8px] font-black rounded font-outfit border border-brand-gold">STEM</span>
+                </div>
+                <div class="overflow-hidden flex-1">
+                    <div id="sc-name" class="text-sm font-black text-white font-outfit truncate">Étudiant StudySouk</div>
+                    <div id="sc-rank-title" class="text-xs font-bold text-brand-goldLight font-outfit truncate">Major de Promotion 🥇</div>
+                    <div class="flex items-center gap-2 mt-1">
+                        <span id="sc-level" class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-brand-cherry/60 text-white font-black border border-brand-gold/40">Niveau 1</span>
+                        <span class="text-[9px] font-mono text-brand-muted">Matricule: <span id="sc-matricule" class="text-brand-text font-bold">SS-2026-0001</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- XP Progression Gauge -->
+            <div class="space-y-1">
+                <div class="flex items-center justify-between text-[10px] font-outfit">
+                    <span class="text-brand-muted font-bold">Progression vers le Rang Suivant :</span>
+                    <span id="sc-xp-text" class="font-mono text-brand-goldLight font-black">0 / 45 XP (0%)</span>
+                </div>
+                <div class="w-full h-2 bg-brand-darker rounded-full overflow-hidden border border-brand-border">
+                    <div id="sc-xp-bar" class="h-full bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight rounded-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <p id="sc-rank-desc" class="text-[9px] text-brand-dim italic text-center font-sans mt-0.5">La régularité et la rigueur surclassent toujours l'improvisation.</p>
+            </div>
+
+            <!-- Performance Stats Grid -->
+            <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-[9px] text-brand-muted uppercase font-bold block font-outfit">Deep Work</span>
+                    <span id="sc-stat-mins" class="font-mono text-xs font-black text-brand-gold">0 min</span>
+                </div>
+                <div class="p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-[9px] text-brand-muted uppercase font-bold block font-outfit">Sessions</span>
+                    <span id="sc-stat-sessions" class="font-mono text-xs font-black text-brand-gold">0</span>
+                </div>
+                <div class="p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-[9px] text-brand-muted uppercase font-bold block font-outfit">Flashcards</span>
+                    <span id="sc-stat-cards" class="font-mono text-xs font-black text-brand-gold">0</span>
+                </div>
+            </div>
+
+            <!-- Trophies & Distinctions Shelf -->
+            <div class="space-y-1.5">
+                <span class="text-[10px] uppercase tracking-wider text-brand-gold font-black block font-outfit flex items-center gap-1">
+                    <i class="fa-solid fa-trophy text-brand-gold"></i> Trophées & Distinctions CPGE :
+                </span>
+                <div id="sc-trophies-grid" class="grid grid-cols-2 gap-1.5 max-h-36 overflow-y-auto pr-1"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: RACCOURCIS CLAVIER (KEYBOARD SHORTCUTS) -->
+    <div id="shortcuts-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="glass-panel rounded-2xl border border-brand-borderSubtle p-5 max-w-sm w-full space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between pb-2 border-b border-brand-border">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-keyboard text-brand-gold"></i>
+                    <h3 class="text-sm font-bold text-white font-outfit">Raccourcis Clavier Focus</h3>
+                </div>
+                <button id="btn-close-shortcuts" class="text-brand-muted hover:text-white text-xs p-1">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <div class="space-y-2 text-xs font-outfit">
+                <div class="flex items-center justify-between p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-brand-text">Commencer / Pause le Minuteur</span>
+                    <kbd class="px-2 py-0.5 rounded bg-brand-card border border-brand-gold/40 text-brand-goldLight font-mono text-[11px] font-bold">Espace</kbd>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-brand-text">Réinitialiser le Minuteur</span>
+                    <kbd class="px-2 py-0.5 rounded bg-brand-card border border-brand-gold/40 text-brand-goldLight font-mono text-[11px] font-bold">R</kbd>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-brand-text">Activer / Quitter Mode Zen</span>
+                    <kbd class="px-2 py-0.5 rounded bg-brand-card border border-brand-gold/40 text-brand-goldLight font-mono text-[11px] font-bold">Z</kbd>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-brand-text">Couper / Activer les Sons</span>
+                    <kbd class="px-2 py-0.5 rounded bg-brand-card border border-brand-gold/40 text-brand-goldLight font-mono text-[11px] font-bold">M</kbd>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-brand-text">Changer d'Onglet</span>
+                    <kbd class="px-2 py-0.5 rounded bg-brand-card border border-brand-gold/40 text-brand-goldLight font-mono text-[11px] font-bold">1 - 6</kbd>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-brand-text">Aide des Raccourcis</span>
+                    <kbd class="px-2 py-0.5 rounded bg-brand-card border border-brand-gold/40 text-brand-goldLight font-mono text-[11px] font-bold">?</kbd>
+                </div>
+            </div>
         </div>
     </div>
 

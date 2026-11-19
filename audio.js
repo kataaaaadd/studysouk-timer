@@ -10,19 +10,19 @@ const LOFI_STATIONS = {
         url: "https://streams.ilovemusic.de/iloveradio17.mp3"
     },
     lofigirl: {
-        name: "Lofi Girl Focus & Chill",
+        name: "Nightwave Plaza Focus",
         icon: "fa-headphones",
-        url: "https://stream.zeno.fm/f3wvbbqmdg8uv"
+        url: "https://radio.plaza.one/mp3"
     },
     synthwave: {
-        name: "Nightwave Synth / Cyber",
+        name: "ChillSynth Nightride",
         icon: "fa-bolt",
-        url: "https://nightwavechill.stream.laut.fm/nightwavechill"
+        url: "https://stream.nightride.fm/chillsynth.mp3"
     },
     piano: {
-        name: "Piano & Classical Zen",
+        name: "Classique & Piano CPGE",
         icon: "fa-feather-pointed",
-        url: "https://kathy.torontocast.com:2130/stream"
+        url: "https://stream.srg-ssr.ch/m/rsc_de/mp3_128"
     }
 };
 

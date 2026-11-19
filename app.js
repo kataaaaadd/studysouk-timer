@@ -104,6 +104,7 @@ class StudySoukTimerApp {
         // 6. Bind Listeners & Controls
         this.bindNavigation();
         this.bindZenMode();
+        this.bindKeyboardShortcuts();
         this.bindSubjectSelector();
         this.bindTimerControls();
         this.bindAmbienceControls();
@@ -293,6 +294,9 @@ class StudySoukTimerApp {
             window.ambience?.playClick();
             document.body.classList.toggle("zen-mode");
             const isZen = document.body.classList.contains("zen-mode");
+            if (isZen) {
+                localStorage.setItem("ss_used_zen", "true");
+            }
             const btn = document.getElementById("btn-zen-mode");
             if (btn) {
                 btn.innerHTML = isZen 
@@ -307,6 +311,49 @@ class StudySoukTimerApp {
                 const btn = document.getElementById("btn-zen-mode");
                 if (btn) {
                     btn.innerHTML = `<i class="fa-solid fa-expand text-brand-gold"></i> <span class="hidden md:inline">Zen</span>`;
+                }
+            }
+        });
+    }
+
+    // --- KEYBOARD SHORTCUTS ---
+    bindKeyboardShortcuts() {
+        const shortcutsModal = document.getElementById("shortcuts-modal");
+        document.getElementById("btn-shortcuts")?.addEventListener("click", () => {
+            window.ambience?.playClick();
+            shortcutsModal?.classList.remove("hidden");
+            shortcutsModal?.classList.add("flex");
+        });
+        document.getElementById("btn-close-shortcuts")?.addEventListener("click", () => {
+            shortcutsModal?.classList.add("hidden");
+            shortcutsModal?.classList.remove("flex");
+        });
+
+        window.addEventListener("keydown", (e) => {
+            if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName)) {
+                return;
+            }
+
+            if (e.code === "Space") {
+                e.preventDefault();
+                window.ambience?.playClick();
+                this.toggleTimer(true);
+            } else if (e.key === "r" || e.key === "R") {
+                window.ambience?.playClick();
+                this.resetTimer(true);
+            } else if (e.key === "z" || e.key === "Z") {
+                document.getElementById("btn-zen-mode")?.click();
+            } else if (e.key === "m" || e.key === "M") {
+                document.getElementById("btn-mute-all")?.click();
+            } else if (e.key === "?") {
+                shortcutsModal?.classList.toggle("hidden");
+                shortcutsModal?.classList.toggle("flex");
+            } else if (["1", "2", "3", "4", "5", "6"].includes(e.key)) {
+                const tabs = ["tab-timer", "tab-flashcards", "tab-scratchpad", "tab-duel", "tab-tasks", "tab-ambience"];
+                const targetTab = tabs[parseInt(e.key, 10) - 1];
+                if (targetTab) {
+                    window.ambience?.playClick();
+                    this.switchTab(targetTab);
                 }
             }
         });
