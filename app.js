@@ -592,15 +592,15 @@ class StudySoukTimerApp {
 
         if (modeKey === 'break5') {
             if (circle) circle.setAttribute('stroke', 'url(#studysoukBreakGradient)');
-            if (halo) halo.className = "absolute inset-2 rounded-full bg-gradient-to-tr from-emerald-950/50 via-emerald-500/25 to-transparent blur-3xl pointer-events-none transition-all duration-700";
+            if (halo) halo.className = "absolute inset-[-10px] rounded-full bg-gradient-to-tr from-emerald-950/60 via-emerald-500/30 to-teal-400/20 blur-3xl pointer-events-none transition-all duration-700 animate-pulse";
             if (baseTrack) baseTrack.setAttribute('stroke', 'rgba(6, 95, 70, 0.35)');
         } else if (modeKey === 'break15') {
             if (circle) circle.setAttribute('stroke', 'url(#studysoukLongBreakGradient)');
-            if (halo) halo.className = "absolute inset-2 rounded-full bg-gradient-to-tr from-blue-950/50 via-blue-500/25 to-transparent blur-3xl pointer-events-none transition-all duration-700";
+            if (halo) halo.className = "absolute inset-[-10px] rounded-full bg-gradient-to-tr from-blue-950/60 via-blue-500/30 to-indigo-400/20 blur-3xl pointer-events-none transition-all duration-700 animate-pulse";
             if (baseTrack) baseTrack.setAttribute('stroke', 'rgba(30, 58, 138, 0.35)');
         } else {
             if (circle) circle.setAttribute('stroke', 'url(#studysoukGoldGradient)');
-            if (halo) halo.className = "absolute inset-2 rounded-full bg-gradient-to-tr from-brand-cherry/40 via-brand-gold/20 to-transparent blur-3xl pointer-events-none transition-all duration-700";
+            if (halo) halo.className = "absolute inset-[-10px] rounded-full bg-gradient-to-tr from-brand-cherry/50 via-brand-gold/25 to-brand-cherryVibrant/20 blur-3xl pointer-events-none transition-all duration-700 animate-pulse";
             if (baseTrack) baseTrack.setAttribute('stroke', 'rgba(138, 21, 56, 0.25)');
         }
 
