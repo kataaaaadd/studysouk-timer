@@ -127,13 +127,53 @@
             filter: brightness(1.08);
         }
 
-        /* XXL Chronometer Timing */
+        /* Haute Horlogerie Luxury Time Display */
         #timer-display {
-            font-size: clamp(3.8rem, 11.5vw, 6rem) !important;
+            font-size: clamp(3.8rem, 11vw, 5.8rem) !important;
             line-height: 1 !important;
             font-weight: 900 !important;
             letter-spacing: -0.04em !important;
-            text-shadow: 0 0 35px rgba(212, 175, 55, 0.8), 0 0 60px rgba(184, 35, 75, 0.5);
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .timer-digits {
+            background: var(--timer-gradient, linear-gradient(180deg, #FFFFFF 0%, #FFF9D2 28%, #F7C948 60%, #D4AF37 85%, #AA820A 100%));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 22px rgba(212, 175, 55, 0.6));
+            font-variant-numeric: tabular-nums lining-nums;
+            font-feature-settings: "tnum" 1, "zero" 1;
+            display: inline-block;
+        }
+
+        .timer-colon {
+            background: var(--timer-gradient, linear-gradient(180deg, #FFF9D2 0%, #F5C542 50%, #D4AF37 100%));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.95;
+            margin: 0 -0.02em;
+            transform: translateY(-0.04em);
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .timer-running .timer-colon {
+            animation: colonPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes colonPulse {
+            0%, 100% {
+                opacity: 1;
+                filter: drop-shadow(0 0 12px rgba(255, 243, 176, 0.95));
+                transform: translateY(-0.04em) scale(1.06);
+            }
+            50% {
+                opacity: 0.2;
+                filter: none;
+                transform: translateY(-0.04em) scale(0.94);
+            }
         }
         .timer-running #timer-display {
             animation: timerRunningPulse 2.5s ease-in-out infinite;
@@ -332,6 +372,14 @@
         <!-- Header Controls: Voice Roster, Invite, Zen Mode & Profile -->
         <div class="flex items-center gap-1.5 sm:gap-2">
             
+            <!-- Official Moroccan Real-Time Clock (Rabat / Casablanca) -->
+            <div id="morocco-live-clock" title="Heure officielle du Royaume du Maroc (Rabat / Casablanca)" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl glass-card border border-brand-gold/40 text-xs font-mono font-black shadow-sm">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-xs">🇲🇦</span>
+                <span id="morocco-clock-text" class="tracking-wider text-white">--:--:--</span>
+                <span class="hidden lg:inline text-[9px] uppercase tracking-widest text-brand-gold font-bold">Rabat</span>
+            </div>
+
             <!-- Live Voice Channel Participants Pill -->
             <button id="btn-room-roster" title="Membres connectés dans ce salon" class="h-8 text-xs px-2.5 rounded-xl glass-card border border-brand-gold/40 text-brand-goldLight hover:border-brand-gold transition flex items-center gap-1.5 font-outfit font-black shadow active:scale-95">
                 <div class="flex items-end gap-[2px] h-2.5">
@@ -706,9 +754,9 @@
                         </div>
                         
                         <!-- Master Numeric Chrono Display (Enlarged XXL Timing) -->
-                        <span id="timer-display" class="font-mono font-black tracking-tighter text-white drop-shadow-[0_0_35px_rgba(212,175,55,0.85)] select-none leading-none my-0.5 sm:my-1">
-                            25:00
-                        </span>
+                        <div id="timer-display" class="font-mono font-black tracking-tighter select-none leading-none my-0.5 sm:my-1 flex items-center justify-center">
+                            <span class="timer-digits">25</span><span class="timer-colon">:</span><span class="timer-digits">00</span>
+                        </div>
 
                         <!-- Complications Line: Live Status & Active Subject Badge -->
                         <div class="flex items-center justify-center gap-1.5 mt-1 sm:mt-1.5 max-w-[220px]">

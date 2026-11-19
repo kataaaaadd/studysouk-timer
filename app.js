@@ -123,6 +123,7 @@ class StudySoukTimerApp {
         this.bindModals();
         this.initMultiplayerTimerSync();
 
+        this.bindLiveMoroccoClock();
         this.startCountdownHub();
         this.updateTimerDisplay();
         this.renderCycleDots();
@@ -172,6 +173,30 @@ class StudySoukTimerApp {
 
         updateCountdowns();
         setInterval(updateCountdowns, 60000);
+    }
+
+    // --- OFFICIAL MOROCCO REAL-TIME CLOCK ---
+    bindLiveMoroccoClock() {
+        const clockEl = document.getElementById("morocco-clock-text");
+        if (!clockEl) return;
+        const updateClock = () => {
+            try {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString("fr-FR", {
+                    timeZone: "Africa/Casablanca",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                    hour12: false
+                });
+                clockEl.textContent = timeStr;
+            } catch (e) {
+                const d = new Date();
+                clockEl.textContent = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
+            }
+        };
+        updateClock();
+        setInterval(updateClock, 1000);
     }
 
     // --- ACTIVE SUBJECT SELECTOR ---
@@ -589,19 +614,23 @@ class StudySoukTimerApp {
         const circle = document.getElementById("timer-progress-circle");
         const halo = document.getElementById("timer-ambient-halo");
         const baseTrack = document.getElementById("timer-base-track");
+        const displayEl = document.getElementById("timer-display");
 
         if (modeKey === 'break5') {
             if (circle) circle.setAttribute('stroke', 'url(#studysoukBreakGradient)');
             if (halo) halo.className = "absolute inset-[-10px] rounded-full bg-gradient-to-tr from-emerald-950/60 via-emerald-500/30 to-teal-400/20 blur-3xl pointer-events-none transition-all duration-700 animate-pulse";
             if (baseTrack) baseTrack.setAttribute('stroke', 'rgba(6, 95, 70, 0.35)');
+            if (displayEl) displayEl.style.setProperty('--timer-gradient', 'linear-gradient(180deg, #FFFFFF 0%, #D1FAE5 25%, #34D399 60%, #059669 85%, #064E3B 100%)');
         } else if (modeKey === 'break15') {
             if (circle) circle.setAttribute('stroke', 'url(#studysoukLongBreakGradient)');
             if (halo) halo.className = "absolute inset-[-10px] rounded-full bg-gradient-to-tr from-blue-950/60 via-blue-500/30 to-indigo-400/20 blur-3xl pointer-events-none transition-all duration-700 animate-pulse";
             if (baseTrack) baseTrack.setAttribute('stroke', 'rgba(30, 58, 138, 0.35)');
+            if (displayEl) displayEl.style.setProperty('--timer-gradient', 'linear-gradient(180deg, #FFFFFF 0%, #DBEAFE 25%, #60A5FA 60%, #2563EB 85%, #1E3A8A 100%)');
         } else {
             if (circle) circle.setAttribute('stroke', 'url(#studysoukGoldGradient)');
             if (halo) halo.className = "absolute inset-[-10px] rounded-full bg-gradient-to-tr from-brand-cherry/50 via-brand-gold/25 to-brand-cherryVibrant/20 blur-3xl pointer-events-none transition-all duration-700 animate-pulse";
             if (baseTrack) baseTrack.setAttribute('stroke', 'rgba(138, 21, 56, 0.25)');
+            if (displayEl) displayEl.style.setProperty('--timer-gradient', 'linear-gradient(180deg, #FFFFFF 0%, #FFF9D2 28%, #F7C948 60%, #D4AF37 85%, #AA820A 100%)');
         }
 
         document.querySelectorAll(".timer-mode-btn").forEach(b => {
@@ -816,10 +845,14 @@ class StudySoukTimerApp {
     updateTimerDisplay() {
         const minutes = Math.floor(this.timeLeft / 60);
         const seconds = this.timeLeft % 60;
-        const formatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        const minStr = String(minutes).padStart(2, '0');
+        const secStr = String(seconds).padStart(2, '0');
+        const formatted = `${minStr}:${secStr}`;
 
         const displayEl = document.getElementById("timer-display");
-        if (displayEl) displayEl.textContent = formatted;
+        if (displayEl) {
+            displayEl.innerHTML = `<span class="timer-digits">${minStr}</span><span class="timer-colon">:</span><span class="timer-digits">${secStr}</span>`;
+        }
 
         const circle = document.getElementById("timer-progress-circle");
         const progress = this.timeLeft / this.totalDuration;
