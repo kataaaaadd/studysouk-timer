@@ -1673,49 +1673,79 @@
     </div>
 
     <!-- MODAL: PROFILE CUSTOMIZER -->
-    <div id="profile-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-3">
-        <div class="glass-panel rounded-3xl border border-brand-gold/60 p-5 max-w-sm w-full space-y-4 shadow-2xl relative overflow-hidden">
+    <div id="profile-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 animate-fadeIn">
+        <div class="glass-panel rounded-3xl border border-brand-gold/60 p-5 max-w-md w-full space-y-4 shadow-2xl relative overflow-hidden bg-[#0c0c12]">
             <!-- Moroccan Royal Gold Glow Backdrop -->
-            <div class="absolute -top-12 -right-12 w-28 h-28 bg-brand-gold/20 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-brand-gold/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-brand-cherry/25 rounded-full blur-3xl pointer-events-none"></div>
 
-            <div class="flex items-center justify-between pb-2 border-b border-brand-borderSubtle">
-                <div class="flex items-center gap-2">
-                    <img src="assets/logo.png?v=3.0" alt="StudySouk SK Royal Crest" class="w-6 h-6 object-contain">
+            <div class="flex items-center justify-between pb-2.5 border-b border-brand-borderSubtle">
+                <div class="flex items-center gap-2.5">
+                    <img src="assets/logo.png?v=3.0" alt="StudySouk SK Royal Crest" class="w-8 h-8 object-contain drop-shadow">
                     <div>
-                        <h3 class="text-xs sm:text-sm font-black text-white font-outfit uppercase tracking-wider">Profil Étudiant STEM</h3>
-                        <span class="text-xs text-brand-goldLight font-mono font-bold">Personnalisation & Identité Concours</span>
+                        <h3 class="text-sm font-black text-white font-outfit uppercase tracking-wider">Profil Académique STEM</h3>
+                        <span class="text-[11px] text-brand-goldLight font-mono font-bold">Personnalisation & Identité Étudiante</span>
                     </div>
                 </div>
-                <button id="btn-close-profile" class="text-brand-muted hover:text-white text-xs p-1">
+                <button id="btn-close-profile" class="text-brand-muted hover:text-white text-xs p-1.5 rounded-lg hover:bg-white/10 transition">
                     <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             </div>
 
-            <div class="space-y-3">
+            <!-- LIVE CARD MINI PREVIEW -->
+            <div class="p-3 rounded-2xl bg-gradient-to-r from-brand-cherry/50 via-brand-darker to-brand-card border border-brand-gold/50 shadow-inner flex items-center gap-3">
+                <img id="profile-live-avatar" src="assets/logo.png?v=3.0" alt="Avatar" class="w-12 h-12 rounded-xl border-2 border-brand-gold object-cover shadow shrink-0">
+                <div class="min-w-0 flex-1">
+                    <div class="flex items-center justify-between gap-1">
+                        <span id="profile-live-name" class="font-outfit font-black text-sm text-white truncate">Étudiant StudySouk</span>
+                        <span id="profile-live-badge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-brand-cherry text-brand-goldLight border border-brand-gold/50 truncate max-w-[130px]">CPGE MP*</span>
+                    </div>
+                    <p id="profile-live-bio" class="text-[11px] text-brand-muted italic truncate mt-0.5 font-sans">« La rigueur surclasse l'improvisation »</p>
+                </div>
+            </div>
+
+            <div class="space-y-3 max-h-[55vh] overflow-y-auto pr-1">
                 <div>
-                    <label class="text-xs font-black text-brand-goldLight uppercase tracking-wider block mb-1 font-outfit">Nom / Pseudo :</label>
-                    <input id="profile-name-input" type="text" maxlength="24" placeholder="Ex: Al-Khwarizmi, Reda..." class="w-full bg-brand-darker border border-brand-border rounded-xl px-3 py-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-brand-gold font-sans font-semibold">
+                    <label class="text-xs font-black text-brand-goldLight uppercase tracking-wider block mb-1 font-outfit">Nom / Pseudo d'Étudiant :</label>
+                    <input id="profile-name-input" type="text" maxlength="24" placeholder="Ex: Al-Khwarizmi, Reda, Kenza..." class="w-full bg-brand-darker border border-brand-border rounded-xl px-3 py-2 text-xs sm:text-sm text-white focus:outline-none focus:border-brand-gold font-sans font-semibold">
                 </div>
 
                 <div>
-                    <label class="text-xs font-black text-brand-goldLight uppercase tracking-wider block mb-1 font-outfit">Filière / Niveau CPGE & 2BAC :</label>
-                    <select id="profile-filiere-select" class="w-full bg-brand-darker border border-brand-border rounded-xl px-3 py-2.5 text-xs sm:text-sm text-brand-goldLight focus:outline-none focus:border-brand-gold font-outfit font-bold">
-                        <option value="CPGE MP*">🏆 CPGE MP* (Maths-Physique Étoile)</option>
-                        <option value="CPGE MP">📐 CPGE MP (Maths-Physique)</option>
-                        <option value="CPGE PSI*">⚙️ CPGE PSI* (Physique & SI Étoile)</option>
-                        <option value="CPGE PC*">⚛️ CPGE PC* (Physique-Chimie Étoile)</option>
-                        <option value="CPGE TSI">🔧 CPGE TSI (Tech & SI)</option>
-                        <option value="CPGE BCPST">🧬 CPGE BCPST (Bio-Géologie)</option>
-                        <option value="2BAC SM A">📘 2BAC Sciences Maths A</option>
-                        <option value="2BAC SM B">📗 2BAC Sciences Maths B</option>
-                        <option value="2BAC PC">🧪 2BAC Sciences Physiques</option>
-                        <option value="Supérieur STEM">🏛️ Grandes Écoles & Université</option>
+                    <label class="text-xs font-black text-brand-goldLight uppercase tracking-wider block mb-1 font-outfit">Filière / Parcours Éducatif :</label>
+                    <select id="profile-filiere-select" class="w-full bg-brand-darker border border-brand-border rounded-xl px-3 py-2 text-xs sm:text-sm text-brand-goldLight focus:outline-none focus:border-brand-gold font-outfit font-bold">
+                        <optgroup label="CPGE — Classes Préparatoires aux Grandes Écoles">
+                            <option value="CPGE MP*">🏆 CPGE MP* (Maths-Physique Étoile)</option>
+                            <option value="CPGE MP">📐 CPGE MP (Maths-Physique)</option>
+                            <option value="CPGE PSI*">⚙️ CPGE PSI* (Physique & SI Étoile)</option>
+                            <option value="CPGE PC*">⚛️ CPGE PC* (Physique-Chimie Étoile)</option>
+                            <option value="CPGE TSI">🔧 CPGE TSI (Tech & SI)</option>
+                            <option value="CPGE BCPST">🧬 CPGE BCPST (Bio-Géologie)</option>
+                            <option value="CPGE ECS / ECT">📊 CPGE Économique & Commerciale</option>
+                        </optgroup>
+                        <optgroup label="2ème Année du Baccalauréat (2BAC)">
+                            <option value="2BAC SM A">📘 2BAC Sciences Maths A</option>
+                            <option value="2BAC SM B">📗 2BAC Sciences Maths B</option>
+                            <option value="2BAC PC">🧪 2BAC Sciences Physiques (PC)</option>
+                            <option value="2BAC SVT">🌿 2BAC Sciences de la Vie et de la Terre (SVT)</option>
+                            <option value="2BAC STE">⚡ 2BAC Sciences & Tech Électriques (STE)</option>
+                            <option value="2BAC STM">⚙️ 2BAC Sciences & Tech Mécaniques (STM)</option>
+                            <option value="2BAC Éco">📈 2BAC Sciences Économiques & Gestion</option>
+                        </optgroup>
+                        <optgroup label="1ère Année du Baccalauréat (1BAC)">
+                            <option value="1BAC SM">🎒 1BAC Sciences Mathématiques</option>
+                            <option value="1BAC Sc. Ex">🎒 1BAC Sciences Expérimentales</option>
+                        </optgroup>
+                        <optgroup label="Enseignement Supérieur STEM">
+                            <option value="Grandes Écoles">🏛️ Grandes Écoles d'Ingénieurs (ENSA, ENSAM, CNC...)</option>
+                            <option value="Médecine / Pharmacie">🏥 Médecine & Pharmacie (FMP / FMD)</option>
+                            <option value="Université & FST">🏛️ Faculté & Université (FS, FST, UM6P...)</option>
+                        </optgroup>
                     </select>
                 </div>
 
                 <div>
                     <label class="text-xs font-black text-brand-goldLight uppercase tracking-wider block mb-1 font-outfit">Devise / Objectif de Concours :</label>
-                    <input id="profile-bio-input" type="text" maxlength="40" placeholder="Ex: Major CNC 2026 InchaAllah, Mines..." class="w-full bg-brand-darker border border-brand-border rounded-xl px-3 py-2.5 text-xs sm:text-sm text-white placeholder-brand-muted focus:outline-none focus:border-brand-gold font-sans font-semibold">
+                    <input id="profile-bio-input" type="text" maxlength="40" placeholder="Ex: Major CNC 2026 InchaAllah, Mines, X..." class="w-full bg-brand-darker border border-brand-border rounded-xl px-3 py-2 text-xs sm:text-sm text-white placeholder-brand-muted focus:outline-none focus:border-brand-gold font-sans font-semibold">
                 </div>
 
                 <div>
@@ -1733,46 +1763,60 @@
                 </div>
             </div>
 
-            <button id="btn-save-profile" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-cherry via-brand-cherryVibrant to-brand-gold text-brand-goldLight font-black text-xs sm:text-sm font-outfit transition active:scale-95 shadow-lg border border-brand-gold/40">
-                <i class="fa-solid fa-check mr-1"></i> Enregistrer & Synchroniser
+            <button id="btn-save-profile" class="w-full py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-brand-cherry via-brand-cherryVibrant to-brand-gold text-brand-goldLight font-black text-xs sm:text-sm font-outfit transition active:scale-95 shadow-lg border border-brand-gold/40 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-check"></i> Enregistrer & Synchroniser
             </button>
         </div>
     </div>
 
     <!-- MODAL: CARTE D'ÉTUDIANT & PALMARÈS CPGE -->
-    <div id="student-card-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3">
-        <div class="glass-panel rounded-3xl border border-brand-gold/60 p-5 max-w-sm w-full space-y-4 shadow-2xl relative overflow-hidden">
+    <div id="student-card-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 animate-fadeIn">
+        <div class="glass-panel rounded-3xl border border-brand-gold/70 p-5 sm:p-6 max-w-md w-full space-y-4 shadow-2xl relative overflow-hidden bg-gradient-to-br from-[#1c040b] via-[#0d070a] to-[#060609]">
             <!-- Moroccan Royal Gold Glow Backdrop -->
-            <div class="absolute -top-12 -right-12 w-28 h-28 bg-brand-gold/20 rounded-full blur-2xl pointer-events-none"></div>
-            <div class="absolute -bottom-12 -left-12 w-28 h-28 bg-brand-cherry/30 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -top-16 -right-16 w-36 h-36 bg-brand-gold/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-16 -left-16 w-36 h-36 bg-brand-cherry/30 rounded-full blur-3xl pointer-events-none"></div>
 
-            <!-- Card Header -->
-            <div class="flex items-center justify-between pb-2 border-b border-brand-borderSubtle">
-                <div class="flex items-center gap-2">
-                    <img src="assets/logo.png?v=3.0" alt="StudySouk SK Royal Crest" class="w-6 h-6 object-contain">
+            <!-- Authentic Academic Card Header with SK Royal Crest & Gold Chip -->
+            <div class="flex items-center justify-between pb-3 border-b border-brand-gold/30">
+                <div class="flex items-center gap-2.5">
+                    <img src="assets/logo.png?v=3.0" alt="StudySouk SK Royal Crest" class="w-10 h-10 object-contain drop-shadow-[0_2px_10px_rgba(212,175,55,0.5)]">
                     <div>
-                        <h3 class="text-xs sm:text-sm font-black text-white font-outfit uppercase tracking-wider">Carte d'Étudiant STEM</h3>
-                        <span class="text-xs text-brand-goldLight font-mono font-bold">StudySouk Academy • CPGE & 2BAC</span>
+                        <div class="text-[10px] font-mono tracking-widest text-brand-gold uppercase font-bold flex items-center gap-1">
+                            <span>ROYAUME DU MAROC</span>
+                            <span>•</span>
+                            <span class="text-white">STUDYSOUK</span>
+                        </div>
+                        <h3 class="text-xs sm:text-sm font-black text-white font-outfit tracking-wide uppercase">Carte d'Étudiant STEM</h3>
                     </div>
                 </div>
-                <button id="btn-close-student-card" class="text-brand-muted hover:text-white text-xs p-1">
-                    <i class="fa-solid fa-xmark text-base"></i>
-                </button>
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-microchip text-brand-gold text-xl drop-shadow" title="Puce Électronique Sécurisée"></i>
+                    <button id="btn-close-student-card" class="text-brand-muted hover:text-white p-1 rounded-lg hover:bg-white/10 transition">
+                        <i class="fa-solid fa-xmark text-base"></i>
+                    </button>
+                </div>
             </div>
 
-            <!-- Student Identity Badge -->
-            <div class="flex items-center gap-3 p-3.5 rounded-2xl bg-brand-darker border border-brand-gold/40 relative">
-                <div class="relative shrink-0">
-                    <img id="sc-avatar" src="assets/avatars/default.svg" alt="Avatar" class="w-14 h-14 rounded-2xl border-2 border-brand-gold bg-brand-card shadow-md object-cover">
-                    <span id="sc-filiere-badge" class="absolute -bottom-1 -right-1 px-2 py-0.5 bg-brand-cherry text-brand-goldLight text-xs font-black rounded font-outfit border border-brand-gold">STEM</span>
-                </div>
-                <div class="overflow-hidden flex-1">
-                    <div id="sc-name" class="text-base font-black text-white font-outfit truncate">Étudiant StudySouk</div>
-                    <div id="sc-rank-title" class="text-xs sm:text-sm font-bold text-brand-goldLight font-outfit truncate">Major de Promotion 🥇</div>
-                    <div id="sc-bio" class="text-xs text-brand-muted italic truncate mt-0.5 font-sans font-medium">« La rigueur surclasse l'improvisation »</div>
-                    <div class="flex items-center gap-2 mt-1.5">
-                        <span id="sc-level" class="text-xs font-mono px-2 py-0.5 rounded bg-brand-cherry/80 text-white font-black border border-brand-gold/40">Niveau 1</span>
-                        <span class="text-xs font-mono text-brand-muted">Matricule: <span id="sc-matricule" class="text-white font-bold">SS-2026-0001</span></span>
+            <!-- Student Identity Badge (Card Body) -->
+            <div class="p-3.5 sm:p-4 rounded-2xl bg-brand-darker/90 border border-brand-gold/40 relative shadow-inner">
+                <div class="flex items-center gap-3.5">
+                    <div class="relative shrink-0">
+                        <img id="sc-avatar" src="assets/avatars/default.svg" alt="Avatar" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border-2 border-brand-gold bg-brand-card shadow-lg object-cover">
+                        <span id="sc-filiere-badge" class="absolute -bottom-1.5 -right-1.5 px-2 py-0.5 bg-brand-cherry text-brand-goldLight text-[10px] font-black rounded-md font-outfit border border-brand-gold shadow">STEM</span>
+                    </div>
+                    <div class="overflow-hidden flex-1 min-w-0">
+                        <div class="flex items-center justify-between gap-1">
+                            <div id="sc-name" class="text-base sm:text-lg font-black text-white font-outfit truncate">Étudiant StudySouk</div>
+                            <span class="text-[10px] text-emerald-400 font-mono font-bold shrink-0 flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> ACTIF
+                            </span>
+                        </div>
+                        <div id="sc-rank-title" class="text-xs sm:text-sm font-bold text-brand-goldLight font-outfit truncate mt-0.5">Major de Promotion 🥇</div>
+                        <div id="sc-bio" class="text-xs text-brand-muted italic truncate mt-0.5 font-sans font-medium">« La rigueur surclasse l'improvisation »</div>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span id="sc-level" class="text-[10px] sm:text-xs font-mono px-2 py-0.5 rounded bg-brand-cherry/90 text-white font-black border border-brand-gold/50 shadow-sm">Niveau 1</span>
+                            <span class="text-[10px] sm:text-xs font-mono text-brand-muted">Matricule: <span id="sc-matricule" class="text-brand-gold font-bold">SS-2026-0001</span></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1791,31 +1835,45 @@
                 <div class="w-full h-2.5 bg-brand-darker rounded-full overflow-hidden border border-brand-border">
                     <div id="sc-xp-bar" class="h-full bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight rounded-full transition-all duration-500" style="width: 0%"></div>
                 </div>
-                <p id="sc-rank-desc" class="text-xs text-brand-dim italic text-center font-sans mt-0.5 font-medium">La régularité et la rigueur surclassent toujours l'improvisation.</p>
+                <p id="sc-rank-desc" class="text-[11px] text-brand-dim italic text-center font-sans mt-0.5 font-medium">La régularité et la rigueur surclassent toujours l'improvisation.</p>
             </div>
 
-            <!-- Performance Stats Grid -->
-            <div class="grid grid-cols-3 gap-2 text-center">
-                <div class="p-2.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
-                    <span class="text-xs text-brand-muted uppercase font-black block font-outfit">Deep Work</span>
-                    <span id="sc-stat-mins" class="font-mono text-sm sm:text-base font-black text-brand-goldLight">0 min</span>
+            <!-- Performance Stats Grid (4 Pillars: Deep Work, Sessions, Flashcards, Duels) -->
+            <div class="grid grid-cols-4 gap-1.5 sm:gap-2 text-center">
+                <div class="p-2 sm:p-2.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-[10px] text-brand-muted uppercase font-black block font-outfit">Deep Work</span>
+                    <span id="sc-stat-mins" class="font-mono text-xs sm:text-sm font-black text-brand-goldLight">0 min</span>
                 </div>
-                <div class="p-2.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
-                    <span class="text-xs text-brand-muted uppercase font-black block font-outfit">Sessions</span>
-                    <span id="sc-stat-sessions" class="font-mono text-sm sm:text-base font-black text-brand-goldLight">0</span>
+                <div class="p-2 sm:p-2.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-[10px] text-brand-muted uppercase font-black block font-outfit">Sessions</span>
+                    <span id="sc-stat-sessions" class="font-mono text-xs sm:text-sm font-black text-brand-goldLight">0</span>
                 </div>
-                <div class="p-2.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
-                    <span class="text-xs text-brand-muted uppercase font-black block font-outfit">Flashcards</span>
-                    <span id="sc-stat-cards" class="font-mono text-sm sm:text-base font-black text-brand-goldLight">0</span>
+                <div class="p-2 sm:p-2.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-[10px] text-brand-muted uppercase font-black block font-outfit">Flashcards</span>
+                    <span id="sc-stat-cards" class="font-mono text-xs sm:text-sm font-black text-brand-goldLight">0</span>
+                </div>
+                <div class="p-2 sm:p-2.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                    <span class="text-[10px] text-brand-muted uppercase font-black block font-outfit">Duels 1v1</span>
+                    <span id="sc-stat-duels" class="font-mono text-xs sm:text-sm font-black text-brand-goldLight">0</span>
                 </div>
             </div>
 
             <!-- Trophies & Distinctions Shelf -->
-            <div class="space-y-2">
-                <span class="text-xs uppercase tracking-wider text-brand-gold font-black block font-outfit flex items-center gap-1.5">
-                    <i class="fa-solid fa-trophy text-brand-gold"></i> Trophées & Distinctions CPGE :
+            <div class="space-y-1.5">
+                <span class="text-[11px] uppercase tracking-wider text-brand-gold font-black block font-outfit flex items-center gap-1.5">
+                    <i class="fa-solid fa-trophy text-brand-gold"></i> Trophées & Distinctions CPGE / BAC :
                 </span>
-                <div id="sc-trophies-grid" class="grid grid-cols-2 gap-2 max-h-36 overflow-y-auto pr-1"></div>
+                <div id="sc-trophies-grid" class="grid grid-cols-2 gap-1.5 max-h-32 sm:max-h-36 overflow-y-auto pr-1"></div>
+            </div>
+
+            <!-- Card Action Footer -->
+            <div class="pt-2 border-t border-brand-borderSubtle flex items-center justify-between gap-2">
+                <button id="btn-edit-profile-from-card" class="flex-1 py-2 rounded-xl bg-brand-card hover:bg-brand-darker border border-brand-gold/40 text-brand-goldLight font-bold text-xs font-outfit flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm">
+                    <i class="fa-solid fa-pen-to-square text-xs"></i> Modifier mon Profil
+                </button>
+                <button id="btn-close-student-card-footer" class="py-2 px-4 rounded-xl bg-brand-darker border border-brand-borderSubtle text-brand-muted hover:text-white font-bold text-xs font-outfit transition active:scale-95">
+                    Fermer
+                </button>
             </div>
         </div>
     </div>

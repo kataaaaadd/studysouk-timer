@@ -15,6 +15,7 @@ const STUDY_QUOTES = [
 ];
 
 const AVATAR_PRESETS = [
+    { name: "SK Crest Royal", url: "assets/logo.png" },
     { name: "Al-Khwarizmi", url: "assets/avatars/khwarizmi.svg" },
     { name: "Ibn Sina", url: "assets/avatars/ibnsina.svg" },
     { name: "Euler", url: "assets/avatars/euler.svg" },
@@ -1104,6 +1105,25 @@ class StudySoukTimerApp {
 
         let selectedAvatarUrl = this.discordUser?.avatar || AVATAR_PRESETS[0].url;
 
+        const updateLivePreview = () => {
+            const previewName = document.getElementById("profile-live-name");
+            const previewBadge = document.getElementById("profile-live-badge");
+            const previewBio = document.getElementById("profile-live-bio");
+            const previewAvatar = document.getElementById("profile-live-avatar");
+
+            if (previewName) previewName.textContent = nameInput?.value.trim() || "Étudiant StudySouk";
+            if (previewBadge) previewBadge.textContent = filiereSelect?.value || "CPGE MP*";
+            if (previewBio) previewBio.textContent = bioInput?.value.trim() ? `« ${bioInput.value.trim()} »` : "« La rigueur surclasse l'improvisation »";
+            if (previewAvatar) {
+                const customUrl = customAvatarInput?.value.trim();
+                previewAvatar.src = customUrl || selectedAvatarUrl || "assets/logo.png";
+            }
+        };
+
+        if (nameInput) nameInput.addEventListener("input", updateLivePreview);
+        if (filiereSelect) filiereSelect.addEventListener("change", updateLivePreview);
+        if (bioInput) bioInput.addEventListener("input", updateLivePreview);
+
         document.getElementById("user-profile-trigger")?.addEventListener("click", () => {
             window.ambience?.playClick();
             if (nameInput) nameInput.value = this.discordUser.name || "";
@@ -1126,6 +1146,7 @@ class StudySoukTimerApp {
                 });
             }
 
+            updateLivePreview();
             profileModal?.classList.remove("hidden");
             profileModal?.classList.add("flex");
         });
@@ -1152,6 +1173,7 @@ class StudySoukTimerApp {
                     }
                     avatarsGrid.querySelectorAll(".avatar-pick-btn").forEach(b => b.classList.remove("border-brand-gold", "bg-brand-cherry/80"));
                     btn.classList.add("border-brand-gold", "bg-brand-cherry/80");
+                    updateLivePreview();
                 });
             });
         }
@@ -1162,6 +1184,7 @@ class StudySoukTimerApp {
                 if (url) {
                     selectedAvatarUrl = url;
                     avatarsGrid?.querySelectorAll(".avatar-pick-btn").forEach(b => b.classList.remove("border-brand-gold", "bg-brand-cherry/80"));
+                    updateLivePreview();
                 }
             });
         }

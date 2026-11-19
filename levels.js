@@ -94,6 +94,13 @@ class LevelSystem {
         document.getElementById("btn-close-student-card")?.addEventListener("click", () => {
             this.closeStudentCardModal();
         });
+        document.getElementById("btn-close-student-card-footer")?.addEventListener("click", () => {
+            this.closeStudentCardModal();
+        });
+        document.getElementById("btn-edit-profile-from-card")?.addEventListener("click", () => {
+            this.closeStudentCardModal();
+            document.getElementById("user-profile-trigger")?.click();
+        });
     }
 
     openStudentCardModal(targetUser = null) {
@@ -124,6 +131,7 @@ class LevelSystem {
         const sessions = targetUser ? (targetUser.sessions || (targetUser.focusMinutes ? Math.max(1, Math.floor(targetUser.focusMinutes / 25)) : 0)) : parseInt(localStorage.getItem("ss_timer_sessions") || "0", 10);
         const minutes = targetUser ? (targetUser.focusMinutes || 0) : parseInt(localStorage.getItem("ss_timer_minutes") || "0", 10);
         const masteredCount = targetUser ? (targetUser.masteredCards || 0) : JSON.parse(localStorage.getItem("ss_mastered_cards") || "[]").length;
+        const duelsWon = targetUser ? (targetUser.duelsWon || 0) : parseInt(localStorage.getItem("ss_duels_won") || "0", 10);
 
         // Set card values
         const elName = document.getElementById("sc-name");
@@ -139,6 +147,7 @@ class LevelSystem {
         const elStatMins = document.getElementById("sc-stat-mins");
         const elStatSessions = document.getElementById("sc-stat-sessions");
         const elStatCards = document.getElementById("sc-stat-cards");
+        const elStatDuels = document.getElementById("sc-stat-duels");
         const elTrophiesGrid = document.getElementById("sc-trophies-grid");
         const elChallengeBtn = document.getElementById("btn-challenge-from-card");
 
@@ -154,9 +163,20 @@ class LevelSystem {
         const xpProgress = isPeer ? 75 : Math.round(myInfo.progress * 100);
         if (elXpText) elXpText.textContent = isPeer ? `Niveau STEM ${userLevel}` : `${myInfo.xp} / ${myInfo.nextLevelXp} XP (${xpProgress}%)`;
         if (elXpBar) elXpBar.style.width = `${xpProgress}%`;
-        if (elStatMins) elStatMins.textContent = `${minutes} min`;
+
+        // Format minutes into hours & minutes
+        if (elStatMins) {
+            if (minutes >= 60) {
+                const h = Math.floor(minutes / 60);
+                const m = minutes % 60;
+                elStatMins.textContent = `${h}h ${m}m`;
+            } else {
+                elStatMins.textContent = `${minutes} min`;
+            }
+        }
         if (elStatSessions) elStatSessions.textContent = `${sessions}`;
         if (elStatCards) elStatCards.textContent = `${masteredCount}`;
+        if (elStatDuels) elStatDuels.textContent = `${duelsWon}`;
 
         // Challenge Button (Visible only when inspecting a peer)
         if (elChallengeBtn) {
