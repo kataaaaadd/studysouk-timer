@@ -35,12 +35,12 @@ class ReactionsEngine {
     renderBar() {
         const emojis = ["🔥", "☕", "🍅", "🧠", "⚡", "👏", "🏆"];
         this.container.innerHTML = `
-            <div class="flex items-center gap-1.5 p-1 rounded-full glass-card border border-brand-borderLight shadow-xl shadow-brand-cherry/30">
-                <span class="text-[10px] text-brand-goldLight font-cinzel font-bold pl-2.5 pr-1 hidden sm:inline">
-                    Réactions :
+            <div class="flex items-center gap-1 p-1 rounded-full glass-panel border border-brand-gold/40 shadow-2xl bg-brand-darker/95 backdrop-blur-xl">
+                <span class="text-[9px] uppercase tracking-wider text-brand-goldLight font-extrabold pl-2 pr-0.5 hidden sm:inline font-outfit">
+                    ✨
                 </span>
                 ${emojis.map(e => `
-                    <button data-emoji="${e}" class="reaction-btn w-8 h-8 rounded-full bg-brand-card hover:bg-brand-cherry active:scale-125 transition text-sm flex items-center justify-center border border-transparent hover:border-brand-gold/60 shadow-sm">
+                    <button data-emoji="${e}" class="reaction-btn w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-brand-card hover:bg-brand-cherry hover:border-brand-gold active:scale-125 transition-all text-xs sm:text-sm flex items-center justify-center border border-brand-borderSubtle shadow-sm">
                         ${e}
                     </button>
                 `).join('')}

@@ -542,7 +542,7 @@ class StudySoukTimerApp {
 
         const btn = document.getElementById("btn-timer-toggle");
         if (btn) {
-            btn.innerHTML = `<i class="fa-solid fa-pause text-xl text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-lg">Pause</span>`;
+            btn.innerHTML = `<i class="fa-solid fa-pause text-sm sm:text-base text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-sm sm:text-base">Pause</span>`;
         }
 
         clearInterval(this.timerInterval);
@@ -580,7 +580,7 @@ class StudySoukTimerApp {
         clearInterval(this.timerInterval);
         const btn = document.getElementById("btn-timer-toggle");
         if (btn) {
-            btn.innerHTML = `<i class="fa-solid fa-play text-xl text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-lg">Reprendre</span>`;
+            btn.innerHTML = `<i class="fa-solid fa-play text-sm sm:text-base text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-sm sm:text-base">Reprendre</span>`;
         }
 
         if (broadcast && this.sync) {
@@ -600,7 +600,7 @@ class StudySoukTimerApp {
         this.updateTimerDisplay();
         const btn = document.getElementById("btn-timer-toggle");
         if (btn) {
-            btn.innerHTML = `<i class="fa-solid fa-play text-xl text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-lg">Commencer</span>`;
+            btn.innerHTML = `<i class="fa-solid fa-play text-sm sm:text-base text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i><span class="gold-text-gradient font-black text-sm sm:text-base">Commencer</span>`;
         }
 
         if (broadcast && this.sync) {

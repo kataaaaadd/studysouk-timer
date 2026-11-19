@@ -430,7 +430,7 @@ class AmbienceEngine {
             gain.connect(this.masterGain || this.ctx.destination);
             osc.start(now);
             osc.stop(now + 0.045);
-        } catch (e) {}
+        } catch (e) { }
     }
 
     // --- LO-FI LIVE RADIO STREAMING ---
@@ -492,18 +492,18 @@ class AmbienceEngine {
         const vinylRecord = document.getElementById("vinyl-record");
 
         if (toggleBtn) {
-            toggleBtn.innerHTML = this.isRadioPlaying 
+            toggleBtn.innerHTML = this.isRadioPlaying
                 ? `<i class="fa-solid fa-pause text-brand-gold"></i> Pause Radio`
                 : `<i class="fa-solid fa-play text-brand-gold"></i> Écouter le Live`;
         }
 
         if (statusSpan) {
             const station = LOFI_STATIONS[this.currentStationKey];
-            statusSpan.textContent = this.isRadioPlaying 
+            statusSpan.textContent = this.isRadioPlaying
                 ? `● En Direct : ${station.name}`
                 : `Radio en Pause`;
-            statusSpan.className = this.isRadioPlaying 
-                ? "text-[11px] text-emerald-400 font-bold" 
+            statusSpan.className = this.isRadioPlaying
+                ? "text-[11px] text-emerald-400 font-bold"
                 : "text-[11px] text-brand-muted";
         }
 

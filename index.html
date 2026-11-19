@@ -312,79 +312,74 @@
     <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
     <!-- Official StudySouk Elite Header Bar -->
-    <header class="w-full border-b border-brand-borderSubtle glass-panel sticky top-0 z-40 px-3 sm:px-6 py-2.5 flex items-center justify-between">
-        <div class="flex items-center gap-3">
+    <header class="w-full border-b border-brand-borderSubtle glass-panel sticky top-0 z-40 px-3 sm:px-6 py-2 flex items-center justify-between">
+        <div class="flex items-center gap-2.5 sm:gap-3 shrink-0">
             <!-- Official StudySouk Academy Logo Emblem -->
-            <div class="relative w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center group cursor-pointer">
+            <div class="relative w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center group cursor-pointer">
                 <div class="absolute inset-0 rounded-2xl bg-gradient-to-tr from-brand-cherry via-brand-gold to-brand-goldLight p-[1.5px] shadow-lg shadow-brand-cherryGlow opacity-90 group-hover:scale-105 transition duration-300"></div>
-                <div class="w-full h-full bg-brand-darker rounded-[14px] flex items-center justify-center p-1.5 overflow-hidden">
-                    <img src="assets/logo.png" alt="StudySouk Plume" class="w-7 h-7 sm:w-8 sm:h-8 object-contain animated-emblem">
+                <div class="w-full h-full bg-brand-darker rounded-[14px] flex items-center justify-center p-1 overflow-hidden">
+                    <img src="assets/logo.png" alt="StudySouk Plume" class="w-6 h-6 sm:w-7 sm:h-7 object-contain animated-emblem">
                 </div>
             </div>
 
             <div>
-                <div class="flex items-center gap-2">
-                    <h1 class="font-black text-sm sm:text-base tracking-tight text-white flex items-center gap-1.5 font-outfit">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <h1 class="font-black text-xs sm:text-sm tracking-tight text-white flex items-center gap-1 font-outfit">
                         StudySouk <span class="gold-text-gradient">Academy</span>
                     </h1>
-                    <span class="text-[9px] uppercase tracking-wider font-extrabold gold-shimmer px-2 py-0.5 rounded-full border border-brand-gold/40 shadow-sm font-outfit">
-                        Excellence STEM
+                    <span class="text-[8px] sm:text-[9px] uppercase tracking-wider font-extrabold gold-shimmer px-1.5 py-0.5 rounded-full border border-brand-gold/40 shadow-sm font-outfit">
+                        STEM
                     </span>
                 </div>
-                <div id="discord-status-badge" class="text-[10px] text-brand-muted flex items-center gap-1.5 font-sans mt-0.5">
+                <div id="discord-status-badge" class="text-[9px] sm:text-[10px] text-brand-muted flex items-center gap-1 font-sans">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span id="discord-status-text">Salon Vocal Actif • CPGE & 2BAC</span>
+                    <span id="discord-status-text" class="truncate max-w-[120px] sm:max-w-none">Salon Vocal Actif • CPGE & 2BAC</span>
                 </div>
             </div>
         </div>
 
         <!-- Header Controls: Voice Roster, Invite, Zen Mode & Profile -->
-        <div class="flex items-center gap-1.5 sm:gap-2.5">
+        <div class="flex items-center gap-1.5 sm:gap-2">
             
-            <!-- Live Voice Channel Participants Pill with Animated Equalizer -->
-            <button id="btn-room-roster" title="Membres connectés dans ce salon" class="text-xs px-3 py-1.5 rounded-xl glass-card border border-brand-gold/30 text-brand-goldLight hover:border-brand-gold transition flex items-center gap-2 font-outfit font-bold shadow active:scale-95">
-                <div class="flex items-end gap-[2px] h-3">
+            <!-- Live Voice Channel Participants Pill -->
+            <button id="btn-room-roster" title="Membres connectés dans ce salon" class="h-8 text-xs px-2.5 rounded-xl glass-card border border-brand-gold/30 text-brand-goldLight hover:border-brand-gold transition flex items-center gap-1.5 font-outfit font-bold shadow active:scale-95">
+                <div class="flex items-end gap-[2px] h-2.5">
                     <span class="eq-bar"></span>
                     <span class="eq-bar"></span>
                     <span class="eq-bar"></span>
                 </div>
                 <span id="room-users-count" class="font-mono text-xs">1</span>
-                <span class="hidden sm:inline text-[11px] text-brand-muted font-medium">dans la salle</span>
             </button>
 
             <!-- Invite & Join Room Button -->
-            <button id="btn-invite-room" title="Inviter des camarades ou changer de salle" class="cherry-glow-btn text-xs px-3 py-1.5 rounded-xl border border-brand-gold/50 text-white transition flex items-center gap-1.5 font-outfit font-extrabold shadow active:scale-95">
-                <i class="fa-solid fa-user-plus text-brand-goldLight text-[11px]"></i>
+            <button id="btn-invite-room" title="Inviter des camarades" class="h-8 cherry-glow-btn text-xs px-2.5 sm:px-3 rounded-xl border border-brand-gold/50 text-white transition flex items-center gap-1 font-outfit font-extrabold shadow active:scale-95">
+                <i class="fa-solid fa-user-plus text-brand-goldLight text-[10px]"></i>
                 <span class="hidden sm:inline">Inviter</span>
             </button>
 
-            <!-- Zen Focus Mode Button -->
-            <button id="btn-zen-mode" title="Activer le mode plein écran Zen" class="text-xs px-2.5 py-1.5 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:border-brand-gold transition flex items-center gap-1.5 font-outfit font-semibold shadow active:scale-95">
-                <i class="fa-solid fa-expand text-brand-gold text-xs"></i>
-                <span class="hidden md:inline">Zen</span>
-            </button>
+            <!-- Quick Action Cluster (Zen, Mute, Shortcuts) -->
+            <div class="flex items-center gap-1 p-0.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                <button id="btn-zen-mode" title="Mode Zen plein écran (Z)" class="h-7 w-7 rounded-lg glass-card text-brand-goldLight hover:border-brand-gold hover:text-white transition flex items-center justify-center active:scale-95">
+                    <i class="fa-solid fa-expand text-[11px] text-brand-gold"></i>
+                </button>
+                <button id="btn-mute-all" title="Couper / Activer les sons (M)" class="h-7 w-7 rounded-lg glass-card text-brand-text hover:text-brand-gold transition flex items-center justify-center active:scale-95">
+                    <i class="fa-solid fa-volume-high text-[11px] text-brand-gold"></i>
+                </button>
+                <button id="btn-shortcuts" title="Raccourcis clavier (?)" class="h-7 w-7 rounded-lg glass-card text-brand-muted hover:text-brand-gold transition flex items-center justify-center active:scale-95">
+                    <i class="fa-solid fa-keyboard text-[11px] text-brand-gold"></i>
+                </button>
+            </div>
 
             <!-- StudySouk Academic Rank Badge -->
             <div id="user-level-badge"></div>
 
-            <!-- Sound Mute Button -->
-            <button id="btn-mute-all" title="Couper / Activer les sons (M)" class="text-xs px-2.5 py-1.5 rounded-xl glass-card border border-brand-borderSubtle text-brand-text hover:text-brand-gold transition flex items-center gap-1.5 font-outfit active:scale-95">
-                <i class="fa-solid fa-volume-high text-brand-gold text-xs"></i>
-                <span class="hidden sm:inline">Sons</span>
-            </button>
-
-            <!-- Shortcuts Help Button -->
-            <button id="btn-shortcuts" title="Raccourcis clavier (?)" class="text-xs px-2 py-1.5 rounded-xl glass-card border border-brand-borderSubtle text-brand-muted hover:text-brand-gold transition flex items-center justify-center font-outfit active:scale-95">
-                <i class="fa-solid fa-keyboard text-brand-gold text-xs"></i>
-            </button>
-
             <!-- User Avatar & Tag (Clickable to Edit Profile) -->
-            <div id="user-profile-trigger" title="Personnaliser ton profil académique" class="flex items-center gap-2 pl-2 border-l border-brand-borderSubtle cursor-pointer hover:opacity-90 transition group">
+            <div id="user-profile-trigger" title="Personnaliser ton profil académique" class="flex items-center gap-1.5 pl-1.5 border-l border-brand-borderSubtle cursor-pointer hover:opacity-90 transition group">
                 <div class="relative">
                     <img id="user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=StudySouk" alt="Avatar" class="w-8 h-8 rounded-full border border-brand-gold/70 bg-brand-darker group-hover:scale-105 group-hover:border-brand-goldLight transition shadow-sm">
-                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-brand-darker"></span>
+                    <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-500 border border-brand-darker"></span>
                 </div>
-                <span id="user-name" class="text-xs font-bold text-brand-text hidden md:inline max-w-[95px] truncate font-outfit group-hover:text-brand-goldLight transition">
+                <span id="user-name" class="text-xs font-bold text-brand-text hidden md:inline max-w-[85px] truncate font-outfit group-hover:text-brand-goldLight transition">
                     Étudiant
                 </span>
             </div>
@@ -446,22 +441,22 @@
                 </select>
             </div>
 
-            <!-- Mode Selector Pills (StudySouk Gold & Cherry) -->
-            <div class="flex flex-wrap items-center justify-center gap-1 p-1 rounded-xl glass-card mb-2.5 border border-brand-borderSubtle max-w-md w-full shadow-lg">
-                <button data-mode="focus25" class="timer-mode-btn flex-1 py-1.5 px-2 rounded-lg text-xs transition duration-200 timer-btn-active font-outfit">
-                    🎯 25m Focus
+            <!-- Mode Selector Pills (5-Column Segmented Grid) -->
+            <div class="grid grid-cols-5 gap-1 p-1 rounded-xl glass-card mb-2 border border-brand-borderSubtle max-w-md w-full shadow-lg">
+                <button data-mode="focus25" class="timer-mode-btn py-1.5 px-1 rounded-lg text-[11px] sm:text-xs transition duration-200 timer-btn-active font-outfit text-center truncate font-bold">
+                    🎯 25m
                 </button>
-                <button data-mode="focus50" class="timer-mode-btn flex-1 py-1.5 px-2 rounded-lg text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
-                    ⚡ 50m Deep
+                <button data-mode="focus50" class="timer-mode-btn py-1.5 px-1 rounded-lg text-[11px] sm:text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold text-center truncate">
+                    ⚡ 50m
                 </button>
-                <button data-mode="focus90" class="timer-mode-btn flex-1 py-1.5 px-2 rounded-lg text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
-                    🏛️ 90m Épreuve
+                <button data-mode="focus90" class="timer-mode-btn py-1.5 px-1 rounded-lg text-[11px] sm:text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold text-center truncate">
+                    🏛️ 90m
                 </button>
-                <button data-mode="break5" class="timer-mode-btn flex-1 py-1.5 px-2 rounded-lg text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
-                    ☕ 5m Pause
+                <button data-mode="break5" class="timer-mode-btn py-1.5 px-1 rounded-lg text-[11px] sm:text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold text-center truncate">
+                    ☕ 5m
                 </button>
-                <button data-mode="break15" class="timer-mode-btn flex-1 py-1.5 px-2 rounded-lg text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold">
-                    🌴 15m Longue
+                <button data-mode="break15" class="timer-mode-btn py-1.5 px-1 rounded-lg text-[11px] sm:text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-bold text-center truncate">
+                    🌴 15m
                 </button>
             </div>
 
@@ -544,31 +539,31 @@
                 </div>
             </div>
 
-            <!-- Timer Action Controls (with -5m and +5m Quick Modifiers) -->
-            <div class="flex items-center gap-2 sm:gap-3 mb-2.5">
+            <!-- Unified Luxury Control Dock (Apple Dynamic Island & Linear Style) -->
+            <div class="glass-panel rounded-2xl p-1.5 mb-2 border border-brand-borderSubtle flex items-center gap-1.5 sm:gap-2 shadow-2xl">
                 <!-- -5m Quick Modifier -->
-                <button id="btn-timer-sub5" title="Retirer 5 minutes" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-[11px] font-black shadow active:scale-90">
+                <button id="btn-timer-sub5" title="Retirer 5 minutes" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-[11px] font-black flex items-center justify-center shadow active:scale-90 transition">
                     -5m
                 </button>
 
                 <!-- Reset Button -->
-                <button id="btn-timer-reset" title="Réinitialiser pour le salon vocal" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-muted hover:text-white group">
+                <button id="btn-timer-reset" title="Réinitialiser (R)" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass-card border border-brand-borderSubtle text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group">
                     <i class="fa-solid fa-rotate-left text-sm group-hover:-rotate-45 transition duration-200"></i>
                 </button>
 
                 <!-- Big Primary Play/Pause Button -->
-                <button id="btn-timer-toggle" class="px-6 sm:px-8 py-2.5 rounded-xl cherry-glow-btn border border-brand-gold/70 text-white font-black text-sm sm:text-base tracking-wide flex items-center gap-2 sm:gap-2.5 font-outfit active:scale-95 shadow-xl group">
-                    <i class="fa-solid fa-play text-base text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i>
-                    <span class="gold-text-gradient font-black text-base">Commencer</span>
+                <button id="btn-timer-toggle" class="h-10 px-6 sm:px-8 rounded-xl cherry-glow-btn border border-brand-gold/70 text-white font-black text-sm sm:text-base tracking-wide flex items-center gap-2 font-outfit active:scale-95 shadow-xl group">
+                    <i class="fa-solid fa-play text-sm sm:text-base text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150"></i>
+                    <span class="gold-text-gradient font-black text-sm sm:text-base">Commencer</span>
                 </button>
 
                 <!-- Skip Button -->
-                <button id="btn-timer-skip" title="Passer à la pause suivante" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-muted hover:text-white group">
+                <button id="btn-timer-skip" title="Passer au bloc suivant" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass-card border border-brand-borderSubtle text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group">
                     <i class="fa-solid fa-forward-step text-sm group-hover:translate-x-0.5 transition duration-200"></i>
                 </button>
 
                 <!-- +5m Quick Modifier -->
-                <button id="btn-timer-add5" title="Ajouter 5 minutes" class="action-circle-btn glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-[11px] font-black shadow active:scale-90">
+                <button id="btn-timer-add5" title="Ajouter 5 minutes" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white font-mono text-[11px] font-black flex items-center justify-center shadow active:scale-90 transition">
                     +5m
                 </button>
             </div>
@@ -796,37 +791,37 @@
 
     </main>
 
-    <!-- Floating Reactions Bar -->
-    <div id="reactions-bar" class="fixed bottom-16 left-1/2 -translate-x-1/2 z-30 pointer-events-auto">
+    <!-- Floating Reactions Bar (Tucked cleanly at bottom-right) -->
+    <div id="reactions-bar" class="fixed bottom-14 right-3 sm:right-6 z-30 pointer-events-auto">
         <div id="reactions-container"></div>
     </div>
 
     <!-- Official StudySouk Bottom Navigation Bar -->
-    <footer class="w-full glass-panel border-t border-brand-borderSubtle sticky bottom-0 z-40 py-1.5 px-2">
-        <div class="max-w-xl mx-auto flex items-center justify-between gap-1 overflow-x-auto py-0.5">
-            <button data-tab="tab-timer" class="nav-tab-btn tab-active shrink-0 flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl text-xs font-semibold">
+    <footer class="w-full glass-panel border-t border-brand-borderSubtle sticky bottom-0 z-40 py-1 px-2">
+        <div class="max-w-xl mx-auto grid grid-cols-6 gap-1 w-full py-0.5">
+            <button data-tab="tab-timer" class="nav-tab-btn tab-active flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold">
                 <i class="fa-solid fa-stopwatch text-sm text-brand-gold"></i>
-                <span class="text-[10px] font-outfit">Minuteur</span>
+                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Minuteur</span>
             </button>
-            <button data-tab="tab-flashcards" class="nav-tab-btn shrink-0 flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
+            <button data-tab="tab-flashcards" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
                 <i class="fa-solid fa-graduation-cap text-sm"></i>
-                <span class="text-[10px] font-outfit">Flashcards</span>
+                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Flashcards</span>
             </button>
-            <button data-tab="tab-scratchpad" class="nav-tab-btn shrink-0 flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
+            <button data-tab="tab-scratchpad" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
                 <i class="fa-solid fa-pen-ruler text-sm"></i>
-                <span class="text-[10px] font-outfit">Ardoise LaTeX</span>
+                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Ardoise</span>
             </button>
-            <button data-tab="tab-duel" class="nav-tab-btn shrink-0 flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
+            <button data-tab="tab-duel" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
                 <i class="fa-solid fa-bolt text-sm"></i>
-                <span class="text-[10px] font-outfit">Duel STEM</span>
+                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Duel STEM</span>
             </button>
-            <button data-tab="tab-tasks" class="nav-tab-btn shrink-0 flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
+            <button data-tab="tab-tasks" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
                 <i class="fa-solid fa-list-check text-sm"></i>
-                <span class="text-[10px] font-outfit">Objectifs</span>
+                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Objectifs</span>
             </button>
-            <button data-tab="tab-ambience" class="nav-tab-btn shrink-0 flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
+            <button data-tab="tab-ambience" class="nav-tab-btn flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-xl text-xs font-semibold transition text-brand-muted hover:text-brand-text border border-transparent">
                 <i class="fa-solid fa-sliders text-sm"></i>
-                <span class="text-[10px] font-outfit">Ambiance</span>
+                <span class="text-[9px] sm:text-[10px] font-outfit truncate">Ambiance</span>
             </button>
         </div>
     </footer>
