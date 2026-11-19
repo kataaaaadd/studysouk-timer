@@ -31,7 +31,7 @@
 
     <style>
         body {
-            background-color: #08080B;
+            background-color: #070709;
             color: #FFFFFF;
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             overflow-x: hidden;
@@ -41,47 +41,46 @@
             text-rendering: optimizeLegibility;
             background-image: 
                 /* STEM Mathematical Coordinate Grid */
-                linear-gradient(to right, rgba(212, 175, 55, 0.045) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(212, 175, 55, 0.045) 1px, transparent 1px),
-                /* Luxury Royal Lighting Vignettes */
-                radial-gradient(ellipse 80% 45% at 50% -10%, rgba(138, 21, 56, 0.40) 0%, transparent 70%),
-                radial-gradient(circle 600px at 85% 90%, rgba(212, 175, 55, 0.14) 0%, transparent 60%),
-                radial-gradient(circle 500px at 15% 85%, rgba(184, 35, 75, 0.16) 0%, transparent 60%);
+                linear-gradient(to right, rgba(226, 232, 240, 0.035) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(226, 232, 240, 0.035) 1px, transparent 1px),
+                /* Signature StudySouk Dark Cherry & Obsidian Vignettes */
+                radial-gradient(ellipse 80% 45% at 50% -10%, rgba(122, 14, 39, 0.45) 0%, transparent 70%),
+                radial-gradient(circle 600px at 85% 90%, rgba(74, 8, 23, 0.28) 0%, transparent 60%),
+                radial-gradient(circle 500px at 15% 85%, rgba(158, 24, 56, 0.22) 0%, transparent 60%);
             background-size: 38px 38px, 38px 38px, auto, auto, auto;
             background-attachment: fixed;
         }
 
-        /* High-Contrast Readability Overrides */
-                /* High-Contrast Readability Overrides & Haute Horlogerie Glass */
+        /* High-Contrast Readability Overrides & Haute Horlogerie Glass */
         .glass-panel {
-            background: linear-gradient(180deg, rgba(20, 10, 17, 0.96) 0%, rgba(10, 5, 9, 0.96) 100%);
+            background: linear-gradient(180deg, rgba(18, 12, 16, 0.96) 0%, rgba(8, 5, 8, 0.98) 100%);
             backdrop-filter: blur(32px);
             -webkit-backdrop-filter: blur(32px);
-            border: 1px solid rgba(212, 175, 55, 0.40);
-            box-shadow: inset 0 1px 1px 0 rgba(255, 243, 176, 0.25), 0 16px 48px 0 rgba(0, 0, 0, 0.75), 0 0 20px rgba(138, 21, 56, 0.2);
+            border: 1px solid rgba(226, 232, 240, 0.20);
+            box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 16px 48px 0 rgba(0, 0, 0, 0.85), 0 0 25px rgba(122, 14, 39, 0.25);
         }
 
         .glass-card {
-            background: linear-gradient(180deg, rgba(28, 16, 25, 0.92) 0%, rgba(18, 9, 16, 0.92) 100%);
+            background: linear-gradient(180deg, rgba(24, 14, 20, 0.92) 0%, rgba(12, 7, 11, 0.94) 100%);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(212, 175, 55, 0.35);
-            box-shadow: inset 0 1px 1px 0 rgba(255, 243, 176, 0.15), 0 8px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(226, 232, 240, 0.16);
+            box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.10), 0 8px 30px rgba(0, 0, 0, 0.6);
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .glass-card:hover {
-            border-color: rgba(212, 175, 55, 0.85);
-            box-shadow: inset 0 1px 2px 0 rgba(255, 243, 176, 0.35), 0 12px 35px rgba(138, 21, 56, 0.45), 0 0 22px rgba(212, 175, 55, 0.35);
+            border-color: rgba(226, 232, 240, 0.55);
+            box-shadow: inset 0 1px 2px 0 rgba(255, 255, 255, 0.25), 0 12px 35px rgba(158, 24, 56, 0.45), 0 0 22px rgba(226, 232, 240, 0.25);
             transform: translateY(-2px);
         }
 
         /* High Contrast Text Enforcements */
         .text-brand-muted {
-            color: #E2E8F0 !important;
+            color: #CBD5E1 !important;
         }
         .text-brand-dim {
-            color: #CBD5E1 !important;
+            color: #94A3B8 !important;
         }
         .text-brand-text {
             color: #FFFFFF !important;
@@ -96,35 +95,36 @@
             color: #94A3B8 !important;
         }
 
-        /* Gold Shimmer & Luxury Text Gradients */
-        @keyframes goldShimmer {
+        /* Platinum Silver Shimmer & Luxury Text Gradients */
+        @keyframes silverShimmer {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
         }
 
         .gold-shimmer {
-            background: linear-gradient(90deg, #D4AF37 0%, #FFF3B0 50%, #D4AF37 100%);
+            background: linear-gradient(90deg, #94A3B8 0%, #FFFFFF 50%, #94A3B8 100%);
             background-size: 200% auto;
-            color: #08080B !important;
-            animation: goldShimmer 4s ease-in-out infinite;
+            color: #070709 !important;
+            animation: silverShimmer 4s ease-in-out infinite;
         }
 
         .gold-text-gradient {
-            background: linear-gradient(135deg, #FFFFFF 0%, #FFF3B0 25%, #F5C542 55%, #D4AF37 85%, #AA820A 100%);
+            background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 30%, #E2E8F0 60%, #CBD5E1 85%, #94A3B8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+            filter: drop-shadow(0 0 12px rgba(226, 232, 240, 0.35));
         }
 
         .cherry-glow-btn {
-            background: linear-gradient(135deg, #A81B45 0%, #D4AF37 40%, #B8234B 75%, #8A1538 100%);
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 6px 28px rgba(184, 35, 75, 0.65), 0 0 18px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, #7A0E27 0%, #9E1838 50%, #540A1A 100%);
+            border: 1px solid rgba(226, 232, 240, 0.45);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 6px 28px rgba(122, 14, 39, 0.65), 0 0 18px rgba(226, 232, 240, 0.25);
             transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .cherry-glow-btn:hover {
-            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 8px 35px rgba(184, 35, 75, 0.85), 0 0 26px rgba(212, 175, 55, 0.65);
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 8px 35px rgba(158, 24, 56, 0.85), 0 0 24px rgba(226, 232, 240, 0.45);
             transform: translateY(-2px) scale(1.02);
-            filter: brightness(1.08);
+            filter: brightness(1.1);
         }
 
         /* Haute Horlogerie Luxury Time Display (Refined Proportions) */
@@ -139,10 +139,10 @@
         }
 
         .timer-digits {
-            background: var(--timer-gradient, linear-gradient(180deg, #FFFFFF 0%, #FFFDE5 18%, #F7CE60 48%, #D4AF37 78%, #8E650C 100%));
+            background: var(--timer-gradient, linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 25%, #E2E8F0 55%, #CBD5E1 80%, #94A3B8 100%));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 16px rgba(212, 175, 55, 0.5));
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 20px rgba(226, 232, 240, 0.45));
             font-variant-numeric: tabular-nums lining-nums;
             font-feature-settings: "tnum" 1, "zero" 1;
             display: inline-block;
@@ -150,7 +150,7 @@
         }
 
         .timer-colon {
-            background: var(--timer-gradient, linear-gradient(180deg, #FFF9D2 0%, #F5C542 50%, #D4AF37 100%));
+            background: var(--timer-gradient, linear-gradient(180deg, #FFFFFF 0%, #E2E8F0 50%, #94A3B8 100%));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             opacity: 0.95;
@@ -167,7 +167,7 @@
         @keyframes colonPulse {
             0%, 100% {
                 opacity: 1;
-                filter: drop-shadow(0 0 10px rgba(255, 243, 176, 0.95));
+                filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.95));
                 transform: translateY(-0.05em) scale(1.08);
             }
             50% {
@@ -181,19 +181,19 @@
         }
         @keyframes timerRunningPulse {
             0%, 100% {
-                filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.45));
+                filter: drop-shadow(0 0 20px rgba(226, 232, 240, 0.35));
             }
             50% {
-                filter: drop-shadow(0 0 38px rgba(212, 175, 55, 0.95)) drop-shadow(0 0 55px rgba(184, 35, 75, 0.7));
+                filter: drop-shadow(0 0 38px rgba(226, 232, 240, 0.75)) drop-shadow(0 0 55px rgba(158, 24, 56, 0.65));
             }
         }
 
         .timer-btn-active {
-            background: linear-gradient(135deg, #FFF9D2 0%, #F5C542 35%, #D4AF37 75%, #B8860B 100%) !important;
-            color: #08080B !important;
+            background: linear-gradient(135deg, #7A0E27 0%, #9E1838 50%, #540A1A 100%) !important;
+            color: #FFFFFF !important;
             font-weight: 900 !important;
-            box-shadow: inset 0 1px 1px #FFFFFF, 0 0 25px rgba(212, 175, 55, 0.75), 0 4px 15px rgba(0,0,0,0.5) !important;
-            border-color: #FFF3B0 !important;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5), 0 0 22px rgba(158, 24, 56, 0.75), 0 4px 15px rgba(0,0,0,0.6) !important;
+            border-color: #E2E8F0 !important;
             transform: translateY(-1px);
         }
 
@@ -203,25 +203,23 @@
             height: 10px;
             border-radius: 9999px;
             background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(212, 175, 55, 0.35);
+            border: 1px solid rgba(226, 232, 240, 0.35);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .cycle-dot.completed {
-            background: linear-gradient(135deg, #FFF3B0, #D4AF37);
-            border-color: #F5C542;
-            box-shadow: 0 0 12px rgba(212, 175, 55, 0.85);
+            background: linear-gradient(135deg, #FFFFFF, #94A3B8);
+            border-color: #E2E8F0;
+            box-shadow: 0 0 12px rgba(226, 232, 240, 0.85);
         }
         .cycle-dot.active {
-            background: #FFF3B0;
-            border-color: #D4AF37;
-            box-shadow: 0 0 16px rgba(245, 197, 66, 1);
+            background: #9E1838;
+            border-color: #FFFFFF;
+            box-shadow: 0 0 16px rgba(158, 24, 56, 1);
             animation: dotPulse 1.8s ease-in-out infinite;
         }
         @keyframes dotPulse {
             0%, 100% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.45); opacity: 1; filter: drop-shadow(0 0 10px rgba(212, 175, 55, 1)); }
-        }
-            50% { transform: scale(1.4); opacity: 1; filter: drop-shadow(0 0 8px rgba(212, 175, 55, 1)); }
+            50% { transform: scale(1.45); opacity: 1; filter: drop-shadow(0 0 10px rgba(158, 24, 56, 1)); }
         }
 
         /* Navigation Tab Dock Enhancements */
@@ -229,21 +227,21 @@
             transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .nav-tab-btn:hover:not(.tab-active) {
-            border-color: rgba(212, 175, 55, 0.35);
+            border-color: rgba(226, 232, 240, 0.35);
             color: #FFFFFF;
-            background: rgba(30, 30, 42, 0.7);
+            background: rgba(25, 18, 24, 0.7);
             transform: translateY(-1px);
         }
         .tab-active {
-            background: linear-gradient(135deg, rgba(138, 21, 56, 0.95) 0%, rgba(84, 28, 47, 0.95) 100%) !important;
-            border-color: rgba(212, 175, 55, 0.8) !important;
-            color: #FFF3B0 !important;
-            box-shadow: 0 0 16px rgba(212, 175, 55, 0.4), 0 4px 14px rgba(138, 21, 56, 0.5) !important;
+            background: linear-gradient(135deg, rgba(122, 14, 39, 0.95) 0%, rgba(74, 8, 23, 0.95) 100%) !important;
+            border-color: rgba(226, 232, 240, 0.75) !important;
+            color: #FFFFFF !important;
+            box-shadow: 0 0 18px rgba(122, 14, 39, 0.6), 0 4px 14px rgba(0, 0, 0, 0.6) !important;
             transform: translateY(-2px);
         }
         .tab-active i {
-            color: #F5C542 !important;
-            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.85));
+            color: #FFFFFF !important;
+            filter: drop-shadow(0 0 8px rgba(226, 232, 240, 0.85));
             transform: scale(1.15);
         }
 
@@ -270,11 +268,11 @@
         @keyframes emblemGlowPulse {
             0%, 100% {
                 opacity: 0.9;
-                filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+                filter: drop-shadow(0 0 10px rgba(226, 232, 240, 0.4));
             }
             50% {
                 opacity: 1;
-                filter: drop-shadow(0 0 24px rgba(212, 175, 55, 0.95)) drop-shadow(0 0 40px rgba(184, 35, 75, 0.6));
+                filter: drop-shadow(0 0 24px rgba(226, 232, 240, 0.95)) drop-shadow(0 0 40px rgba(158, 24, 56, 0.6));
             }
         }
 
@@ -299,7 +297,7 @@
         input[type=range] {
             -webkit-appearance: none;
             appearance: none;
-            background: rgba(84, 28, 47, 0.45);
+            background: rgba(74, 8, 23, 0.45);
             border-radius: 9999px;
             height: 6px;
             outline: none;
@@ -310,28 +308,28 @@
             width: 16px;
             height: 16px;
             border-radius: 50%;
-            background: #D4AF37;
+            background: #CBD5E1;
             cursor: pointer;
-            box-shadow: 0 0 12px rgba(212, 175, 55, 0.65);
+            box-shadow: 0 0 12px rgba(226, 232, 240, 0.65);
             transition: transform 0.15s ease;
         }
         input[type=range]::-webkit-slider-thumb:hover {
             transform: scale(1.25);
-            background: #F5C542;
+            background: #FFFFFF;
         }
 
         ::-webkit-scrollbar {
             width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #0B0B0E;
+            background: #070709;
         }
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #8A1538 0%, #4A0413 100%);
+            background: linear-gradient(180deg, #7A0E27 0%, #4A0817 100%);
             border-radius: 6px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #D4AF37;
+            background: #9E1838;
         }
     </style>
 </head>
@@ -456,7 +454,7 @@
                     <span class="text-sm">🎓</span>
                     <span class="text-xs uppercase tracking-wider text-brand-goldLight font-black truncate">Mines/Centrale</span>
                 </div>
-                <span id="countdown-fr" class="font-mono text-xs sm:text-sm font-black text-white drop-shadow-[0_0_10px_rgba(212,175,55,0.4)]">--j --h</span>
+                <span id="countdown-fr" class="font-mono text-xs sm:text-sm font-black text-white drop-shadow-[0_0_10px_rgba(226,232,240,0.35)]">--j --h</span>
             </div>
 
             <div class="glass-card rounded-xl py-2 px-2.5 border border-brand-borderSubtle flex items-center justify-between sm:justify-center sm:gap-2 relative overflow-hidden group">
@@ -580,13 +578,13 @@
                                     <feMergeNode in="SourceGraphic" />
                                 </feMerge>
                             </filter>
-                            <!-- Focus Gold Gradient -->
+                            <!-- Focus Liquid Platinum & Cherry Gradient -->
                             <linearGradient id="studysoukGoldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#FFF9D2" />
-                                <stop offset="25%" stop-color="#FDE047" />
-                                <stop offset="60%" stop-color="#F59E0B" />
-                                <stop offset="85%" stop-color="#D4AF37" />
-                                <stop offset="100%" stop-color="#996515" />
+                                <stop offset="0%" stop-color="#FFFFFF" />
+                                <stop offset="25%" stop-color="#F8FAFC" />
+                                <stop offset="60%" stop-color="#CBD5E1" />
+                                <stop offset="85%" stop-color="#9E1838" />
+                                <stop offset="100%" stop-color="#7A0E27" />
                             </linearGradient>
                             <!-- Break 5m Emerald Jade Gradient -->
                             <linearGradient id="studysoukBreakGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -604,94 +602,94 @@
                             </linearGradient>
                             <!-- Dial Radial Gradient Background -->
                             <radialGradient id="studysoukDialBg" cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stop-color="#220716" stop-opacity="0.96" />
-                                <stop offset="55%" stop-color="#14040D" stop-opacity="0.98" />
-                                <stop offset="85%" stop-color="#0A0206" stop-opacity="0.99" />
-                                <stop offset="100%" stop-color="#050103" stop-opacity="1" />
+                                <stop offset="0%" stop-color="#120408" stop-opacity="0.98" />
+                                <stop offset="55%" stop-color="#0A0205" stop-opacity="0.99" />
+                                <stop offset="85%" stop-color="#050103" stop-opacity="1" />
+                                <stop offset="100%" stop-color="#020002" stop-opacity="1" />
                             </radialGradient>
-                            <!-- Luxury Gold Rim Gradient -->
+                            <!-- Luxury Platinum Chrome Rim Gradient -->
                             <linearGradient id="studysoukGoldRim" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#FFF3B0" />
-                                <stop offset="30%" stop-color="#F5C542" />
-                                <stop offset="60%" stop-color="#D4AF37" />
-                                <stop offset="85%" stop-color="#8A1538" />
-                                <stop offset="100%" stop-color="#FFF3B0" />
+                                <stop offset="0%" stop-color="#FFFFFF" />
+                                <stop offset="30%" stop-color="#CBD5E1" />
+                                <stop offset="60%" stop-color="#7A0E27" />
+                                <stop offset="85%" stop-color="#4A0817" />
+                                <stop offset="100%" stop-color="#E2E8F0" />
                             </linearGradient>
                         </defs>
 
                         <!-- Outer Luxury Bezel Ring -->
-                        <circle cx="150" cy="150" r="147" stroke="url(#studysoukGoldRim)" stroke-width="2" class="fill-transparent drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
-                        <circle cx="150" cy="150" r="144" stroke="rgba(212, 175, 55, 0.25)" stroke-width="1" class="fill-transparent" />
+                        <circle cx="150" cy="150" r="147" stroke="url(#studysoukGoldRim)" stroke-width="2" class="fill-transparent drop-shadow-[0_0_8px_rgba(226,232,240,0.35)]" />
+                        <circle cx="150" cy="150" r="144" stroke="rgba(226, 232, 240, 0.22)" stroke-width="1" class="fill-transparent" />
                         
                         <!-- Watch Face Dark Obsidian Dial Disc -->
                         <circle cx="150" cy="150" r="135" fill="url(#studysoukDialBg)" />
 
                         <!-- Concentric Guilloché Circular Grooves -->
-                        <circle cx="150" cy="150" r="102" stroke="rgba(212, 175, 55, 0.12)" stroke-width="1" stroke-dasharray="2 6" class="fill-transparent" />
-                        <circle cx="150" cy="150" r="76" stroke="rgba(212, 175, 55, 0.08)" stroke-width="1" stroke-dasharray="1 4" class="fill-transparent" />
+                        <circle cx="150" cy="150" r="102" stroke="rgba(226, 232, 240, 0.12)" stroke-width="1" stroke-dasharray="2 6" class="fill-transparent" />
+                        <circle cx="150" cy="150" r="76" stroke="rgba(226, 232, 240, 0.08)" stroke-width="1" stroke-dasharray="1 4" class="fill-transparent" />
 
                         <!-- 60 High-Precision Horlogerie Tick Marks (Rotated so index 0 is at 12 o'clock) -->
                         <g id="chronometer-dial-ticks" transform="rotate(-90 150 150)">
-<line x1="285.0" y1="150.0" x2="294.0" y2="150.0" stroke="#F5C542" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
-  <line x1="288.2" y1="164.5" x2="293.2" y2="165.1" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="286.0" y1="178.9" x2="290.9" y2="179.9" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="282.2" y1="193.0" x2="287.0" y2="194.5" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="277.0" y1="206.5" x2="281.6" y2="208.6" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="266.9" y1="217.5" x2="274.7" y2="222.0" stroke="#F5C542" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
-  <line x1="262.5" y1="231.7" x2="266.5" y2="234.6" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="253.3" y1="243.0" x2="257.0" y2="246.4" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="243.0" y1="253.3" x2="246.4" y2="257.0" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="231.7" y1="262.5" x2="234.6" y2="266.5" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="217.5" y1="266.9" x2="222.0" y2="274.7" stroke="#F5C542" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
-  <line x1="206.5" y1="277.0" x2="208.6" y2="281.6" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="193.0" y1="282.2" x2="194.5" y2="287.0" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="178.9" y1="286.0" x2="179.9" y2="290.9" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="164.5" y1="288.2" x2="165.1" y2="293.2" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="150.0" y1="285.0" x2="150.0" y2="294.0" stroke="#F5C542" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
-  <line x1="135.5" y1="288.2" x2="134.9" y2="293.2" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="121.1" y1="286.0" x2="120.1" y2="290.9" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="107.0" y1="282.2" x2="105.5" y2="287.0" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="93.5" y1="277.0" x2="91.4" y2="281.6" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="82.5" y1="266.9" x2="78.0" y2="274.7" stroke="#F5C542" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
-  <line x1="68.3" y1="262.5" x2="65.4" y2="266.5" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="57.0" y1="253.3" x2="53.6" y2="257.0" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="46.7" y1="243.0" x2="43.0" y2="246.4" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="37.5" y1="231.7" x2="33.5" y2="234.6" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="33.1" y1="217.5" x2="25.3" y2="222.0" stroke="#F5C542" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
-  <line x1="23.0" y1="206.5" x2="18.4" y2="208.6" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="17.8" y1="193.0" x2="13.0" y2="194.5" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="14.0" y1="178.9" x2="9.1" y2="179.9" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="11.8" y1="164.5" x2="6.8" y2="165.1" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="15.0" y1="150.0" x2="6.0" y2="150.0" stroke="#F5C542" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
-  <line x1="11.8" y1="135.5" x2="6.8" y2="134.9" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="14.0" y1="121.1" x2="9.1" y2="120.1" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="17.8" y1="107.0" x2="13.0" y2="105.5" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="23.0" y1="93.5" x2="18.4" y2="91.4" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="33.1" y1="82.5" x2="25.3" y2="78.0" stroke="#F5C542" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
-  <line x1="37.5" y1="68.3" x2="33.5" y2="65.4" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="46.7" y1="57.0" x2="43.0" y2="53.6" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="57.0" y1="46.7" x2="53.6" y2="43.0" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="68.3" y1="37.5" x2="65.4" y2="33.5" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="82.5" y1="33.1" x2="78.0" y2="25.3" stroke="#F5C542" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
-  <line x1="93.5" y1="23.0" x2="91.4" y2="18.4" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="107.0" y1="17.8" x2="105.5" y2="13.0" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="121.1" y1="14.0" x2="120.1" y2="9.1" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="135.5" y1="11.8" x2="134.9" y2="6.8" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="150.0" y1="15.0" x2="150.0" y2="6.0" stroke="#F5C542" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
-  <line x1="164.5" y1="11.8" x2="165.1" y2="6.8" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="178.9" y1="14.0" x2="179.9" y2="9.1" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="193.0" y1="17.8" x2="194.5" y2="13.0" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="206.5" y1="23.0" x2="208.6" y2="18.4" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="217.5" y1="33.1" x2="222.0" y2="25.3" stroke="#F5C542" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
-  <line x1="231.7" y1="37.5" x2="234.6" y2="33.5" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="243.0" y1="46.7" x2="246.4" y2="43.0" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="253.3" y1="57.0" x2="257.0" y2="53.6" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="262.5" y1="68.3" x2="266.5" y2="65.4" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="266.9" y1="82.5" x2="274.7" y2="78.0" stroke="#F5C542" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
-  <line x1="277.0" y1="93.5" x2="281.6" y2="91.4" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="282.2" y1="107.0" x2="287.0" y2="105.5" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="286.0" y1="121.1" x2="290.9" y2="120.1" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
-  <line x1="288.2" y1="135.5" x2="293.2" y2="134.9" stroke="#D4AF37" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+<line x1="285.0" y1="150.0" x2="294.0" y2="150.0" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+  <line x1="288.2" y1="164.5" x2="293.2" y2="165.1" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="286.0" y1="178.9" x2="290.9" y2="179.9" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="282.2" y1="193.0" x2="287.0" y2="194.5" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="277.0" y1="206.5" x2="281.6" y2="208.6" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="266.9" y1="217.5" x2="274.7" y2="222.0" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+  <line x1="262.5" y1="231.7" x2="266.5" y2="234.6" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="253.3" y1="243.0" x2="257.0" y2="246.4" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="243.0" y1="253.3" x2="246.4" y2="257.0" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="231.7" y1="262.5" x2="234.6" y2="266.5" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="217.5" y1="266.9" x2="222.0" y2="274.7" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+  <line x1="206.5" y1="277.0" x2="208.6" y2="281.6" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="193.0" y1="282.2" x2="194.5" y2="287.0" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="178.9" y1="286.0" x2="179.9" y2="290.9" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="164.5" y1="288.2" x2="165.1" y2="293.2" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="150.0" y1="285.0" x2="150.0" y2="294.0" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+  <line x1="135.5" y1="288.2" x2="134.9" y2="293.2" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="121.1" y1="286.0" x2="120.1" y2="290.9" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="107.0" y1="282.2" x2="105.5" y2="287.0" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="93.5" y1="277.0" x2="91.4" y2="281.6" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="82.5" y1="266.9" x2="78.0" y2="274.7" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+  <line x1="68.3" y1="262.5" x2="65.4" y2="266.5" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="57.0" y1="253.3" x2="53.6" y2="257.0" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="46.7" y1="243.0" x2="43.0" y2="246.4" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="37.5" y1="231.7" x2="33.5" y2="234.6" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="33.1" y1="217.5" x2="25.3" y2="222.0" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+  <line x1="23.0" y1="206.5" x2="18.4" y2="208.6" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="17.8" y1="193.0" x2="13.0" y2="194.5" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="14.0" y1="178.9" x2="9.1" y2="179.9" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="11.8" y1="164.5" x2="6.8" y2="165.1" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="15.0" y1="150.0" x2="6.0" y2="150.0" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+  <line x1="11.8" y1="135.5" x2="6.8" y2="134.9" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="14.0" y1="121.1" x2="9.1" y2="120.1" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="17.8" y1="107.0" x2="13.0" y2="105.5" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="23.0" y1="93.5" x2="18.4" y2="91.4" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="33.1" y1="82.5" x2="25.3" y2="78.0" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+  <line x1="37.5" y1="68.3" x2="33.5" y2="65.4" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="46.7" y1="57.0" x2="43.0" y2="53.6" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="57.0" y1="46.7" x2="53.6" y2="43.0" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="68.3" y1="37.5" x2="65.4" y2="33.5" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="82.5" y1="33.1" x2="78.0" y2="25.3" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+  <line x1="93.5" y1="23.0" x2="91.4" y2="18.4" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="107.0" y1="17.8" x2="105.5" y2="13.0" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="121.1" y1="14.0" x2="120.1" y2="9.1" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="135.5" y1="11.8" x2="134.9" y2="6.8" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="150.0" y1="15.0" x2="150.0" y2="6.0" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+  <line x1="164.5" y1="11.8" x2="165.1" y2="6.8" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="178.9" y1="14.0" x2="179.9" y2="9.1" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="193.0" y1="17.8" x2="194.5" y2="13.0" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="206.5" y1="23.0" x2="208.6" y2="18.4" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="217.5" y1="33.1" x2="222.0" y2="25.3" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+  <line x1="231.7" y1="37.5" x2="234.6" y2="33.5" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="243.0" y1="46.7" x2="246.4" y2="43.0" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="253.3" y1="57.0" x2="257.0" y2="53.6" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="262.5" y1="68.3" x2="266.5" y2="65.4" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="266.9" y1="82.5" x2="274.7" y2="78.0" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+  <line x1="277.0" y1="93.5" x2="281.6" y2="91.4" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="282.2" y1="107.0" x2="287.0" y2="105.5" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="286.0" y1="121.1" x2="290.9" y2="120.1" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+  <line x1="288.2" y1="135.5" x2="293.2" y2="134.9" stroke="rgba(226, 232, 240, 0.35)" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
                         </g>
 
                         <!-- Base Track (underneath progress) - Rotated -90deg -->
@@ -699,7 +697,7 @@
                             <circle id="timer-base-track" cx="150" cy="150" r="124" stroke="rgba(138, 21, 56, 0.35)" stroke-width="10" class="fill-transparent transition-all duration-700" />
                             <!-- Active Liquid Gold Progress Track -->
                             <circle id="timer-progress-circle" cx="150" cy="150" r="124" stroke="url(#studysoukGoldGradient)" stroke-width="10" filter="url(#royalGoldGlow)" 
-                                class="fill-transparent transition-all duration-1000 ease-linear drop-shadow-[0_0_20px_rgba(212,175,55,0.85)]"
+                                class="fill-transparent transition-all duration-1000 ease-linear drop-shadow-[0_0_20px_rgba(226,232,240,0.7)] drop-shadow-[0_0_35px_rgba(158,24,56,0.6)]"
                                 stroke-linecap="round"
                                 stroke-dasharray="779.11"
                                 stroke-dashoffset="0" />
@@ -707,74 +705,74 @@
                     
 <!-- 12 Horlogerie Bezel Screws -->
 <g id="bezel-screws">
-  <circle cx="150.0" cy="4.0" r="2.2" fill="#D4AF37" stroke="#FFF3B0" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
-  <line x1="148.9" y1="5.1" x2="151.1" y2="2.9" stroke="#3B0818" stroke-width="0.7" />
-  <circle cx="223.0" cy="23.6" r="2.2" fill="#D4AF37" stroke="#FFF3B0" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
-  <line x1="221.5" y1="24.0" x2="224.5" y2="23.1" stroke="#3B0818" stroke-width="0.7" />
-  <circle cx="276.4" cy="77.0" r="2.2" fill="#D4AF37" stroke="#FFF3B0" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
-  <line x1="274.9" y1="76.6" x2="278.0" y2="77.4" stroke="#3B0818" stroke-width="0.7" />
-  <circle cx="296.0" cy="150.0" r="2.2" fill="#D4AF37" stroke="#FFF3B0" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
-  <line x1="294.9" y1="148.9" x2="297.1" y2="151.1" stroke="#3B0818" stroke-width="0.7" />
-  <circle cx="276.4" cy="223.0" r="2.2" fill="#D4AF37" stroke="#FFF3B0" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
-  <line x1="276.0" y1="221.5" x2="276.9" y2="224.5" stroke="#3B0818" stroke-width="0.7" />
-  <circle cx="223.0" cy="276.4" r="2.2" fill="#D4AF37" stroke="#FFF3B0" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
-  <line x1="223.4" y1="274.9" x2="222.6" y2="278.0" stroke="#3B0818" stroke-width="0.7" />
-  <circle cx="150.0" cy="296.0" r="2.2" fill="#D4AF37" stroke="#FFF3B0" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
-  <line x1="151.1" y1="294.9" x2="148.9" y2="297.1" stroke="#3B0818" stroke-width="0.7" />
-  <circle cx="77.0" cy="276.4" r="2.2" fill="#D4AF37" stroke="#FFF3B0" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
-  <line x1="78.5" y1="276.0" x2="75.5" y2="276.9" stroke="#3B0818" stroke-width="0.7" />
-  <circle cx="23.6" cy="223.0" r="2.2" fill="#D4AF37" stroke="#FFF3B0" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
-  <line x1="25.1" y1="223.4" x2="22.0" y2="222.6" stroke="#3B0818" stroke-width="0.7" />
-  <circle cx="4.0" cy="150.0" r="2.2" fill="#D4AF37" stroke="#FFF3B0" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
-  <line x1="5.1" y1="151.1" x2="2.9" y2="148.9" stroke="#3B0818" stroke-width="0.7" />
-  <circle cx="23.6" cy="77.0" r="2.2" fill="#D4AF37" stroke="#FFF3B0" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
-  <line x1="24.0" y1="78.5" x2="23.1" y2="75.5" stroke="#3B0818" stroke-width="0.7" />
-  <circle cx="77.0" cy="23.6" r="2.2" fill="#D4AF37" stroke="#FFF3B0" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
-  <line x1="76.6" y1="25.1" x2="77.4" y2="22.0" stroke="#3B0818" stroke-width="0.7" />
+  <circle cx="150.0" cy="4.0" r="2.2" fill="#CBD5E1" stroke="#FFFFFF" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
+  <line x1="148.9" y1="5.1" x2="151.1" y2="2.9" stroke="#4A0817" stroke-width="0.7" />
+  <circle cx="223.0" cy="23.6" r="2.2" fill="#CBD5E1" stroke="#FFFFFF" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
+  <line x1="221.5" y1="24.0" x2="224.5" y2="23.1" stroke="#4A0817" stroke-width="0.7" />
+  <circle cx="276.4" cy="77.0" r="2.2" fill="#CBD5E1" stroke="#FFFFFF" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
+  <line x1="274.9" y1="76.6" x2="278.0" y2="77.4" stroke="#4A0817" stroke-width="0.7" />
+  <circle cx="296.0" cy="150.0" r="2.2" fill="#CBD5E1" stroke="#FFFFFF" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
+  <line x1="294.9" y1="148.9" x2="297.1" y2="151.1" stroke="#4A0817" stroke-width="0.7" />
+  <circle cx="276.4" cy="223.0" r="2.2" fill="#CBD5E1" stroke="#FFFFFF" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
+  <line x1="276.0" y1="221.5" x2="276.9" y2="224.5" stroke="#4A0817" stroke-width="0.7" />
+  <circle cx="223.0" cy="276.4" r="2.2" fill="#CBD5E1" stroke="#FFFFFF" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
+  <line x1="223.4" y1="274.9" x2="222.6" y2="278.0" stroke="#4A0817" stroke-width="0.7" />
+  <circle cx="150.0" cy="296.0" r="2.2" fill="#CBD5E1" stroke="#FFFFFF" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
+  <line x1="151.1" y1="294.9" x2="148.9" y2="297.1" stroke="#4A0817" stroke-width="0.7" />
+  <circle cx="77.0" cy="276.4" r="2.2" fill="#CBD5E1" stroke="#FFFFFF" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
+  <line x1="78.5" y1="276.0" x2="75.5" y2="276.9" stroke="#4A0817" stroke-width="0.7" />
+  <circle cx="23.6" cy="223.0" r="2.2" fill="#CBD5E1" stroke="#FFFFFF" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
+  <line x1="25.1" y1="223.4" x2="22.0" y2="222.6" stroke="#4A0817" stroke-width="0.7" />
+  <circle cx="4.0" cy="150.0" r="2.2" fill="#CBD5E1" stroke="#FFFFFF" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
+  <line x1="5.1" y1="151.1" x2="2.9" y2="148.9" stroke="#4A0817" stroke-width="0.7" />
+  <circle cx="23.6" cy="77.0" r="2.2" fill="#CBD5E1" stroke="#FFFFFF" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
+  <line x1="24.0" y1="78.5" x2="23.1" y2="75.5" stroke="#4A0817" stroke-width="0.7" />
+  <circle cx="77.0" cy="23.6" r="2.2" fill="#CBD5E1" stroke="#FFFFFF" stroke-width="0.6" filter="drop-shadow(0 0 1px rgba(255,243,176,0.5))" />
+  <line x1="76.6" y1="25.1" x2="77.4" y2="22.0" stroke="#4A0817" stroke-width="0.7" />
 </g>
 
 <!-- 36 Guilloche Rays -->
 <g id="guilloche-rays">
-  <line x1="232.0" y1="150.0" x2="268.0" y2="150.0" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="230.8" y1="164.2" x2="266.2" y2="170.5" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="227.1" y1="178.0" x2="260.9" y2="190.4" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="221.0" y1="191.0" x2="252.2" y2="209.0" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="212.8" y1="202.7" x2="240.4" y2="225.8" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="202.7" y1="212.8" x2="225.8" y2="240.4" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="191.0" y1="221.0" x2="209.0" y2="252.2" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="178.0" y1="227.1" x2="190.4" y2="260.9" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="164.2" y1="230.8" x2="170.5" y2="266.2" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="150.0" y1="232.0" x2="150.0" y2="268.0" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="135.8" y1="230.8" x2="129.5" y2="266.2" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="122.0" y1="227.1" x2="109.6" y2="260.9" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="109.0" y1="221.0" x2="91.0" y2="252.2" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="97.3" y1="212.8" x2="74.2" y2="240.4" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="87.2" y1="202.7" x2="59.6" y2="225.8" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="79.0" y1="191.0" x2="47.8" y2="209.0" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="72.9" y1="178.0" x2="39.1" y2="190.4" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="69.2" y1="164.2" x2="33.8" y2="170.5" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="68.0" y1="150.0" x2="32.0" y2="150.0" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="69.2" y1="135.8" x2="33.8" y2="129.5" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="72.9" y1="122.0" x2="39.1" y2="109.6" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="79.0" y1="109.0" x2="47.8" y2="91.0" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="87.2" y1="97.3" x2="59.6" y2="74.2" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="97.3" y1="87.2" x2="74.2" y2="59.6" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="109.0" y1="79.0" x2="91.0" y2="47.8" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="122.0" y1="72.9" x2="109.6" y2="39.1" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="135.8" y1="69.2" x2="129.5" y2="33.8" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="150.0" y1="68.0" x2="150.0" y2="32.0" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="164.2" y1="69.2" x2="170.5" y2="33.8" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="178.0" y1="72.9" x2="190.4" y2="39.1" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="191.0" y1="79.0" x2="209.0" y2="47.8" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="202.7" y1="87.2" x2="225.8" y2="59.6" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="212.8" y1="97.3" x2="240.4" y2="74.2" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="221.0" y1="109.0" x2="252.2" y2="91.0" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="227.1" y1="122.0" x2="260.9" y2="109.6" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
-  <line x1="230.8" y1="135.8" x2="266.2" y2="129.5" stroke="rgba(212, 175, 55, 0.09)" stroke-width="0.75" />
+  <line x1="232.0" y1="150.0" x2="268.0" y2="150.0" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="230.8" y1="164.2" x2="266.2" y2="170.5" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="227.1" y1="178.0" x2="260.9" y2="190.4" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="221.0" y1="191.0" x2="252.2" y2="209.0" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="212.8" y1="202.7" x2="240.4" y2="225.8" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="202.7" y1="212.8" x2="225.8" y2="240.4" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="191.0" y1="221.0" x2="209.0" y2="252.2" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="178.0" y1="227.1" x2="190.4" y2="260.9" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="164.2" y1="230.8" x2="170.5" y2="266.2" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="150.0" y1="232.0" x2="150.0" y2="268.0" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="135.8" y1="230.8" x2="129.5" y2="266.2" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="122.0" y1="227.1" x2="109.6" y2="260.9" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="109.0" y1="221.0" x2="91.0" y2="252.2" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="97.3" y1="212.8" x2="74.2" y2="240.4" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="87.2" y1="202.7" x2="59.6" y2="225.8" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="79.0" y1="191.0" x2="47.8" y2="209.0" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="72.9" y1="178.0" x2="39.1" y2="190.4" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="69.2" y1="164.2" x2="33.8" y2="170.5" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="68.0" y1="150.0" x2="32.0" y2="150.0" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="69.2" y1="135.8" x2="33.8" y2="129.5" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="72.9" y1="122.0" x2="39.1" y2="109.6" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="79.0" y1="109.0" x2="47.8" y2="91.0" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="87.2" y1="97.3" x2="59.6" y2="74.2" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="97.3" y1="87.2" x2="74.2" y2="59.6" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="109.0" y1="79.0" x2="91.0" y2="47.8" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="122.0" y1="72.9" x2="109.6" y2="39.1" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="135.8" y1="69.2" x2="129.5" y2="33.8" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="150.0" y1="68.0" x2="150.0" y2="32.0" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="164.2" y1="69.2" x2="170.5" y2="33.8" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="178.0" y1="72.9" x2="190.4" y2="39.1" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="191.0" y1="79.0" x2="209.0" y2="47.8" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="202.7" y1="87.2" x2="225.8" y2="59.6" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="212.8" y1="97.3" x2="240.4" y2="74.2" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="221.0" y1="109.0" x2="252.2" y2="91.0" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="227.1" y1="122.0" x2="260.9" y2="109.6" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
+  <line x1="230.8" y1="135.8" x2="266.2" y2="129.5" stroke="rgba(226, 232, 240, 0.08)" stroke-width="0.75" />
 </g>
 
 <!-- Tachymeter Cardinal Numerals (60, 15, 30, 45) -->
-                        <g id="tachymeter-cardinals" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="900" fill="#F5C542" text-anchor="middle" dominant-baseline="central" opacity="0.9">
+                        <g id="tachymeter-cardinals" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="900" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central" opacity="0.9">
                             <text x="150" y="24">60</text>
                             <text x="276" y="150">15</text>
                             <text x="150" y="276">30</text>
@@ -786,7 +784,7 @@
                     <div class="absolute flex flex-col items-center justify-center text-center px-2 pointer-events-none w-full">
                         <!-- Top StudySouk Royal Plume -->
                         <div class="relative mb-0.5 sm:mb-1">
-                            <img src="assets/logo.png" alt="StudySouk Plume" class="w-7 h-7 sm:w-8 sm:h-8 object-contain timer-center-emblem drop-shadow-[0_0_16px_rgba(212,175,55,0.9)]">
+                            <img src="assets/logo.png" alt="StudySouk Plume" class="w-7 h-7 sm:w-8 sm:h-8 object-contain timer-center-emblem drop-shadow-[0_0_16px_rgba(226,232,240,0.8)] drop-shadow-[0_0_24px_rgba(158,24,56,0.5)]">
                         </div>
                         
                         <!-- Master Numeric Chrono Display (Enlarged XXL Timing) -->
@@ -820,33 +818,33 @@
             </div>
 
             <!-- Master Haute Horlogerie Control Command Dock -->
-            <div class="glass-panel rounded-2xl p-2 sm:p-2.5 mb-2.5 border-1.5 border-brand-gold/45 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_25px_rgba(212,175,55,0.2)] flex items-center gap-2 sm:gap-2.5 relative overflow-hidden group">
+            <div class="glass-panel rounded-2xl p-2 sm:p-2.5 mb-2.5 border-1.5 border-brand-gold/45 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_25px_rgba(158,24,56,0.25)] flex items-center gap-2 sm:gap-2.5 relative overflow-hidden group">
                 <!-- Ambient Subtle Golden Edge Glow -->
                 <div class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-brand-goldLight to-transparent opacity-60"></div>
                 
                 <!-- -5m Quick Modifier -->
-                <button id="btn-timer-sub5" title="Retirer 5 minutes" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-goldLight hover:text-white font-mono text-xs sm:text-sm font-black flex items-center justify-center shadow-lg active:scale-90 transition hover:shadow-[0_0_12px_rgba(212,175,55,0.3)]">
+                <button id="btn-timer-sub5" title="Retirer 5 minutes" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-goldLight hover:text-white font-mono text-xs sm:text-sm font-black flex items-center justify-center shadow-lg active:scale-90 transition hover:shadow-[0_0_12px_rgba(226,232,240,0.35)]">
                     -5m
                 </button>
 
                 <!-- Reset Button -->
-                <button id="btn-timer-reset" title="Réinitialiser la session (R)" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group shadow-lg hover:shadow-[0_0_12px_rgba(212,175,55,0.3)]">
+                <button id="btn-timer-reset" title="Réinitialiser la session (R)" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group shadow-lg hover:shadow-[0_0_12px_rgba(226,232,240,0.35)]">
                     <i class="fa-solid fa-rotate-left text-sm group-hover:-rotate-45 transition duration-300 text-brand-goldLight"></i>
                 </button>
 
                 <!-- Sleek Haute Horlogerie Play/Pause Button -->
                 <button id="btn-timer-toggle" class="h-9 sm:h-10 px-5 sm:px-6 rounded-xl cherry-glow-btn border border-brand-gold text-white font-black text-xs sm:text-sm tracking-wider uppercase flex items-center gap-2 font-outfit active:scale-95 shadow-xl group">
-                    <i class="fa-solid fa-play text-xs sm:text-sm text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150 drop-shadow-[0_0_8px_rgba(255,243,176,0.8)]"></i>
+                    <i class="fa-solid fa-play text-xs sm:text-sm text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150 drop-shadow-[0_0_8px_rgba(255,255,255,0.85)]"></i>
                     <span class="gold-text-gradient font-black text-xs sm:text-sm tracking-wider">Commencer</span>
                 </button>
 
                 <!-- Skip Button -->
-                <button id="btn-timer-skip" title="Passer au bloc suivant" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group shadow-lg hover:shadow-[0_0_12px_rgba(212,175,55,0.3)]">
+                <button id="btn-timer-skip" title="Passer au bloc suivant" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group shadow-lg hover:shadow-[0_0_12px_rgba(226,232,240,0.35)]">
                     <i class="fa-solid fa-forward-step text-sm group-hover:translate-x-1 transition duration-200 text-brand-goldLight"></i>
                 </button>
 
                 <!-- +5m Quick Modifier -->
-                <button id="btn-timer-add5" title="Ajouter 5 minutes" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-goldLight hover:text-white font-mono text-xs sm:text-sm font-black flex items-center justify-center shadow-lg active:scale-90 transition hover:shadow-[0_0_12px_rgba(212,175,55,0.3)]">
+                <button id="btn-timer-add5" title="Ajouter 5 minutes" class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-goldLight hover:text-white font-mono text-xs sm:text-sm font-black flex items-center justify-center shadow-lg active:scale-90 transition hover:shadow-[0_0_12px_rgba(226,232,240,0.35)]">
                     +5m
                 </button>
             </div>
@@ -1353,7 +1351,7 @@
     <!-- Official StudySouk Streamlined Luxury Navigation Dock -->
     <footer class="w-full glass-panel border-t border-brand-borderSubtle sticky bottom-0 z-40 py-1.5 px-3">
         <!-- Floating Secondary Tools Popover Menu -->
-        <div id="more-tools-popover" class="hidden absolute bottom-full mb-3 right-3 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 w-64 glass-panel rounded-2xl border border-brand-gold/40 p-2 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_25px_rgba(212,175,55,0.25)] backdrop-blur-2xl animate-fadeIn z-50">
+        <div id="more-tools-popover" class="hidden absolute bottom-full mb-3 right-3 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 w-64 glass-panel rounded-2xl border border-brand-gold/40 p-2 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_25px_rgba(158,24,56,0.3)] backdrop-blur-2xl animate-fadeIn z-50">
             <div class="px-2.5 py-1.5 border-b border-brand-borderSubtle flex items-center justify-between mb-1.5">
                 <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-brand-goldLight">Autres Outils</span>
                 <span class="text-[9px] font-mono text-brand-muted">StudySouk Elite</span>

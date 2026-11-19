@@ -8,9 +8,9 @@ const RANKS = [
     { level: 3, title: "Khwanss Rigoureux", icon: "📐", color: "#60A5FA", desc: "La rigueur mathématique s'installe." },
     { level: 5, title: "Taupin Assidu", icon: "⚡", color: "#34D399", desc: "Rythme de travail soutenu et discipliné." },
     { level: 8, title: "Admissible Concours", icon: "🏛️", color: "#F59E0B", desc: "Prêt pour les épreuves écrites du CNC & Mines." },
-    { level: 10, title: "Major de Promotion", icon: "🥇", color: "#D4AF37", desc: "Excellence absolue dans toutes les disciplines STEM." },
+    { level: 10, title: "Major de Promotion", icon: "🥇", color: "#CBD5E1", desc: "Excellence absolue dans toutes les disciplines STEM." },
     { level: 15, title: "Lauréat Grande École", icon: "🎓", color: "#B8234B", desc: "Intégration réussie dans le top des écoles d'ingénieurs." },
-    { level: 20, title: "Légende StudySouk Prestige", icon: "👑", color: "#F5C542", desc: "Immortalité académique au panthéon StudySouk." }
+    { level: 20, title: "Légende StudySouk Prestige", icon: "👑", color: "#FFFFFF", desc: "Immortalité académique au panthéon StudySouk." }
 ];
 
 const TROPHIES = [
@@ -182,7 +182,7 @@ class LevelSystem {
                 const isUnlocked = t.check(stats);
                 return `
                     <div class="p-2 rounded-xl ${isUnlocked ? 'bg-brand-darker border border-brand-gold/60 shadow-md' : 'bg-brand-darker/50 border border-brand-borderSubtle opacity-40'} flex items-center gap-2">
-                        <span class="text-xl ${isUnlocked ? 'drop-shadow-[0_0_8px_rgba(212,175,55,0.8)]' : 'grayscale'}">${t.icon}</span>
+                        <span class="text-xl ${isUnlocked ? 'drop-shadow-[0_0_8px_rgba(226,232,240,0.8)]' : 'grayscale'}">${t.icon}</span>
                         <div class="overflow-hidden">
                             <div class="text-xs font-black ${isUnlocked ? 'text-brand-goldLight' : 'text-brand-muted'} font-outfit truncate">${t.title}</div>
                             <div class="text-xs text-brand-muted font-medium leading-tight truncate">${t.desc}</div>

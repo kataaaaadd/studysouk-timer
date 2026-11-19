@@ -108,7 +108,7 @@ class AmbientCanvas {
                     opacity: Math.random() * 0.7 + 0.2,
                     decay: Math.random() * 0.003 + 0.001,
                     pulse: Math.random() * Math.PI * 2,
-                    color: Math.random() > 0.35 ? '#D4AF37' : '#8A1538'
+                    color: Math.random() > 0.35 ? '#E2E8F0' : '#7A0E27'
                 });
             }
         } else if (this.theme === 'cosmic') {
@@ -123,7 +123,7 @@ class AmbientCanvas {
                     opacity: Math.random() * 0.6 + 0.2,
                     pulse: Math.random() * Math.PI * 2,
                     pulseSpeed: Math.random() * 0.03 + 0.01,
-                    color: Math.random() > 0.4 ? '#F5C542' : '#B8234B'
+                    color: Math.random() > 0.4 ? '#FFFFFF' : '#9E1838'
                 });
             }
         } else if (this.theme === 'rain') {
@@ -152,7 +152,7 @@ class AmbientCanvas {
                 baseOpacity: Math.random() * 0.08 + 0.04,
                 phase: Math.random() * Math.PI * 2,
                 fontSize: Math.floor(Math.random() * 4 + 12),
-                color: Math.random() > 0.4 ? '#D4AF37' : '#B8234B'
+                color: Math.random() > 0.4 ? '#CBD5E1' : '#9E1838'
             });
         }
     }
@@ -171,8 +171,8 @@ class AmbientCanvas {
                 this.mouse.x, this.mouse.y, 0,
                 this.mouse.x, this.mouse.y, 220
             );
-            radGlow.addColorStop(0, 'rgba(212, 175, 55, 0.055)');
-            radGlow.addColorStop(0.5, 'rgba(138, 21, 56, 0.035)');
+            radGlow.addColorStop(0, 'rgba(226, 232, 240, 0.045)');
+            radGlow.addColorStop(0.5, 'rgba(122, 14, 39, 0.035)');
             radGlow.addColorStop(1, 'transparent');
             
             this.ctx.fillStyle = radGlow;
@@ -257,7 +257,7 @@ class AmbientCanvas {
                 this.ctx.beginPath();
                 this.ctx.moveTo(p.x, p.y);
                 this.ctx.lineTo(p.x - 1, p.y + p.length);
-                this.ctx.strokeStyle = `rgba(212, 175, 55, ${p.opacity * 0.75})`;
+                this.ctx.strokeStyle = `rgba(226, 232, 240, ${p.opacity * 0.75})`;
                 this.ctx.stroke();
 
                 p.y += p.speed;

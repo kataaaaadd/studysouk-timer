@@ -40,7 +40,7 @@ class FormulaScratchpad {
         this.canvas = null;
         this.ctx = null;
         this.isDrawing = false;
-        this.currentColor = "#D4AF37"; // StudySouk Imperial Gold
+        this.currentColor = "#FFFFFF"; // StudySouk Platinum Silver
         this.currentSize = 3;
         this.currentTool = "pen"; // "pen", "highlighter", "eraser"
         this.lastX = 0;
@@ -107,7 +107,7 @@ class FormulaScratchpad {
                         <!-- Color Palette (Vertical on md) -->
                         <div class="grid grid-cols-6 md:grid-cols-2 gap-1.5 p-1 bg-brand-darker rounded-xl border border-brand-borderSubtle">
                             ${[
-                                { c: "#D4AF37", title: "Or Impérial" },
+                                { c: "#FFFFFF", title: "Argent Platine" }, { c: "#9E1838", title: "Dark Cherry" },
                                 { c: "#E63946", title: "Rouge Cerise" },
                                 { c: "#00F0FF", title: "Cyan Électrique" },
                                 { c: "#10B981", title: "Émeraude" },

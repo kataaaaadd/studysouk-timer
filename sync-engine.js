@@ -132,7 +132,7 @@ class RoomSyncEngine {
 
             this.client.on("connect", () => {
                 this.isConnected = true;
-                console.log(`%c[RoomSync] Connected to Discord Activity Room: ${this.roomId}`, "color: #D4AF37; font-weight: bold;");
+                console.log(`%c[RoomSync] Connected to Discord Activity Room: ${this.roomId}`, "color: #E2E8F0; font-weight: bold;");
                 
                 // Subscribe to all room subtopics
                 const subTopic = `${this.baseTopic}/#`;

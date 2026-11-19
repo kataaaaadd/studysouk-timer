@@ -135,7 +135,7 @@ class StudySoukTimerApp {
         this.renderStats();
         this.rotateQuote();
 
-        console.log("%c[StudySouk Academy] Official Academic Activity Ready! 🎓", "color: #D4AF37; font-weight: bold; font-size: 13px;");
+        console.log("%c[StudySouk Academy] Official Academic Activity Ready! 🎓", "color: #E2E8F0; font-weight: bold; font-size: 13px;");
     }
 
     // --- CONCOURS COUNTDOWN HUB ---
@@ -683,7 +683,7 @@ class StudySoukTimerApp {
             if (circle) circle.setAttribute('stroke', 'url(#studysoukGoldGradient)');
             if (halo) halo.className = "absolute inset-[-10px] rounded-full bg-gradient-to-tr from-brand-cherry/50 via-brand-gold/25 to-brand-cherryVibrant/20 blur-3xl pointer-events-none transition-all duration-700 animate-pulse";
             if (baseTrack) baseTrack.setAttribute('stroke', 'rgba(138, 21, 56, 0.25)');
-            if (displayEl) displayEl.style.setProperty('--timer-gradient', 'linear-gradient(180deg, #FFFFFF 0%, #FFF9D2 28%, #F7C948 60%, #D4AF37 85%, #AA820A 100%)');
+            if (displayEl) displayEl.style.setProperty('--timer-gradient', 'linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 25%, #E2E8F0 55%, #CBD5E1 80%, #94A3B8 100%)');
         }
 
         document.querySelectorAll(".timer-mode-btn").forEach(b => {

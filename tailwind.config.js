@@ -9,22 +9,28 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          base: '#0B0B0E',
-          dark: '#08080B',
-          darker: '#050507',
-          card: 'rgba(22, 22, 29, 0.88)',
-          cardHover: 'rgba(30, 30, 42, 0.95)',
-          border: 'rgba(212, 175, 55, 0.45)',
-          borderSubtle: 'rgba(212, 175, 55, 0.30)',
-          cherry: '#8A1538',
-          cherryVibrant: '#B8234B',
-          cherryGlow: 'rgba(184, 35, 75, 0.45)',
-          gold: '#D4AF37',
-          goldLight: '#FDE047',
-          goldGlow: 'rgba(212, 175, 55, 0.60)',
+          base: '#070709',
+          dark: '#050507',
+          darker: '#030304',
+          card: 'rgba(18, 14, 18, 0.90)',
+          cardHover: 'rgba(26, 20, 26, 0.96)',
+          border: 'rgba(226, 232, 240, 0.22)',
+          borderSubtle: 'rgba(226, 232, 240, 0.12)',
+          cherry: '#7A0E27',
+          cherryDark: '#4A0817',
+          cherryVibrant: '#9E1838',
+          cherryGlow: 'rgba(158, 24, 56, 0.45)',
+          silver: '#E2E8F0',
+          silverLight: '#FFFFFF',
+          silverDim: '#CBD5E1',
+          silverMuted: '#94A3B8',
+          silverGlow: 'rgba(226, 232, 240, 0.40)',
+          gold: '#E2E8F0',         // remapped to silver
+          goldLight: '#FFFFFF',    // remapped to platinum white
+          goldGlow: 'rgba(226, 232, 240, 0.40)',
           text: '#FFFFFF',
-          muted: '#E2E8F0',
-          dim: '#CBD5E1'
+          muted: '#CBD5E1',
+          dim: '#94A3B8'
         }
       },
       fontFamily: {
