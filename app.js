@@ -451,8 +451,16 @@ class StudySoukTimerApp {
     renderSubjectLabels() {
         const badge = document.getElementById("active-subject-badge");
         const badgeMobile = document.getElementById("active-subject-badge-mobile");
-        if (badge) badge.textContent = this.currentSubject;
-        if (badgeMobile) badgeMobile.textContent = this.currentSubject;
+        const selector = document.getElementById("select-active-subject");
+
+        let label = this.currentSubject;
+        if (selector) {
+            const opt = selector.querySelector(`option[value="${this.currentSubject}"]`) || selector.selectedOptions?.[0];
+            if (opt) label = opt.text;
+        }
+
+        if (badge) badge.textContent = label;
+        if (badgeMobile) badgeMobile.textContent = label;
     }
 
     // --- ACTIVE SUBJECT SELECTOR ---
@@ -467,12 +475,13 @@ class StudySoukTimerApp {
                 this.renderSubjectLabels();
                 window.ambience?.playClick();
 
+                const label = selector.selectedOptions?.[0]?.text || this.currentSubject;
                 if (this.sync) {
                     this.sync.setUser({
                         activeSubject: this.currentSubject
                     });
-                    this.showToast(`📚 Tu révises maintenant : ${this.currentSubject}`);
                 }
+                this.showToast(`📚 Tu révises maintenant : ${label}`);
             });
         }
         this.renderSubjectLabels();

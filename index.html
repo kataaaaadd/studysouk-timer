@@ -722,7 +722,7 @@
                     <option value="Physique: Électromag">⚛️ Physique • Électromagnétisme</option>
                     <option value="Physique: Mécanique">⚛️ Physique • Mécanique & Newton</option>
                     <option value="Physique: Thermo">⚛️ Physique • Thermodynamique</option>
-                    <option value="Chimie: Solutions">🧪 Chimie • Solutions Aqueuses</option>
+                    <option value="Chimie: Solutions">🧪 Chimie • Solutions & Dosages</option>
                     <option value="Info: Algorithmique">💻 Informatique • Algorithmique & SQL</option>
                     <option value="Sciences de l'Ingénieur">⚙️ Sciences de l'Ingénieur (SI)</option>
                     <option value="Concours: Devoir Blanc">🏛️ Épreuve Blanche de Concours</option>
@@ -1176,20 +1176,32 @@
                     </div>
                 </div>
 
-                <!-- Right Flank: Moroccan Countdown Complication Pod ("f l-imin d l-chrono") -->
-                <div id="chrono-right-countdown-pod"
-                    class="hidden sm:flex absolute right-0 lg:right-2 flex-col items-end gap-1 p-2.5 rounded-2xl glass-card border border-brand-gold/40 shadow-xl max-w-[145px] text-right z-10 transition hover:border-brand-gold cursor-pointer group hover:scale-105 active:scale-95" title="Cliquer pour changer d'échéance (Watani, CNC, Régional...)">
-                    <div class="flex items-center gap-1.5 text-brand-goldLight">
-                        <i class="fa-solid fa-hourglass-half text-[10px] text-brand-gold group-hover:rotate-180 transition-transform duration-500"></i>
-                        <span id="pod-cd-badge" class="text-[9px] uppercase tracking-widest font-mono font-bold text-brand-gold">Watani 2BAC</span>
+                <!-- Right Flank: Moroccan Countdown Complication Pod & Mechanical Tic-Tac ON ("hda l-chrono") -->
+                <div class="hidden sm:flex absolute right-0 lg:right-2 flex-col items-end gap-1.5 z-10">
+                    <div id="chrono-right-countdown-pod"
+                        class="flex flex-col items-end gap-1 p-2.5 rounded-2xl glass-card border border-brand-gold/40 shadow-xl w-[142px] text-right transition hover:border-brand-gold cursor-pointer group hover:scale-105 active:scale-95" title="Cliquer pour changer d'échéance (Watani, CNC, Régional...)">
+                        <div class="flex items-center gap-1.5 text-brand-goldLight">
+                            <i class="fa-solid fa-hourglass-half text-[10px] text-brand-gold group-hover:rotate-180 transition-transform duration-500"></i>
+                            <span id="pod-cd-badge" class="text-[9px] uppercase tracking-widest font-mono font-bold text-brand-gold">Watani 2BAC</span>
+                        </div>
+                        <span id="pod-cd-days" class="text-sm font-black gold-text-gradient font-mono leading-tight">
+                            J - 192
+                        </span>
+                        <div class="flex items-center gap-1 text-[9px] text-brand-muted font-mono">
+                            <span id="pod-cd-date">1, 2, 3 Juin</span>
+                            <i class="fa-solid fa-repeat text-[8px] text-brand-gold/70 group-hover:text-brand-gold"></i>
+                        </div>
                     </div>
-                    <span id="pod-cd-days" class="text-sm font-black gold-text-gradient font-mono leading-tight">
-                        J - 192
-                    </span>
-                    <div class="flex items-center gap-1 text-[9px] text-brand-muted font-mono">
-                        <span id="pod-cd-date">1, 2, 3 Juin</span>
-                        <i class="fa-solid fa-repeat text-[8px] text-brand-gold/70 group-hover:text-brand-gold"></i>
-                    </div>
+
+                    <!-- Mechanical Tic-Tac Sound Button Directly Next to Chrono Dial -->
+                    <button id="btn-tictac-toggle-side" title="Activer / Couper le son mécanique Tic-Tac (T)"
+                        class="w-[142px] flex items-center justify-between px-2.5 py-1.5 rounded-xl glass-card border border-brand-gold/40 hover:border-brand-gold text-[10px] font-mono text-brand-goldLight transition active:scale-95 shadow-md cursor-pointer group">
+                        <span class="flex items-center gap-1.5 font-bold">
+                            <i class="fa-solid fa-stopwatch text-[11px] text-brand-gold group-hover:rotate-12 transition-transform"></i>
+                            <span id="tictac-side-text">Tic-Tac ON</span>
+                        </span>
+                        <span class="text-[8px] px-1 py-0.2 rounded bg-brand-darker border border-brand-gold/30 text-brand-muted font-mono">T</span>
+                    </button>
                 </div>
             </div>
 
@@ -1848,7 +1860,7 @@
                     <div class="flex items-center gap-2">
                         <div
                             class="w-8 h-8 rounded-lg bg-brand-cherry/80 border border-brand-gold flex items-center justify-center">
-                            <i class="fa-solid fa-sparkles text-brand-goldLight"></i>
+                            <i class="fa-solid fa-wand-magic-sparkles text-brand-goldLight"></i>
                         </div>
                         <div>
                             <h3 class="text-xs font-extrabold text-brand-text font-outfit">Atmosphère Visuelle & STEM
@@ -1964,52 +1976,52 @@
 
         </section>
 
-        <!-- TAB 8: NABRAS AI TUTOR & CHATBOT (نبراس - المساعد الأكاديمي الذكي) -->
-        <section id="tab-nabras" class="tab-content w-full hidden max-w-4xl flex flex-col items-center space-y-3">
+        <!-- TAB 8: NABRAS AI TUTOR & CHATBOT (نبراس - Tuteur Académique d'Élite) -->
+        <section id="tab-nabras" class="tab-content w-full hidden max-w-5xl flex flex-col items-center space-y-3.5">
             
             <!-- AI Header & Control Station -->
-            <div class="w-full glass-panel border border-brand-gold/40 rounded-3xl p-3 sm:p-4 shadow-2xl relative overflow-hidden">
+            <div class="w-full glass-panel border border-brand-gold/45 rounded-3xl p-3.5 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_25px_rgba(158,24,56,0.3)] relative overflow-hidden">
                 <!-- Subtle luxury background glow -->
-                <div class="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-brand-cherry/20 blur-3xl pointer-events-none"></div>
-                <div class="absolute -left-16 -bottom-16 w-48 h-48 rounded-full bg-brand-gold/15 blur-3xl pointer-events-none"></div>
+                <div class="absolute -right-16 -top-16 w-56 h-56 rounded-full bg-brand-cherry/25 blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-16 -bottom-16 w-56 h-56 rounded-full bg-brand-gold/20 blur-3xl pointer-events-none"></div>
 
                 <!-- Top Row: Avatar, Identity & Status -->
                 <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pb-3 border-b border-brand-borderSubtle relative z-10">
-                    <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-3.5">
                         <div class="relative">
-                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-cherryDark to-brand-cherry border-2 border-brand-gold shadow-[0_0_15px_rgba(217,119,6,0.5)] flex items-center justify-center p-1.5 group">
+                            <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-brand-cherryDark to-brand-cherry border-2 border-brand-gold shadow-[0_0_20px_rgba(217,119,6,0.55)] flex items-center justify-center p-1.5 group">
                                 <img src="assets/designs/studysouk_logo_clean_cutout.png" alt="Nabras" class="w-full h-full object-contain filter drop-shadow group-hover:scale-110 transition duration-300">
                             </div>
-                            <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-brand-darker flex items-center justify-center shadow">
+                            <span class="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-emerald-500 border-2 border-brand-darker flex items-center justify-center shadow">
                                 <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
                             </span>
                         </div>
                         <div>
                             <div class="flex items-center gap-2">
-                                <h2 class="text-base sm:text-lg font-black font-outfit gold-text-gradient leading-tight">
+                                <h2 class="text-base sm:text-xl font-black font-outfit gold-text-gradient leading-tight tracking-tight">
                                     Nabras AI • نبراس
                                 </h2>
-                                <span class="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-brand-cherry border border-brand-gold/50 text-brand-goldLight uppercase tracking-wider">
+                                <span class="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-brand-cherry border border-brand-gold/60 text-brand-goldLight uppercase tracking-wider shadow-sm">
                                     Gemini 3.8
                                 </span>
                             </div>
-                            <p class="text-xs text-brand-muted font-outfit">
-                                المساعد الأكاديمي والتوتور الذكي لطلاب المغرب (3 لغات)
+                            <p class="text-xs text-brand-muted font-outfit mt-0.5">
+                                Tuteur académique d'élite pour les étudiants marocains (Français, Darija, Arabe)
                             </p>
                         </div>
                     </div>
 
-                    <!-- 3-Language Selector -->
-                    <div class="flex items-center gap-1.5 p-1 rounded-2xl glass-card border border-brand-gold/30 shadow-inner">
-                        <button data-lang="darija" class="nabras-lang-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-sm">
-                            <span>🇲🇦</span>
-                            <span>الدارجة</span>
-                        </button>
-                        <button data-lang="fr" class="nabras-lang-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white">
+                    <!-- 3-Language Selector (Français par défaut) -->
+                    <div class="flex items-center gap-1.5 p-1 rounded-2xl glass-card border border-brand-gold/40 shadow-inner">
+                        <button data-lang="fr" class="nabras-lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-sm">
                             <span>🇫🇷</span>
                             <span>Français</span>
                         </button>
-                        <button data-lang="ar" class="nabras-lang-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white">
+                        <button data-lang="darija" class="nabras-lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white">
+                            <span>🇲🇦</span>
+                            <span>الدارجة</span>
+                        </button>
+                        <button data-lang="ar" class="nabras-lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white">
                             <span>🇸🇦</span>
                             <span>العربية</span>
                         </button>
@@ -2017,69 +2029,69 @@
                 </div>
 
                 <!-- Second Row: Mode Selector Pills (Explain, QA/Doubts, Motivation) -->
-                <div class="flex flex-wrap items-center justify-between gap-2 pt-3 relative z-10">
-                    <div class="flex flex-wrap items-center gap-1.5">
-                        <span class="text-[10px] font-mono uppercase tracking-wider text-brand-muted mr-1 hidden sm:inline">Modes :</span>
-                        <button data-mode="explain" class="nabras-mode-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-gold/20 text-brand-goldLight border border-brand-gold shadow-sm">
+                <div class="flex flex-wrap items-center justify-between gap-2.5 pt-3 relative z-10">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="text-[10px] font-mono uppercase tracking-wider text-brand-muted mr-1 hidden sm:inline">Modes d'Étude :</span>
+                        <button data-mode="explain" class="nabras-mode-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-gold/20 text-brand-goldLight border border-brand-gold shadow-sm active:scale-95">
                             <i class="fa-solid fa-book-open text-xs text-brand-gold"></i>
-                            <span>شرح الدروس</span>
+                            <span>📚 Explication de Cours</span>
                         </button>
-                        <button data-mode="qa" class="nabras-mode-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white">
+                        <button data-mode="qa" class="nabras-mode-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white active:scale-95">
                             <i class="fa-solid fa-lightbulb text-xs text-brand-gold"></i>
-                            <span>حل وفهم التمارين</span>
+                            <span>💡 Résolution & Méthodes</span>
                         </button>
-                        <button data-mode="motivate" class="nabras-mode-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white">
+                        <button data-mode="motivate" class="nabras-mode-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white active:scale-95">
                             <i class="fa-solid fa-bolt text-xs text-brand-gold"></i>
-                            <span>تحفيز وتركيز</span>
+                            <span>⚡ Motivation & Focus</span>
                         </button>
                     </div>
 
                     <!-- Clear History Action -->
                     <button id="nabras-clear-btn" title="Effacer l'historique de la discussion"
-                        class="px-2 py-1 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold/60 text-[10px] font-mono text-brand-muted hover:text-white transition flex items-center gap-1 shadow-sm active:scale-95">
+                        class="px-2.5 py-1.5 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold/60 text-[10px] font-mono text-brand-muted hover:text-white transition flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer">
                         <i class="fa-solid fa-trash-can text-[9px] text-brand-gold"></i>
                         <span>Nouveau Chat</span>
                     </button>
                 </div>
 
                 <!-- Mode Description Banner -->
-                <div class="mt-2.5 px-3 py-1.5 rounded-xl bg-black/40 border border-brand-borderSubtle/60 text-[11px] font-outfit text-brand-goldLight flex items-center gap-2">
+                <div class="mt-3 px-3.5 py-2 rounded-xl bg-black/50 border border-brand-gold/25 text-[11px] font-outfit text-brand-goldLight flex items-center gap-2.5 shadow-inner">
                     <i class="fa-solid fa-circle-info text-brand-gold text-xs shrink-0"></i>
                     <span id="nabras-mode-banner-text" class="truncate">
-                        📚 Mode: شرح الدروس والمفاهيم (Maths, PC, SVT, Philo) بأسلوب دارجة ذكي ومبسط
+                        📚 Mode : Explication des cours et notions clés (Démarche rigoureuse, définitions & astuces)
                     </span>
                 </div>
             </div>
 
-            <!-- Chat Container Box -->
-            <div class="w-full glass-panel border border-brand-gold/30 rounded-3xl p-3 sm:p-4 shadow-2xl flex flex-col h-[520px] sm:h-[580px] relative overflow-hidden">
+            <!-- Chat Container Box (Enlarged & Refined) -->
+            <div class="w-full glass-panel border border-brand-gold/35 rounded-3xl p-3.5 sm:p-5 shadow-2xl flex flex-col h-[620px] sm:h-[700px] relative overflow-hidden">
                 <!-- Chat Feed Scroll Area -->
-                <div id="nabras-chat-feed" class="flex-1 overflow-y-auto px-1 sm:px-2 space-y-3 custom-scrollbar flex flex-col">
+                <div id="nabras-chat-feed" class="flex-1 overflow-y-auto px-1 sm:px-2 space-y-3.5 custom-scrollbar flex flex-col">
                     <!-- Messages will be injected by nabras-ai.js -->
                 </div>
 
                 <!-- Quick Prompt Suggestions Chips -->
-                <div class="pt-2 pb-1 border-t border-brand-borderSubtle">
+                <div class="pt-2.5 pb-1 border-t border-brand-borderSubtle">
                     <div class="flex items-center gap-1.5 text-[10px] text-brand-muted font-mono mb-1.5 px-1">
                         <i class="fa-solid fa-wand-magic-sparkles text-brand-gold text-[9px]"></i>
                         <span>Suggestions rapides :</span>
                     </div>
-                    <div id="nabras-suggestions-container" class="flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar">
+                    <div id="nabras-suggestions-container" class="flex items-center gap-2 overflow-x-auto pb-1.5 custom-scrollbar">
                         <!-- Chips injected by JS -->
                     </div>
                 </div>
 
                 <!-- Input Action Bar -->
-                <div class="pt-2 flex items-end gap-2">
-                    <div class="flex-1 relative rounded-2xl bg-brand-darker border border-brand-gold/40 focus-within:border-brand-gold transition shadow-inner">
+                <div class="pt-2.5 flex items-end gap-2.5">
+                    <div class="flex-1 relative rounded-2xl bg-brand-darker border border-brand-gold/45 focus-within:border-brand-gold transition shadow-inner">
                         <textarea id="nabras-chat-input" rows="1"
-                            placeholder="Sawel Nabras f ay dars, exercice, wla tleb motivation..."
-                            class="w-full bg-transparent px-3.5 py-2.5 text-xs sm:text-sm text-white placeholder-brand-muted/70 focus:outline-none resize-none max-h-28 custom-scrollbar font-outfit"></textarea>
+                            placeholder="Pose une question sur un cours, un exercice, ou demande un boost de motivation..."
+                            class="w-full bg-transparent px-4 py-3 text-xs sm:text-sm text-white placeholder-brand-muted/70 focus:outline-none resize-none max-h-32 custom-scrollbar font-outfit"></textarea>
                     </div>
                     <button id="nabras-send-btn" title="Envoyer le message (Entrée)"
-                        class="h-10 px-4 rounded-2xl bg-gradient-to-r from-brand-cherry to-brand-cherryDark border border-brand-gold hover:border-brand-goldLight text-brand-goldLight hover:text-white font-outfit font-black text-xs flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(158,24,56,0.6)] active:scale-95 transition shrink-0 group">
+                        class="h-11 px-5 rounded-2xl bg-gradient-to-r from-brand-cherry to-brand-cherryDark border border-brand-gold hover:border-brand-goldLight text-brand-goldLight hover:text-white font-outfit font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(158,24,56,0.65)] active:scale-95 transition shrink-0 group cursor-pointer">
                         <span class="hidden sm:inline">Envoyer</span>
-                        <i class="fa-solid fa-paper-plane text-xs text-brand-gold group-hover:translate-x-0.5 transition-transform"></i>
+                        <i class="fa-solid fa-paper-plane text-xs sm:text-sm text-brand-gold group-hover:translate-x-0.5 transition-transform"></i>
                     </button>
                 </div>
             </div>

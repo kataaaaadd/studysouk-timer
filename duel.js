@@ -1120,7 +1120,7 @@ class DuelArena {
         this.container.innerHTML = `
             <div class="flex flex-col items-center max-w-sm mx-auto space-y-4 text-center">
                 <div class="w-16 h-16 rounded-2xl bg-brand-darker border-2 border-brand-gold flex items-center justify-center shadow-xl animate-pulse">
-                    <i class="fa-solid fa-radar text-2xl text-brand-gold"></i>
+                    <i class="fa-solid fa-tower-broadcast text-2xl text-brand-gold"></i>
                 </div>
                 <div>
                     <h3 class="text-sm font-extrabold text-white font-outfit">En attente d'un adversaire...</h3>

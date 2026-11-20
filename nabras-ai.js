@@ -6,15 +6,35 @@
 
 class NabrasAI {
     constructor() {
-        this.language = localStorage.getItem("ss_nabras_lang") || "darija";
+        this.language = localStorage.getItem("ss_nabras_lang") || "fr";
         this.mode = localStorage.getItem("ss_nabras_mode") || "explain";
         this.history = this.loadHistory();
         this.isGenerating = false;
 
         this.PROMPT_SUGGESTIONS = {
+            fr: {
+                explain: [
+                    "Explique-moi le théorème des valeurs intermédiaires (TVI) et son application au Bac",
+                    "Comment résoudre les équations différentielles du 2nd ordre en physique RLC ?",
+                    "Donne-moi une synthèse claire sur la cinétique chimique et la vitesse volumique",
+                    "Quels sont les pièges classiques dans l'étude des branches infinies et asymptotes ?"
+                ],
+                qa: [
+                    "Comment lever l'indétermination sur la limite en +inf de sqrt(x^2+1) - x ?",
+                    "Aide-moi à démontrer proprement par récurrence double au Bac SM",
+                    "Comment déterminer la constante d'acidité Ka à partir d'un dosage acido-basique ?",
+                    "Explique-moi la méthode d'Euler pour déterminer la vitesse limite"
+                ],
+                motivate: [
+                    "Donne-moi un boost de discipline pour valider 2 blocs de révision intense !",
+                    "Comment garder une concentration absolue et vaincre la procrastination ?",
+                    "Motive-moi à réussir le concours d'ingénieur CNC / CPGE !",
+                    "Rappelle-moi pourquoi chaque heure de deep work forge mon avenir"
+                ]
+            },
             darija: {
                 explain: [
-                    "Chre7 lia Théorème des Valeurs Intermédiaires (TVI) w l-fayda dyalo",
+                    "Chre7 lia Théorème des Valeurs Intermédiaires (TVI) w l-fayda dyalo f l-Watani",
                     "Kifach n-fhem les circuits RLC w l-équations différentielles?",
                     "Chno houwa l-farq bin la mitose w la méiose f SVT?",
                     "3tini résumé sahla 3la les intégrales w calcul d'aire"
@@ -32,29 +52,9 @@ class NabrasAI {
                     "3yit mn l-Maths lyoma, 3tini boost d l-énergie bach nkemmel!"
                 ]
             },
-            fr: {
-                explain: [
-                    "Explique-moi le théorème de Rolle et les accroissements finis",
-                    "Comment résoudre les équations différentielles du 2nd ordre en physique ?",
-                    "Résume la mitose et la méiose avec les points clés d'examen",
-                    "Donne-moi les astuces pour réussir l'étude de branches infinies"
-                ],
-                qa: [
-                    "Comment lever l'indétermination sur la limite en +inf de sqrt(x^2+1)-x ?",
-                    "Peux-tu m'aider à démontrer qu'une fonction est bijective ?",
-                    "Explique-moi la différence entre régime apériodique et pseudopériodique",
-                    "Comment rédiger proprement une récurrence double au Bac ?"
-                ],
-                motivate: [
-                    "Donne-moi un boost de motivation pour valider ce bloc de révision !",
-                    "Comment garder une discipline d'acier pour les concours CNC / CPGE ?",
-                    "J'ai peur de stresser le jour du Bac, donne-moi ta méthode de champion",
-                    "Motive-moi à faire une session Pomodoro de 45 minutes sans distraction"
-                ]
-            },
             ar: {
                 explain: [
-                    "اشرح لي مبرهنة القيم الوسيطية وأهم تطبيقاتها في الوطني",
+                    "اشرح لي مبرهنة القيم الوسيطية وأهم تطبيقاتها في الامتحان الوطني",
                     "كيف أفهم المعادلات التفاضلية في الدارات الكهربائية RLC؟",
                     "ما هي مراحل الانقسام الاختزالي وأهميته البيولوجية في SVT؟",
                     "أعطني ملخصاً مركزاً لحساب التكامل وحساب المساحات"
@@ -75,15 +75,15 @@ class NabrasAI {
         };
 
         this.WELCOME_MESSAGES = {
+            fr: {
+                explain: "Bienvenue sur **Nabras AI** 🦉, le tuteur académique d'élite de StudySouk Academy.\n\nEn mode **Explication de Cours**, pose-moi n'importe quelle question sur tes cours (Maths, Physique-Chimie, SVT, Informatique, SI...). Je t'expliquerai chaque notion avec rigueur, méthode et clarté mathématique.",
+                qa: "Bonjour ! En mode **Résolution & Méthodes** 🦉, partage ton exercice, énoncé ou question complexe. Nous décortiquerons la démarche pas à pas sans sauter d'étapes.",
+                motivate: "Prêt à conquérir ta session ? En mode **Motivation & Focus** 🦉, je suis là pour booster ton moral, vaincre la procrastination et t'accompagner vers l'excellence aux concours et au Bac !"
+            },
             darija: {
                 explain: "Marhba bik m3aya! Ana **Nabras (نبراس)**، l-Assistant d l-AI w l-Boma d StudySouk Academy 🦉.\n\nF had l-mode d **شرح الدروس**، goli ay dars wla concept ma wadhech lik (Maths, PC, SVT, Philo...), w ghadi nchre7houlik b Darija sahla, b amthila w b les astuces d l-mtihanat!",
                 qa: "Salam! Ana **Nabras** 🦉. F had l-mode d **حل وفهم التمارين**، 3tini l-exercice wla l-point li 7siti fih b l-blocage, w ghadi n-khedmouh m3a b3diyatna étape par étape!",
                 motivate: "Marhba l-batal! Ana **Nabras** 🦉. Had l-mode dial **التحفيز والتركيز** kayn bach y-3tik énergie ijabiya, y-fekrek b l-ahdaf dyalk, w y-khellik t-focussi f had l-Pomodoro b toute discipline!"
-            },
-            fr: {
-                explain: "Bienvenue sur **Nabras AI** 🦉, le tuteur d'élite de StudySouk Academy.\n\nEn mode **Explication de Cours**, pose-moi n'importe quelle question sur tes cours (Maths, Physique-Chimie, SVT, Informatique...). Je t'expliquerai chaque notion avec rigueur, méthode et clarté mathématique.",
-                qa: "Bonjour ! En mode **Résolution & Doutes** 🦉, partage ton exercice, énoncé ou question complexe. Nous décortiquerons la méthode de résolution pas à pas sans sauter d'étapes.",
-                motivate: "Prêt à conquérir ta session ? En mode **Motivation & Focus** 🦉, je suis là pour booster ton moral, vaincre la procrastination et t'accompagner vers l'excellence aux concours et au Bac !"
             },
             ar: {
                 explain: "مرحباً بك! أنا **نبراس (Nabras)**، المساعد الأكاديمي الذكي لمنصة StudySouk Academy 🦉.\n\nفي نمط **شرح الدروس**، اطلب أي درس أو نظرية أو مفهوم غامض في مقررك، وسأشرحه لك بأسلوب تربوي ميسّر ودقيق علمياً.",
@@ -203,9 +203,9 @@ class NabrasAI {
         document.querySelectorAll(".nabras-lang-btn").forEach((btn) => {
             const isSelected = btn.dataset.lang === this.language;
             if (isSelected) {
-                btn.className = "nabras-lang-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-sm";
+                btn.className = "nabras-lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-md";
             } else {
-                btn.className = "nabras-lang-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white";
+                btn.className = "nabras-lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white";
             }
         });
     }
@@ -214,9 +214,9 @@ class NabrasAI {
         document.querySelectorAll(".nabras-mode-btn").forEach((btn) => {
             const isSelected = btn.dataset.mode === this.mode;
             if (isSelected) {
-                btn.className = "nabras-mode-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-gold/20 text-brand-goldLight border border-brand-gold shadow-sm";
+                btn.className = "nabras-mode-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-gold/20 text-brand-goldLight border border-brand-gold shadow-md";
             } else {
-                btn.className = "nabras-mode-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white";
+                btn.className = "nabras-mode-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white";
             }
         });
     }
@@ -226,15 +226,15 @@ class NabrasAI {
         if (!bannerText) return;
 
         const descriptions = {
+            fr: {
+                explain: "📚 Mode : Explication des cours et notions clés (Démarche rigoureuse, définitions & astuces)",
+                qa: "💡 Mode : Résolution méthodique d'exercices & déblocage des doutes",
+                motivate: "⚡ Mode : Motivation intense, discipline d'étude & gestion du stress"
+            },
             darija: {
                 explain: "📚 Mode: شرح الدروس والمفاهيم (Maths, PC, SVT, Philo) بأسلوب دارجة ذكي ومبسط",
                 qa: "💡 Mode: حل وفهم التمارين (إزالة الغموض وشرح الخطوات خطوة بخطوة)",
                 motivate: "⚡ Mode: التحفيز والطاقة الإيجابية للتركيز ومحاربة التسويف"
-            },
-            fr: {
-                explain: "📚 Mode : Explication des cours et notions clés (Démarche rigoureuse & astuces)",
-                qa: "💡 Mode : Résolution méthodique d'exercices & déblocage des doutes",
-                motivate: "⚡ Mode : Motivation intense, discipline d'étude & gestion du stress"
             },
             ar: {
                 explain: "📚 النمط: شرح الدروس والمفاهيم العلمية بطريقة تربوية دقيقة وميسرة",
@@ -243,7 +243,7 @@ class NabrasAI {
             }
         };
 
-        bannerText.textContent = descriptions[this.language]?.[this.mode] || descriptions.darija.explain;
+        bannerText.textContent = descriptions[this.language]?.[this.mode] || descriptions.fr.explain;
     }
 
     updateInputPlaceholder() {
@@ -251,19 +251,19 @@ class NabrasAI {
         if (!inputEl) return;
 
         const placeholders = {
+            fr: "Pose une question sur un cours, un exercice, ou demande un boost de motivation...",
             darija: "Sawel Nabras f ay dars, exercice, wla tleb motivation...",
-            fr: "Pose une question sur un cours, un exercice, ou demande un boost...",
             ar: "اطرح سؤالك حول أي درس، تمرين، أو اطلب جرعة تحفيز..."
         };
 
-        inputEl.placeholder = placeholders[this.language] || placeholders.darija;
+        inputEl.placeholder = placeholders[this.language] || placeholders.fr;
     }
 
     renderSuggestions() {
         const container = document.getElementById("nabras-suggestions-container");
         if (!container) return;
 
-        const suggestions = this.PROMPT_SUGGESTIONS[this.language]?.[this.mode] || this.PROMPT_SUGGESTIONS.darija.explain;
+        const suggestions = this.PROMPT_SUGGESTIONS[this.language]?.[this.mode] || this.PROMPT_SUGGESTIONS.fr.explain;
 
         container.innerHTML = suggestions.map((prompt) => `
             <button class="nabras-prompt-chip px-3 py-1.5 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-muted hover:text-white text-[11px] font-outfit text-left truncate transition active:scale-95 flex items-center gap-1.5 group shrink-0">
@@ -467,7 +467,7 @@ class NabrasAI {
             </div>
             <div class="glass-panel border border-brand-gold/40 rounded-2xl rounded-tl-sm p-3 shadow-md text-xs text-white flex items-center gap-2 font-outfit">
                 <i class="fa-solid fa-wand-magic-sparkles text-brand-gold animate-spin"></i>
-                <span class="text-brand-goldLight font-bold">Nabras kayfekker f l-jawāb...</span>
+                <span class="text-brand-goldLight font-bold">Nabras réfléchit à la solution...</span>
                 <span class="flex items-center gap-1 ml-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-bounce"></span>
                     <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-bounce [animation-delay:0.2s]"></span>

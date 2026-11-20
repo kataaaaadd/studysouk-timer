@@ -161,15 +161,15 @@ const MODE_PROMPTS = {
 
 app.post(['/api/ai/chat', '/.proxy/api/ai/chat'], async (req, res) => {
   try {
-    const { message, language = 'darija', mode = 'explain', history = [] } = req.body || {};
+    const { message, language = 'fr', mode = 'explain', history = [] } = req.body || {};
     if (!message || typeof message !== 'string' || !message.trim()) {
       return res.status(400).json({ error: 'Message requis' });
     }
 
-    const langKey = ['darija', 'fr', 'ar'].includes(language) ? language : 'darija';
+    const langKey = ['fr', 'darija', 'ar'].includes(language) ? language : 'fr';
     const modeKey = ['explain', 'qa', 'motivate'].includes(mode) ? mode : 'explain';
 
-    const baseSysPrompt = NABRAS_SYSTEM_PROMPTS[langKey] || NABRAS_SYSTEM_PROMPTS.darija;
+    const baseSysPrompt = NABRAS_SYSTEM_PROMPTS[langKey] || NABRAS_SYSTEM_PROMPTS.fr;
     const modeDirective = MODE_PROMPTS[modeKey]?.[langKey] || '';
     const fullSystemInstruction = baseSysPrompt + modeDirective;
 
