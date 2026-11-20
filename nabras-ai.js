@@ -203,9 +203,9 @@ class NabrasAI {
         document.querySelectorAll(".nabras-lang-btn").forEach((btn) => {
             const isSelected = btn.dataset.lang === this.language;
             if (isSelected) {
-                btn.className = "nabras-lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-md";
+                btn.className = "nabras-lang-btn px-2 py-0.5 rounded-lg text-[10px] font-bold transition flex items-center gap-0.5 bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-sm cursor-pointer";
             } else {
-                btn.className = "nabras-lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white";
+                btn.className = "nabras-lang-btn px-2 py-0.5 rounded-lg text-[10px] font-bold transition flex items-center gap-0.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white cursor-pointer";
             }
         });
     }
@@ -214,9 +214,9 @@ class NabrasAI {
         document.querySelectorAll(".nabras-mode-btn").forEach((btn) => {
             const isSelected = btn.dataset.mode === this.mode;
             if (isSelected) {
-                btn.className = "nabras-mode-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-gold/20 text-brand-goldLight border border-brand-gold shadow-md";
+                btn.className = "nabras-mode-btn px-2.5 py-1 rounded-xl text-[11px] font-bold transition flex items-center gap-1 bg-brand-gold/20 text-brand-goldLight border border-brand-gold shadow-sm active:scale-95 shrink-0 cursor-pointer";
             } else {
-                btn.className = "nabras-mode-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white";
+                btn.className = "nabras-mode-btn px-2.5 py-1 rounded-xl text-[11px] font-bold transition flex items-center gap-1 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white active:scale-95 shrink-0 cursor-pointer";
             }
         });
     }
@@ -266,8 +266,8 @@ class NabrasAI {
         const suggestions = this.PROMPT_SUGGESTIONS[this.language]?.[this.mode] || this.PROMPT_SUGGESTIONS.fr.explain;
 
         container.innerHTML = suggestions.map((prompt) => `
-            <button class="nabras-prompt-chip px-3 py-1.5 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-muted hover:text-white text-[11px] font-outfit text-left truncate transition active:scale-95 flex items-center gap-1.5 group shrink-0">
-                <i class="fa-solid fa-arrow-turn-down text-[9px] text-brand-gold group-hover:translate-x-0.5 transition-transform"></i>
+            <button class="nabras-prompt-chip px-2.5 py-1 rounded-lg glass-card border border-brand-borderSubtle hover:border-brand-gold text-brand-muted hover:text-white text-[10px] font-outfit text-left truncate transition active:scale-95 flex items-center gap-1 group shrink-0 max-w-[280px]">
+                <i class="fa-solid fa-arrow-turn-down text-[8px] text-brand-gold group-hover:translate-x-0.5 transition-transform"></i>
                 <span class="truncate">${this.escapeHtml(prompt)}</span>
             </button>
         `).join("");

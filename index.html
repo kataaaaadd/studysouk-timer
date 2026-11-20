@@ -184,7 +184,7 @@
 
         /* Haute Horlogerie Luxury Time Display (Refined Proportions) */
         #timer-display {
-            font-size: clamp(2.5rem, 7.5vw, 4.3rem) !important;
+            font-size: clamp(2.2rem, 5.5vw, 3.4rem) !important;
             line-height: 1 !important;
             font-weight: 900 !important;
             letter-spacing: -0.02em !important;
@@ -193,25 +193,43 @@
             justify-content: center !important;
         }
 
-        /* Side Quote & Chronometer Layout - Guaranteed Side Placement */
+        /* Enforce Viewport Synchronization & No-Scroll for Discord Activity */
+        #tab-timer {
+            height: 100% !important;
+            max-height: calc(100dvh - 105px) !important;
+            overflow: hidden !important;
+        }
+
+        #tab-nabras {
+            height: 100% !important;
+            max-height: calc(100dvh - 105px) !important;
+            overflow: hidden !important;
+        }
+
+        #chrono-dial-wrapper {
+            width: 250px !important;
+            height: 250px !important;
+            flex-shrink: 0 !important;
+        }
+
         @media (min-width: 640px) {
-            #chrono-and-quote-row {
+            #chrono-dial-wrapper {
+                width: 275px !important;
+                height: 275px !important;
+            }
+            #timer-cockpit-grid {
                 display: flex !important;
                 flex-direction: row !important;
                 align-items: center !important;
                 justify-content: center !important;
                 gap: 1.5rem !important;
             }
+        }
+
+        @media (min-height: 850px) and (min-width: 768px) {
             #chrono-dial-wrapper {
-                width: 340px !important;
-                height: 340px !important;
-                flex-shrink: 0 !important;
-            }
-            #chrono-side-quote-card {
-                width: 290px !important;
-                max-width: 320px !important;
-                flex-shrink: 0 !important;
-                display: flex !important;
+                width: 310px !important;
+                height: 310px !important;
             }
         }
 
@@ -526,7 +544,7 @@
         }
 
         /* 🚫 Eliminate visible scrollbars on root, body and main workspace (Zero Side Track) */
-        html, body, main, #tab-timer {
+        html, body, main, #tab-timer, #tab-nabras {
             scrollbar-width: none !important;
             -ms-overflow-style: none !important;
         }
@@ -534,7 +552,8 @@
         html::-webkit-scrollbar,
         body::-webkit-scrollbar,
         main::-webkit-scrollbar,
-        #tab-timer::-webkit-scrollbar {
+        #tab-timer::-webkit-scrollbar,
+        #tab-nabras::-webkit-scrollbar {
             display: none !important;
             width: 0px !important;
             height: 0px !important;
@@ -754,133 +773,117 @@
 
     <!-- Main Workspace Container (The only internal scroll container - Zero Side Scrollbar) -->
     <main
-        class="flex-1 w-full max-w-7xl mx-auto px-2 sm:px-4 py-2 overflow-y-auto overflow-x-hidden scrollbar-none flex flex-col items-center relative z-20"
+        class="flex-1 min-h-0 w-full max-w-7xl mx-auto px-2 sm:px-4 py-1 sm:py-2 overflow-y-auto overflow-x-hidden scrollbar-none flex flex-col items-center relative z-20"
         style="scrollbar-width: none; -ms-overflow-style: none;">
 
-        <!-- TAB 1: MINUTEUR DE DEEP WORK & FOCUS PAR MATIÈRE -->
-        <section id="tab-timer" class="tab-content w-full flex flex-col items-center justify-center max-w-4xl mx-auto">
+        <!-- TAB 1: MINUTEUR DE DEEP WORK & FOCUS PAR MATIÈRE (NO-SCROLL HAUTE HORLOGERIE COCKPIT) -->
+        <section id="tab-timer" class="tab-content w-full flex-1 min-h-0 flex flex-col items-center justify-between max-w-5xl mx-auto overflow-hidden px-1 sm:px-2 py-0.5">
 
-            <!-- CENTER WORKSTATION COLUMN: CHRONOMETRE POMODORO -->
-            <div id="timer-focus-column" class="flex flex-col items-center w-full max-w-3xl">
-
-                <!-- Subject / Module Selector (Deep Work Focus Subject) -->
-                <div
-                    class="w-full max-w-md glass-card rounded-xl px-3 py-2 mb-2.5 border border-brand-borderSubtle flex items-center justify-between text-xs shadow-md">
-                <span class="text-xs font-black text-brand-goldLight font-outfit flex items-center gap-1.5 pl-0.5">
-                    <span class="w-2 h-2 rounded-full bg-brand-gold animate-ping"></span>
-                    <i class="fa-solid fa-graduation-cap text-brand-gold"></i> Module :
-                </span>
-                <select id="select-active-subject"
-                    class="bg-brand-darker border border-brand-borderSubtle rounded-lg px-2.5 py-1.5 text-xs sm:text-sm text-brand-goldLight font-outfit font-bold focus:outline-none focus:border-brand-gold cursor-pointer transition hover:border-brand-gold/60 shadow-inner">
-                    <option value="Maths: Analyse">📐 Maths • Analyse & Intégrales</option>
-                    <option value="Maths: Algèbre">📐 Maths • Algèbre Linéaire & Réduction</option>
-                    <option value="Maths: Probas">📐 Maths • Probabilités & Dénombrement</option>
-                    <option value="Physique: Électromag">⚛️ Physique • Électromagnétisme</option>
-                    <option value="Physique: Mécanique">⚛️ Physique • Mécanique & Newton</option>
-                    <option value="Physique: Thermo">⚛️ Physique • Thermodynamique</option>
-                    <option value="Chimie: Solutions">🧪 Chimie • Solutions & Dosages</option>
-                    <option value="Info: Algorithmique">💻 Informatique • Algorithmique & SQL</option>
-                    <option value="Sciences de l'Ingénieur">⚙️ Sciences de l'Ingénieur (SI)</option>
-                    <option value="Concours: Devoir Blanc">🏛️ Épreuve Blanche de Concours</option>
-                </select>
-            </div>
-
-            <!-- Mode Selector Pills (5-Column Segmented Grid) -->
-            <div
-                class="grid grid-cols-5 gap-1 sm:gap-1.5 p-1 sm:p-1.5 rounded-2xl glass-panel mb-2.5 border border-brand-borderSubtle max-w-lg w-full shadow-xl">
-                <button data-mode="focus25"
-                    class="timer-mode-btn py-1.5 px-0.5 sm:py-2 sm:px-1 rounded-xl text-[11px] xs:text-xs sm:text-sm transition duration-200 timer-btn-active font-outfit text-center truncate font-black flex flex-col items-center justify-center">
-                    <span>🎯 25m</span>
-                    <span class="text-[8px] xs:text-[9px] uppercase tracking-wider opacity-85 font-mono font-bold truncate max-w-full">Standard</span>
-                </button>
-                <button data-mode="focus50"
-                    class="timer-mode-btn py-1.5 px-0.5 sm:py-2 sm:px-1 rounded-xl text-[11px] xs:text-xs sm:text-sm transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-black text-center truncate flex flex-col items-center justify-center">
-                    <span>⚡ 50m</span>
-                    <span class="text-[8px] xs:text-[9px] uppercase tracking-wider opacity-85 font-mono font-bold truncate max-w-full">Intense</span>
-                </button>
-                <button data-mode="focus90"
-                    class="timer-mode-btn py-1.5 px-0.5 sm:py-2 sm:px-1 rounded-xl text-[11px] xs:text-xs sm:text-sm transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-black text-center truncate flex flex-col items-center justify-center">
-                    <span>🏛️ 90m</span>
-                    <span class="text-[8px] xs:text-[9px] uppercase tracking-wider opacity-85 font-mono font-bold truncate max-w-full">Concours</span>
-                </button>
-                <button data-mode="break5"
-                    class="timer-mode-btn py-1.5 px-0.5 sm:py-2 sm:px-1 rounded-xl text-[11px] xs:text-xs sm:text-sm transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-black text-center truncate flex flex-col items-center justify-center">
-                    <span>☕ 5m</span>
-                    <span class="text-[8px] xs:text-[9px] uppercase tracking-wider opacity-85 font-mono font-bold truncate max-w-full">Courte</span>
-                </button>
-                <button data-mode="break15"
-                    class="timer-mode-btn py-1.5 px-0.5 sm:py-2 sm:px-1 rounded-xl text-[11px] xs:text-xs sm:text-sm transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent hover:border-brand-borderSubtle font-outfit font-black text-center truncate flex flex-col items-center justify-center">
-                    <span>🌴 15m</span>
-                    <span class="text-[8px] xs:text-[9px] uppercase tracking-wider opacity-85 font-mono font-bold truncate max-w-full">Longue</span>
-                </button>
-            </div>
-
-            <!-- 4-Cycle Pomodoro Progress Tracker -->
-            <div id="pomodoro-cycle-tracker"
-                class="flex items-center gap-2 mb-2 px-4 py-1 rounded-full glass-card border border-brand-borderSubtle text-xs shadow-md">
-                <span class="text-xs uppercase tracking-wider text-brand-muted font-black font-outfit">Série Deep Work
-                    :</span>
-                <div id="cycle-dots" class="flex items-center gap-2">
-                    <span class="cycle-dot active" title="Bloc 1 en cours"></span>
-                    <span class="cycle-dot" title="Bloc 2"></span>
-                    <span class="cycle-dot" title="Bloc 3"></span>
-                    <span class="cycle-dot" title="Bloc 4 (suivi de la longue pause)"></span>
+            <!-- TOP COMPACT COMMAND BAR: Module Selector + 5-Mode Pills + 4-Cycle Tracker -->
+            <div class="w-full shrink-0 flex flex-wrap sm:flex-nowrap items-center justify-between gap-1.5 sm:gap-2 mb-1 sm:mb-1.5 max-w-4xl">
+                <!-- Module Selector -->
+                <div class="glass-card rounded-xl px-2.5 py-1 border border-brand-borderSubtle flex items-center gap-1.5 shadow-sm shrink-0">
+                    <span class="text-[11px] font-black text-brand-goldLight font-outfit flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-ping"></span>
+                        <i class="fa-solid fa-graduation-cap text-brand-gold text-xs"></i>
+                        <span class="hidden xs:inline">Module :</span>
+                    </span>
+                    <select id="select-active-subject"
+                        class="bg-brand-darker border border-brand-borderSubtle rounded-lg px-2 py-0.5 text-xs text-brand-goldLight font-outfit font-bold focus:outline-none focus:border-brand-gold cursor-pointer transition hover:border-brand-gold/60 shadow-inner max-w-[150px] xs:max-w-[200px] sm:max-w-[240px] truncate">
+                        <option value="Maths: Analyse">📐 Maths • Analyse</option>
+                        <option value="Maths: Algèbre">📐 Maths • Algèbre</option>
+                        <option value="Maths: Probas">📐 Maths • Probas</option>
+                        <option value="Physique: Électromag">⚛️ Physique • Électromag</option>
+                        <option value="Physique: Mécanique">⚛️ Physique • Mécanique</option>
+                        <option value="Physique: Thermo">⚛️ Physique • Thermo</option>
+                        <option value="Chimie: Solutions">🧪 Chimie • Solutions</option>
+                        <option value="Info: Algorithmique">💻 Info • Algorithmique</option>
+                        <option value="Sciences de l'Ingénieur">⚙️ SI • Ingénierie</option>
+                        <option value="Concours: Devoir Blanc">🏛️ Concours Blanc</option>
+                    </select>
                 </div>
-                <span id="cycle-label" class="text-xs font-mono font-black text-brand-goldLight ml-1">1/4</span>
+
+                <!-- 5-Mode Selector Pills -->
+                <div class="grid grid-cols-5 gap-1 p-0.5 rounded-xl glass-panel border border-brand-borderSubtle shadow-md shrink-0">
+                    <button data-mode="focus25"
+                        class="timer-mode-btn py-1 px-1.5 rounded-lg text-xs transition duration-200 timer-btn-active font-outfit text-center font-black flex items-center justify-center gap-0.5">
+                        <span>🎯 25m</span>
+                    </button>
+                    <button data-mode="focus50"
+                        class="timer-mode-btn py-1 px-1.5 rounded-lg text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent font-outfit font-black text-center flex items-center justify-center gap-0.5">
+                        <span>⚡ 50m</span>
+                    </button>
+                    <button data-mode="focus90"
+                        class="timer-mode-btn py-1 px-1.5 rounded-lg text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent font-outfit font-black text-center flex items-center justify-center gap-0.5">
+                        <span>🏛️ 90m</span>
+                    </button>
+                    <button data-mode="break5"
+                        class="timer-mode-btn py-1 px-1.5 rounded-lg text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent font-outfit font-black text-center flex items-center justify-center gap-0.5">
+                        <span>☕ 5m</span>
+                    </button>
+                    <button data-mode="break15"
+                        class="timer-mode-btn py-1 px-1.5 rounded-lg text-xs transition duration-200 glass-card text-brand-muted hover:text-white border border-transparent font-outfit font-black text-center flex items-center justify-center gap-0.5">
+                        <span>🌴 15m</span>
+                    </button>
+                </div>
+
+                <!-- 4-Cycle Pomodoro Progress Tracker -->
+                <div id="pomodoro-cycle-tracker"
+                    class="flex items-center gap-1.5 px-3 py-1 rounded-full glass-card border border-brand-borderSubtle text-xs shadow-sm shrink-0">
+                    <span class="text-[10px] uppercase tracking-wider text-brand-muted font-black font-outfit hidden sm:inline">Cycle :</span>
+                    <div id="cycle-dots" class="flex items-center gap-1.5">
+                        <span class="cycle-dot active" title="Bloc 1 en cours"></span>
+                        <span class="cycle-dot" title="Bloc 2"></span>
+                        <span class="cycle-dot" title="Bloc 3"></span>
+                        <span class="cycle-dot" title="Bloc 4"></span>
+                    </div>
+                    <span id="cycle-label" class="text-xs font-mono font-black text-brand-goldLight ml-0.5">1/4</span>
+                </div>
             </div>
 
-            <!-- Mobile Dual Flank Indicators (Matière & Countdown - Small Screens) -->
-            <div class="flex sm:hidden items-center justify-between w-full max-w-xs px-2 mb-2 text-xs">
-                <div
-                    class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl glass-card border border-brand-gold/30 max-w-[145px] truncate shadow-sm">
+            <!-- Mobile Active Subject & Countdowns indicator (small screens fallback) -->
+            <div class="flex sm:hidden items-center justify-between w-full max-w-sm px-1 mb-1 text-xs shrink-0">
+                <div class="flex items-center gap-1 px-2 py-0.5 rounded-lg glass-card border border-brand-gold/30 max-w-[150px] truncate shadow-sm">
                     <span class="w-1.5 h-1.5 rounded-full bg-brand-gold"></span>
-                    <span id="active-subject-badge-mobile"
-                        class="font-outfit font-black text-brand-goldLight text-[11px] truncate">📐 Maths •
-                        Analyse</span>
+                    <span id="active-subject-badge-mobile" class="font-outfit font-black text-brand-goldLight text-[10px] truncate">📐 Maths • Analyse</span>
                 </div>
-                <div class="flex items-center gap-1.5">
+                <div class="flex items-center gap-1">
                     <button id="btn-tictac-toggle-mobile" title="Son Tic-Tac (T)"
-                        class="px-2 py-1 rounded-xl glass-card border border-brand-gold/40 text-[10px] font-mono text-brand-goldLight flex items-center gap-1 shadow-sm active:scale-95">
-                        <i class="fa-solid fa-stopwatch text-[10px] text-brand-gold"></i>
+                        class="px-2 py-0.5 rounded-lg glass-card border border-brand-gold/40 text-[9px] font-mono text-brand-goldLight flex items-center gap-1 shadow-sm active:scale-95">
+                        <i class="fa-solid fa-stopwatch text-[9px] text-brand-gold"></i>
                         <span id="tictac-mobile-text">Tic-Tac</span>
                     </button>
                     <button id="mobile-countdown-badge" title="Cliquer pour changer d'échéance"
-                        class="flex items-center gap-1 px-2.5 py-1 rounded-xl glass-card border border-brand-gold/50 text-brand-goldLight text-[10px] font-mono font-bold shadow-sm active:scale-95 cursor-pointer">
-                        <i class="fa-solid fa-hourglass-half text-[9px] text-brand-gold"></i>
+                        class="flex items-center gap-1 px-2 py-0.5 rounded-lg glass-card border border-brand-gold/50 text-brand-goldLight text-[9px] font-mono font-bold shadow-sm active:scale-95 cursor-pointer">
+                        <i class="fa-solid fa-hourglass-half text-[8px] text-brand-gold"></i>
                         <span id="mobile-countdown-text">Watani: J-192</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Active Subject Complication Chip (Desktop) -->
-            <div class="hidden sm:flex items-center justify-center w-full max-w-md px-1 mb-2">
-                <div class="flex items-center gap-2 px-3 py-1 rounded-xl glass-card border border-brand-gold/30 shadow-sm">
-                    <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-ping"></span>
-                    <span class="text-[10px] uppercase font-mono font-bold text-brand-muted">Matière Active :</span>
-                    <span id="active-subject-badge" class="font-outfit font-black text-brand-goldLight text-xs truncate max-w-[240px]">📐 Maths • Analyse & Intégrales</span>
-                </div>
+            <!-- Hidden compatibility anchors for app.js -->
+            <div class="hidden" aria-hidden="true">
+                <span id="chrono-right-countdown-pod"></span>
+                <span id="pod-cd-badge"></span>
+                <span id="pod-cd-days"></span>
+                <span id="pod-cd-date"></span>
+                <span id="active-subject-badge">📐 Maths • Analyse & Intégrales</span>
             </div>
 
-            <!-- Sleek Master Circular Chronometer Display & Academic Quote Wing -->
-            <div id="chrono-and-quote-row"
-                class="relative w-full max-w-3xl flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4 sm:gap-6 mb-2 sm:mb-3 py-1">
-                <!-- Compatibility anchors for app.js -->
-                <div class="hidden" aria-hidden="true">
-                    <span id="chrono-right-countdown-pod"></span>
-                    <span id="pod-cd-badge"></span>
-                    <span id="pod-cd-days"></span>
-                    <span id="pod-cd-date"></span>
-                </div>
+            <!-- MAIN COCKPIT VIEWPORT: DUAL-WING HORLOGERIE LAYOUT (Fits 100% in display) -->
+            <div id="timer-cockpit-grid" class="w-full flex-1 min-h-0 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 max-w-4xl overflow-hidden py-1">
 
-                <!-- Center-Left: Enlarged Master Chrono Dial (Shifted to Left - k7zo llesr) -->
-                <div id="chrono-dial-wrapper"
-                    class="relative w-72 h-72 xs:w-80 xs:h-80 sm:w-80 sm:h-80 md:w-96 md:h-96 flex items-center justify-center shrink-0 sm:-ml-2 transition-all duration-300">
-                    <!-- Dynamic Radial Glow Halo behind timer -->
-                    <div id="timer-ambient-halo"
-                        class="absolute inset-1 rounded-full bg-gradient-to-tr from-brand-cherry/40 via-brand-gold/20 to-transparent blur-3xl pointer-events-none transition-all duration-700">
-                    </div>
+                <!-- LEFT WING: Master Chronometer Dial & Controls Command Dock -->
+                <div class="flex flex-col items-center justify-center shrink-0">
+                    <!-- Master Chrono Dial Wrapper -->
+                    <div id="chrono-dial-wrapper"
+                        class="relative flex items-center justify-center shrink-0 transition-all duration-300">
+                        <!-- Dynamic Radial Glow Halo behind timer -->
+                        <div id="timer-ambient-halo"
+                            class="absolute inset-1 rounded-full bg-gradient-to-tr from-brand-cherry/40 via-brand-gold/20 to-transparent blur-2xl pointer-events-none transition-all duration-700">
+                        </div>
 
-                    <svg class="w-full h-full" viewBox="0 0 300 300">
+                        <svg class="w-full h-full" viewBox="0 0 300 300">
                         <defs>
                             <!-- Glow Filter for Neon Liquid Progress -->
                             <filter id="royalGoldGlow" x="-30%" y="-30%" width="160%" height="160%">
@@ -1211,256 +1214,226 @@
                     <div
                         class="absolute flex flex-col items-center justify-center text-center px-2 pointer-events-none w-full">
                         <!-- Top StudySouk Royal Plume -->
-                        <div class="relative mb-0.5 sm:mb-1">
+                        <div class="relative mb-0.5">
                             <img src="assets/studysouk_owl_animated.webp?v=6.0" alt="Nabras • Gardien Académique"
-                                class="w-8 h-8 sm:w-9 sm:h-9 object-contain timer-center-emblem drop-shadow-[0_0_16px_rgba(245,197,66,0.8)] drop-shadow-[0_0_24px_rgba(138,21,56,0.7)]">
+                                class="w-7 h-7 sm:w-8 sm:h-8 object-contain timer-center-emblem drop-shadow-[0_0_12px_rgba(245,197,66,0.8)]">
                         </div>
 
                         <!-- Master Numeric Chrono Display (Enlarged XXL Timing) -->
                         <div id="timer-display"
-                            class="font-mono font-black tracking-tighter select-none leading-none my-0.5 sm:my-1 flex items-center justify-center">
+                            class="font-mono font-black tracking-tighter select-none leading-none my-0.5 flex items-center justify-center">
                             <span class="timer-digits">25</span><span class="timer-colon">:</span><span
                                 class="timer-digits">00</span>
                         </div>
 
                         <!-- Minimal Haute Horlogerie Status Complication -->
                         <div id="timer-status-indicator"
-                            class="flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-brand-darker/95 border border-brand-gold/40 shadow-sm mt-1 sm:mt-1.5">
+                            class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-brand-darker/95 border border-brand-gold/40 shadow-sm mt-0.5">
                             <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></span>
                             <span
-                                class="text-[10px] sm:text-[11px] font-mono font-bold text-brand-goldLight uppercase tracking-wider">Prêt
+                                class="text-[9px] sm:text-[10px] font-mono font-bold text-brand-goldLight uppercase tracking-wider">Prêt
                                 • Focus</span>
                         </div>
                     </div>
                 </div>
-                </div>
-                <!-- End Center-Left Enlarged Chrono Dial -->
 
-                <!-- RIGHT SIDE: Dedicated Academic Quote Card (F jnb 3la l-imn chwya, 7ajm moyen) -->
+                <!-- Master Haute Horlogerie Control Command Dock (Directly beneath dial) -->
+                <div
+                    class="glass-panel rounded-2xl p-1 sm:p-1.5 mt-1 sm:mt-1.5 border border-brand-gold/45 shadow-[0_10px_30px_rgba(0,0,0,0.8),0_0_20px_rgba(158,24,56,0.25)] flex items-center justify-center gap-1 sm:gap-1.5 relative overflow-hidden group">
+                    <!-- -5m Quick Modifier -->
+                    <button id="btn-timer-sub5" title="Retirer 5 minutes"
+                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-goldLight hover:text-white font-mono text-[11px] font-black flex items-center justify-center shadow active:scale-90 transition cursor-pointer shrink-0">
+                        -5m
+                    </button>
+
+                    <!-- Reset Button -->
+                    <button id="btn-timer-reset" title="Réinitialiser la session (R)"
+                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group shadow shrink-0 cursor-pointer">
+                        <i class="fa-solid fa-rotate-left text-[11px] text-brand-goldLight"></i>
+                    </button>
+
+                    <!-- Sleek Haute Horlogerie Play/Pause Button -->
+                    <button id="btn-timer-toggle"
+                        class="h-8 px-4 sm:px-5 rounded-xl cherry-glow-btn border border-brand-gold text-white font-black text-xs tracking-wider uppercase flex items-center gap-1.5 font-outfit active:scale-95 shadow-xl group shrink-0 cursor-pointer">
+                        <i class="fa-solid fa-play text-xs text-brand-goldLight ml-0.5"></i>
+                        <span class="gold-text-gradient font-black text-xs tracking-wider">Commencer</span>
+                    </button>
+
+                    <!-- Skip Button -->
+                    <button id="btn-timer-skip" title="Passer au bloc suivant"
+                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group shadow shrink-0 cursor-pointer">
+                        <i class="fa-solid fa-forward-step text-[11px] text-brand-goldLight"></i>
+                    </button>
+
+                    <!-- +5m Quick Modifier -->
+                    <button id="btn-timer-add5" title="Ajouter 5 minutes"
+                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-goldLight hover:text-white font-mono text-[11px] font-black flex items-center justify-center shadow active:scale-90 transition cursor-pointer shrink-0">
+                        +5m
+                    </button>
+
+                    <!-- Mechanical Tic-Tac Sound Button -->
+                    <button id="btn-tictac-toggle-side" title="Activer / Couper le son mécanique Tic-Tac (T)"
+                        class="h-8 px-2 rounded-xl bg-brand-darker/95 border border-brand-gold/40 hover:border-brand-gold text-brand-goldLight font-mono text-[10px] font-bold flex items-center gap-1 shadow active:scale-95 transition cursor-pointer shrink-0">
+                        <i class="fa-solid fa-stopwatch text-[10px] text-brand-gold"></i>
+                        <span id="tictac-side-text">Tic-Tac ON</span>
+                    </button>
+                </div>
+            </div>
+            <!-- End Left Wing -->
+
+            <!-- RIGHT WING: Academic Companion Deck (Quote, Desk, Lo-Fi, Stats) -->
+            <div class="flex flex-col justify-center gap-1.5 w-full max-w-sm sm:w-72 md:w-80 shrink-0">
+                <!-- 1. Dedicated Academic Quote Card -->
                 <div id="chrono-side-quote-card"
-                    class="w-full max-w-xs sm:w-72 md:w-80 glass-panel rounded-2xl p-3.5 sm:p-4 border border-brand-gold/45 flex flex-col justify-between gap-2.5 shadow-xl bg-gradient-to-br from-brand-card/95 via-brand-darker/90 to-brand-card/95 relative overflow-hidden group shrink-0 sm:mr-1 transition-all duration-300">
-                    <div class="flex items-center justify-between pb-1.5 border-b border-brand-borderSubtle">
-                        <div class="flex items-center gap-1.5 text-xs font-black font-outfit text-brand-goldLight">
-                            <i class="fa-solid fa-quote-left text-brand-gold text-xs"></i>
+                    class="w-full glass-panel rounded-2xl p-2 sm:p-2.5 border border-brand-gold/45 flex flex-col justify-between gap-1 shadow-md bg-gradient-to-br from-brand-card/95 via-brand-darker/90 to-brand-card/95 relative overflow-hidden group">
+                    <div class="flex items-center justify-between pb-1 border-b border-brand-borderSubtle">
+                        <div class="flex items-center gap-1.5 text-[10px] font-black font-outfit text-brand-goldLight">
+                            <i class="fa-solid fa-quote-left text-brand-gold text-[9px]"></i>
                             <span>PENSÉE DU JOUR</span>
                         </div>
                         <button onclick="window.studyApp.rotateQuote()" title="Changer de citation"
-                            class="text-brand-muted hover:text-brand-goldLight hover:rotate-180 transition-all duration-300 w-6 h-6 rounded flex items-center justify-center cursor-pointer hover:bg-brand-darker/60">
-                            <i class="fa-solid fa-rotate text-xs"></i>
+                            class="text-brand-muted hover:text-brand-goldLight hover:rotate-180 transition-all duration-300 w-5 h-5 rounded flex items-center justify-center cursor-pointer hover:bg-brand-darker/60">
+                            <i class="fa-solid fa-rotate text-[10px]"></i>
                         </button>
                     </div>
 
-                    <div class="py-1">
-                        <p id="study-quote-text" class="text-xs sm:text-[13px] text-white/95 italic font-serif leading-relaxed text-center sm:text-left">
+                    <div class="py-0.5">
+                        <p id="study-quote-text" class="text-[11px] sm:text-xs text-white/95 italic font-serif leading-snug line-clamp-2">
                             « In Mathematics, the mind resolves during the pause that follows intense effort. »
                         </p>
                     </div>
 
-                    <div class="pt-1.5 border-t border-brand-borderSubtle/60 flex items-center justify-between text-[11px]">
-                        <span class="text-[9px] font-mono text-brand-muted uppercase tracking-wider">CPGE • Excellence</span>
-                        <span id="study-quote-author" class="text-xs text-brand-goldLight font-outfit font-black truncate max-w-[170px]">
+                    <div class="pt-0.5 border-t border-brand-borderSubtle/60 flex items-center justify-between text-[10px]">
+                        <span class="text-[8px] font-mono text-brand-muted uppercase tracking-wider">CPGE • Excellence</span>
+                        <span id="study-quote-author" class="text-[10px] text-brand-goldLight font-outfit font-black truncate max-w-[170px]">
                             — Henri Poincaré
                         </span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Master Haute Horlogerie Control Command Dock -->
-            <div
-                class="glass-panel rounded-2xl p-2 sm:p-2.5 mb-2.5 border-1.5 border-brand-gold/45 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_25px_rgba(158,24,56,0.25)] flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5 relative overflow-hidden group">
-                <!-- Ambient Subtle Golden Edge Glow -->
-                <div
-                    class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-brand-goldLight to-transparent opacity-60">
-                </div>
-
-                <!-- -5m Quick Modifier -->
-                <button id="btn-timer-sub5" title="Retirer 5 minutes"
-                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-goldLight hover:text-white font-mono text-xs sm:text-sm font-black flex items-center justify-center shadow-lg active:scale-90 transition hover:shadow-[0_0_12px_rgba(226,232,240,0.35)] shrink-0 cursor-pointer">
-                    -5m
-                </button>
-
-                <!-- Reset Button -->
-                <button id="btn-timer-reset" title="Réinitialiser la session (R)"
-                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group shadow-lg hover:shadow-[0_0_12px_rgba(226,232,240,0.35)] shrink-0 cursor-pointer">
-                    <i
-                        class="fa-solid fa-rotate-left text-xs sm:text-sm group-hover:-rotate-45 transition duration-300 text-brand-goldLight"></i>
-                </button>
-
-                <!-- Sleek Haute Horlogerie Play/Pause Button -->
-                <button id="btn-timer-toggle"
-                    class="h-10 sm:h-11 px-5 sm:px-7 rounded-xl cherry-glow-btn border border-brand-gold text-white font-black text-xs sm:text-sm tracking-wider uppercase flex items-center gap-2 font-outfit active:scale-95 shadow-xl group shrink-0 cursor-pointer">
-                    <i
-                        class="fa-solid fa-play text-xs sm:text-sm text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150 drop-shadow-[0_0_8px_rgba(255,255,255,0.85)]"></i>
-                    <span class="gold-text-gradient font-black text-xs sm:text-sm tracking-wider">Commencer</span>
-                </button>
-
-                <!-- Skip Button -->
-                <button id="btn-timer-skip" title="Passer au bloc suivant"
-                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group shadow-lg hover:shadow-[0_0_12px_rgba(226,232,240,0.35)] shrink-0 cursor-pointer">
-                    <i
-                        class="fa-solid fa-forward-step text-xs sm:text-sm group-hover:translate-x-1 transition duration-200 text-brand-goldLight"></i>
-                </button>
-
-                <!-- +5m Quick Modifier -->
-                <button id="btn-timer-add5" title="Ajouter 5 minutes"
-                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-goldLight hover:text-white font-mono text-xs sm:text-sm font-black flex items-center justify-center shadow-lg active:scale-90 transition hover:shadow-[0_0_12px_rgba(226,232,240,0.35)] shrink-0 cursor-pointer">
-                    +5m
-                </button>
-
-                <!-- Mechanical Tic-Tac Sound Button Directly Next to Controls -->
-                <button id="btn-tictac-toggle-side" title="Activer / Couper le son mécanique Tic-Tac (T)"
-                    class="h-9 sm:h-11 px-3 rounded-xl bg-brand-darker/95 border border-brand-gold/40 hover:border-brand-gold text-brand-goldLight font-mono text-xs font-bold flex items-center gap-1.5 shadow-lg active:scale-95 transition cursor-pointer shrink-0">
-                    <i class="fa-solid fa-stopwatch text-xs text-brand-gold"></i>
-                    <span id="tictac-side-text">Tic-Tac ON</span>
-                </button>
-            </div>
-
-            <!-- TABLE D'ÉTUDE VIRTUELLE & DUO FOCUS (Live Study Desk Pods) -->
-            <div id="virtual-study-desk"
-                class="w-full max-w-md glass-panel rounded-2xl p-3 sm:p-3.5 mb-2.5 border border-brand-gold/30 flex flex-col gap-2.5 shadow-[0_15px_35px_rgba(0,0,0,0.65),0_0_25px_rgba(158,24,56,0.25)] transition-all bg-brand-card/90">
-                
-                <!-- Desk Header Bar -->
-                <div class="flex items-center justify-between pb-2 border-b border-brand-borderSubtle">
-                    <div class="flex items-center gap-2">
-                        <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                        </span>
-                        <h3 class="text-xs font-black font-outfit uppercase tracking-wider text-brand-goldLight flex items-center gap-1.5">
-                            <i class="fa-solid fa-users text-brand-gold text-xs"></i>
-                            Table d'Étude Virtuelle
-                        </h3>
-                        <span id="desk-status-badge" class="text-[9px] font-mono px-2 py-0.5 rounded-full bg-brand-darker border border-brand-gold/30 text-brand-goldLight font-bold">
-                            1 assis
-                        </span>
-                    </div>
-
-                    <div class="flex items-center gap-1.5">
-                        <!-- Pacte Focus Duo Action Button -->
-                        <button id="btn-desk-focus-pact" title="Proposer un pacte d'étude duo de 25m ou 50m"
-                            class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-brand-cherry to-brand-cherryDark border border-brand-gold/50 hover:border-brand-gold text-brand-goldLight text-[10px] sm:text-xs font-bold font-outfit flex items-center gap-1 shadow hover:scale-105 active:scale-95 transition cursor-pointer">
-                            <i class="fa-solid fa-handshake text-brand-gold text-xs"></i>
-                            <span>Pacte Duo</span>
-                        </button>
-
-                        <!-- Inviter un Binôme Button -->
-                        <button id="btn-desk-invite" title="Inviter un ami / copier le lien de la table"
-                            class="px-2.5 py-1 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-brand-silver text-[10px] sm:text-xs font-semibold font-outfit flex items-center gap-1 hover:text-white transition cursor-pointer">
-                            <i class="fa-solid fa-link text-brand-gold text-xs"></i>
-                            <span class="hidden sm:inline">Inviter</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Active Focus Pact Duo Banner (Appears when pact is initiated) -->
-                <div id="desk-pact-banner" class="hidden flex-col gap-1.5 p-2.5 rounded-xl bg-gradient-to-r from-brand-cherry/90 via-brand-darker to-brand-cherryDark/90 border border-brand-gold shadow-[0_0_20px_rgba(245,197,66,0.3)]">
-                    <div class="flex items-center justify-between text-xs font-outfit font-black text-brand-goldLight">
-                        <span class="flex items-center gap-1.5">
-                            <span class="text-sm">🤝</span>
-                            <span>PACTE FOCUS EN COURS</span>
-                        </span>
-                        <span id="desk-pact-timer-sync" class="font-mono text-white text-xs px-2 py-0.5 rounded bg-brand-darker border border-brand-gold/50">
-                            25:00
-                        </span>
-                    </div>
-                    <div class="w-full bg-brand-darker/80 rounded-full h-1.5 overflow-hidden border border-brand-borderSubtle">
-                        <div id="desk-pact-progress-bar" class="bg-gradient-to-r from-brand-gold to-amber-300 h-full w-full transition-all duration-1000"></div>
-                    </div>
-                    <div class="flex items-center justify-between text-[10px] text-brand-muted font-outfit">
-                        <span id="desk-pact-partner-name">En symbiose de révision</span>
-                        <span class="text-brand-goldLight font-bold">+50 XP Bonus à la clé 🎯</span>
-                    </div>
-                </div>
-
-                <!-- Desk Seats Grid (Dynamic Pods) -->
-                <div id="desk-seats-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full">
-                    <!-- Populated dynamically by app.js:
-                         Seat 1: Toi (Self Pod)
-                         Seat 2: Binôme (Connected Partner or Empty Desk with Invite)
-                    -->
-                </div>
-
-                <!-- Live Micro-Reactions Bar -->
-                <div id="desk-reactions-dock" class="flex items-center justify-between pt-1 px-1 border-t border-brand-borderSubtle/60 text-[10px] text-brand-muted">
-                    <span class="font-outfit font-semibold flex items-center gap-1 text-brand-muted">
-                        <i class="fa-solid fa-bolt text-brand-gold"></i> Encourager :
-                    </span>
-                    <div class="flex items-center gap-1.5">
-                        <button data-emoji="🔥" class="desk-reaction-btn w-7 h-7 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-125 active:scale-95 transition flex items-center justify-center text-xs cursor-pointer shadow-sm" title="Envoyer : Flamme Focus !">🔥</button>
-                        <button data-emoji="👏" class="desk-reaction-btn w-7 h-7 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-125 active:scale-95 transition flex items-center justify-center text-xs cursor-pointer shadow-sm" title="Envoyer : Bravo !">👏</button>
-                        <button data-emoji="☕" class="desk-reaction-btn w-7 h-7 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-125 active:scale-95 transition flex items-center justify-center text-xs cursor-pointer shadow-sm" title="Envoyer : Pause café ?">☕</button>
-                        <button data-emoji="💪" class="desk-reaction-btn w-7 h-7 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-125 active:scale-95 transition flex items-center justify-center text-xs cursor-pointer shadow-sm" title="Envoyer : Courage !">💪</button>
-                        <button data-emoji="🧠" class="desk-reaction-btn w-7 h-7 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-125 active:scale-95 transition flex items-center justify-center text-xs cursor-pointer shadow-sm" title="Envoyer : Génie Focus !">🧠</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CAPSULE AUDIO LO-FI & AMBIANCE DIRECTE CHRONOMETRE (Focus Soundscapes on Demand) -->
-            <div id="chrono-lofi-station"
-                class="w-full max-w-md glass-panel rounded-2xl p-2.5 sm:p-3 mb-2.5 border border-brand-gold/30 flex items-center justify-between gap-2 shadow-lg bg-brand-card/90">
-                <div class="flex items-center gap-2.5 min-w-0">
-                    <button id="btn-chrono-lofi-toggle" title="Lancer / Mettre en pause la Lo-Fi 24/7"
-                        class="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand-cherry to-brand-cherryDark border border-brand-gold/60 flex items-center justify-center text-brand-goldLight text-xs hover:scale-105 active:scale-95 transition shadow shrink-0 cursor-pointer">
-                        <i id="chrono-lofi-play-icon" class="fa-solid fa-play text-xs text-brand-gold ml-0.5"></i>
-                    </button>
-                    <div class="min-w-0">
+                <!-- 2. Table d'Étude Virtuelle -->
+                <div id="virtual-study-desk"
+                    class="w-full glass-panel rounded-2xl p-2 sm:p-2.5 border border-brand-gold/30 flex flex-col gap-1.5 shadow-md bg-brand-card/90">
+                    <div class="flex items-center justify-between pb-1 border-b border-brand-borderSubtle">
                         <div class="flex items-center gap-1.5">
-                            <span id="chrono-lofi-station-name" class="text-xs font-black text-white font-outfit truncate">Chillhop Beats</span>
-                            <!-- Equalizer Visualizer Bars -->
-                            <div id="chrono-lofi-equalizer" class="hidden items-end gap-0.5 h-3">
-                                <span class="w-0.5 h-full bg-brand-gold rounded-full animate-bounce"></span>
-                                <span class="w-0.5 h-2/3 bg-amber-400 rounded-full animate-bounce [animation-delay:0.15s]"></span>
-                                <span class="w-0.5 h-4/5 bg-brand-goldLight rounded-full animate-bounce [animation-delay:0.3s]"></span>
-                            </div>
+                            <span class="relative flex h-1.5 w-1.5">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                            </span>
+                            <h3 class="text-[10px] font-black font-outfit uppercase tracking-wider text-brand-goldLight flex items-center gap-1">
+                                <i class="fa-solid fa-users text-brand-gold text-[10px]"></i>
+                                <span>Table d'Étude</span>
+                            </h3>
+                            <span id="desk-status-badge" class="text-[8px] font-mono px-1.5 py-0.2 rounded-full bg-brand-darker border border-brand-gold/30 text-brand-goldLight font-bold">
+                                1 assis
+                            </span>
                         </div>
-                        <div class="text-[10px] text-brand-muted truncate font-outfit">Lo-Fi Live 24/7 • Concentration</div>
+
+                        <div class="flex items-center gap-1">
+                            <button id="btn-desk-focus-pact" title="Proposer un pacte d'étude duo"
+                                class="px-2 py-0.5 rounded-lg bg-gradient-to-r from-brand-cherry to-brand-cherryDark border border-brand-gold/50 hover:border-brand-gold text-brand-goldLight text-[10px] font-bold font-outfit flex items-center gap-1 shadow active:scale-95 transition cursor-pointer">
+                                <i class="fa-solid fa-handshake text-brand-gold text-[10px]"></i>
+                                <span>Pacte Duo</span>
+                            </button>
+                            <button id="btn-desk-invite" title="Inviter un ami"
+                                class="px-1.5 py-0.5 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-brand-silver text-[10px] font-semibold font-outfit flex items-center gap-1 hover:text-white transition cursor-pointer">
+                                <i class="fa-solid fa-link text-brand-gold text-[10px]"></i>
+                                <span class="hidden sm:inline">Inviter</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Active Focus Pact Banner -->
+                    <div id="desk-pact-banner" class="hidden flex-col gap-1 p-1.5 rounded-xl bg-gradient-to-r from-brand-cherry/90 via-brand-darker to-brand-cherryDark/90 border border-brand-gold shadow-sm">
+                        <div class="flex items-center justify-between text-[10px] font-outfit font-black text-brand-goldLight">
+                            <span class="flex items-center gap-1">🤝 PACTE FOCUS</span>
+                            <span id="desk-pact-timer-sync" class="font-mono text-white text-[10px] px-1.5 py-0.2 rounded bg-brand-darker border border-brand-gold/50">25:00</span>
+                        </div>
+                        <div class="w-full bg-brand-darker/80 rounded-full h-1 overflow-hidden border border-brand-borderSubtle">
+                            <div id="desk-pact-progress-bar" class="bg-gradient-to-r from-brand-gold to-amber-300 h-full w-full transition-all duration-1000"></div>
+                        </div>
+                        <div class="flex items-center justify-between text-[9px] text-brand-muted font-outfit">
+                            <span id="desk-pact-partner-name">En symbiose</span>
+                            <span class="text-brand-goldLight font-bold">+50 XP Bonus</span>
+                        </div>
+                    </div>
+
+                    <!-- Desk Seats Grid -->
+                    <div id="desk-seats-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 w-full"></div>
+
+                    <!-- Desk Reactions Dock -->
+                    <div id="desk-reactions-dock" class="flex items-center justify-between pt-1 border-t border-brand-borderSubtle/60 text-[9px] text-brand-muted">
+                        <span class="font-outfit font-semibold flex items-center gap-1">
+                            <i class="fa-solid fa-bolt text-brand-gold text-[9px]"></i> Encourager :
+                        </span>
+                        <div class="flex items-center gap-1">
+                            <button data-emoji="🔥" class="desk-reaction-btn w-6 h-6 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-110 active:scale-95 transition flex items-center justify-center text-[10px] cursor-pointer" title="Flamme">🔥</button>
+                            <button data-emoji="👏" class="desk-reaction-btn w-6 h-6 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-110 active:scale-95 transition flex items-center justify-center text-[10px] cursor-pointer" title="Bravo">👏</button>
+                            <button data-emoji="☕" class="desk-reaction-btn w-6 h-6 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-110 active:scale-95 transition flex items-center justify-center text-[10px] cursor-pointer" title="Café">☕</button>
+                            <button data-emoji="💪" class="desk-reaction-btn w-6 h-6 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-110 active:scale-95 transition flex items-center justify-center text-[10px] cursor-pointer" title="Force">💪</button>
+                            <button data-emoji="🧠" class="desk-reaction-btn w-6 h-6 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-110 active:scale-95 transition flex items-center justify-center text-[10px] cursor-pointer" title="Génie">🧠</button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Quick Station Chips (One-click station swap) -->
-                <div class="flex items-center gap-1 shrink-0">
-                    <button data-quick-station="chillhop" class="quick-station-pill px-2 py-1 rounded-lg bg-brand-cherry border border-brand-gold text-[10px] font-black text-brand-goldLight font-outfit transition cursor-pointer active:scale-95">☕ Chill</button>
-                    <button data-quick-station="piano" class="quick-station-pill px-2 py-1 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[10px] font-bold text-brand-muted hover:text-white font-outfit transition cursor-pointer active:scale-95">🎹 Piano</button>
-                    <button data-quick-station="synthwave" class="quick-station-pill px-2 py-1 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[10px] font-bold text-brand-muted hover:text-white font-outfit transition cursor-pointer active:scale-95">⚡ Synth</button>
+                <!-- 3. Capsule Audio Lo-Fi Directe -->
+                <div id="chrono-lofi-station"
+                    class="w-full glass-panel rounded-2xl p-1.5 sm:p-2 border border-brand-gold/30 flex items-center justify-between gap-1.5 shadow-md bg-brand-card/90">
+                    <div class="flex items-center gap-1.5 min-w-0">
+                        <button id="btn-chrono-lofi-toggle" title="Lancer / Pause Lo-Fi 24/7"
+                            class="w-6 h-6 rounded-lg bg-gradient-to-tr from-brand-cherry to-brand-cherryDark border border-brand-gold/60 flex items-center justify-center text-brand-goldLight text-[10px] hover:scale-105 active:scale-95 transition shadow shrink-0 cursor-pointer">
+                            <i id="chrono-lofi-play-icon" class="fa-solid fa-play text-[9px] text-brand-gold ml-0.5"></i>
+                        </button>
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-1">
+                                <span id="chrono-lofi-station-name" class="text-[10px] font-black text-white font-outfit truncate">Chillhop Beats</span>
+                                <div id="chrono-lofi-equalizer" class="hidden items-end gap-0.5 h-2">
+                                    <span class="w-0.5 h-full bg-brand-gold rounded-full animate-bounce"></span>
+                                    <span class="w-0.5 h-2/3 bg-amber-400 rounded-full animate-bounce [animation-delay:0.15s]"></span>
+                                    <span class="w-0.5 h-4/5 bg-brand-goldLight rounded-full animate-bounce [animation-delay:0.3s]"></span>
+                                </div>
+                            </div>
+                            <div class="text-[8px] text-brand-muted truncate font-outfit">Lo-Fi Live 24/7 • Concentration</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-0.5 shrink-0">
+                        <button data-quick-station="chillhop" class="quick-station-pill px-1.5 py-0.5 rounded-md bg-brand-cherry border border-brand-gold text-[8px] font-black text-brand-goldLight font-outfit transition cursor-pointer active:scale-95">☕ Chill</button>
+                        <button data-quick-station="piano" class="quick-station-pill px-1.5 py-0.5 rounded-md bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[8px] font-bold text-brand-muted hover:text-white font-outfit transition cursor-pointer active:scale-95">🎹 Piano</button>
+                        <button data-quick-station="synthwave" class="quick-station-pill px-1.5 py-0.5 rounded-md bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[8px] font-bold text-brand-muted hover:text-white font-outfit transition cursor-pointer active:scale-95">⚡ Synth</button>
+                    </div>
+                </div>
+
+                <!-- 4. Academic Stats & Performance Card -->
+                <div class="stats-card w-full glass-panel rounded-2xl p-1.5 sm:p-2 border border-brand-borderSubtle flex flex-col gap-1 shadow-sm bg-brand-card/90">
+                    <div class="grid grid-cols-2 divide-x divide-brand-borderSubtle text-center">
+                        <div>
+                            <span class="text-[9px] text-brand-muted uppercase tracking-wider block font-outfit font-black">Sessions</span>
+                            <span id="stat-sessions" class="font-mono text-sm font-black text-brand-goldLight">0</span>
+                        </div>
+                        <div>
+                            <span class="text-[9px] text-brand-muted uppercase tracking-wider block font-outfit font-black">Deep Work</span>
+                            <span id="stat-minutes" class="font-mono text-sm font-black text-white">0 min</span>
+                        </div>
+                    </div>
+                    <div class="border-t border-brand-borderSubtle pt-1 flex items-center justify-between text-[9px] font-outfit">
+                        <div class="flex items-center gap-1">
+                            <span>🔥</span>
+                            <span class="font-bold text-white text-[9px]">Objectif :</span>
+                            <span id="stat-daily-progress-txt" class="font-mono text-brand-goldLight font-black text-[9px]">0/4 Blocs</span>
+                        </div>
+                        <div id="stat-daily-blocks-dots" class="flex items-center gap-1">
+                            <span class="daily-block-dot w-1.5 h-1.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                            <span class="daily-block-dot w-1.5 h-1.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                            <span class="daily-block-dot w-1.5 h-1.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                            <span class="daily-block-dot w-1.5 h-1.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Academic Stats & Performance Card ("shi lakhor khlih - wsst l-flux") -->
-            <div
-                class="stats-card w-full max-w-md glass-panel rounded-2xl p-3 sm:p-3.5 border border-brand-borderSubtle flex flex-col gap-2 shadow-md bg-brand-card/90">
-                <div class="grid grid-cols-2 divide-x divide-brand-borderSubtle text-center">
-                    <div>
-                        <span
-                            class="text-xs text-brand-muted uppercase tracking-wider block font-outfit font-black">Sessions
-                            Validées</span>
-                        <span id="stat-sessions" class="font-mono text-lg font-black text-brand-goldLight">0</span>
-                    </div>
-                    <div>
-                        <span
-                            class="text-xs text-brand-muted uppercase tracking-wider block font-outfit font-black">Temps
-                            de Deep Work</span>
-                        <span id="stat-minutes" class="font-mono text-lg font-black text-white">0 min</span>
-                    </div>
-                </div>
-
-                <!-- Daily Focus Goal Milestone Bar (4 Pomodoro Blocks) -->
-                <div class="border-t border-brand-borderSubtle pt-2 flex items-center justify-between text-xs font-outfit">
-                    <div class="flex items-center gap-1.5">
-                        <span class="text-sm">🔥</span>
-                        <span class="font-bold text-white text-[11px]">Objectif Quotidien :</span>
-                        <span id="stat-daily-progress-txt" class="font-mono text-brand-goldLight font-black text-[11px]">0/4 Blocs</span>
-                    </div>
-                    <div id="stat-daily-blocks-dots" class="flex items-center gap-1">
-                        <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
-                        <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
-                        <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
-                        <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
-                    </div>
-                </div>
-            </div>
+            <!-- End Right Wing -->
 
             </div>
-            <!-- END #timer-focus-column -->
+            <!-- END #timer-cockpit-grid -->
 
         </section>
 
@@ -1727,262 +1700,233 @@
         </section>
 
         <!-- TAB 5: TABLEAU DE BORD & ANALYTICS STEM CPGE/2BAC -->
-        <section id="tab-tasks" class="tab-content w-full hidden max-w-xl flex flex-col items-center space-y-4">
+        <section id="tab-tasks" class="tab-content w-full hidden max-w-5xl flex flex-col items-center space-y-3 pb-4">
 
             <!-- Dashboard Header -->
             <div
-                class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle flex items-center justify-between shadow-lg">
+                class="w-full glass-panel rounded-2xl p-3 sm:p-4 border border-brand-borderSubtle flex items-center justify-between shadow-lg">
                 <div class="flex items-center gap-3">
                     <div
-                        class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-cherry to-brand-cherryDark border border-brand-gold flex items-center justify-center shadow">
-                        <i class="fa-solid fa-chart-pie text-brand-gold text-lg"></i>
+                        class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-cherry to-brand-cherryDark border border-brand-gold flex items-center justify-center shadow">
+                        <i class="fa-solid fa-chart-pie text-brand-gold text-base"></i>
                     </div>
                     <div>
-                        <h2 class="text-sm sm:text-base font-black text-white font-outfit flex items-center gap-2">
+                        <h2 class="text-xs sm:text-sm font-black text-white font-outfit flex items-center gap-2">
                             Tableau de Bord & Analytics STEM
                             <span
-                                class="text-xs bg-brand-gold/20 text-brand-goldLight border border-brand-gold/40 px-2.5 py-0.5 rounded-full font-mono uppercase font-bold">CPGE
+                                class="text-[10px] bg-brand-gold/20 text-brand-goldLight border border-brand-gold/40 px-2 py-0.2 rounded-full font-mono uppercase font-bold">CPGE
                                 & 2BAC</span>
                         </h2>
-                        <p class="text-xs text-brand-muted font-medium mt-0.5">Suivi rigoureux du temps de révision,
+                        <p class="text-[11px] text-brand-muted font-medium mt-0.5">Suivi rigoureux du temps de révision,
                             répartition par matière & objectifs de concours.</p>
                     </div>
                 </div>
                 <button id="btn-export-stats" title="Copier le résumé de la session"
-                    class="p-2.5 rounded-xl bg-brand-card hover:bg-brand-cherry border border-brand-borderSubtle text-brand-goldLight text-xs transition active:scale-95 shadow">
-                    <i class="fa-solid fa-share-nodes text-sm"></i>
+                    class="p-2 rounded-xl bg-brand-card hover:bg-brand-cherry border border-brand-borderSubtle text-brand-goldLight text-xs transition active:scale-95 shadow">
+                    <i class="fa-solid fa-share-nodes text-xs"></i>
                 </button>
             </div>
 
             <!-- 4 KPI Summary Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full">
                 <!-- Focus Total -->
                 <div
-                    class="glass-card rounded-xl p-3.5 border border-brand-borderSubtle flex flex-col justify-between shadow">
+                    class="glass-card rounded-xl p-3 border border-brand-borderSubtle flex flex-col justify-between shadow-sm">
                     <div class="flex items-center justify-between text-brand-muted text-xs font-outfit font-bold">
                         <span>Focus Total</span>
                         <i class="fa-solid fa-clock text-brand-gold"></i>
                     </div>
-                    <div class="my-1.5">
-                        <span id="dash-total-time" class="text-2xl font-black text-white font-mono">0 min</span>
+                    <div class="my-1">
+                        <span id="dash-total-time" class="text-xl sm:text-2xl font-black text-white font-mono">0 min</span>
                     </div>
-                    <span class="text-xs text-brand-goldLight font-semibold">Temps pur d'étude</span>
+                    <span class="text-[11px] text-brand-goldLight font-semibold">Temps pur d'étude</span>
                 </div>
 
                 <!-- Sessions / Blocs -->
                 <div
-                    class="glass-card rounded-xl p-3.5 border border-brand-borderSubtle flex flex-col justify-between shadow">
+                    class="glass-card rounded-xl p-3 border border-brand-borderSubtle flex flex-col justify-between shadow-sm">
                     <div class="flex items-center justify-between text-brand-muted text-xs font-outfit font-bold">
                         <span>Blocs Validés</span>
                         <i class="fa-solid fa-bullseye text-brand-gold"></i>
                     </div>
-                    <div class="my-1.5">
+                    <div class="my-1">
                         <span id="dash-sessions-count"
-                            class="text-2xl font-black text-brand-goldLight font-mono">0</span>
+                            class="text-xl sm:text-2xl font-black text-brand-goldLight font-mono">0</span>
                     </div>
-                    <span class="text-xs text-brand-muted font-medium">Obj: 6 blocs/j</span>
+                    <span class="text-[11px] text-brand-muted font-medium">Obj: 6 blocs/j</span>
                 </div>
 
                 <!-- Streak -->
                 <div
-                    class="glass-card rounded-xl p-3.5 border border-brand-borderSubtle flex flex-col justify-between shadow">
+                    class="glass-card rounded-xl p-3 border border-brand-borderSubtle flex flex-col justify-between shadow-sm">
                     <div class="flex items-center justify-between text-brand-muted text-xs font-outfit font-bold">
                         <span>Série Active</span>
                         <i class="fa-solid fa-fire text-amber-500"></i>
                     </div>
-                    <div class="my-1.5">
-                        <span id="dash-streak-days" class="text-2xl font-black text-amber-400 font-mono">1 jour</span>
+                    <div class="my-1">
+                        <span id="dash-streak-days" class="text-xl sm:text-2xl font-black text-amber-400 font-mono">1 jour</span>
                     </div>
-                    <span class="text-xs text-emerald-400 font-bold">En régularité 🔥</span>
+                    <span class="text-[11px] text-emerald-400 font-bold">En régularité 🔥</span>
                 </div>
 
                 <!-- Taux Objectifs -->
                 <div
-                    class="glass-card rounded-xl p-3.5 border border-brand-borderSubtle flex flex-col justify-between shadow">
+                    class="glass-card rounded-xl p-3 border border-brand-borderSubtle flex flex-col justify-between shadow-sm">
                     <div class="flex items-center justify-between text-brand-muted text-xs font-outfit font-bold">
                         <span>Taux Exercices</span>
                         <i class="fa-solid fa-circle-check text-emerald-400"></i>
                     </div>
-                    <div class="my-1.5">
-                        <span id="dash-tasks-rate" class="text-2xl font-black text-emerald-400 font-mono">100%</span>
+                    <div class="my-1">
+                        <span id="dash-tasks-rate" class="text-xl sm:text-2xl font-black text-emerald-400 font-mono">100%</span>
                     </div>
-                    <span id="dash-tasks-count" class="text-xs text-brand-muted font-medium">0/0 terminés</span>
+                    <span id="dash-tasks-count" class="text-[11px] text-brand-muted font-medium">0/0 terminés</span>
                 </div>
             </div>
 
-            <!-- STEM Time Breakdown Card -->
-            <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle space-y-3 shadow-lg">
-                <div class="flex items-center justify-between pb-2 border-b border-brand-border">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-scale-balanced text-brand-gold text-sm"></i>
-                        <h3 class="text-xs sm:text-sm font-extrabold text-white font-outfit">Répartition du Temps par
-                            Pôle STEM</h3>
+            <!-- 2-Column Responsive Dashboard Body -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
+                <!-- Column 1: Time Breakdown & Session History -->
+                <div class="flex flex-col gap-3">
+                    <!-- STEM Time Breakdown Card -->
+                    <div class="w-full glass-panel rounded-2xl p-3.5 border border-brand-borderSubtle space-y-2.5 shadow-md">
+                        <div class="flex items-center justify-between pb-1.5 border-b border-brand-border">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-scale-balanced text-brand-gold text-xs"></i>
+                                <h3 class="text-xs font-extrabold text-white font-outfit">Répartition par Pôle STEM</h3>
+                            </div>
+                            <span id="dash-subject-count" class="text-xs text-brand-goldLight font-mono font-bold">0h 00m total</span>
+                        </div>
+
+                        <!-- Multi-segment visual bar -->
+                        <div class="w-full h-2 rounded-full bg-brand-darker overflow-hidden flex shadow-inner">
+                            <div id="bar-seg-maths" class="h-full bg-blue-500 transition-all duration-500" style="width: 25%"></div>
+                            <div id="bar-seg-phys" class="h-full bg-emerald-500 transition-all duration-500" style="width: 25%"></div>
+                            <div id="bar-seg-chim" class="h-full bg-teal-500 transition-all duration-500" style="width: 25%"></div>
+                            <div id="bar-seg-info" class="h-full bg-purple-500 transition-all duration-500" style="width: 25%"></div>
+                        </div>
+
+                        <!-- 4 Subject Progress Items -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-0.5">
+                            <!-- Maths -->
+                            <div class="bg-brand-card rounded-xl p-2.5 border border-brand-borderSubtle space-y-1 shadow-sm">
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-blue-300 font-extrabold font-outfit flex items-center gap-1.5 text-xs">
+                                        <span class="w-2 h-2 rounded-full bg-blue-500"></span> 📐 Maths
+                                    </span>
+                                    <span id="dash-maths-time" class="font-mono text-[11px] font-bold text-blue-200">0m (0%)</span>
+                                </div>
+                                <div class="w-full h-1.5 rounded-full bg-brand-darker overflow-hidden">
+                                    <div id="dash-maths-bar" class="h-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-500" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Physique -->
+                            <div class="bg-brand-card rounded-xl p-2.5 border border-brand-borderSubtle space-y-1 shadow-sm">
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-emerald-300 font-extrabold font-outfit flex items-center gap-1.5 text-xs">
+                                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span> ⚛️ Physique
+                                    </span>
+                                    <span id="dash-phys-time" class="font-mono text-[11px] font-bold text-emerald-200">0m (0%)</span>
+                                </div>
+                                <div class="w-full h-1.5 rounded-full bg-brand-darker overflow-hidden">
+                                    <div id="dash-phys-bar" class="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-500" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Chimie -->
+                            <div class="bg-brand-card rounded-xl p-2.5 border border-brand-borderSubtle space-y-1 shadow-sm">
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-teal-300 font-extrabold font-outfit flex items-center gap-1.5 text-xs">
+                                        <span class="w-2 h-2 rounded-full bg-teal-500"></span> 🧪 Chimie
+                                    </span>
+                                    <span id="dash-chim-time" class="font-mono text-[11px] font-bold text-teal-200">0m (0%)</span>
+                                </div>
+                                <div class="w-full h-1.5 rounded-full bg-brand-darker overflow-hidden">
+                                    <div id="dash-chim-bar" class="h-full bg-gradient-to-r from-teal-600 to-teal-400 transition-all duration-500" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <!-- Info & SI -->
+                            <div class="bg-brand-card rounded-xl p-2.5 border border-brand-borderSubtle space-y-1 shadow-sm">
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-purple-300 font-extrabold font-outfit flex items-center gap-1.5 text-xs">
+                                        <span class="w-2 h-2 rounded-full bg-purple-500"></span> 💻 Info / SI
+                                    </span>
+                                    <span id="dash-info-time" class="font-mono text-[11px] font-bold text-purple-200">0m (0%)</span>
+                                </div>
+                                <div class="w-full h-1.5 rounded-full bg-brand-darker overflow-hidden">
+                                    <div id="dash-info-bar" class="h-full bg-gradient-to-r from-purple-600 to-purple-400 transition-all duration-500" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <span id="dash-subject-count" class="text-xs text-brand-goldLight font-mono font-bold">0h 00m
-                        total</span>
+
+                    <!-- Session History Log Card -->
+                    <div class="w-full glass-panel rounded-2xl p-3.5 border border-brand-borderSubtle space-y-2.5 shadow-md">
+                        <div class="flex items-center justify-between pb-1.5 border-b border-brand-border">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-clock-rotate-left text-brand-gold text-xs"></i>
+                                <h3 class="text-xs font-extrabold text-white font-outfit">Journal des Sessions</h3>
+                            </div>
+                            <button id="btn-clear-history" class="text-[11px] text-brand-muted hover:text-rose-400 font-bold transition">
+                                Effacer
+                            </button>
+                        </div>
+                        <div id="focus-history-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1 custom-scrollbar"></div>
+                    </div>
                 </div>
 
-                <!-- Multi-segment visual bar -->
-                <div class="w-full h-2 rounded-full bg-brand-darker overflow-hidden flex shadow-inner">
-                    <div id="bar-seg-maths" class="h-full bg-blue-500 transition-all duration-500" style="width: 25%">
-                    </div>
-                    <div id="bar-seg-phys" class="h-full bg-emerald-500 transition-all duration-500" style="width: 25%">
-                    </div>
-                    <div id="bar-seg-chim" class="h-full bg-teal-500 transition-all duration-500" style="width: 25%">
-                    </div>
-                    <div id="bar-seg-info" class="h-full bg-purple-500 transition-all duration-500" style="width: 25%">
-                    </div>
-                </div>
-
-                <!-- 4 Subject Progress Items -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                    <!-- Maths -->
-                    <div class="bg-brand-card rounded-xl p-3 border border-brand-borderSubtle space-y-1.5 shadow-sm">
-                        <div class="flex items-center justify-between text-xs sm:text-sm">
-                            <span class="text-blue-300 font-extrabold font-outfit flex items-center gap-1.5">
-                                <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> 📐 Mathématiques
-                            </span>
-                            <span id="dash-maths-time" class="font-mono text-xs font-bold text-blue-200">0m (0%)</span>
+                <!-- Column 2: Task & TD Objective Manager Card -->
+                <div class="w-full glass-panel rounded-2xl p-3.5 border border-brand-borderSubtle space-y-2.5 shadow-md flex flex-col justify-between">
+                    <div class="space-y-2.5">
+                        <div class="flex items-center justify-between pb-1.5 border-b border-brand-border">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-list-check text-brand-gold text-xs"></i>
+                                <h3 class="text-xs font-extrabold text-white font-outfit">Objectifs & Devoirs Concours</h3>
+                            </div>
+                            <span id="tasks-count-pill" class="text-[10px] bg-brand-darker border border-brand-border px-2 py-0.2 rounded-full text-brand-goldLight font-mono font-bold">0 restant</span>
                         </div>
-                        <div class="w-full h-2 rounded-full bg-brand-darker overflow-hidden">
-                            <div id="dash-maths-bar"
-                                class="h-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-500"
-                                style="width: 0%"></div>
+
+                        <!-- Subject Quick Filter Chips -->
+                        <div id="task-filter-chips" class="flex items-center gap-1 overflow-x-auto pb-0.5 scrollbar-none text-xs font-outfit font-bold">
+                            <button data-filter="all" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-cherry text-brand-goldLight border border-brand-gold transition shadow-sm text-xs">Tous</button>
+                            <button data-filter="Maths" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition text-xs">Maths</button>
+                            <button data-filter="Physique" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition text-xs">Physique</button>
+                            <button data-filter="Chimie" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition text-xs">Chimie</button>
+                            <button data-filter="Info" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition text-xs">Info</button>
+                            <button data-filter="SI" class="task-filter-btn px-2.5 py-1 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition text-xs">SI</button>
                         </div>
-                        <p class="text-xs text-brand-muted truncate font-medium">Analyse, Algèbre linéaire, Topologie,
-                            Probas</p>
+
+                        <form id="task-form" class="flex flex-col gap-2">
+                            <div class="flex gap-1.5">
+                                <input id="task-input" type="text"
+                                    placeholder="Ex: TD Analyse Ex 2 (Riemann), CNC 2024 MP..."
+                                    class="flex-1 bg-brand-darker border border-brand-border rounded-xl px-3 py-2 text-xs text-white placeholder-brand-muted focus:outline-none focus:border-brand-gold font-sans font-medium">
+                                <select id="task-subject"
+                                    class="bg-brand-darker border border-brand-border rounded-xl px-2.5 py-2 text-xs text-brand-goldLight focus:outline-none focus:border-brand-gold font-outfit font-bold">
+                                    <option value="Maths">Maths</option>
+                                    <option value="Physique">Physique</option>
+                                    <option value="Chimie">Chimie</option>
+                                    <option value="Info">Info</option>
+                                    <option value="SI">SI</option>
+                                    <option value="Général" selected>Général</option>
+                                </select>
+                            </div>
+                            <button type="submit"
+                                class="w-full py-2 bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant text-brand-goldLight font-black text-xs rounded-xl transition active:scale-95 shadow font-outfit border border-brand-gold/40 cursor-pointer">
+                                <i class="fa-solid fa-plus mr-1"></i> Ajouter (+15 XP)
+                            </button>
+                        </form>
+
+                        <div id="tasks-list" class="space-y-1.5 max-h-48 overflow-y-auto pr-1 custom-scrollbar"></div>
                     </div>
 
-                    <!-- Physique -->
-                    <div class="bg-brand-card rounded-xl p-3 border border-brand-borderSubtle space-y-1.5 shadow-sm">
-                        <div class="flex items-center justify-between text-xs sm:text-sm">
-                            <span class="text-emerald-300 font-extrabold font-outfit flex items-center gap-1.5">
-                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> ⚛️ Physique
-                            </span>
-                            <span id="dash-phys-time" class="font-mono text-xs font-bold text-emerald-200">0m
-                                (0%)</span>
-                        </div>
-                        <div class="w-full h-2 rounded-full bg-brand-darker overflow-hidden">
-                            <div id="dash-phys-bar"
-                                class="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-500"
-                                style="width: 0%"></div>
-                        </div>
-                        <p class="text-xs text-brand-muted truncate font-medium">Mécanique, Électromagnétisme, Thermo,
-                            Ondes</p>
+                    <div class="flex items-center justify-between pt-1 border-t border-brand-border text-xs">
+                        <button id="btn-clear-completed-tasks" class="text-brand-muted hover:text-rose-400 transition flex items-center gap-1 font-outfit font-bold text-xs cursor-pointer">
+                            <i class="fa-solid fa-trash-can text-[10px]"></i> Nettoyer
+                        </button>
+                        <span class="text-brand-goldLight font-sans font-semibold text-[11px]">+30 XP par TD</span>
                     </div>
-
-                    <!-- Chimie -->
-                    <div class="bg-brand-card rounded-xl p-3 border border-brand-borderSubtle space-y-1.5 shadow-sm">
-                        <div class="flex items-center justify-between text-xs sm:text-sm">
-                            <span class="text-teal-300 font-extrabold font-outfit flex items-center gap-1.5">
-                                <span class="w-2.5 h-2.5 rounded-full bg-teal-500"></span> 🧪 Chimie
-                            </span>
-                            <span id="dash-chim-time" class="font-mono text-xs font-bold text-teal-200">0m (0%)</span>
-                        </div>
-                        <div class="w-full h-2 rounded-full bg-brand-darker overflow-hidden">
-                            <div id="dash-chim-bar"
-                                class="h-full bg-gradient-to-r from-teal-600 to-teal-400 transition-all duration-500"
-                                style="width: 0%"></div>
-                        </div>
-                        <p class="text-xs text-brand-muted truncate font-medium">Thermodynamique chimique, Solutions,
-                            Redox</p>
-                    </div>
-
-                    <!-- Info & SI -->
-                    <div class="bg-brand-card rounded-xl p-3 border border-brand-borderSubtle space-y-1.5 shadow-sm">
-                        <div class="flex items-center justify-between text-xs sm:text-sm">
-                            <span class="text-purple-300 font-extrabold font-outfit flex items-center gap-1.5">
-                                <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span> 💻 Info & SI
-                            </span>
-                            <span id="dash-info-time" class="font-mono text-xs font-bold text-purple-200">0m (0%)</span>
-                        </div>
-                        <div class="w-full h-2 rounded-full bg-brand-darker overflow-hidden">
-                            <div id="dash-info-bar"
-                                class="h-full bg-gradient-to-r from-purple-600 to-purple-400 transition-all duration-500"
-                                style="width: 0%"></div>
-                        </div>
-                        <p class="text-xs text-brand-muted truncate font-medium">Algorithmique Python, SQL, Automatique,
-                            SLCI</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Session History Log Card -->
-            <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle space-y-3 shadow-lg">
-                <div class="flex items-center justify-between pb-2 border-b border-brand-border">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-clock-rotate-left text-brand-gold text-sm"></i>
-                        <h3 class="text-xs sm:text-sm font-extrabold text-white font-outfit">Journal Récent des Sessions
-                        </h3>
-                    </div>
-                    <button id="btn-clear-history"
-                        class="text-xs text-brand-muted hover:text-rose-400 font-bold transition">
-                        Effacer
-                    </button>
-                </div>
-
-                <div id="focus-history-list" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
-            </div>
-
-            <!-- Task & TD Objective Manager Card -->
-            <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle space-y-3 shadow-lg">
-                <div class="flex items-center justify-between pb-2 border-b border-brand-border">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-brand-gold text-sm"></i>
-                        <h3 class="text-xs sm:text-sm font-extrabold text-white font-outfit">Objectifs & Devoirs de
-                            Concours</h3>
-                    </div>
-                    <span id="tasks-count-pill"
-                        class="text-xs bg-brand-darker border border-brand-border px-2.5 py-0.5 rounded-full text-brand-goldLight font-mono font-bold">0
-                        restant</span>
-                </div>
-
-                <!-- Subject Quick Filter Chips -->
-                <div id="task-filter-chips"
-                    class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none text-xs font-outfit font-bold">
-                    <button data-filter="all"
-                        class="task-filter-btn px-3 py-1.5 rounded-lg bg-brand-cherry text-brand-goldLight border border-brand-gold transition shadow-sm">Tous</button>
-                    <button data-filter="Maths"
-                        class="task-filter-btn px-3 py-1.5 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Maths</button>
-                    <button data-filter="Physique"
-                        class="task-filter-btn px-3 py-1.5 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Physique</button>
-                    <button data-filter="Chimie"
-                        class="task-filter-btn px-3 py-1.5 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Chimie</button>
-                    <button data-filter="Info"
-                        class="task-filter-btn px-3 py-1.5 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">Info</button>
-                    <button data-filter="SI"
-                        class="task-filter-btn px-3 py-1.5 rounded-lg bg-brand-card text-brand-muted hover:text-white border border-brand-borderSubtle transition">SI</button>
-                </div>
-
-                <form id="task-form" class="flex flex-col gap-2">
-                    <div class="flex gap-2">
-                        <input id="task-input" type="text"
-                            placeholder="Ex: TD Analyse Exercice 2 (Riemann), CNC 2024 MP..."
-                            class="flex-1 bg-brand-darker border border-brand-border rounded-xl px-3 py-2.5 text-xs sm:text-sm text-white placeholder-brand-muted focus:outline-none focus:border-brand-gold font-sans font-medium">
-                        <select id="task-subject"
-                            class="bg-brand-darker border border-brand-border rounded-xl px-3 py-2.5 text-xs sm:text-sm text-brand-goldLight focus:outline-none focus:border-brand-gold font-outfit font-bold">
-                            <option value="Maths">Maths</option>
-                            <option value="Physique">Physique</option>
-                            <option value="Chimie">Chimie</option>
-                            <option value="Info">Info</option>
-                            <option value="SI">SI</option>
-                            <option value="Général" selected>Général</option>
-                        </select>
-                    </div>
-                    <button type="submit"
-                        class="w-full py-2.5 bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant text-brand-goldLight font-black text-xs sm:text-sm rounded-xl transition active:scale-95 shadow font-outfit border border-brand-gold/40">
-                        <i class="fa-solid fa-plus mr-1"></i> Ajouter à la session (+15 XP)
-                    </button>
-                </form>
-
-                <div id="tasks-list" class="space-y-2 max-h-52 overflow-y-auto pr-1"></div>
-
-                <div class="flex items-center justify-between pt-1 border-t border-brand-border text-xs">
-                    <button id="btn-clear-completed-tasks"
-                        class="text-brand-muted hover:text-rose-400 transition flex items-center gap-1 font-outfit font-bold">
-                        <i class="fa-solid fa-trash-can text-xs"></i> Nettoyer les tâches terminées
-                    </button>
-                    <span class="text-brand-goldLight font-sans font-semibold">+30 XP par TD validé</span>
                 </div>
             </div>
 
@@ -2163,126 +2107,91 @@
         </section>
 
         <!-- TAB 8: NABRAS AI TUTOR & CHATBOT (نبراس - Tuteur Académique d'Élite) -->
-        <section id="tab-nabras" class="tab-content w-full hidden max-w-5xl flex flex-col items-center space-y-3.5">
+        <section id="tab-nabras" class="tab-content w-full hidden flex-1 min-h-0 flex flex-col items-center max-w-5xl mx-auto overflow-hidden px-1 sm:px-2 py-0.5">
             
-            <!-- AI Header & Control Station -->
-            <div class="w-full glass-panel border border-brand-gold/45 rounded-3xl p-3.5 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_25px_rgba(158,24,56,0.3)] relative overflow-hidden">
-                <!-- Subtle luxury background glow -->
-                <div class="absolute -right-16 -top-16 w-56 h-56 rounded-full bg-brand-cherry/25 blur-3xl pointer-events-none"></div>
-                <div class="absolute -left-16 -bottom-16 w-56 h-56 rounded-full bg-brand-gold/20 blur-3xl pointer-events-none"></div>
-
-                <!-- Top Row: Avatar, Identity & Status -->
-                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pb-3 border-b border-brand-borderSubtle relative z-10">
-                    <div class="flex items-center gap-3 sm:gap-4">
-                        <div class="relative group cursor-pointer" onclick="window.ambience?.playClick()">
-                            <!-- Prestigious Animated Owl Mascot Box (Compact Luxury) -->
-                            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-brand-darker via-brand-cherryDark to-brand-cherry border border-brand-gold shadow-[0_0_12px_rgba(217,119,6,0.45)] flex items-center justify-center p-1 group-hover:scale-105 transition-all duration-300 relative overflow-hidden">
-                                <div class="absolute inset-0 bg-radial-gold opacity-20 pointer-events-none"></div>
-                                <img src="assets/studysouk_owl_animated.webp?v=6.1" alt="Nabras AI • البومة الحكيمة" class="w-full h-full object-contain filter drop-shadow-[0_0_8px_rgba(245,197,66,0.8)]">
-                            </div>
-                            <!-- Live Status Pulsing Beacon -->
-                            <span class="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-emerald-500 border-2 border-brand-darker flex items-center justify-center shadow-lg" title="Nabras en ligne 24/7">
-                                <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-                            </span>
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-2 flex-wrap">
-                                <h2 class="text-base sm:text-xl font-black font-outfit gold-text-gradient leading-tight tracking-tight flex items-center gap-2">
-                                    <span>Nabras AI</span>
-                                    <span class="text-brand-goldLight opacity-90 text-lg sm:text-xl">نبراس</span>
-                                </h2>
-                                <span class="px-2 py-0.5 rounded-full text-[9px] font-mono font-black bg-gradient-to-r from-brand-cherry to-brand-cherryDark border border-brand-gold text-brand-goldLight uppercase tracking-wider shadow-sm flex items-center gap-1.5">
-                                    <i class="fa-solid fa-wand-magic-sparkles text-[9px] text-brand-gold"></i>
-                                    <span>Gemini 3.8 Flash • Élite</span>
-                                </span>
-                            </div>
-                            <p class="text-xs text-brand-muted font-outfit mt-0.5">
-                                Tuteur académique d'élite pour les étudiants marocains (CPGE, 2BAC & Facultés)
-                            </p>
-                        </div>
+            <!-- Compact AI Control Header Bar (Single Sleek Row ~44px) -->
+            <div class="w-full shrink-0 glass-panel border border-brand-gold/45 rounded-2xl px-3 py-1.5 sm:py-2 mb-1.5 sm:mb-2 shadow-lg flex items-center justify-between gap-2 relative overflow-hidden">
+                <!-- Mascot & Title -->
+                <div class="flex items-center gap-2 sm:gap-2.5 shrink-0 min-w-0">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand-darker via-brand-cherryDark to-brand-cherry border border-brand-gold shadow-[0_0_10px_rgba(217,119,6,0.45)] flex items-center justify-center p-0.5 shrink-0">
+                        <img src="assets/studysouk_owl_animated.webp?v=6.1" alt="Nabras AI" class="w-full h-full object-contain filter drop-shadow">
                     </div>
-
-                    <!-- 3-Language Selector (Français par défaut) -->
-                    <div class="flex items-center gap-1.5 p-1 rounded-2xl glass-card border border-brand-gold/40 shadow-inner">
-                        <button data-lang="fr" class="nabras-lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-sm">
-                            <span>🇫🇷</span>
-                            <span>Français</span>
-                        </button>
-                        <button data-lang="darija" class="nabras-lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white">
-                            <span>🇲🇦</span>
-                            <span>الدارجة</span>
-                        </button>
-                        <button data-lang="ar" class="nabras-lang-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white">
-                            <span>🇸🇦</span>
-                            <span>العربية</span>
-                        </button>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-1.5">
+                            <h2 class="text-xs sm:text-sm font-black font-outfit gold-text-gradient leading-tight tracking-tight flex items-center gap-1 truncate">
+                                <span>Nabras AI</span>
+                                <span class="text-brand-goldLight opacity-90 text-xs hidden xs:inline">نبراس</span>
+                            </h2>
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" title="En ligne 24/7"></span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Second Row: Mode Selector Pills (Explain, QA/Doubts, Motivation) -->
-                <div class="flex flex-wrap items-center justify-between gap-2.5 pt-3 relative z-10">
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span class="text-[10px] font-mono uppercase tracking-wider text-brand-muted mr-1 hidden sm:inline">Modes d'Étude :</span>
-                        <button data-mode="explain" class="nabras-mode-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-gold/20 text-brand-goldLight border border-brand-gold shadow-sm active:scale-95">
-                            <i class="fa-solid fa-book-open text-xs text-brand-gold"></i>
-                            <span>📚 Explication de Cours</span>
-                        </button>
-                        <button data-mode="qa" class="nabras-mode-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white active:scale-95">
-                            <i class="fa-solid fa-lightbulb text-xs text-brand-gold"></i>
-                            <span>💡 Résolution & Méthodes</span>
-                        </button>
-                        <button data-mode="motivate" class="nabras-mode-btn px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white active:scale-95">
-                            <i class="fa-solid fa-bolt text-xs text-brand-gold"></i>
-                            <span>⚡ Motivation & Focus</span>
-                        </button>
-                    </div>
-
-                    <!-- Clear History Action -->
-                    <button id="nabras-clear-btn" title="Effacer l'historique de la discussion"
-                        class="px-2.5 py-1.5 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold/60 text-[10px] font-mono text-brand-muted hover:text-white transition flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer">
-                        <i class="fa-solid fa-trash-can text-[9px] text-brand-gold"></i>
-                        <span>Nouveau Chat</span>
+                <!-- Mode Selector Pills (Explain, QA, Motivate) -->
+                <div class="flex items-center gap-1 overflow-x-auto scrollbar-none py-0.5">
+                    <button data-mode="explain" class="nabras-mode-btn px-2.5 py-1 rounded-xl text-[11px] font-bold transition flex items-center gap-1 bg-brand-gold/20 text-brand-goldLight border border-brand-gold shadow-sm active:scale-95 shrink-0 cursor-pointer">
+                        <i class="fa-solid fa-book-open text-[10px] text-brand-gold"></i>
+                        <span>Explication</span>
+                    </button>
+                    <button data-mode="qa" class="nabras-mode-btn px-2.5 py-1 rounded-xl text-[11px] font-bold transition flex items-center gap-1 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white active:scale-95 shrink-0 cursor-pointer">
+                        <i class="fa-solid fa-lightbulb text-[10px] text-brand-gold"></i>
+                        <span>Méthodes</span>
+                    </button>
+                    <button data-mode="motivate" class="nabras-mode-btn px-2.5 py-1 rounded-xl text-[11px] font-bold transition flex items-center gap-1 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white active:scale-95 shrink-0 cursor-pointer">
+                        <i class="fa-solid fa-bolt text-[10px] text-brand-gold"></i>
+                        <span>Motivation</span>
                     </button>
                 </div>
 
-                <!-- Mode Description Banner -->
-                <div class="mt-3 px-3.5 py-2 rounded-xl bg-black/50 border border-brand-gold/25 text-[11px] font-outfit text-brand-goldLight flex items-center gap-2.5 shadow-inner">
-                    <i class="fa-solid fa-circle-info text-brand-gold text-xs shrink-0"></i>
-                    <span id="nabras-mode-banner-text" class="truncate">
-                        📚 Mode : Explication des cours et notions clés (Démarche rigoureuse, définitions & astuces)
-                    </span>
+                <!-- Language Selector & Reset Action -->
+                <div class="flex items-center gap-1 shrink-0">
+                    <div class="flex items-center gap-0.5 p-0.5 rounded-xl glass-card border border-brand-gold/30">
+                        <button data-lang="fr" class="nabras-lang-btn px-2 py-0.5 rounded-lg text-[10px] font-bold transition flex items-center gap-0.5 bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-sm cursor-pointer">
+                            <span>FR</span>
+                        </button>
+                        <button data-lang="darija" class="nabras-lang-btn px-2 py-0.5 rounded-lg text-[10px] font-bold transition flex items-center gap-0.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white cursor-pointer">
+                            <span>دارجة</span>
+                        </button>
+                        <button data-lang="ar" class="nabras-lang-btn px-2 py-0.5 rounded-lg text-[10px] font-bold transition flex items-center gap-0.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white cursor-pointer">
+                            <span>عربي</span>
+                        </button>
+                    </div>
+
+                    <button id="nabras-clear-btn" title="Effacer l'historique du chat"
+                        class="w-7 h-7 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold/60 text-brand-muted hover:text-white flex items-center justify-center shadow-sm active:scale-95 cursor-pointer shrink-0">
+                        <i class="fa-solid fa-trash-can text-[10px] text-brand-gold"></i>
+                    </button>
                 </div>
             </div>
 
-            <!-- Chat Container Box (Enlarged & Refined) -->
-            <div class="w-full glass-panel border border-brand-gold/35 rounded-3xl p-3.5 sm:p-5 shadow-2xl flex flex-col h-[620px] sm:h-[700px] relative overflow-hidden">
-                <!-- Chat Feed Scroll Area -->
-                <div id="nabras-chat-feed" class="flex-1 overflow-y-auto px-1 sm:px-2 space-y-3.5 custom-scrollbar flex flex-col">
+            <!-- Hidden Mode Banner container for JS compatibility -->
+            <div id="nabras-mode-banner-text" class="hidden" aria-hidden="true"></div>
+
+            <!-- Dynamic Chat Container Box (FLEXES 100% TO DISPLAY HEIGHT - ZERO SCROLL OF WINDOW) -->
+            <div class="w-full flex-1 min-h-0 glass-panel border border-brand-gold/35 rounded-2xl p-2.5 sm:p-3.5 shadow-2xl flex flex-col relative overflow-hidden">
+                <!-- Chat Feed Scroll Area (Only the chat messages scroll internally) -->
+                <div id="nabras-chat-feed" class="flex-1 min-h-0 overflow-y-auto px-1 sm:px-2 space-y-2.5 custom-scrollbar flex flex-col">
                     <!-- Messages will be injected by nabras-ai.js -->
                 </div>
 
                 <!-- Quick Prompt Suggestions Chips -->
-                <div class="pt-2.5 pb-1 border-t border-brand-borderSubtle">
-                    <div class="flex items-center gap-1.5 text-[10px] text-brand-muted font-mono mb-1.5 px-1">
-                        <i class="fa-solid fa-wand-magic-sparkles text-brand-gold text-[9px]"></i>
-                        <span>Suggestions rapides :</span>
-                    </div>
-                    <div id="nabras-suggestions-container" class="flex items-center gap-2 overflow-x-auto pb-1.5 custom-scrollbar">
+                <div class="shrink-0 pt-2 pb-1 border-t border-brand-borderSubtle/60">
+                    <div id="nabras-suggestions-container" class="flex items-center gap-1.5 overflow-x-auto pb-1 custom-scrollbar">
                         <!-- Chips injected by JS -->
                     </div>
                 </div>
 
-                <!-- Input Action Bar -->
-                <div class="pt-2.5 flex items-end gap-2.5">
-                    <div class="flex-1 relative rounded-2xl bg-brand-darker border border-brand-gold/45 focus-within:border-brand-gold transition shadow-inner">
+                <!-- Input Action Bar (Anchored at the bottom of the container) -->
+                <div class="shrink-0 pt-1.5 flex items-end gap-2">
+                    <div class="flex-1 relative rounded-xl bg-brand-darker border border-brand-gold/45 focus-within:border-brand-gold transition shadow-inner">
                         <textarea id="nabras-chat-input" rows="1"
                             placeholder="Pose une question sur un cours, un exercice, ou demande un boost de motivation..."
-                            class="w-full bg-transparent px-4 py-3 text-xs sm:text-sm text-white placeholder-brand-muted/70 focus:outline-none resize-none max-h-32 custom-scrollbar font-outfit"></textarea>
+                            class="w-full bg-transparent px-3 py-2 text-xs sm:text-sm text-white placeholder-brand-muted/70 focus:outline-none resize-none max-h-24 custom-scrollbar font-outfit"></textarea>
                     </div>
                     <button id="nabras-send-btn" title="Envoyer le message (Entrée)"
-                        class="h-11 px-5 rounded-2xl bg-gradient-to-r from-brand-cherry to-brand-cherryDark border border-brand-gold hover:border-brand-goldLight text-brand-goldLight hover:text-white font-outfit font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(158,24,56,0.65)] active:scale-95 transition shrink-0 group cursor-pointer">
+                        class="h-9 px-4 rounded-xl bg-gradient-to-r from-brand-cherry to-brand-cherryDark border border-brand-gold hover:border-brand-goldLight text-brand-goldLight hover:text-white font-outfit font-black text-xs flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(158,24,56,0.65)] active:scale-95 transition shrink-0 group cursor-pointer">
                         <span class="hidden sm:inline">Envoyer</span>
-                        <i class="fa-solid fa-paper-plane text-xs sm:text-sm text-brand-gold group-hover:translate-x-0.5 transition-transform"></i>
+                        <i class="fa-solid fa-paper-plane text-xs text-brand-gold group-hover:translate-x-0.5 transition-transform"></i>
                     </button>
                 </div>
             </div>
