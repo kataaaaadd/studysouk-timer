@@ -162,6 +162,7 @@ class StudySoukTimerApp {
         this.renderStats();
         this.renderVirtualStudyDesk([]);
         this.rotateQuote();
+        this.bindDraggableWidgets();
 
         if (window.NabrasAI) {
             this.nabrasAI = new window.NabrasAI();
@@ -2241,6 +2242,224 @@ class StudySoukTimerApp {
             });
             this.showToast(`📨 Proposition de Pacte Focus (25m) envoyée à ${partner.name} !`);
         }
+    }
+
+    // --- DRAGGABLE CURSOR WIDGETS ---
+    bindDraggableWidgets() {
+        // 1. Floating Nabras AI Logo Mascot
+        const fab = document.getElementById("btn-floating-nabras");
+        if (fab) {
+            this.makeDraggable(fab, "ss_nabras_fab_pos");
+        }
+
+        // 2. Countdown Sidebar Edge Capsule Trigger
+        const cdTrigger = document.getElementById("btn-sidebar-countdown-trigger");
+        if (cdTrigger) {
+            this.makeDraggableVertical(cdTrigger, "ss_cd_trigger_pos");
+        }
+    }
+
+    makeDraggable(el, storageKey) {
+        if (!el) return;
+
+        let isDragging = false;
+        let hasMoved = false;
+        let startPointerX = 0;
+        let startPointerY = 0;
+        let initialLeft = 0;
+        let initialTop = 0;
+
+        // Restore saved position if present
+        const saved = localStorage.getItem(storageKey);
+        if (saved) {
+            try {
+                const pos = JSON.parse(saved);
+                const elW = el.offsetWidth || 40;
+                const elH = el.offsetHeight || 40;
+                const maxLeft = Math.max(8, window.innerWidth - elW - 8);
+                const maxTop = Math.max(8, window.innerHeight - elH - 8);
+                const safeX = Math.min(Math.max(8, pos.x), maxLeft);
+                const safeY = Math.min(Math.max(8, pos.y), maxTop);
+
+                el.style.left = `${safeX}px`;
+                el.style.top = `${safeY}px`;
+                el.style.right = "auto";
+                el.style.bottom = "auto";
+            } catch (e) {
+                // Ignore parse errors
+            }
+        }
+
+        el.style.touchAction = "none";
+        el.classList.add("cursor-grab");
+
+        const onPointerDown = (e) => {
+            if (e.button && e.button !== 0) return; // Only main button
+
+            isDragging = true;
+            hasMoved = false;
+            startPointerX = e.clientX;
+            startPointerY = e.clientY;
+
+            const rect = el.getBoundingClientRect();
+            initialLeft = rect.left;
+            initialTop = rect.top;
+
+            try {
+                el.setPointerCapture(e.pointerId);
+            } catch (err) {}
+
+            el.classList.add("cursor-grabbing");
+            el.classList.remove("cursor-grab");
+
+            el.addEventListener("pointermove", onPointerMove);
+            el.addEventListener("pointerup", onPointerUp);
+            el.addEventListener("pointercancel", onPointerUp);
+        };
+
+        const onPointerMove = (e) => {
+            if (!isDragging) return;
+
+            const dx = e.clientX - startPointerX;
+            const dy = e.clientY - startPointerY;
+
+            if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+                hasMoved = true;
+            }
+
+            if (hasMoved) {
+                let nextX = initialLeft + dx;
+                let nextY = initialTop + dy;
+
+                const elW = el.offsetWidth || 40;
+                const elH = el.offsetHeight || 40;
+                const maxLeft = Math.max(8, window.innerWidth - elW - 8);
+                const maxTop = Math.max(8, window.innerHeight - elH - 8);
+                nextX = Math.min(Math.max(8, nextX), maxLeft);
+                nextY = Math.min(Math.max(8, nextY), maxTop);
+
+                el.style.left = `${nextX}px`;
+                el.style.top = `${nextY}px`;
+                el.style.right = "auto";
+                el.style.bottom = "auto";
+            }
+        };
+
+        const onPointerUp = (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+
+            try {
+                el.releasePointerCapture(e.pointerId);
+            } catch (err) {}
+
+            el.removeEventListener("pointermove", onPointerMove);
+            el.removeEventListener("pointerup", onPointerUp);
+            el.removeEventListener("pointercancel", onPointerUp);
+
+            el.classList.remove("cursor-grabbing");
+            el.classList.add("cursor-grab");
+
+            if (hasMoved) {
+                const rect = el.getBoundingClientRect();
+                localStorage.setItem(storageKey, JSON.stringify({ x: Math.round(rect.left), y: Math.round(rect.top) }));
+
+                const suppressClick = (clickEvent) => {
+                    clickEvent.stopImmediatePropagation();
+                    clickEvent.preventDefault();
+                    el.removeEventListener("click", suppressClick, true);
+                };
+                el.addEventListener("click", suppressClick, true);
+            }
+        };
+
+        el.addEventListener("pointerdown", onPointerDown);
+    }
+
+    makeDraggableVertical(el, storageKey) {
+        if (!el) return;
+
+        let isDragging = false;
+        let hasMoved = false;
+        let startPointerY = 0;
+        let initialTop = 0;
+
+        const saved = localStorage.getItem(storageKey);
+        if (saved) {
+            try {
+                const pos = JSON.parse(saved);
+                const elH = el.offsetHeight || 80;
+                const maxTop = Math.max(50, window.innerHeight - elH - 50);
+                const safeY = Math.min(Math.max(50, pos.y), maxTop);
+                el.style.top = `${safeY}px`;
+                el.style.transform = "none";
+            } catch (e) {}
+        }
+
+        el.style.touchAction = "none";
+
+        const onPointerDown = (e) => {
+            if (e.button && e.button !== 0) return;
+            isDragging = true;
+            hasMoved = false;
+            startPointerY = e.clientY;
+            initialTop = el.getBoundingClientRect().top;
+
+            try {
+                el.setPointerCapture(e.pointerId);
+            } catch (err) {}
+
+            el.classList.add("cursor-grabbing");
+            el.classList.remove("cursor-pointer");
+
+            el.addEventListener("pointermove", onPointerMove);
+            el.addEventListener("pointerup", onPointerUp);
+            el.addEventListener("pointercancel", onPointerUp);
+        };
+
+        const onPointerMove = (e) => {
+            if (!isDragging) return;
+            const dy = e.clientY - startPointerY;
+            if (Math.abs(dy) > 4) hasMoved = true;
+            if (hasMoved) {
+                let nextY = initialTop + dy;
+                const elH = el.offsetHeight || 80;
+                const maxTop = Math.max(50, window.innerHeight - elH - 50);
+                nextY = Math.min(Math.max(50, nextY), maxTop);
+                el.style.top = `${nextY}px`;
+                el.style.transform = "none";
+            }
+        };
+
+        const onPointerUp = (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+
+            try {
+                el.releasePointerCapture(e.pointerId);
+            } catch (err) {}
+
+            el.removeEventListener("pointermove", onPointerMove);
+            el.removeEventListener("pointerup", onPointerUp);
+            el.removeEventListener("pointercancel", onPointerUp);
+
+            el.classList.remove("cursor-grabbing");
+            el.classList.add("cursor-pointer");
+
+            if (hasMoved) {
+                const rect = el.getBoundingClientRect();
+                localStorage.setItem(storageKey, JSON.stringify({ y: Math.round(rect.top) }));
+
+                const suppressClick = (clickEvent) => {
+                    clickEvent.stopImmediatePropagation();
+                    clickEvent.preventDefault();
+                    el.removeEventListener("click", suppressClick, true);
+                };
+                el.addEventListener("click", suppressClick, true);
+            }
+        };
+
+        el.addEventListener("pointerdown", onPointerDown);
     }
 
     // --- TOAST NOTIFICATIONS ---
