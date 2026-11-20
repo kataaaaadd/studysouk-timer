@@ -152,6 +152,11 @@ class StudySoukTimerApp {
         this.renderStats();
         this.rotateQuote();
 
+        if (window.NabrasAI) {
+            this.nabrasAI = new window.NabrasAI();
+            window.nabrasAI = this.nabrasAI;
+        }
+
         console.log("%c[StudySouk Academy] Official Academic Activity Ready! 🎓", "color: #E2E8F0; font-weight: bold; font-size: 13px;");
     }
 
@@ -805,6 +810,8 @@ class StudySoukTimerApp {
             this.scratchpad.onTabVisible();
         } else if (tabId === "tab-tasks") {
             this.renderDashboard();
+        } else if (tabId === "tab-nabras" && this.nabrasAI) {
+            this.nabrasAI.onTabVisible();
         }
     }
 

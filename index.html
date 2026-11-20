@@ -572,6 +572,14 @@
                 <span class="hidden sm:inline">Bibliothèque</span>
             </button>
 
+            <!-- Open Nabras AI Tutor Button (Desktop / Tablet) -->
+            <button id="btn-open-nabras-ai" title="Nabras AI • Assistant et Tuteur Intelligent (3 Langues)"
+                class="hidden md:flex h-8 cherry-glow-btn text-xs px-2.5 sm:px-3 rounded-xl border border-brand-gold text-brand-goldLight hover:text-white transition items-center gap-1.5 font-outfit font-black shadow active:scale-95 shrink-0 group">
+                <i class="fa-solid fa-wand-magic-sparkles text-brand-gold group-hover:rotate-12 transition-transform text-xs"></i>
+                <span class="hidden sm:inline">Nabras AI</span>
+                <span class="px-1.5 py-0.2 rounded-full text-[9px] font-mono bg-brand-gold/20 text-brand-goldLight border border-brand-gold/40 font-bold hidden lg:inline">نبراس</span>
+            </button>
+
             <!-- Interactive Échéances & Concours Hub Button -->
             <button id="btn-open-countdowns" title="Calendrier des Échéances & Concours 2026/2027"
                 class="h-7 sm:h-8 glass-card text-[11px] sm:text-xs px-1.5 sm:px-3 rounded-xl border border-brand-gold/60 text-brand-goldLight hover:border-brand-gold hover:text-white transition flex items-center gap-1 sm:gap-1.5 font-outfit font-black shadow active:scale-95 group shrink-0">
@@ -615,6 +623,11 @@
                         <span class="text-[8px] font-mono text-brand-muted">StudySouk</span>
                     </div>
                     <div class="flex flex-col gap-1 text-xs font-outfit">
+                        <button id="btn-mobile-nabras-action"
+                            class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-white/10 text-brand-goldLight font-bold transition text-left">
+                            <i class="fa-solid fa-wand-magic-sparkles text-xs text-brand-gold w-4 text-center"></i>
+                            <span>Nabras AI (نبراس)</span>
+                        </button>
                         <button id="btn-mobile-tictac-action"
                             class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-white/10 text-brand-goldLight font-bold transition text-left">
                             <i class="fa-solid fa-stopwatch text-xs text-brand-gold w-4 text-center"></i>
@@ -1936,6 +1949,128 @@
 
         </section>
 
+        <!-- TAB 8: NABRAS AI TUTOR & CHATBOT (نبراس - المساعد الأكاديمي الذكي) -->
+        <section id="tab-nabras" class="tab-content w-full hidden max-w-4xl flex flex-col items-center space-y-3">
+            
+            <!-- AI Header & Control Station -->
+            <div class="w-full glass-panel border border-brand-gold/40 rounded-3xl p-3 sm:p-4 shadow-2xl relative overflow-hidden">
+                <!-- Subtle luxury background glow -->
+                <div class="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-brand-cherry/20 blur-3xl pointer-events-none"></div>
+                <div class="absolute -left-16 -bottom-16 w-48 h-48 rounded-full bg-brand-gold/15 blur-3xl pointer-events-none"></div>
+
+                <!-- Top Row: Avatar, Identity & Status -->
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pb-3 border-b border-brand-borderSubtle relative z-10">
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-cherryDark to-brand-cherry border-2 border-brand-gold shadow-[0_0_15px_rgba(217,119,6,0.5)] flex items-center justify-center p-1.5 group">
+                                <img src="assets/designs/studysouk_logo_clean_cutout.png" alt="Nabras" class="w-full h-full object-contain filter drop-shadow group-hover:scale-110 transition duration-300">
+                            </div>
+                            <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-brand-darker flex items-center justify-center shadow">
+                                <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                            </span>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h2 class="text-base sm:text-lg font-black font-outfit gold-text-gradient leading-tight">
+                                    Nabras AI • نبراس
+                                </h2>
+                                <span class="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-brand-cherry border border-brand-gold/50 text-brand-goldLight uppercase tracking-wider">
+                                    Gemini 3.8
+                                </span>
+                            </div>
+                            <p class="text-xs text-brand-muted font-outfit">
+                                المساعد الأكاديمي والتوتور الذكي لطلاب المغرب (3 لغات)
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 3-Language Selector -->
+                    <div class="flex items-center gap-1.5 p-1 rounded-2xl glass-card border border-brand-gold/30 shadow-inner">
+                        <button data-lang="darija" class="nabras-lang-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-cherry text-brand-goldLight border border-brand-gold shadow-sm">
+                            <span>🇲🇦</span>
+                            <span>الدارجة</span>
+                        </button>
+                        <button data-lang="fr" class="nabras-lang-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white">
+                            <span>🇫🇷</span>
+                            <span>Français</span>
+                        </button>
+                        <button data-lang="ar" class="nabras-lang-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white">
+                            <span>🇸🇦</span>
+                            <span>العربية</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Second Row: Mode Selector Pills (Explain, QA/Doubts, Motivation) -->
+                <div class="flex flex-wrap items-center justify-between gap-2 pt-3 relative z-10">
+                    <div class="flex flex-wrap items-center gap-1.5">
+                        <span class="text-[10px] font-mono uppercase tracking-wider text-brand-muted mr-1 hidden sm:inline">Modes :</span>
+                        <button data-mode="explain" class="nabras-mode-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 bg-brand-gold/20 text-brand-goldLight border border-brand-gold shadow-sm">
+                            <i class="fa-solid fa-book-open text-xs text-brand-gold"></i>
+                            <span>شرح الدروس</span>
+                        </button>
+                        <button data-mode="qa" class="nabras-mode-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white">
+                            <i class="fa-solid fa-lightbulb text-xs text-brand-gold"></i>
+                            <span>حل وفهم التمارين</span>
+                        </button>
+                        <button data-mode="motivate" class="nabras-mode-btn px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 glass-card border border-brand-borderSubtle text-brand-muted hover:text-white">
+                            <i class="fa-solid fa-bolt text-xs text-brand-gold"></i>
+                            <span>تحفيز وتركيز</span>
+                        </button>
+                    </div>
+
+                    <!-- Clear History Action -->
+                    <button id="nabras-clear-btn" title="Effacer l'historique de la discussion"
+                        class="px-2 py-1 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold/60 text-[10px] font-mono text-brand-muted hover:text-white transition flex items-center gap-1 shadow-sm active:scale-95">
+                        <i class="fa-solid fa-trash-can text-[9px] text-brand-gold"></i>
+                        <span>Nouveau Chat</span>
+                    </button>
+                </div>
+
+                <!-- Mode Description Banner -->
+                <div class="mt-2.5 px-3 py-1.5 rounded-xl bg-black/40 border border-brand-borderSubtle/60 text-[11px] font-outfit text-brand-goldLight flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-brand-gold text-xs shrink-0"></i>
+                    <span id="nabras-mode-banner-text" class="truncate">
+                        📚 Mode: شرح الدروس والمفاهيم (Maths, PC, SVT, Philo) بأسلوب دارجة ذكي ومبسط
+                    </span>
+                </div>
+            </div>
+
+            <!-- Chat Container Box -->
+            <div class="w-full glass-panel border border-brand-gold/30 rounded-3xl p-3 sm:p-4 shadow-2xl flex flex-col h-[520px] sm:h-[580px] relative overflow-hidden">
+                <!-- Chat Feed Scroll Area -->
+                <div id="nabras-chat-feed" class="flex-1 overflow-y-auto px-1 sm:px-2 space-y-3 custom-scrollbar flex flex-col">
+                    <!-- Messages will be injected by nabras-ai.js -->
+                </div>
+
+                <!-- Quick Prompt Suggestions Chips -->
+                <div class="pt-2 pb-1 border-t border-brand-borderSubtle">
+                    <div class="flex items-center gap-1.5 text-[10px] text-brand-muted font-mono mb-1.5 px-1">
+                        <i class="fa-solid fa-wand-magic-sparkles text-brand-gold text-[9px]"></i>
+                        <span>Suggestions rapides :</span>
+                    </div>
+                    <div id="nabras-suggestions-container" class="flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar">
+                        <!-- Chips injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Input Action Bar -->
+                <div class="pt-2 flex items-end gap-2">
+                    <div class="flex-1 relative rounded-2xl bg-brand-darker border border-brand-gold/40 focus-within:border-brand-gold transition shadow-inner">
+                        <textarea id="nabras-chat-input" rows="1"
+                            placeholder="Sawel Nabras f ay dars, exercice, wla tleb motivation..."
+                            class="w-full bg-transparent px-3.5 py-2.5 text-xs sm:text-sm text-white placeholder-brand-muted/70 focus:outline-none resize-none max-h-28 custom-scrollbar font-outfit"></textarea>
+                    </div>
+                    <button id="nabras-send-btn" title="Envoyer le message (Entrée)"
+                        class="h-10 px-4 rounded-2xl bg-gradient-to-r from-brand-cherry to-brand-cherryDark border border-brand-gold hover:border-brand-goldLight text-brand-goldLight hover:text-white font-outfit font-black text-xs flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(158,24,56,0.6)] active:scale-95 transition shrink-0 group">
+                        <span class="hidden sm:inline">Envoyer</span>
+                        <i class="fa-solid fa-paper-plane text-xs text-brand-gold group-hover:translate-x-0.5 transition-transform"></i>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
     </main>
 
     <!-- Floating Reactions Bar (Tucked cleanly at bottom-right) -->
@@ -1954,6 +2089,20 @@
                 <span class="text-[9px] font-mono text-brand-muted">StudySouk Elite</span>
             </div>
             <div class="flex flex-col gap-1">
+                <button data-tab="tab-nabras"
+                    class="nav-tab-btn more-tab-item flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-brand-muted hover:text-white hover:bg-white/5 transition text-left group">
+                    <div
+                        class="w-7 h-7 rounded-lg bg-brand-cherry/80 border border-brand-gold/40 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow-sm">
+                        <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
+                    </div>
+                    <div>
+                        <div class="font-outfit font-black text-white text-xs flex items-center gap-1.5">
+                            <span>Nabras AI</span>
+                            <span class="px-1.5 py-0.2 rounded text-[8px] font-mono bg-brand-gold/20 text-brand-goldLight border border-brand-gold/40">3 Langues</span>
+                        </div>
+                        <div class="text-[10px] text-brand-muted font-normal">Tuteur intelligent • شرح وتحفيز</div>
+                    </div>
+                </button>
                 <button data-tab="tab-duel"
                     class="nav-tab-btn more-tab-item flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-brand-muted hover:text-white hover:bg-white/5 transition text-left group">
                     <div
@@ -2011,6 +2160,14 @@
                 <span class="text-[10px] sm:text-xs font-black font-outfit truncate leading-none">Chrono</span>
             </button>
 
+            <!-- 2. Nabras AI (Tuteur Intelligent) -->
+            <button data-tab="tab-nabras"
+                class="nav-tab-btn flex-1 flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 py-1.5 sm:py-2 px-1 sm:px-2 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent group active:scale-95">
+                <i
+                    class="fa-solid fa-wand-magic-sparkles text-sm sm:text-base text-brand-gold group-hover:scale-110 transition"></i>
+                <span class="text-[10px] sm:text-xs font-black font-outfit truncate leading-none">Nabras AI</span>
+            </button>
+
             <!-- 2. Maktaba (149 Volumes) -->
             <button data-tab="tab-library"
                 class="nav-tab-btn flex-1 flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 py-1.5 sm:py-2 px-1 sm:px-2 rounded-xl text-xs font-bold transition text-brand-muted hover:text-white border border-transparent group active:scale-95">
@@ -2053,6 +2210,16 @@
             </button>
         </div>
     </footer>
+
+    <!-- Floating Nabras AI Quick Mascot Button (Available on any screen) -->
+    <button id="btn-floating-nabras" title="Ouvrir Nabras AI (نبراس - المساعد الأكاديمي)"
+        class="fixed bottom-16 right-3 sm:right-5 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-brand-cherryDark via-brand-cherry to-brand-cherryLight border-2 border-brand-gold shadow-[0_0_20px_rgba(217,119,6,0.6)] flex items-center justify-center text-brand-gold hover:scale-105 active:scale-95 transition group cursor-pointer">
+        <img src="assets/designs/studysouk_logo_clean_cutout.png" alt="Nabras AI" class="w-7 h-7 sm:w-8 sm:h-8 object-contain filter drop-shadow group-hover:rotate-12 transition duration-300">
+        <span class="absolute -top-1 -right-1 flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-gold opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-gold"></span>
+        </span>
+    </button>
 
     <!-- PDF & DOCUMENT READER MODAL (HIGH PERFORMANCE PDF.JS VIEWER) -->
     <div id="library-reader-modal"
@@ -2872,6 +3039,7 @@
     <script src="flashcards.js?v=2.4"></script>
     <script src="scratchpad.js?v=2.4"></script>
     <script src="library.js?v=2.4"></script>
+    <script src="nabras-ai.js?v=2.4"></script>
     <script src="app.js?v=2.4"></script>
 </body>
 
