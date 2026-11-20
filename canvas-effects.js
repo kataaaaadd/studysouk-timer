@@ -96,7 +96,25 @@ class AmbientCanvas {
         this.mathGlyphs = [];
 
         // 1. Initialize Particles based on Theme
-        if (this.theme === 'cherry' || this.theme === 'fire') {
+        if (this.theme === 'owl') {
+            // Owl Nocturnal Wisdom Theme (Golden Amber Fireflies, Ethereal Embers & Velvet Glow)
+            this.maxParticles = 75;
+            for (let i = 0; i < this.maxParticles; i++) {
+                const isAmberGold = Math.random() > 0.3;
+                this.particles.push({
+                    x: Math.random() * this.width,
+                    y: Math.random() * this.height,
+                    size: Math.random() * 3.2 + 1.0,
+                    speedY: Math.random() * 0.7 + 0.25, // Gentle hovering float
+                    speedX: (Math.random() - 0.5) * 0.6,
+                    opacity: Math.random() * 0.75 + 0.25,
+                    decay: Math.random() * 0.002 + 0.0008,
+                    pulse: Math.random() * Math.PI * 2,
+                    pulseSpeed: Math.random() * 0.035 + 0.015,
+                    color: isAmberGold ? (Math.random() > 0.5 ? '#F5C542' : '#FFD700') : '#B8234B'
+                });
+            }
+        } else if (this.theme === 'cherry' || this.theme === 'fire') {
             this.maxParticles = 60;
             for (let i = 0; i < this.maxParticles; i++) {
                 this.particles.push({
@@ -142,17 +160,18 @@ class AmbientCanvas {
 
         // 2. Initialize Floating Ethereal Mathematical Glyphs (CPGE Prestige)
         for (let i = 0; i < this.maxGlyphs; i++) {
+            const isOwl = (this.theme === 'owl');
             this.mathGlyphs.push({
                 text: this.glyphPool[i % this.glyphPool.length],
                 x: Math.random() * (this.width - 120) + 40,
                 y: Math.random() * this.height,
                 speedY: Math.random() * 0.35 + 0.15, // Ultra slow, elegant upward drift
                 speedX: (Math.random() - 0.5) * 0.15,
-                opacity: Math.random() * 0.08 + 0.04, // Very subtle watermark level
-                baseOpacity: Math.random() * 0.08 + 0.04,
+                opacity: isOwl ? 0.12 : (Math.random() * 0.08 + 0.04),
+                baseOpacity: isOwl ? 0.12 : (Math.random() * 0.08 + 0.04),
                 phase: Math.random() * Math.PI * 2,
                 fontSize: Math.floor(Math.random() * 4 + 12),
-                color: Math.random() > 0.4 ? '#CBD5E1' : '#9E1838'
+                color: isOwl ? (Math.random() > 0.35 ? '#F5C542' : '#E2E8F0') : (Math.random() > 0.4 ? '#CBD5E1' : '#9E1838')
             });
         }
     }
@@ -171,9 +190,15 @@ class AmbientCanvas {
                 this.mouse.x, this.mouse.y, 0,
                 this.mouse.x, this.mouse.y, 220
             );
-            radGlow.addColorStop(0, 'rgba(226, 232, 240, 0.045)');
-            radGlow.addColorStop(0.5, 'rgba(122, 14, 39, 0.035)');
-            radGlow.addColorStop(1, 'transparent');
+            if (this.theme === 'owl') {
+                radGlow.addColorStop(0, 'rgba(245, 197, 66, 0.08)');
+                radGlow.addColorStop(0.5, 'rgba(138, 21, 56, 0.05)');
+                radGlow.addColorStop(1, 'transparent');
+            } else {
+                radGlow.addColorStop(0, 'rgba(226, 232, 240, 0.045)');
+                radGlow.addColorStop(0.5, 'rgba(122, 14, 39, 0.035)');
+                radGlow.addColorStop(1, 'transparent');
+            }
             
             this.ctx.fillStyle = radGlow;
             this.ctx.fillRect(this.mouse.x - 220, this.mouse.y - 220, 440, 440);
@@ -202,7 +227,32 @@ class AmbientCanvas {
         this.ctx.restore();
 
         // --- LAYER 2: AMBIENT PARTICLES ---
-        if (this.theme === 'cherry' || this.theme === 'fire') {
+        if (this.theme === 'owl') {
+            for (const p of this.particles) {
+                p.pulse += p.pulseSpeed;
+                const dynamicSize = p.size + Math.sin(p.pulse) * 0.6;
+
+                this.ctx.beginPath();
+                this.ctx.arc(p.x, p.y, Math.max(0.6, dynamicSize), 0, Math.PI * 2);
+                this.ctx.fillStyle = p.color;
+                this.ctx.globalAlpha = Math.max(0.1, Math.min(0.9, p.opacity + Math.sin(p.pulse) * 0.25));
+                this.ctx.shadowBlur = 12;
+                this.ctx.shadowColor = p.color;
+                this.ctx.fill();
+
+                p.y -= p.speedY;
+                p.x += p.speedX;
+                p.opacity -= p.decay;
+
+                if (p.opacity <= 0.05 || p.y < -20) {
+                    p.y = this.height + 20;
+                    p.x = Math.random() * this.width;
+                    p.opacity = Math.random() * 0.75 + 0.25;
+                }
+            }
+            this.ctx.globalAlpha = 1.0;
+            this.ctx.shadowBlur = 0;
+        } else if (this.theme === 'cherry' || this.theme === 'fire') {
             for (const p of this.particles) {
                 p.pulse += 0.03;
                 const dynamicSize = p.size + Math.sin(p.pulse) * 0.4;

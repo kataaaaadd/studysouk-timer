@@ -118,6 +118,21 @@ class LevelSystem {
         const userFiliere = targetUser ? (targetUser.filiere || "CPGE MP*") : (localStorage.getItem("ss_user_filiere") || "CPGE MP*");
         const userBio = targetUser ? (targetUser.bio || "Objectif Concours 2026") : (localStorage.getItem("ss_user_bio") || "« La rigueur surclasse l'improvisation »");
 
+        // Role & Track Distinction (Élève vs Étudiant)
+        const isEleve = userFiliere.includes("1BAC") || userFiliere.includes("2BAC") || userFiliere.includes("Tronc") || userFiliere.includes("Collège");
+        const defaultRole = isEleve ? "Élève Lycéen(ne)" : "Étudiant(e) Chercheur";
+        const userRoleType = targetUser ? (targetUser.roleType || defaultRole) : (localStorage.getItem("ss_user_role_type") || defaultRole);
+
+        const defaultSchool = isEleve ? "Lycée Moulay Youssef (Rabat)" : (userFiliere.includes("CPGE") ? "CPGE Moulay Idriss (Fès)" : (userFiliere.includes("Médecine") ? "Faculté de Médecine FMP" : "Grande École & Université"));
+        const userSchool = targetUser ? (targetUser.school || defaultSchool) : (localStorage.getItem("ss_user_school") || defaultSchool);
+
+        let massar = targetUser ? (targetUser.massar || "MSR-2026-????") : localStorage.getItem("ss_user_massar");
+        if (!massar && !targetUser) {
+            const letter = ["G", "R", "K", "D", "B", "M", "L"][Math.floor(Math.random() * 7)];
+            massar = letter + Math.floor(10000000 + Math.random() * 90000000);
+            localStorage.setItem("ss_user_massar", massar);
+        }
+
         let matricule = targetUser ? (targetUser.matricule || "SS-2026-????") : localStorage.getItem("ss_matricule");
         if (!matricule && !targetUser) {
             matricule = "SS-2026-" + Math.floor(1000 + Math.random() * 9000);
@@ -126,7 +141,7 @@ class LevelSystem {
 
         const userLevel = targetUser ? (targetUser.level || 1) : myInfo.level;
         const userRankTitle = targetUser ? (targetUser.rankTitle || targetUser.rank || "Major de Promotion 🥇") : `${myInfo.rank.icon} ${myInfo.rank.title}`;
-        const userRankDesc = targetUser ? `Étudiant STEM • Filière ${userFiliere}` : myInfo.rank.desc;
+        const userRankDesc = targetUser ? `${userRoleType} • Filière ${userFiliere}` : myInfo.rank.desc;
 
         const sessions = targetUser ? (targetUser.sessions || (targetUser.focusMinutes ? Math.max(1, Math.floor(targetUser.focusMinutes / 25)) : 0)) : parseInt(localStorage.getItem("ss_timer_sessions") || "0", 10);
         const minutes = targetUser ? (targetUser.focusMinutes || 0) : parseInt(localStorage.getItem("ss_timer_minutes") || "0", 10);
@@ -134,6 +149,28 @@ class LevelSystem {
         const duelsWon = targetUser ? (targetUser.duelsWon || 0) : parseInt(localStorage.getItem("ss_duels_won") || "0", 10);
 
         // Set card values
+        const elHeaderMinistry = document.getElementById("sc-header-ministry");
+        const elHeaderTitle = document.getElementById("sc-header-card-title");
+        const elRoleTag = document.getElementById("sc-role-type");
+        const elSchool = document.getElementById("sc-school");
+        const elMassar = document.getElementById("sc-massar");
+
+        if (elHeaderMinistry) {
+            elHeaderMinistry.textContent = isEleve 
+                ? "ROYAUME DU MAROC • MINISTÈRE DE L'ÉDUCATION NATIONALE"
+                : "ROYAUME DU MAROC • ENSEIGNEMENT SUPÉRIEUR & RECHERCHE";
+        }
+        if (elHeaderTitle) {
+            elHeaderTitle.textContent = isEleve 
+                ? "Carte d'Élève — Secondaire Qualifiant" 
+                : "Carte d'Étudiant — Supérieur & CPGE";
+        }
+        if (elRoleTag) {
+            elRoleTag.textContent = isEleve ? "🎒 ÉLÈVE" : "🎓 ÉTUDIANT";
+        }
+        if (elSchool) elSchool.textContent = userSchool;
+        if (elMassar) elMassar.textContent = massar;
+
         const elName = document.getElementById("sc-name");
         const elAvatar = document.getElementById("sc-avatar");
         const elFiliere = document.getElementById("sc-filiere-badge");

@@ -82,6 +82,22 @@ class StudySoukTimerApp {
         // 1. Init Ambient Particle Canvas
         if (window.AmbientCanvas) {
             this.canvas = new window.AmbientCanvas("ambient-canvas");
+            const savedTheme = localStorage.getItem("ss_active_theme") || "cherry";
+            if (this.canvas.setTheme) {
+                this.canvas.setTheme(savedTheme);
+            }
+            if (savedTheme === "owl") {
+                document.body.classList.add("theme-owl");
+            }
+            const targetBtn = document.querySelector(`[data-canvas-theme="${savedTheme}"]`);
+            if (targetBtn) {
+                document.querySelectorAll(".canvas-theme-btn").forEach(b => {
+                    b.classList.remove("bg-brand-cherry", "border-brand-gold", "text-brand-goldLight", "shadow");
+                    b.classList.add("glass-card", "border-brand-borderSubtle", "text-brand-muted");
+                });
+                targetBtn.classList.add("bg-brand-cherry", "border-brand-gold", "text-brand-goldLight", "shadow");
+                targetBtn.classList.remove("glass-card", "border-brand-borderSubtle", "text-brand-muted");
+            }
         }
 
         // 2. Init Academic Level & XP System
@@ -1066,6 +1082,12 @@ class StudySoukTimerApp {
                 });
                 btn.classList.add("bg-brand-cherry", "border-brand-gold", "text-brand-goldLight", "shadow");
                 btn.classList.remove("glass-card", "border-brand-borderSubtle", "text-brand-muted");
+                if (theme === "owl") {
+                    document.body.classList.add("theme-owl");
+                } else {
+                    document.body.classList.remove("theme-owl");
+                }
+                localStorage.setItem("ss_active_theme", theme);
                 this.showToast(`🌌 Atmosphère Visuelle : ${btn.querySelector(".leading-tight")?.textContent || theme}`);
             });
         });
@@ -1106,12 +1128,33 @@ class StudySoukTimerApp {
         const profileModal = document.getElementById("profile-modal");
         const nameInput = document.getElementById("profile-name-input");
         const filiereSelect = document.getElementById("profile-filiere-select");
+        const schoolInput = document.getElementById("profile-school-input");
         const bioInput = document.getElementById("profile-bio-input");
         const customAvatarInput = document.getElementById("profile-custom-avatar-input");
         const matriculeTag = document.getElementById("profile-matricule-tag");
         const avatarsGrid = document.getElementById("avatar-presets-grid");
+        const roleEleveBtn = document.getElementById("role-choice-eleve");
+        const roleEtudiantBtn = document.getElementById("role-choice-etudiant");
 
+        let currentRoleType = localStorage.getItem("ss_user_role_type") || "Étudiant";
         let selectedAvatarUrl = this.discordUser?.avatar || AVATAR_PRESETS[0].url;
+
+        const setRoleType = (type) => {
+            currentRoleType = type;
+            if (roleEleveBtn && roleEtudiantBtn) {
+                if (type === "Élève") {
+                    roleEleveBtn.className = "role-type-btn py-2 px-3 rounded-xl border border-brand-gold bg-brand-cherry text-brand-goldLight text-xs font-bold font-outfit flex items-center justify-center gap-1.5 transition shadow";
+                    roleEtudiantBtn.className = "role-type-btn py-2 px-3 rounded-xl border border-brand-borderSubtle bg-brand-darker text-brand-muted hover:text-white text-xs font-bold font-outfit flex items-center justify-center gap-1.5 transition";
+                } else {
+                    roleEtudiantBtn.className = "role-type-btn py-2 px-3 rounded-xl border border-brand-gold bg-brand-cherry text-brand-goldLight text-xs font-bold font-outfit flex items-center justify-center gap-1.5 transition shadow";
+                    roleEleveBtn.className = "role-type-btn py-2 px-3 rounded-xl border border-brand-borderSubtle bg-brand-darker text-brand-muted hover:text-white text-xs font-bold font-outfit flex items-center justify-center gap-1.5 transition";
+                }
+            }
+            updateLivePreview();
+        };
+
+        if (roleEleveBtn) roleEleveBtn.addEventListener("click", () => setRoleType("Élève"));
+        if (roleEtudiantBtn) roleEtudiantBtn.addEventListener("click", () => setRoleType("Étudiant"));
 
         const updateLivePreview = () => {
             const previewName = document.getElementById("profile-live-name");
@@ -1119,8 +1162,18 @@ class StudySoukTimerApp {
             const previewBio = document.getElementById("profile-live-bio");
             const previewAvatar = document.getElementById("profile-live-avatar");
 
-            if (previewName) previewName.textContent = nameInput?.value.trim() || "Étudiant StudySouk";
-            if (previewBadge) previewBadge.textContent = filiereSelect?.value || "CPGE MP*";
+            const selectedFiliere = filiereSelect?.value || "CPGE MP*";
+            // Auto-switch role if filiere is obviously high-school vs higher ed
+            if (selectedFiliere.includes("1BAC") || selectedFiliere.includes("2BAC") || selectedFiliere.includes("Tronc")) {
+                currentRoleType = "Élève";
+                if (roleEleveBtn && roleEtudiantBtn) {
+                    roleEleveBtn.className = "role-type-btn py-2 px-3 rounded-xl border border-brand-gold bg-brand-cherry text-brand-goldLight text-xs font-bold font-outfit flex items-center justify-center gap-1.5 transition shadow";
+                    roleEtudiantBtn.className = "role-type-btn py-2 px-3 rounded-xl border border-brand-borderSubtle bg-brand-darker text-brand-muted hover:text-white text-xs font-bold font-outfit flex items-center justify-center gap-1.5 transition";
+                }
+            }
+
+            if (previewName) previewName.textContent = nameInput?.value.trim() || (currentRoleType === "Élève" ? "Élève StudySouk" : "Étudiant StudySouk");
+            if (previewBadge) previewBadge.textContent = `${currentRoleType === "Élève" ? "🎒" : "🎓"} ${selectedFiliere}`;
             if (previewBio) previewBio.textContent = bioInput?.value.trim() ? `« ${bioInput.value.trim()} »` : "« La rigueur surclasse l'improvisation »";
             if (previewAvatar) {
                 const customUrl = customAvatarInput?.value.trim();
@@ -1130,14 +1183,17 @@ class StudySoukTimerApp {
 
         if (nameInput) nameInput.addEventListener("input", updateLivePreview);
         if (filiereSelect) filiereSelect.addEventListener("change", updateLivePreview);
+        if (schoolInput) schoolInput.addEventListener("input", updateLivePreview);
         if (bioInput) bioInput.addEventListener("input", updateLivePreview);
 
         document.getElementById("user-profile-trigger")?.addEventListener("click", () => {
             window.ambience?.playClick();
             if (nameInput) nameInput.value = this.discordUser.name || "";
             if (filiereSelect) filiereSelect.value = this.discordUser.filiere || "CPGE MP*";
+            if (schoolInput) schoolInput.value = localStorage.getItem("ss_user_school") || "";
             if (bioInput) bioInput.value = this.discordUser.bio || "";
             if (matriculeTag) matriculeTag.textContent = this.discordUser.matricule || "SS-2026-0001";
+            setRoleType(localStorage.getItem("ss_user_role_type") || (this.discordUser.filiere?.includes("BAC") ? "Élève" : "Étudiant"));
             if (customAvatarInput) {
                 const isPreset = AVATAR_PRESETS.some(p => p.url === this.discordUser.avatar);
                 customAvatarInput.value = isPreset ? "" : (this.discordUser.avatar || "");
@@ -1176,7 +1232,7 @@ class StudySoukTimerApp {
                 btn.addEventListener("click", () => {
                     selectedAvatarUrl = btn.dataset.avatar;
                     if (customAvatarInput) customAvatarInput.value = "";
-                    if (nameInput && (!nameInput.value.trim() || nameInput.value === "Étudiant StudySouk")) {
+                    if (nameInput && (!nameInput.value.trim() || nameInput.value.includes("StudySouk"))) {
                         nameInput.value = btn.dataset.name;
                     }
                     avatarsGrid.querySelectorAll(".avatar-pick-btn").forEach(b => b.classList.remove("border-brand-gold", "bg-brand-cherry/80"));
@@ -1200,6 +1256,7 @@ class StudySoukTimerApp {
         document.getElementById("btn-save-profile")?.addEventListener("click", () => {
             const newName = nameInput ? (nameInput.value.trim() || this.discordUser.name) : this.discordUser.name;
             const newFiliere = filiereSelect ? (filiereSelect.value || "CPGE MP*") : "CPGE MP*";
+            const newSchool = schoolInput ? schoolInput.value.trim() : "";
             const newBio = bioInput ? (bioInput.value.trim() || "Objectif Concours 2026") : "Objectif Concours 2026";
             const customUrl = customAvatarInput ? customAvatarInput.value.trim() : "";
             const newAvatar = customUrl || selectedAvatarUrl || this.discordUser.avatar;
@@ -1208,9 +1265,13 @@ class StudySoukTimerApp {
             this.discordUser.filiere = newFiliere;
             this.discordUser.bio = newBio;
             this.discordUser.avatar = newAvatar;
+            this.discordUser.school = newSchool;
+            this.discordUser.roleType = currentRoleType;
 
             localStorage.setItem("ss_user_name", newName);
             localStorage.setItem("ss_user_filiere", newFiliere);
+            localStorage.setItem("ss_user_school", newSchool);
+            localStorage.setItem("ss_user_role_type", currentRoleType);
             localStorage.setItem("ss_user_bio", newBio);
             localStorage.setItem("ss_user_avatar", newAvatar);
 
