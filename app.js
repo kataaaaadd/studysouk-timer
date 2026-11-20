@@ -155,70 +155,228 @@ class StudySoukTimerApp {
         console.log("%c[StudySouk Academy] Official Academic Activity Ready! 🎓", "color: #E2E8F0; font-weight: bold; font-size: 13px;");
     }
 
-    // --- CONCOURS COUNTDOWN HUB ---
+    // --- CONCOURS COUNTDOWN HUB (RIGHT FLANK SIDEBAR & GOAL STATION) ---
     startCountdownHub() {
-        const updateCountdowns = () => {
-            const now = new Date();
-            const currentYear = now.getFullYear();
+        this.targetExamKey = localStorage.getItem("ss_target_exam") || "bac";
 
-            // Next exam dates (Official Moroccan Academic Calendar GMT+1)
-            const getNextDate = (month, day, hour = 7, min = 0) => {
-                const currentUtcYear = now.getUTCFullYear();
-                const examUtcThisYear = new Date(Date.UTC(currentUtcYear, month - 1, day, hour, min, 0));
-                if (now.getTime() > examUtcThisYear.getTime()) {
-                    return new Date(Date.UTC(currentUtcYear + 1, month - 1, day, hour, min, 0));
-                }
-                return examUtcThisYear;
-            };
-
-            // 1. Examen National 2BAC (1, 2, 3 Juin): Starts 1 Juin 2027, 08:00 GMT+1
-            const bacDate = getNextDate(6, 1);
-            // 2. Examen Régional 1BAC (28, 29 Mai): Starts 28 Mai 2027, 08:00 GMT+1
-            const regioDate = getNextDate(5, 28);
-            // 3. CNC (Concours National Commun CPGE): Starts 14 Mai 2027, 08:00 GMT+1
-            const cncDate = getNextDate(5, 14);
-            // 4. Concours Français (Mines-Ponts / Centrale / CCINP): Starts 19 Avril 2027, 08:00 GMT+1
-            const frDate = getNextDate(4, 19);
-            // 5. Examens Facultés & Universités — Session d'Automne (S1/S3/S5): Starts 11 Janvier, 08:30 GMT+1
-            const automneDate = getNextDate(1, 11, 7, 30);
-            // 6. Examens Facultés & Universités — Session de Printemps (S2/S4/S6): Starts 24 Mai, 08:30 GMT+1
-            const printempsDate = getNextDate(5, 24, 7, 30);
-
-            const formatDiff = (target) => {
-                const diffMs = target.getTime() - Date.now();
-                if (diffMs <= 0) return "En cours !";
-                const totalSeconds = Math.floor(diffMs / 1000);
-                const days = Math.floor(totalSeconds / 86400);
-                const hours = Math.floor((totalSeconds % 86400) / 3600);
-                const minutes = Math.floor((totalSeconds % 3600) / 60);
-                return `${days}j ${hours}h ${minutes}m`;
-            };
-
-            const elBac = document.getElementById("countdown-bac");
-            const elRegio = document.getElementById("countdown-regio");
-            const elCnc = document.getElementById("countdown-cnc");
-            const elFr = document.getElementById("countdown-fr");
-            const elAutomne = document.getElementById("countdown-automne");
-            const elPrintemps = document.getElementById("countdown-printemps");
-            const elMini = document.getElementById("header-mini-countdown");
-            const elTicker = document.getElementById("ticker-countdown-text");
-
-            if (elBac) elBac.textContent = formatDiff(bacDate);
-            if (elRegio) elRegio.textContent = formatDiff(regioDate);
-            if (elCnc) elCnc.textContent = formatDiff(cncDate);
-            if (elFr) elFr.textContent = formatDiff(frDate);
-            if (elAutomne) elAutomne.textContent = formatDiff(automneDate);
-            if (elPrintemps) elPrintemps.textContent = formatDiff(printempsDate);
-
-            const bacDays = formatDiff(bacDate).split(" ")[0];
-            const cncDays = formatDiff(cncDate).split(" ")[0];
-            const regioDays = formatDiff(regioDate).split(" ")[0];
-            if (elMini) elMini.textContent = `Watani: ${bacDays}`;
-            if (elTicker) elTicker.textContent = `Watani: ${bacDays} • CNC: ${cncDays} • Régional: ${regioDays}`;
+        const EXAMS = {
+            bac: {
+                id: "bac",
+                name: "Examen National 2BAC (Watani)",
+                badge: "Watani 2BAC",
+                icon: "🎯",
+                filieres: "SM-A, SM-B, PC, SVT, STE, STM",
+                dateText: "1, 2, 3 Juin",
+                month: 6, day: 1, hour: 7, min: 0,
+                advices: [
+                    "Priorité absolue à la résolution des examens nationaux de 2018 à 2025 sous chronomètre réel !",
+                    "La rigueur de rédaction mathématique rapporte jusqu'à 30% des points au Bac SM/PC.",
+                    "En Physique-Chimie, maîtrisez la méthode d'Euler, la RLC et les dosages acido-basiques."
+                ]
+            },
+            cnc: {
+                id: "cnc",
+                name: "Concours National Commun (CNC CPGE)",
+                badge: "CPGE Maroc",
+                icon: "🏛️",
+                filieres: "Classes Prépas MP, PSI, TSI, BCPST",
+                dateText: "14 au 20 Mai",
+                month: 5, day: 14, hour: 7, min: 0,
+                advices: [
+                    "Visez les questions faciles et classiques du début de problème pour sécuriser l'admissibilité.",
+                    "Chaque minute compte au CNC. Entraînez-vous à poser les intégrales et matrices sans hésitation.",
+                    "Le Major CNC se démarque par sa clarté et sa propreté de copie."
+                ]
+            },
+            regio: {
+                id: "regio",
+                name: "Examen Régional 1BAC",
+                badge: "Régional 1BAC",
+                icon: "📝",
+                filieres: "Français, Éduc Islamique, Histoire-Géo, Arabe",
+                dateText: "28, 29 Mai",
+                month: 5, day: 28, hour: 7, min: 0,
+                advices: [
+                    "L'Examen Régional pèse 25% de votre note finale du Bac : assurez une mention dès maintenant !",
+                    "Relisez les œuvres (Le Dernier Jour, Antigone, La Boîte à Merveilles) avec leurs axes thématiques.",
+                    "En production écrite, soignez le plan dialectique et les connecteurs logiques."
+                ]
+            },
+            fr: {
+                id: "fr",
+                name: "Concours Français CPGE",
+                badge: "Mines / Centrale / X",
+                icon: "🇫🇷",
+                filieres: "Mines-Ponts, Centrale-Supélec, CCINP, X-ENS",
+                dateText: "19 Avril au 7 Mai",
+                month: 4, day: 19, hour: 7, min: 0,
+                advices: [
+                    "Les écrits des concours français exigent une analyse pointue des hypothèses des théorèmes.",
+                    "Ne bloquez jamais sur une question : sautez et avancez sur les questions indépendantes."
+                ]
+            },
+            automne: {
+                id: "automne",
+                name: "Examens Facultés (Automne S1)",
+                badge: "Universités S1/S3/S5",
+                icon: "❄️",
+                filieres: "FST, FS, ENSA, ENCG, EST, Facultés",
+                dateText: "11 Janvier",
+                month: 1, day: 11, hour: 7, min: 30,
+                advices: [
+                    "Validez vos modules dès la Session Normale pour aborder le S2 avec sérénité et sans rattrapage !"
+                ]
+            },
+            medecine: {
+                id: "medecine",
+                name: "Concours Médecine & Pharmacie",
+                badge: "FMP / FMD 2026",
+                icon: "🩺",
+                filieres: "Facultés de Médecine, Dentaire, Pharmacie",
+                dateText: "15 Juillet",
+                month: 7, day: 15, hour: 7, min: 0,
+                advices: [
+                    "La vitesse de résolution des QCM de SVT et Chimie organique fera toute la différence !"
+                ]
+            }
         };
 
+        const getNextExamDate = (month, day, hour = 7, min = 0) => {
+            const now = new Date();
+            const currentUtcYear = now.getUTCFullYear();
+            const examUtcThisYear = new Date(Date.UTC(currentUtcYear, month - 1, day, hour, min, 0));
+            if (now.getTime() > examUtcThisYear.getTime()) {
+                return new Date(Date.UTC(currentUtcYear + 1, month - 1, day, hour, min, 0));
+            }
+            return examUtcThisYear;
+        };
+
+        const updateCountdowns = () => {
+            const now = new Date();
+
+            // 1. Update Hero Exam Card
+            const heroConfig = EXAMS[this.targetExamKey] || EXAMS.bac;
+            const heroDate = getNextExamDate(heroConfig.month, heroConfig.day, heroConfig.hour, heroConfig.min);
+            const diffMs = heroDate.getTime() - now.getTime();
+
+            const totalSeconds = Math.max(0, Math.floor(diffMs / 1000));
+            const days = Math.floor(totalSeconds / 86400);
+            const hours = Math.floor((totalSeconds % 86400) / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            const elHeroBadge = document.getElementById("hero-cd-badge");
+            const elHeroDateText = document.getElementById("hero-cd-datetext");
+            const elHeroTitle = document.getElementById("hero-cd-title");
+            const elHeroFilieres = document.getElementById("hero-cd-filieres");
+            const elDays = document.getElementById("hero-cd-days");
+            const elHours = document.getElementById("hero-cd-hours");
+            const elMins = document.getElementById("hero-cd-mins");
+            const elSecs = document.getElementById("hero-cd-secs");
+
+            if (elHeroBadge) elHeroBadge.textContent = heroConfig.badge;
+            if (elHeroDateText) elHeroDateText.textContent = heroConfig.dateText;
+            if (elHeroTitle) elHeroTitle.textContent = heroConfig.name;
+            if (elHeroFilieres) elHeroFilieres.textContent = heroConfig.filieres;
+            if (elDays) elDays.textContent = days;
+            if (elHours) elHours.textContent = String(hours).padStart(2, "0");
+            if (elMins) elMins.textContent = String(minutes).padStart(2, "0");
+            if (elSecs) elSecs.textContent = String(seconds).padStart(2, "0");
+
+            // School year progress (Assuming school year started Sept 1)
+            const schoolYearStartYear = (now.getUTCMonth() >= 8) ? now.getUTCFullYear() : now.getUTCFullYear() - 1;
+            const schoolYearStart = new Date(Date.UTC(schoolYearStartYear, 8, 1));
+            const totalDuration = heroDate.getTime() - schoolYearStart.getTime();
+            const elapsed = now.getTime() - schoolYearStart.getTime();
+            const progressPct = Math.min(100, Math.max(0, (elapsed / totalDuration) * 100)).toFixed(1);
+
+            const elProgPct = document.getElementById("hero-cd-progress-pct");
+            const elProgBar = document.getElementById("hero-cd-progress-bar");
+            if (elProgPct) elProgPct.textContent = `${progressPct}%`;
+            if (elProgBar) elProgBar.style.width = `${progressPct}%`;
+
+            // Dynamic Advice from Nabras
+            const adviceEl = document.getElementById("sidebar-nabras-tip");
+            if (adviceEl && heroConfig.advices?.length > 0) {
+                const adviceIdx = Math.floor(days / 15) % heroConfig.advices.length;
+                adviceEl.textContent = heroConfig.advices[adviceIdx];
+            }
+
+            // 2. Render Other Moroccan Concours List
+            const listContainer = document.getElementById("sidebar-countdown-list");
+            if (listContainer) {
+                const otherExams = Object.values(EXAMS).filter(e => e.id !== this.targetExamKey);
+                listContainer.innerHTML = otherExams.map(ex => {
+                    const exDate = getNextExamDate(ex.month, ex.day, ex.hour, ex.min);
+                    const exDiff = Math.max(0, Math.floor((exDate.getTime() - now.getTime()) / (1000 * 86400)));
+                    return `
+                        <div data-target="${ex.id}" class="sidebar-exam-item p-2 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold/60 flex items-center justify-between text-xs cursor-pointer transition active:scale-[0.98] group">
+                            <div class="flex items-center gap-2 truncate">
+                                <span class="text-xs group-hover:scale-110 transition shrink-0">${ex.icon}</span>
+                                <div class="truncate">
+                                    <span class="font-bold text-white group-hover:text-brand-goldLight text-[11px] block truncate font-outfit">
+                                        ${ex.name}
+                                    </span>
+                                    <span class="text-[9px] text-brand-muted font-mono block">
+                                        ${ex.dateText}
+                                    </span>
+                                </div>
+                            </div>
+                            <span class="px-2 py-0.5 rounded-lg text-[10px] font-mono font-black bg-brand-darker text-brand-goldLight border border-brand-borderSubtle group-hover:bg-brand-cherry group-hover:border-brand-gold transition shrink-0">
+                                J-${exDiff}
+                            </span>
+                        </div>
+                    `;
+                }).join("");
+
+                // Attach click to switch target
+                listContainer.querySelectorAll(".sidebar-exam-item").forEach(item => {
+                    item.addEventListener("click", () => {
+                        const targetId = item.dataset.target;
+                        if (targetId && EXAMS[targetId]) {
+                            window.ambience?.playClick();
+                            this.setTargetExam(targetId);
+                        }
+                    });
+                });
+            }
+
+            // 3. Mini header badge & floating mobile badge
+            const elMini = document.getElementById("header-mini-countdown");
+            const elFloating = document.getElementById("floating-mobile-cd-days");
+            if (elMini) elMini.textContent = `${heroConfig.badge}: J-${days}`;
+            if (elFloating) elFloating.textContent = `J-${days}`;
+        };
+
+        // Bind Target Chips
+        document.querySelectorAll(".target-exam-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const examKey = btn.dataset.exam;
+                if (examKey && EXAMS[examKey]) {
+                    window.ambience?.playClick();
+                    this.setTargetExam(examKey);
+                }
+            });
+        });
+
         updateCountdowns();
-        setInterval(updateCountdowns, 10000);
+        if (this.countdownHubTimer) clearInterval(this.countdownHubTimer);
+        this.countdownHubTimer = setInterval(updateCountdowns, 1000);
+    }
+
+    setTargetExam(targetKey) {
+        this.targetExamKey = targetKey;
+        localStorage.setItem("ss_target_exam", targetKey);
+
+        document.querySelectorAll(".target-exam-btn").forEach(btn => {
+            if (btn.dataset.exam === targetKey) {
+                btn.className = "target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate bg-brand-cherry text-brand-goldLight border-brand-gold font-black shadow-md";
+            } else {
+                btn.className = "target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate glass-card border-brand-borderSubtle text-brand-muted hover:text-white";
+            }
+        });
+
+        this.startCountdownHub();
     }
 
     // --- OFFICIAL MOROCCO REAL-TIME CLOCK ---
@@ -1403,24 +1561,31 @@ class StudySoukTimerApp {
             }
         });
 
-        // 4. Countdowns & Concours Modal
-        const countdownsModal = document.getElementById("countdowns-modal");
-        const openCountdowns = () => {
+        // 4. Countdowns & Concours Right Sidebar / Mobile Drawer ("f jnb l-imn")
+        const sidebar = document.getElementById("panel-countdowns-sidebar");
+        const backdrop = document.getElementById("countdown-drawer-backdrop");
+
+        const openSidebarDrawer = () => {
             window.ambience?.playClick();
-            countdownsModal?.classList.remove("hidden");
-            countdownsModal?.classList.add("flex");
-        };
-        const closeCountdowns = () => {
-            countdownsModal?.classList.add("hidden");
-            countdownsModal?.classList.remove("flex");
+            if (window.innerWidth < 1024) {
+                sidebar?.classList.add("mobile-drawer-open");
+                backdrop?.classList.remove("hidden");
+            } else {
+                sidebar?.classList.add("ring-2", "ring-brand-gold", "scale-[1.02]");
+                setTimeout(() => sidebar?.classList.remove("ring-2", "ring-brand-gold", "scale-[1.02]"), 600);
+                sidebar?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }
         };
 
-        document.getElementById("btn-open-countdowns")?.addEventListener("click", openCountdowns);
-        document.getElementById("bar-open-countdowns")?.addEventListener("click", openCountdowns);
-        document.getElementById("btn-close-countdowns")?.addEventListener("click", closeCountdowns);
-        countdownsModal?.addEventListener("click", (e) => {
-            if (e.target === countdownsModal) closeCountdowns();
-        });
+        const closeSidebarDrawer = () => {
+            sidebar?.classList.remove("mobile-drawer-open");
+            backdrop?.classList.add("hidden");
+        };
+
+        document.getElementById("btn-open-countdowns")?.addEventListener("click", openSidebarDrawer);
+        document.getElementById("btn-mobile-sidebar-tab")?.addEventListener("click", openSidebarDrawer);
+        document.getElementById("btn-close-mobile-drawer")?.addEventListener("click", closeSidebarDrawer);
+        backdrop?.addEventListener("click", closeSidebarDrawer);
 
         document.getElementById("btn-copy-room-link")?.addEventListener("click", () => {
             const url = new URL(window.location.href);
