@@ -200,6 +200,8 @@ class StudySoukTimerApp {
             const elFr = document.getElementById("countdown-fr");
             const elAutomne = document.getElementById("countdown-automne");
             const elPrintemps = document.getElementById("countdown-printemps");
+            const elMini = document.getElementById("header-mini-countdown");
+            const elTicker = document.getElementById("ticker-countdown-text");
 
             if (elBac) elBac.textContent = formatDiff(bacDate);
             if (elRegio) elRegio.textContent = formatDiff(regioDate);
@@ -207,6 +209,12 @@ class StudySoukTimerApp {
             if (elFr) elFr.textContent = formatDiff(frDate);
             if (elAutomne) elAutomne.textContent = formatDiff(automneDate);
             if (elPrintemps) elPrintemps.textContent = formatDiff(printempsDate);
+
+            const bacDays = formatDiff(bacDate).split(" ")[0];
+            const cncDays = formatDiff(cncDate).split(" ")[0];
+            const regioDays = formatDiff(regioDate).split(" ")[0];
+            if (elMini) elMini.textContent = `Watani: ${bacDays}`;
+            if (elTicker) elTicker.textContent = `Watani: ${bacDays} • CNC: ${cncDays} • Régional: ${regioDays}`;
         };
 
         updateCountdowns();
@@ -1319,6 +1327,25 @@ class StudySoukTimerApp {
         document.getElementById("btn-close-invite")?.addEventListener("click", () => {
             inviteModal?.classList.add("hidden");
             inviteModal?.classList.remove("flex");
+        });
+
+        // 4. Countdowns & Concours Modal
+        const countdownsModal = document.getElementById("countdowns-modal");
+        const openCountdowns = () => {
+            window.ambience?.playClick();
+            countdownsModal?.classList.remove("hidden");
+            countdownsModal?.classList.add("flex");
+        };
+        const closeCountdowns = () => {
+            countdownsModal?.classList.add("hidden");
+            countdownsModal?.classList.remove("flex");
+        };
+
+        document.getElementById("btn-open-countdowns")?.addEventListener("click", openCountdowns);
+        document.getElementById("bar-open-countdowns")?.addEventListener("click", openCountdowns);
+        document.getElementById("btn-close-countdowns")?.addEventListener("click", closeCountdowns);
+        countdownsModal?.addEventListener("click", (e) => {
+            if (e.target === countdownsModal) closeCountdowns();
         });
 
         document.getElementById("btn-copy-room-link")?.addEventListener("click", () => {
