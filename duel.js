@@ -564,6 +564,20 @@ class DuelArena {
                             </div>
                         </div>
                     ` : ''}
+                    ${this.mode === 'multiplayer' ? `
+                        <div class="p-3 rounded-2xl bg-brand-darker border border-cyan-500/30 text-xs font-outfit space-y-2">
+                            <div class="flex items-center justify-between text-[11px] font-bold text-cyan-300">
+                                <span class="flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                                    Membres du salon vocal (1v1 Live) :
+                                </span>
+                                <span class="text-[10px] text-brand-muted font-mono font-normal">Multiplayer Actif</span>
+                            </div>
+                            <div class="flex flex-wrap gap-1.5 pt-0.5">
+                                ${this.renderVoiceRoomPeers()}
+                            </div>
+                        </div>
+                    ` : ''}
                 </div>
 
                 <!-- START BUTTON -->
@@ -762,6 +776,18 @@ class DuelArena {
                     </div>
                 </div>
 
+                <!-- LIVE 1v1 INTERACTIVE REACTIONS DOCK -->
+                ${(this.mode === 'multiplayer' || this.opponentUser) ? `
+                    <div class="flex items-center justify-center gap-2 pt-1 font-outfit">
+                        <span class="text-[10px] text-brand-muted font-bold mr-1">Réagir :</span>
+                        ${['🔥', '💀', '🧠', '⚡', '🦉', '👏'].map(em => `
+                            <button data-emoji="${em}" class="duel-reaction-btn w-8 h-8 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold text-sm flex items-center justify-center transition active:scale-90 hover:scale-110 shadow-sm" title="Envoyer une réaction">
+                                ${em}
+                            </button>
+                        `).join('')}
+                    </div>
+                ` : ''}
+
                 <!-- ROUND FEEDBACK MODAL / DRAWER -->
                 <div id="duel-feedback-container" class="hidden"></div>
             </div>
@@ -776,6 +802,20 @@ class DuelArena {
                 if (this.isRoundFinished) return;
                 const chosenLetter = btn.dataset.letter;
                 this.handleAnswer(chosenLetter);
+            });
+        });
+
+        document.querySelectorAll(".duel-reaction-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const em = btn.dataset.emoji;
+                window.ambience?.playClick();
+                this.showFloatingDuelReaction(em, "Moi");
+                if (this.mode === "multiplayer" && window.roomSync) {
+                    window.roomSync.sendDuel("reaction", {
+                        challengeId: this.currentChallengeId,
+                        emoji: em
+                    });
+                }
             });
         });
     }
@@ -926,6 +966,52 @@ class DuelArena {
         window.levelSystem?.addXP(xpEarned, "Épreuve Concours QCM");
         window.studyApp?.triggerConfetti?.();
 
+        let versusHtml = "";
+        if (this.mode === "multiplayer" || (this.mode === "ai" && this.opponentUser)) {
+            const oppName = this.opponentUser ? this.opponentUser.name : "Adversaire";
+            const myScore = this.playerScore;
+            const oppScore = this.opponentScore;
+            
+            let outcomeTitle = "";
+            let outcomeColor = "";
+            let outcomeIcon = "";
+            if (myScore > oppScore) {
+                outcomeTitle = "👑 VICTOIRE ÉCLATANTE !";
+                outcomeColor = "text-emerald-400";
+                outcomeIcon = "fa-trophy";
+            } else if (myScore < oppScore) {
+                outcomeTitle = "⚔️ DÉFAITE HONORABLE";
+                outcomeColor = "text-rose-400";
+                outcomeIcon = "fa-shield";
+            } else {
+                outcomeTitle = "🤝 ÉGALITÉ PARFAITE !";
+                outcomeColor = "text-amber-300";
+                outcomeIcon = "fa-handshake";
+            }
+
+            versusHtml = `
+                <div class="p-3.5 rounded-2xl bg-brand-darker border border-brand-gold/40 text-center space-y-2.5 shadow-inner">
+                    <div class="text-xs font-black ${outcomeColor} font-outfit uppercase tracking-wider flex items-center justify-center gap-1.5">
+                        <i class="fa-solid ${outcomeIcon}"></i>
+                        ${outcomeTitle}
+                    </div>
+                    <div class="flex items-center justify-center gap-6 font-outfit">
+                        <div class="flex flex-col items-center gap-0.5">
+                            <span class="text-[11px] font-bold text-white">Toi</span>
+                            <span class="font-mono text-xl font-black text-brand-goldLight">${myScore} pts</span>
+                            ${myScore > oppScore ? '<span class="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-950 text-emerald-300 font-bold border border-emerald-500/30">Vainqueur 🏆</span>' : ''}
+                        </div>
+                        <span class="text-xs font-black text-brand-muted font-mono">VS</span>
+                        <div class="flex flex-col items-center gap-0.5">
+                            <span class="text-[11px] font-bold text-brand-muted truncate max-w-[110px]">${oppName}</span>
+                            <span class="font-mono text-xl font-black text-slate-300">${oppScore} pts</span>
+                            ${oppScore > myScore ? '<span class="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-950 text-emerald-300 font-bold border border-emerald-500/30">Vainqueur 🏆</span>' : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
         this.container.innerHTML = `
             <div class="flex flex-col items-center max-w-xl mx-auto space-y-4 w-full">
                 
@@ -941,6 +1027,8 @@ class DuelArena {
                             ${mention}
                         </div>
                     </div>
+
+                    ${versusHtml}
 
                     <!-- SCORE SUMMARY CARDS -->
                     <div class="grid grid-cols-3 gap-2 pt-1 font-outfit text-center">
@@ -1115,7 +1203,55 @@ class DuelArena {
                 const oppScoreEl = document.getElementById("duel-opp-score");
                 if (oppScoreEl) oppScoreEl.textContent = this.opponentScore;
             }
+        } else if (msg.action === "reaction") {
+            if (this.isPlaying && this.currentChallengeId === msg.challengeId) {
+                this.showFloatingDuelReaction(msg.emoji, msg.author?.name);
+            }
         }
+    }
+
+    showFloatingDuelReaction(emoji, senderName) {
+        const floater = document.createElement("div");
+        floater.className = "fixed bottom-24 right-6 pointer-events-none z-50 flex items-center gap-2 px-3 py-2 rounded-2xl glass-panel border border-brand-gold shadow-2xl animate-bounce text-sm font-bold font-outfit text-white backdrop-blur-md";
+        floater.innerHTML = `
+            <span class="text-2xl">${emoji}</span>
+            <span class="text-xs text-brand-goldLight font-mono">${senderName || 'Adversaire'}</span>
+        `;
+        document.body.appendChild(floater);
+        setTimeout(() => {
+            floater.style.transition = "all 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
+            floater.style.transform = "translateY(-70px) scale(1.1)";
+            floater.style.opacity = "0";
+            setTimeout(() => floater.remove(), 600);
+        }, 1400);
+    }
+
+    renderVoiceRoomPeers() {
+        if (!window.roomSync || !window.roomSync.roster) {
+            return `<span class="text-[10px] text-brand-muted italic">Connecté au salon vocal. Invite un camarade !</span>`;
+        }
+        const peers = [];
+        const myId = window.roomSync.currentUser?.id;
+        for (const [id, data] of window.roomSync.roster.entries()) {
+            if (data.user && data.user.id !== myId) {
+                peers.push(data.user);
+            }
+        }
+        if (peers.length === 0) {
+            return `
+                <div class="text-[10px] text-brand-muted py-1 flex items-center gap-2">
+                    <i class="fa-solid fa-user-group text-cyan-400"></i>
+                    <span>Invite un ami dans le salon vocal pour jouer en 1v1 direct !</span>
+                </div>
+            `;
+        }
+        return peers.map(p => `
+            <div class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-brand-card border border-brand-borderSubtle text-xs">
+                <img src="${(p.avatar && !p.avatar.includes('dicebear')) ? p.avatar : 'assets/avatars/default.svg'}" class="w-5 h-5 rounded-full border border-brand-gold object-cover">
+                <span class="font-bold text-white text-[11px]">${p.name}</span>
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 font-bold border border-emerald-500/30">Prêt</span>
+            </div>
+        `).join('');
     }
 
     acceptChallenge(challengeMsg) {

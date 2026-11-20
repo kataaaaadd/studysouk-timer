@@ -42,11 +42,19 @@ class FormulaScratchpad {
         this.isDrawing = false;
         this.currentColor = "#FFFFFF"; // StudySouk Platinum Silver
         this.currentSize = 3;
-        this.currentTool = "pen"; // "pen", "highlighter", "eraser"
+        this.currentTool = "pen"; // "pen", "highlighter", "laser", "eraser"
         this.lastX = 0;
         this.lastY = 0;
         this.points = [];
         this.history = []; // Undo stack (max 15 snapshots)
+
+        // Collaborative Multi-User State (2+ people live)
+        this.remoteCursors = new Map(); // senderId -> { el, timer }
+        this.hasContent = false;
+        this.lastCursorBroadcast = 0;
+        this.activeWhiteboardUsers = new Map(); // id -> { name, avatar, lastSeen }
+        this.writingIndicatorTimer = null;
+        this.localLaserTimer = null;
 
         this.initSyncListener();
     }
@@ -76,10 +84,14 @@ class FormulaScratchpad {
                     </div>
 
                     <div class="flex items-center gap-1.5">
-                        <span id="whiteboard-sync-badge" class="text-[10px] text-emerald-400 font-mono font-bold flex items-center gap-1.5 glass-card px-2.5 py-1 rounded-full border border-emerald-500/30">
+                        <div id="whiteboard-collaborators-badge" class="text-[10px] text-emerald-400 font-mono font-bold flex items-center gap-1.5 glass-card px-2.5 py-1 rounded-full border border-emerald-500/30 shadow-sm">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                            Multi-Joueurs Actif
-                        </span>
+                            <span id="whiteboard-presence-text">Collaboratif Live (2+)</span>
+                        </div>
+                        <button id="wb-force-sync-btn" title="Demander la dernière version du tableau aux camarades" class="px-2.5 py-1 rounded-full glass-card border border-brand-borderSubtle text-brand-muted hover:text-brand-goldLight text-[10px] font-bold transition flex items-center gap-1">
+                            <i class="fa-solid fa-arrows-rotate text-[9px]"></i>
+                            <span class="hidden sm:inline">Sync</span>
+                        </button>
                     </div>
                 </div>
 
@@ -96,6 +108,9 @@ class FormulaScratchpad {
                             </button>
                             <button id="wb-tool-highlighter" title="Surligneur Fluorescent" class="wb-tool-btn w-9 h-9 rounded-xl text-brand-muted hover:text-white border border-transparent flex items-center justify-center transition active:scale-90">
                                 <i class="fa-solid fa-highlighter text-sm"></i>
+                            </button>
+                            <button id="wb-tool-laser" title="Pointeur Laser Live (Pointez pour le salon)" class="wb-tool-btn w-9 h-9 rounded-xl text-brand-muted hover:text-white border border-transparent flex items-center justify-center transition active:scale-90 relative">
+                                <i class="fa-solid fa-bullseye text-sm text-rose-500"></i>
                             </button>
                             <button id="wb-tool-eraser" title="Gomme" class="wb-tool-btn w-9 h-9 rounded-xl text-brand-muted hover:text-white border border-transparent flex items-center justify-center transition active:scale-90">
                                 <i class="fa-solid fa-eraser text-sm"></i>
@@ -150,9 +165,18 @@ class FormulaScratchpad {
                         
                         <canvas id="whiteboard-canvas" width="1200" height="700" class="relative z-10 w-full h-full flex-1 cursor-crosshair touch-none"></canvas>
                         
+                        <!-- MULTI-USER LIVE CURSORS & LASERS OVERLAY -->
+                        <div id="whiteboard-remote-cursors" class="absolute inset-0 pointer-events-none z-30 overflow-hidden"></div>
+
                         <div class="absolute bottom-2 left-3 z-20 pointer-events-none text-[10px] text-brand-muted/80 font-mono flex items-center gap-1.5 bg-brand-darker/85 px-2.5 py-1 rounded-lg border border-brand-borderSubtle backdrop-blur-sm shadow-md">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <i class="fa-solid fa-pen text-[9px] text-brand-gold"></i> Tableau Grand Format • Synchronisé en direct avec le salon vocal
+                            <i class="fa-solid fa-users text-[9px] text-brand-gold"></i> Tableau Collaboratif 1v1+ • Tracés, Curseur & Laser en Direct
+                        </div>
+
+                        <!-- LIVE WRITING INDICATOR (Bottom Right) -->
+                        <div id="wb-writing-badge" class="absolute bottom-2 right-3 z-20 pointer-events-none text-[10px] text-brand-goldLight font-mono flex items-center gap-1.5 bg-brand-darker/90 px-2.5 py-1 rounded-lg border border-brand-gold/30 backdrop-blur-sm shadow-md transition-opacity duration-300 opacity-0">
+                            <i class="fa-solid fa-pen-fancy text-emerald-400 animate-bounce"></i>
+                            <span id="wb-writing-name">Un camarade écrit...</span>
                         </div>
                     </div>
                 </div>
@@ -312,18 +336,44 @@ class FormulaScratchpad {
         const startDraw = (e) => {
             e.preventDefault();
             this.isDrawing = true;
-            saveHistoryState();
             const pos = getPos(e);
+            
+            if (this.currentTool === "laser") {
+                this.renderLocalLaser(pos.x, pos.y);
+                this.broadcastCursor(pos, true);
+                return;
+            }
+
+            saveHistoryState();
+            this.hasContent = true;
             this.lastX = pos.x;
             this.lastY = pos.y;
             this.points = [pos];
+            this.broadcastCursor(pos, false);
         };
 
         const drawMove = (e) => {
-            if (!this.isDrawing) return;
-            e.preventDefault();
             const pos = getPos(e);
+
+            if (this.currentTool === "laser") {
+                if (this.isDrawing) {
+                    e.preventDefault();
+                    this.renderLocalLaser(pos.x, pos.y);
+                    this.broadcastCursor(pos, true);
+                }
+                return;
+            }
+
+            // Desktop hover cursor broadcast (when not drawing)
+            if (!this.isDrawing) {
+                this.broadcastCursor(pos, false);
+                return;
+            }
+
+            e.preventDefault();
+            this.hasContent = true;
             this.points.push(pos);
+            this.broadcastCursor(pos, false);
 
             if (this.points.length >= 3) {
                 const p0 = this.points[this.points.length - 3];
@@ -375,6 +425,7 @@ class FormulaScratchpad {
         const toolBtns = {
             pen: document.getElementById("wb-tool-pen"),
             highlighter: document.getElementById("wb-tool-highlighter"),
+            laser: document.getElementById("wb-tool-laser"),
             eraser: document.getElementById("wb-tool-eraser")
         };
 
@@ -394,7 +445,17 @@ class FormulaScratchpad {
 
         toolBtns.pen?.addEventListener("click", () => selectTool("pen"));
         toolBtns.highlighter?.addEventListener("click", () => selectTool("highlighter"));
+        toolBtns.laser?.addEventListener("click", () => selectTool("laser"));
         toolBtns.eraser?.addEventListener("click", () => selectTool("eraser"));
+
+        // Force Sync Button
+        document.getElementById("wb-force-sync-btn")?.addEventListener("click", () => {
+            window.ambience?.playClick();
+            if (window.roomSync) {
+                window.roomSync.sendWhiteboard("request_state", {});
+                window.studyApp?.showToast("🔄 Demande de synchronisation du tableau envoyée au salon !");
+            }
+        });
 
         // Colors
         this.container.querySelectorAll(".wb-color-btn").forEach(btn => {
@@ -538,17 +599,195 @@ class FormulaScratchpad {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 
+    broadcastCursor(pos, isLaser = false) {
+        const now = Date.now();
+        const minInterval = isLaser ? 30 : 60;
+        if (now - this.lastCursorBroadcast > minInterval) {
+            this.lastCursorBroadcast = now;
+            if (window.roomSync) {
+                window.roomSync.sendWhiteboard("cursor", {
+                    x: Math.round(pos.x),
+                    y: Math.round(pos.y),
+                    laser: isLaser,
+                    color: this.currentColor,
+                    tool: this.currentTool
+                });
+            }
+        }
+    }
+
+    renderLocalLaser(x, y) {
+        const container = document.getElementById("whiteboard-remote-cursors");
+        if (!container) return;
+        let localLaser = document.getElementById("wb-local-laser-dot");
+        if (!localLaser) {
+            localLaser = document.createElement("div");
+            localLaser.id = "wb-local-laser-dot";
+            localLaser.className = "absolute pointer-events-none transition-all duration-75 z-40 -translate-x-1/2 -translate-y-1/2";
+            localLaser.innerHTML = `
+                <div class="relative">
+                    <span class="w-6 h-6 rounded-full bg-rose-500 block animate-ping absolute inset-0 opacity-80"></span>
+                    <span class="w-4 h-4 rounded-full bg-rose-400 border-2 border-white block shadow-[0_0_15px_#f43f5e]"></span>
+                </div>
+            `;
+            container.appendChild(localLaser);
+        }
+        const pctX = (x / 1200) * 100;
+        const pctY = (y / 700) * 100;
+        localLaser.style.left = `${pctX}%`;
+        localLaser.style.top = `${pctY}%`;
+        localLaser.style.opacity = "1";
+        clearTimeout(this.localLaserTimer);
+        this.localLaserTimer = setTimeout(() => {
+            if (localLaser) localLaser.style.opacity = "0";
+        }, 1500);
+    }
+
+    renderRemoteCursor(msg) {
+        const container = document.getElementById("whiteboard-remote-cursors");
+        if (!container || !msg.author) return;
+
+        const senderId = msg.author.id || msg.author.name || "peer";
+        const pctX = (msg.x / 1200) * 100;
+        const pctY = (msg.y / 700) * 100;
+
+        let cursorData = this.remoteCursors.get(senderId);
+        if (!cursorData) {
+            const el = document.createElement("div");
+            el.className = "absolute pointer-events-none transition-all duration-75 flex items-center gap-1.5 z-40";
+            container.appendChild(el);
+            cursorData = { el, timer: null };
+            this.remoteCursors.set(senderId, cursorData);
+        }
+
+        const el = cursorData.el;
+        el.style.left = `${pctX}%`;
+        el.style.top = `${pctY}%`;
+        el.style.opacity = "1";
+
+        const userColor = msg.laser ? "#F43F5E" : (msg.color || "#00F0FF");
+        const userName = msg.author.name || "Étudiant";
+
+        if (msg.laser) {
+            el.innerHTML = `
+                <div class="relative -translate-x-1/2 -translate-y-1/2">
+                    <span class="w-6 h-6 rounded-full bg-rose-500 block animate-ping absolute inset-0 opacity-80"></span>
+                    <span class="w-4 h-4 rounded-full bg-rose-400 border-2 border-white block shadow-[0_0_15px_#f43f5e]"></span>
+                </div>
+                <span class="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold text-white shadow-lg bg-rose-600/95 border border-white/40 -translate-y-4 whitespace-nowrap">
+                    🔴 ${userName}
+                </span>
+            `;
+        } else {
+            el.innerHTML = `
+                <svg class="w-4 h-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] -translate-x-1 -translate-y-1" style="color: ${userColor};" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M4 0l16 12.279-6.951 1.17 4.325 8.817-3.596 1.734-4.35-8.879-5.428 5.428v-20.549z"/>
+                </svg>
+                <span class="px-1.5 py-0.5 rounded-md text-[9px] font-mono font-bold text-white shadow-md border border-white/20 whitespace-nowrap" style="background-color: ${userColor};">
+                    ${userName}
+                </span>
+            `;
+        }
+
+        clearTimeout(cursorData.timer);
+        cursorData.timer = setTimeout(() => {
+            el.style.opacity = "0";
+            setTimeout(() => {
+                if (el.style.opacity === "0") {
+                    el.remove();
+                    this.remoteCursors.delete(senderId);
+                }
+            }, 300);
+        }, 2200);
+    }
+
+    showWritingIndicator(userName) {
+        const badge = document.getElementById("wb-writing-badge");
+        const nameEl = document.getElementById("wb-writing-name");
+        if (!badge || !nameEl) return;
+        nameEl.textContent = `${userName || 'Un camarade'} écrit...`;
+        badge.classList.remove("opacity-0");
+        clearTimeout(this.writingIndicatorTimer);
+        this.writingIndicatorTimer = setTimeout(() => {
+            badge.classList.add("opacity-0");
+        }, 1200);
+    }
+
+    trackUserPresence(author) {
+        if (!author) return;
+        const id = author.id || author.name;
+        this.activeWhiteboardUsers.set(id, {
+            name: author.name || "Étudiant",
+            avatar: author.avatar || "assets/avatars/default.svg",
+            lastSeen: Date.now()
+        });
+        this.updatePresenceBadge();
+    }
+
+    updatePresenceBadge() {
+        const textEl = document.getElementById("whiteboard-presence-text");
+        if (!textEl) return;
+        const now = Date.now();
+        for (const [id, user] of this.activeWhiteboardUsers.entries()) {
+            if (now - user.lastSeen > 45000) {
+                this.activeWhiteboardUsers.delete(id);
+            }
+        }
+        const count = Math.max(1, this.activeWhiteboardUsers.size + 1);
+        if (count > 1) {
+            textEl.textContent = `👥 ${count} au tableau`;
+        } else {
+            textEl.textContent = `Collaboratif Live (2+)`;
+        }
+    }
+
+    onTabVisible() {
+        this.resizeCanvas();
+        if (window.roomSync) {
+            window.roomSync.sendWhiteboard("presence", {});
+            window.roomSync.sendWhiteboard("request_state", {});
+        }
+    }
+
     handleRemoteWhiteboard(msg) {
         if (!msg) return;
         if (msg.action === "stroke") {
+            this.hasContent = true;
             if (msg.midX !== undefined && msg.midY !== undefined) {
                 this.drawSmoothSegment(msg.x0, msg.y0, msg.x1, msg.y1, msg.midX, msg.midY, msg.color, msg.size, msg.tool);
             } else {
                 this.drawLine(msg.x0, msg.y0, msg.x1, msg.y1, msg.color, msg.size, msg.tool);
             }
+            this.showWritingIndicator(msg.author?.name);
+            this.trackUserPresence(msg.author);
+        } else if (msg.action === "cursor") {
+            this.renderRemoteCursor(msg);
+            this.trackUserPresence(msg.author);
         } else if (msg.action === "clear") {
             this.clearLocalCanvas();
+            this.hasContent = false;
             window.studyApp?.showToast(`🧹 Le tableau a été nettoyé par ${msg.author?.name || 'un camarade'}`);
+        } else if (msg.action === "request_state") {
+            if (this.hasContent && this.canvas) {
+                window.roomSync?.sendWhiteboard("sync_state", {
+                    image: this.canvas.toDataURL("image/png")
+                });
+            }
+        } else if (msg.action === "sync_state") {
+            if (msg.image) {
+                const img = new Image();
+                img.onload = () => {
+                    if (this.ctx) {
+                        this.ctx.drawImage(img, 0, 0);
+                        this.hasContent = true;
+                        window.studyApp?.showToast(`📋 Tableau synchronisé avec ${msg.author?.name || 'le salon'}`);
+                    }
+                };
+                img.src = msg.image;
+            }
+            this.trackUserPresence(msg.author);
+        } else if (msg.action === "presence") {
+            this.trackUserPresence(msg.author);
         } else if (msg.action === "share_formula") {
             window.ambience?.playSuccess();
             window.studyApp?.showToast(`📐 ${msg.author?.name || 'Un camarade'} a partagé une formule !`);
@@ -558,6 +797,7 @@ class FormulaScratchpad {
                 this.notes = msg.formula;
                 this.updateLatexPreview();
             }
+            this.trackUserPresence(msg.author);
         }
     }
 

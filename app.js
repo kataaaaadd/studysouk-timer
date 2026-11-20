@@ -609,7 +609,7 @@ class StudySoukTimerApp {
         } else if (tabId === "tab-flashcards" && this.flashcards) {
             this.flashcards.render();
         } else if (tabId === "tab-scratchpad" && this.scratchpad) {
-            this.scratchpad.render();
+            this.scratchpad.onTabVisible();
         } else if (tabId === "tab-tasks") {
             this.renderDashboard();
         }
