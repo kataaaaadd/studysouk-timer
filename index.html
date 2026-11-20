@@ -344,6 +344,7 @@
         .zen-mode #panel-countdowns-sidebar,
         .zen-mode #btn-mobile-sidebar-tab,
         .zen-mode .stats-card,
+        .zen-mode #timer-side-column,
         .zen-mode #reactions-bar {
             display: none !important;
         }
@@ -735,10 +736,10 @@
         style="scrollbar-width: none; -ms-overflow-style: none;">
 
         <!-- TAB 1: MINUTEUR DE DEEP WORK & FOCUS PAR MATIÈRE -->
-        <section id="tab-timer" class="tab-content w-full flex flex-col items-center justify-center max-w-2xl sm:max-w-3xl">
+        <section id="tab-timer" class="tab-content w-full flex flex-col lg:flex-row items-center lg:items-start justify-center gap-4 lg:gap-6 max-w-5xl xl:max-w-6xl mx-auto">
 
             <!-- CENTER WORKSTATION COLUMN: CHRONOMETRE POMODORO -->
-            <div id="timer-focus-column" class="flex flex-col items-center w-full max-w-[620px]">
+            <div id="timer-focus-column" class="flex flex-col items-center w-full max-w-[560px]">
 
                 <!-- Subject / Module Selector (Deep Work Focus Subject) -->
                 <div
@@ -1373,51 +1374,78 @@
                 </div>
             </div>
 
-            <!-- Academic Stats & Quotation Card (Compact Luxury) -->
-            <div
-                class="stats-card w-full max-w-md glass-panel rounded-2xl p-3 sm:p-3.5 border border-brand-borderSubtle flex flex-col gap-2 shadow-md">
-                <div class="grid grid-cols-2 divide-x divide-brand-border text-center">
-                    <div>
-                        <span
-                            class="text-xs text-brand-muted uppercase tracking-wider block font-outfit font-black">Sessions
-                            Validées</span>
-                        <span id="stat-sessions" class="font-mono text-lg font-black text-brand-goldLight">0</span>
-                    </div>
-                    <div>
-                        <span
-                            class="text-xs text-brand-muted uppercase tracking-wider block font-outfit font-black">Temps
-                            de Deep Work</span>
-                        <span id="stat-minutes" class="font-mono text-lg font-black text-brand-goldLight">0 min</span>
-                    </div>
-                </div>
-
-                <!-- Daily Focus Goal Milestone Bar (4 Pomodoro Blocks) -->
-                <div class="border-t border-brand-borderSubtle pt-2 flex items-center justify-between text-xs font-outfit">
-                    <div class="flex items-center gap-1.5">
-                        <span class="text-sm">🔥</span>
-                        <span class="font-bold text-white text-[11px]">Objectif Quotidien :</span>
-                        <span id="stat-daily-progress-txt" class="font-mono text-brand-goldLight font-black text-[11px]">0/4 Blocs</span>
-                    </div>
-                    <div id="stat-daily-blocks-dots" class="flex items-center gap-1">
-                        <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
-                        <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
-                        <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
-                        <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
-                    </div>
-                </div>
-
-                <div class="border-t border-brand-border pt-2 text-center">
-                    <p id="study-quote-text" class="text-xs sm:text-sm text-white italic font-semibold leading-normal">
-                        « In Mathematics, the mind resolves during the pause that follows intense effort. »
-                    </p>
-                    <span id="study-quote-author" class="text-xs text-brand-goldLight block mt-1 font-outfit font-bold">
-                        — Henri Poincaré
-                    </span>
-                </div>
-            </div>
-
             </div>
             <!-- END #timer-focus-column -->
+
+            <!-- RIGHT WING / SIDE COLUMN: PERFORMANCE STATS & CITATION ("f jnb") -->
+            <div id="timer-side-column" class="flex flex-col items-center lg:items-stretch w-full max-w-md lg:max-w-[280px] xl:max-w-[310px] gap-3 shrink-0">
+
+                <!-- 1. ACADEMIC SESSIONS & PERFORMANCE CARD -->
+                <div class="stats-card w-full glass-panel rounded-2xl p-3 sm:p-3.5 border border-brand-borderSubtle flex flex-col gap-2.5 shadow-lg bg-brand-card/90">
+                    <div class="flex items-center justify-between pb-1.5 border-b border-brand-borderSubtle">
+                        <div class="flex items-center gap-1.5 text-xs font-black font-outfit text-white">
+                            <i class="fa-solid fa-chart-pie text-brand-gold text-xs"></i>
+                            <span>SESSIONS & FOCUS</span>
+                        </div>
+                        <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-brand-darker text-brand-goldLight border border-brand-gold/30 font-bold">Aujourd'hui</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 divide-x divide-brand-borderSubtle text-center py-0.5">
+                        <div class="px-1">
+                            <span class="text-[10px] text-brand-muted uppercase tracking-wider block font-outfit font-black">Validées</span>
+                            <span id="stat-sessions" class="font-mono text-xl font-black text-brand-goldLight">0</span>
+                        </div>
+                        <div class="px-1">
+                            <span class="text-[10px] text-brand-muted uppercase tracking-wider block font-outfit font-black">Deep Work</span>
+                            <span id="stat-minutes" class="font-mono text-xl font-black text-white">0 min</span>
+                        </div>
+                    </div>
+
+                    <!-- Daily Focus Goal Milestone Bar (4 Pomodoro Blocks) -->
+                    <div class="border-t border-brand-borderSubtle pt-2 flex items-center justify-between text-xs font-outfit">
+                        <div class="flex items-center gap-1.5 min-w-0">
+                            <span class="text-xs">🔥</span>
+                            <span class="font-bold text-white text-[11px] truncate">Objectif :</span>
+                            <span id="stat-daily-progress-txt" class="font-mono text-brand-goldLight font-black text-[11px] truncate">0/4 Blocs</span>
+                        </div>
+                        <div id="stat-daily-blocks-dots" class="flex items-center gap-1 shrink-0">
+                            <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                            <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                            <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                            <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. INSPIRING ACADEMIC QUOTATION CARD -->
+                <div id="quote-side-card" class="w-full glass-panel rounded-2xl p-3 sm:p-3.5 border border-brand-gold/30 flex flex-col justify-between gap-2 shadow-lg bg-gradient-to-br from-brand-card/95 via-brand-darker/90 to-brand-card/95 relative overflow-hidden group">
+                    <div class="flex items-center justify-between pb-1.5 border-b border-brand-borderSubtle">
+                        <div class="flex items-center gap-1.5 text-xs font-black font-outfit text-brand-goldLight">
+                            <i class="fa-solid fa-quote-left text-brand-gold text-xs"></i>
+                            <span>PENSÉE DU JOUR</span>
+                        </div>
+                        <button onclick="window.studyApp.rotateQuote()" title="Changer de citation"
+                            class="text-brand-muted hover:text-brand-goldLight hover:rotate-180 transition-all duration-300 w-5 h-5 rounded flex items-center justify-center cursor-pointer">
+                            <i class="fa-solid fa-rotate text-[11px]"></i>
+                        </button>
+                    </div>
+
+                    <div class="py-1">
+                        <p id="study-quote-text" class="text-xs sm:text-[13px] text-white/95 italic font-serif leading-relaxed text-center sm:text-left">
+                            « In Mathematics, the mind resolves during the pause that follows intense effort. »
+                        </p>
+                    </div>
+
+                    <div class="pt-1 border-t border-brand-borderSubtle/60 flex items-center justify-between text-[11px]">
+                        <span class="text-[9px] font-mono text-brand-muted uppercase tracking-wider">CPGE • Excellence</span>
+                        <span id="study-quote-author" class="text-xs text-brand-goldLight font-outfit font-black truncate max-w-[170px]">
+                            — Henri Poincaré
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+            <!-- END #timer-side-column -->
 
         </section>
 
