@@ -942,6 +942,16 @@ class StudySoukTimerApp {
         document.querySelectorAll(".tab-content").forEach(tc => tc.classList.add("hidden"));
         document.getElementById(tabId)?.classList.remove("hidden");
 
+        // Hide floating widgets if on Nabras AI tab to prevent obstructing chat input
+        const floatingNabras = document.getElementById("btn-floating-nabras");
+        if (floatingNabras) {
+            floatingNabras.style.display = (tabId === "tab-nabras") ? "none" : "";
+        }
+        const reactionsBar = document.getElementById("reactions-bar");
+        if (reactionsBar) {
+            reactionsBar.style.display = (tabId === "tab-nabras") ? "none" : "";
+        }
+
         if (tabId === "tab-duel" && this.duel && !this.duel.isPlaying) {
             this.duel.render();
         } else if (tabId === "tab-library" && window.library) {
