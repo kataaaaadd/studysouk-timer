@@ -170,6 +170,13 @@ class StudySoukTimerApp {
             window.nabrasAI = this.nabrasAI;
         }
 
+        // Check if a specific tab was requested via ?tab= or #
+        const urlParams = new URLSearchParams(window.location.search);
+        const requestedTab = urlParams.get("tab") || window.location.hash.replace("#", "");
+        if (requestedTab && document.getElementById(requestedTab)) {
+            this.switchTab(requestedTab);
+        }
+
         console.log("%c[StudySouk Academy] Official Academic Activity Ready! 🎓", "color: #E2E8F0; font-weight: bold; font-size: 13px;");
     }
 
