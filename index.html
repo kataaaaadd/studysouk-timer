@@ -335,25 +335,27 @@
             display: none !important;
         }
 
-        #panel-countdowns-sidebar {
-            display: none !important;
-            position: fixed !important;
-            top: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 340px !important;
-            max-width: 90vw !important;
-            height: 100vh !important;
-            z-index: 60 !important;
-            border-radius: 1.5rem 0 0 1.5rem !important;
-            overflow-y: auto !important;
-            box-shadow: -10px 0 50px rgba(0, 0, 0, 0.85), 0 0 30px rgba(158, 24, 56, 0.3) !important;
-        }
+        @media (max-width: 1023px) {
+            #panel-countdowns-sidebar {
+                display: none;
+            }
 
-        #panel-countdowns-sidebar.drawer-open,
-        #panel-countdowns-sidebar.mobile-drawer-open {
-            display: flex !important;
-            animation: slideInRight 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            #panel-countdowns-sidebar.drawer-open,
+            #panel-countdowns-sidebar.mobile-drawer-open {
+                display: flex !important;
+                position: fixed !important;
+                top: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 340px !important;
+                max-width: 90vw !important;
+                height: 100vh !important;
+                z-index: 60 !important;
+                border-radius: 1.5rem 0 0 1.5rem !important;
+                overflow-y: auto !important;
+                box-shadow: -10px 0 50px rgba(0, 0, 0, 0.85), 0 0 30px rgba(158, 24, 56, 0.3) !important;
+                animation: slideInRight 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
         }
 
         #countdown-drawer-backdrop {
@@ -702,10 +704,10 @@
         class="flex-1 max-w-7xl w-full mx-auto px-2 sm:px-4 py-1 flex flex-col items-center justify-center relative z-20">
 
         <!-- TAB 1: MINUTEUR DE DEEP WORK & FOCUS PAR MATIÈRE -->
-        <section id="tab-timer" class="tab-content w-full flex flex-col items-center justify-center max-w-3xl">
+        <section id="tab-timer" class="tab-content w-full flex flex-col lg:flex-row items-center lg:items-start justify-center gap-6 xl:gap-8 max-w-6xl">
 
             <!-- LEFT/CENTER WORKSTATION COLUMN: CHRONOMETRE POMODORO -->
-            <div id="timer-focus-column" class="flex flex-col items-center w-full max-w-[620px] shrink-0">
+            <div id="timer-focus-column" class="flex-1 flex flex-col items-center w-full max-w-xl">
 
                 <!-- Subject / Module Selector (Deep Work Focus Subject) -->
                 <div
@@ -796,27 +798,28 @@
                 </div>
             </div>
 
-            <!-- Sleek Master Circular Chronometer Display with Lateral Horlogerie Flanks -->
-            <div class="relative w-full max-w-xl flex items-center justify-center mb-3">
+            <!-- Active Subject Complication Chip (Desktop) -->
+            <div class="hidden sm:flex items-center justify-center w-full max-w-md px-1 mb-2">
+                <div class="flex items-center gap-2 px-3 py-1 rounded-xl glass-card border border-brand-gold/30 shadow-sm">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-ping"></span>
+                    <span class="text-[10px] uppercase font-mono font-bold text-brand-muted">Matière Active :</span>
+                    <span id="active-subject-badge" class="font-outfit font-black text-brand-goldLight text-xs truncate max-w-[240px]">📐 Maths • Analyse & Intégrales</span>
+                </div>
+            </div>
 
-                <!-- Left Flank: Module / Matière Complication Pod (Side) -->
-                <div
-                    class="hidden sm:flex absolute left-0 lg:left-2 flex-col items-start gap-1 p-2.5 rounded-2xl glass-card border border-brand-gold/30 shadow-xl max-w-[135px] z-10 transition hover:border-brand-gold/60 group">
-                    <div class="flex items-center gap-1.5 text-brand-goldLight">
-                        <span class="w-1.5 h-1.5 rounded-full bg-brand-gold animate-ping"></span>
-                        <span
-                            class="text-[9px] uppercase tracking-widest font-mono font-bold text-brand-muted">Matière</span>
-                    </div>
-                    <span id="active-subject-badge"
-                        class="text-xs font-black text-brand-goldLight font-outfit leading-tight line-clamp-2">
-                        📐 Maths • Analyse
-                    </span>
-                    <span class="text-[9px] font-mono text-brand-dim mt-0.5">Focus Actif</span>
+            <!-- Sleek Master Circular Chronometer Display (Clean, Majestic, Uncluttered) -->
+            <div class="relative w-full flex items-center justify-center mb-2 sm:mb-3 py-1">
+                <!-- Compatibility anchors for app.js -->
+                <div class="hidden" aria-hidden="true">
+                    <span id="chrono-right-countdown-pod"></span>
+                    <span id="pod-cd-badge"></span>
+                    <span id="pod-cd-days"></span>
+                    <span id="pod-cd-date"></span>
                 </div>
 
                 <!-- Center Chrono Face -->
                 <div
-                    class="relative w-60 h-60 xs:w-68 xs:h-68 sm:w-80 sm:h-80 md:w-84 md:h-84 flex items-center justify-center shrink-0">
+                    class="relative w-64 h-64 xs:w-72 xs:h-72 sm:w-80 sm:h-80 md:w-84 md:h-84 flex items-center justify-center shrink-0">
                     <!-- Dynamic Radial Glow Halo behind timer -->
                     <div id="timer-ambient-halo"
                         class="absolute inset-1 rounded-full bg-gradient-to-tr from-brand-cherry/40 via-brand-gold/20 to-transparent blur-3xl pointer-events-none transition-all duration-700">
@@ -1176,38 +1179,12 @@
                     </div>
                 </div>
 
-                <!-- Right Flank: Moroccan Countdown Complication Pod & Mechanical Tic-Tac ON ("hda l-chrono") -->
-                <div class="hidden sm:flex absolute right-0 lg:right-2 flex-col items-end gap-1.5 z-10">
-                    <div id="chrono-right-countdown-pod"
-                        class="flex flex-col items-end gap-1 p-2.5 rounded-2xl glass-card border border-brand-gold/40 shadow-xl w-[142px] text-right transition hover:border-brand-gold cursor-pointer group hover:scale-105 active:scale-95" title="Cliquer pour changer d'échéance (Watani, CNC, Régional...)">
-                        <div class="flex items-center gap-1.5 text-brand-goldLight">
-                            <i class="fa-solid fa-hourglass-half text-[10px] text-brand-gold group-hover:rotate-180 transition-transform duration-500"></i>
-                            <span id="pod-cd-badge" class="text-[9px] uppercase tracking-widest font-mono font-bold text-brand-gold">Watani 2BAC</span>
-                        </div>
-                        <span id="pod-cd-days" class="text-sm font-black gold-text-gradient font-mono leading-tight">
-                            J - 192
-                        </span>
-                        <div class="flex items-center gap-1 text-[9px] text-brand-muted font-mono">
-                            <span id="pod-cd-date">1, 2, 3 Juin</span>
-                            <i class="fa-solid fa-repeat text-[8px] text-brand-gold/70 group-hover:text-brand-gold"></i>
-                        </div>
-                    </div>
-
-                    <!-- Mechanical Tic-Tac Sound Button Directly Next to Chrono Dial -->
-                    <button id="btn-tictac-toggle-side" title="Activer / Couper le son mécanique Tic-Tac (T)"
-                        class="w-[142px] flex items-center justify-between px-2.5 py-1.5 rounded-xl glass-card border border-brand-gold/40 hover:border-brand-gold text-[10px] font-mono text-brand-goldLight transition active:scale-95 shadow-md cursor-pointer group">
-                        <span class="flex items-center gap-1.5 font-bold">
-                            <i class="fa-solid fa-stopwatch text-[11px] text-brand-gold group-hover:rotate-12 transition-transform"></i>
-                            <span id="tictac-side-text">Tic-Tac ON</span>
-                        </span>
-                        <span class="text-[8px] px-1 py-0.2 rounded bg-brand-darker border border-brand-gold/30 text-brand-muted font-mono">T</span>
-                    </button>
                 </div>
             </div>
 
             <!-- Master Haute Horlogerie Control Command Dock -->
             <div
-                class="glass-panel rounded-2xl p-1.5 sm:p-2.5 mb-2.5 border-1.5 border-brand-gold/45 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_25px_rgba(158,24,56,0.25)] flex items-center gap-1.5 sm:gap-2.5 relative overflow-hidden group">
+                class="glass-panel rounded-2xl p-2 sm:p-2.5 mb-2.5 border-1.5 border-brand-gold/45 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_25px_rgba(158,24,56,0.25)] flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5 relative overflow-hidden group">
                 <!-- Ambient Subtle Golden Edge Glow -->
                 <div
                     class="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-brand-goldLight to-transparent opacity-60">
@@ -1215,20 +1192,20 @@
 
                 <!-- -5m Quick Modifier -->
                 <button id="btn-timer-sub5" title="Retirer 5 minutes"
-                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-goldLight hover:text-white font-mono text-xs sm:text-sm font-black flex items-center justify-center shadow-lg active:scale-90 transition hover:shadow-[0_0_12px_rgba(226,232,240,0.35)] shrink-0">
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-goldLight hover:text-white font-mono text-xs sm:text-sm font-black flex items-center justify-center shadow-lg active:scale-90 transition hover:shadow-[0_0_12px_rgba(226,232,240,0.35)] shrink-0 cursor-pointer">
                     -5m
                 </button>
 
                 <!-- Reset Button -->
                 <button id="btn-timer-reset" title="Réinitialiser la session (R)"
-                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group shadow-lg hover:shadow-[0_0_12px_rgba(226,232,240,0.35)] shrink-0">
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group shadow-lg hover:shadow-[0_0_12px_rgba(226,232,240,0.35)] shrink-0 cursor-pointer">
                     <i
                         class="fa-solid fa-rotate-left text-xs sm:text-sm group-hover:-rotate-45 transition duration-300 text-brand-goldLight"></i>
                 </button>
 
                 <!-- Sleek Haute Horlogerie Play/Pause Button -->
                 <button id="btn-timer-toggle"
-                    class="h-9 sm:h-10 px-4 sm:px-6 rounded-xl cherry-glow-btn border border-brand-gold text-white font-black text-xs sm:text-sm tracking-wider uppercase flex items-center gap-1.5 sm:gap-2 font-outfit active:scale-95 shadow-xl group shrink-0">
+                    class="h-10 sm:h-11 px-5 sm:px-7 rounded-xl cherry-glow-btn border border-brand-gold text-white font-black text-xs sm:text-sm tracking-wider uppercase flex items-center gap-2 font-outfit active:scale-95 shadow-xl group shrink-0 cursor-pointer">
                     <i
                         class="fa-solid fa-play text-xs sm:text-sm text-brand-goldLight ml-0.5 group-hover:scale-110 transition duration-150 drop-shadow-[0_0_8px_rgba(255,255,255,0.85)]"></i>
                     <span class="gold-text-gradient font-black text-xs sm:text-sm tracking-wider">Commencer</span>
@@ -1236,21 +1213,28 @@
 
                 <!-- Skip Button -->
                 <button id="btn-timer-skip" title="Passer au bloc suivant"
-                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group shadow-lg hover:shadow-[0_0_12px_rgba(226,232,240,0.35)] shrink-0">
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-muted hover:text-white flex items-center justify-center active:scale-90 transition group shadow-lg hover:shadow-[0_0_12px_rgba(226,232,240,0.35)] shrink-0 cursor-pointer">
                     <i
                         class="fa-solid fa-forward-step text-xs sm:text-sm group-hover:translate-x-1 transition duration-200 text-brand-goldLight"></i>
                 </button>
 
                 <!-- +5m Quick Modifier -->
                 <button id="btn-timer-add5" title="Ajouter 5 minutes"
-                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-goldLight hover:text-white font-mono text-xs sm:text-sm font-black flex items-center justify-center shadow-lg active:scale-90 transition hover:shadow-[0_0_12px_rgba(226,232,240,0.35)] shrink-0">
+                    class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-brand-darker/90 border border-brand-gold/30 hover:border-brand-gold text-brand-goldLight hover:text-white font-mono text-xs sm:text-sm font-black flex items-center justify-center shadow-lg active:scale-90 transition hover:shadow-[0_0_12px_rgba(226,232,240,0.35)] shrink-0 cursor-pointer">
                     +5m
+                </button>
+
+                <!-- Mechanical Tic-Tac Sound Button Directly Next to Controls -->
+                <button id="btn-tictac-toggle-side" title="Activer / Couper le son mécanique Tic-Tac (T)"
+                    class="h-9 sm:h-11 px-3 rounded-xl bg-brand-darker/95 border border-brand-gold/40 hover:border-brand-gold text-brand-goldLight font-mono text-xs font-bold flex items-center gap-1.5 shadow-lg active:scale-95 transition cursor-pointer shrink-0">
+                    <i class="fa-solid fa-stopwatch text-xs text-brand-gold"></i>
+                    <span id="tictac-side-text">Tic-Tac ON</span>
                 </button>
             </div>
 
             <!-- Academic Stats & Quotation Card (Compact Luxury) -->
             <div
-                class="stats-card w-full max-w-md glass-panel rounded-xl p-3 border border-brand-borderSubtle flex flex-col gap-2 shadow-md">
+                class="stats-card w-full max-w-md glass-panel rounded-2xl p-3 sm:p-3.5 border border-brand-borderSubtle flex flex-col gap-2 shadow-md">
                 <div class="grid grid-cols-2 divide-x divide-brand-border text-center">
                     <div>
                         <span
@@ -1278,138 +1262,131 @@
             </div>
             <!-- END #timer-focus-column -->
 
+            <!-- RIGHT FLANK: PANNEAU DES ÉCHÉANCES & OBJECTIFS MAROC 2026 ("hda l-chrono f jnb l-imn") -->
+            <aside id="panel-countdowns-sidebar"
+                class="w-full lg:w-80 xl:w-84 shrink-0 flex flex-col space-y-3.5 glass-panel rounded-3xl p-3.5 sm:p-4 border border-brand-gold/45 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_25px_rgba(158,24,56,0.3)] relative bg-brand-card/95 backdrop-blur-xl transition-all duration-300">
+                
+                <!-- Panel Header Bar -->
+                <div class="flex items-center justify-between pb-2 border-b border-brand-borderSubtle">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-brand-gold animate-ping"></span>
+                        <h3 class="text-xs font-black font-outfit uppercase tracking-wider text-brand-goldLight flex items-center gap-1.5">
+                            <i class="fa-solid fa-hourglass-half text-brand-gold text-xs"></i>
+                            Échéances Maroc
+                        </h3>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-[9px] font-mono px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 font-bold border border-emerald-500/30 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            2026/2027
+                        </span>
+                        <!-- Close Drawer Button (Only shown on mobile) -->
+                        <button id="btn-close-countdown-drawer" class="lg:hidden text-brand-muted hover:text-white p-1 rounded-lg hover:bg-white/10 transition cursor-pointer" title="Fermer le panneau">
+                            <i class="fa-solid fa-xmark text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Target Exam Filter Chips (Choix de l'objectif prioritaire) -->
+                <div class="space-y-1">
+                    <span class="text-[10px] font-bold text-brand-muted uppercase font-mono tracking-wider block">
+                        🎯 Objectif Prioritaire :
+                    </span>
+                    <div class="grid grid-cols-3 gap-1 text-[10px] font-outfit font-bold" id="target-exam-chips">
+                        <button data-exam="bac" class="target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate bg-brand-cherry text-brand-goldLight border-brand-gold font-black shadow-md">
+                            Watani 2BAC
+                        </button>
+                        <button data-exam="cnc" class="target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate glass-card border-brand-borderSubtle text-brand-muted hover:text-white">
+                            CNC CPGE
+                        </button>
+                        <button data-exam="regio" class="target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate glass-card border-brand-borderSubtle text-brand-muted hover:text-white">
+                            Régional 1BAC
+                        </button>
+                    </div>
+                </div>
+
+                <!-- HERO COUNTDOWN CARD (Affiche l'examen cible en grand avec compteurs réels) -->
+                <div id="hero-countdown-card" class="p-3.5 rounded-2xl bg-gradient-to-br from-brand-darker via-brand-darker to-[#20040D] border border-brand-gold/60 shadow-xl space-y-2 relative overflow-hidden group">
+                    <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-brand-gold/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                    <div class="flex items-center justify-between">
+                        <span id="hero-cd-badge" class="px-2 py-0.5 rounded-md text-[9px] font-mono font-bold bg-brand-cherry text-brand-goldLight border border-brand-gold/40 shadow-sm">
+                            Watani 2BAC
+                        </span>
+                        <span id="hero-cd-datetext" class="text-[10px] font-mono text-brand-muted font-bold">
+                            1, 2, 3 Juin
+                        </span>
+                    </div>
+
+                    <h4 id="hero-cd-title" class="text-xs font-black text-white font-outfit truncate">
+                        Examen National 2BAC (Watani)
+                    </h4>
+                    <p id="hero-cd-filieres" class="text-[9px] text-brand-muted font-sans font-medium truncate">
+                        SM-A, SM-B, PC, SVT, STE, STM
+                    </p>
+
+                    <!-- 4 Digits Live Grid -->
+                    <div class="grid grid-cols-4 gap-1 text-center font-mono my-2">
+                        <div class="p-1.5 rounded-xl bg-black/50 border border-brand-gold/40 shadow-inner">
+                            <span id="hero-cd-days" class="text-lg sm:text-xl font-black text-brand-goldLight block">--</span>
+                            <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Jours</span>
+                        </div>
+                        <div class="p-1.5 rounded-xl bg-black/50 border border-brand-borderSubtle">
+                            <span id="hero-cd-hours" class="text-lg sm:text-xl font-black text-white block">--</span>
+                            <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Heures</span>
+                        </div>
+                        <div class="p-1.5 rounded-xl bg-black/50 border border-brand-borderSubtle">
+                            <span id="hero-cd-mins" class="text-lg sm:text-xl font-black text-white block">--</span>
+                            <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Min</span>
+                        </div>
+                        <div class="p-1.5 rounded-xl bg-black/50 border border-brand-borderSubtle">
+                            <span id="hero-cd-secs" class="text-lg sm:text-xl font-black text-emerald-400 block animate-pulse">--</span>
+                            <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Sec</span>
+                        </div>
+                    </div>
+
+                    <!-- Academic Year Progress Bar -->
+                    <div class="space-y-1 pt-0.5">
+                        <div class="flex items-center justify-between text-[9px] font-mono text-brand-muted">
+                            <span>Année Scolaire Écoulée :</span>
+                            <span id="hero-cd-progress-pct" class="font-bold text-brand-gold">--%</span>
+                        </div>
+                        <div class="w-full bg-black/60 rounded-full h-1.5 overflow-hidden border border-brand-borderSubtle">
+                            <div id="hero-cd-progress-bar" class="h-full bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight rounded-full transition-all duration-700" style="width: 65%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALL MOROCCAN CONCOURS & EXAMS (Compact Clickable List) -->
+                <div class="space-y-1.5 pt-1">
+                    <span class="text-[10px] font-bold text-brand-muted uppercase font-mono tracking-wider flex items-center justify-between">
+                        <span>Calendrier des Concours :</span>
+                        <span class="text-[8px] font-normal text-brand-muted/70">Cliquez pour fixer</span>
+                    </span>
+
+                    <div id="sidebar-countdown-list" class="space-y-1 max-h-48 overflow-y-auto pr-0.5 custom-scrollbar">
+                        <!-- Filled and updated dynamically by app.js -->
+                    </div>
+                </div>
+
+                <!-- NABRAS DYNAMIC ACADEMIC ADVICE -->
+                <div class="p-2.5 rounded-2xl bg-brand-darker border border-brand-borderSubtle flex items-start gap-2 shadow-inner">
+                    <span class="text-base shrink-0">🦉</span>
+                    <div class="text-[11px] font-outfit leading-tight space-y-0.5">
+                        <span class="font-black text-brand-goldLight block text-[9px] uppercase font-mono tracking-wider">
+                            Nabras • Conseil Concours :
+                        </span>
+                        <p id="sidebar-nabras-tip" class="text-brand-muted text-[10px] leading-relaxed">
+                            Dans le silence de la nuit, chaque seconde de focus façonne l'élite de demain.
+                        </p>
+                    </div>
+                </div>
+
+            </aside>
+
         </section>
 
-        <!-- RIGHT FLANK SLIDE-OVER DRAWER: PANNEAU DES ÉCHÉANCES & OBJECTIFS MAROC 2026 ("f jnb l-imn w hidden fiha gha bouton") -->
-        <aside id="panel-countdowns-sidebar"
-            class="w-full sm:w-84 shrink-0 flex flex-col space-y-3 glass-panel p-3.5 sm:p-4 border-l border-brand-gold/60 shadow-2xl bg-brand-card/95 backdrop-blur-2xl transition-all duration-300">
-            
-            <!-- Panel Header Bar -->
-            <div class="flex items-center justify-between pb-2 border-b border-brand-borderSubtle">
-                <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-brand-gold animate-ping"></span>
-                    <h3 class="text-xs font-black font-outfit uppercase tracking-wider text-brand-goldLight flex items-center gap-1.5">
-                        <i class="fa-solid fa-hourglass-half text-brand-gold text-xs"></i>
-                        Échéances Maroc
-                    </h3>
-                </div>
-                <div class="flex items-center gap-1.5">
-                    <span class="text-[9px] font-mono px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 font-bold border border-emerald-500/30 flex items-center gap-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                        2026/2027
-                    </span>
-                    <!-- Close Drawer Button -->
-                    <button id="btn-close-countdown-drawer" class="text-brand-muted hover:text-white p-1 rounded-lg hover:bg-white/10 transition cursor-pointer" title="Fermer le panneau">
-                        <i class="fa-solid fa-xmark text-sm"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Target Exam Filter Chips (Choix de l'objectif prioritaire) -->
-            <div class="space-y-1">
-                <span class="text-[10px] font-bold text-brand-muted uppercase font-mono tracking-wider block">
-                    🎯 Objectif Prioritaire :
-                </span>
-                <div class="grid grid-cols-3 gap-1 text-[10px] font-outfit font-bold" id="target-exam-chips">
-                    <button data-exam="bac" class="target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate bg-brand-cherry text-brand-goldLight border-brand-gold font-black shadow-md">
-                        Watani 2BAC
-                    </button>
-                    <button data-exam="cnc" class="target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate glass-card border-brand-borderSubtle text-brand-muted hover:text-white">
-                        CNC CPGE
-                    </button>
-                    <button data-exam="regio" class="target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate glass-card border-brand-borderSubtle text-brand-muted hover:text-white">
-                        Régional 1BAC
-                    </button>
-                </div>
-            </div>
-
-            <!-- HERO COUNTDOWN CARD (Affiche l'examen cible en grand avec compteurs réels) -->
-            <div id="hero-countdown-card" class="p-3.5 rounded-2xl bg-gradient-to-br from-brand-darker via-brand-darker to-[#20040D] border border-brand-gold/60 shadow-xl space-y-2 relative overflow-hidden group">
-                <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-brand-gold/10 rounded-full blur-2xl pointer-events-none"></div>
-
-                <div class="flex items-center justify-between">
-                    <span id="hero-cd-badge" class="px-2 py-0.5 rounded-md text-[9px] font-mono font-bold bg-brand-cherry text-brand-goldLight border border-brand-gold/40 shadow-sm">
-                        Watani 2BAC
-                    </span>
-                    <span id="hero-cd-datetext" class="text-[10px] font-mono text-brand-muted font-bold">
-                        1, 2, 3 Juin
-                    </span>
-                </div>
-
-                <h4 id="hero-cd-title" class="text-xs font-black text-white font-outfit truncate">
-                    Examen National 2BAC (Watani)
-                </h4>
-                <p id="hero-cd-filieres" class="text-[9px] text-brand-muted font-sans font-medium truncate">
-                    SM-A, SM-B, PC, SVT, STE, STM
-                </p>
-
-                <!-- 4 Digits Live Grid -->
-                <div class="grid grid-cols-4 gap-1 text-center font-mono my-2">
-                    <div class="p-1.5 rounded-xl bg-black/50 border border-brand-gold/40 shadow-inner">
-                        <span id="hero-cd-days" class="text-lg sm:text-xl font-black text-brand-goldLight block">--</span>
-                        <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Jours</span>
-                    </div>
-                    <div class="p-1.5 rounded-xl bg-black/50 border border-brand-borderSubtle">
-                        <span id="hero-cd-hours" class="text-lg sm:text-xl font-black text-white block">--</span>
-                        <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Heures</span>
-                    </div>
-                    <div class="p-1.5 rounded-xl bg-black/50 border border-brand-borderSubtle">
-                        <span id="hero-cd-mins" class="text-lg sm:text-xl font-black text-white block">--</span>
-                        <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Min</span>
-                    </div>
-                    <div class="p-1.5 rounded-xl bg-black/50 border border-brand-borderSubtle">
-                        <span id="hero-cd-secs" class="text-lg sm:text-xl font-black text-emerald-400 block animate-pulse">--</span>
-                        <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Sec</span>
-                    </div>
-                </div>
-
-                <!-- Academic Year Progress Bar -->
-                <div class="space-y-1 pt-0.5">
-                    <div class="flex items-center justify-between text-[9px] font-mono text-brand-muted">
-                        <span>Année Scolaire Écoulée :</span>
-                        <span id="hero-cd-progress-pct" class="font-bold text-brand-gold">--%</span>
-                    </div>
-                    <div class="w-full bg-black/60 rounded-full h-1.5 overflow-hidden border border-brand-borderSubtle">
-                        <div id="hero-cd-progress-bar" class="h-full bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight rounded-full transition-all duration-700" style="width: 65%;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ALL MOROCCAN CONCOURS & EXAMS (Compact Clickable List) -->
-            <div class="space-y-1.5 pt-1">
-                <span class="text-[10px] font-bold text-brand-muted uppercase font-mono tracking-wider flex items-center justify-between">
-                    <span>Calendrier des Concours :</span>
-                    <span class="text-[8px] font-normal text-brand-muted/70">Cliquez pour fixer</span>
-                </span>
-
-                <div id="sidebar-countdown-list" class="space-y-1 max-h-48 overflow-y-auto pr-0.5">
-                    <!-- Filled and updated dynamically by app.js -->
-                </div>
-            </div>
-
-            <!-- NABRAS DYNAMIC ACADEMIC ADVICE -->
-            <div class="p-2.5 rounded-2xl bg-brand-darker border border-brand-borderSubtle flex items-start gap-2 shadow-inner">
-                <span class="text-base shrink-0">🦉</span>
-                <div class="text-[11px] font-outfit leading-tight space-y-0.5">
-                    <span class="font-black text-brand-goldLight block text-[9px] uppercase font-mono tracking-wider">
-                        Nabras • Conseil Concours :
-                    </span>
-                    <p id="sidebar-nabras-tip" class="text-brand-muted text-[10px] leading-relaxed">
-                        Dans le silence de la nuit, chaque seconde de focus façonne l'élite de demain.
-                    </p>
-                </div>
-            </div>
-
-        </aside>
-
-        <!-- Floating Right Edge Trigger for Countdowns ("f jnb l-imn w fiha gha bouton") -->
-        <button id="btn-sidebar-countdown-trigger" title="Ouvrir le panneau des échéances et concours (Watani, CNC, CPGE)"
-            class="fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-gradient-to-l from-brand-cherry to-brand-cherryDark text-brand-goldLight px-2 py-3 rounded-l-2xl border-y border-l border-brand-gold shadow-[0_0_20px_rgba(158,24,56,0.6)] flex flex-col items-center gap-1.5 font-outfit font-black text-[10px] active:scale-95 transition cursor-pointer hover:pl-3 group">
-            <i class="fa-solid fa-hourglass-half text-brand-gold group-hover:rotate-180 transition-transform duration-500 text-xs"></i>
-            <span id="floating-mobile-cd-days" class="font-mono text-[9px] text-white">J-192</span>
-        </button>
-
-        <!-- Slide-over Drawer Backdrop -->
+        <!-- Slide-over Drawer Backdrop (Mobile only) -->
         <div id="countdown-drawer-backdrop" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden transition-opacity"></div>
 
         <!-- TAB 2: STEM FLASHCARDS 3D TRAINER (STUDYSOUK ACADEMY) -->
