@@ -756,21 +756,56 @@ class StudySoukTimerApp {
             });
         });
 
-        // Dedicated More Tools Popover Toggle
+        // Dedicated More Tools Modal Hub ("tban mzian mashi ltht")
         const toggleMoreBtn = document.getElementById("btn-toggle-more-tools");
-        const morePopover = document.getElementById("more-tools-popover");
-        if (toggleMoreBtn && morePopover) {
+        const toolsModal = document.getElementById("modal-tools-hub");
+        const closeToolsModalBtn = document.getElementById("btn-close-tools-modal");
+
+        const openToolsModal = () => {
+            window.ambience?.playClick();
+            toolsModal?.classList.remove("hidden");
+            toolsModal?.classList.add("flex");
+        };
+
+        const closeToolsModal = () => {
+            toolsModal?.classList.add("hidden");
+            toolsModal?.classList.remove("flex");
+        };
+
+        if (toggleMoreBtn && toolsModal) {
             toggleMoreBtn.addEventListener("click", (e) => {
                 e.stopPropagation();
-                window.ambience?.playClick();
-                morePopover.classList.toggle("hidden");
+                if (toolsModal.classList.contains("hidden")) {
+                    openToolsModal();
+                } else {
+                    closeToolsModal();
+                }
             });
 
-            // Close popover when clicking anywhere outside
-            document.addEventListener("click", (e) => {
-                if (!morePopover.contains(e.target) && !toggleMoreBtn.contains(e.target)) {
-                    morePopover.classList.add("hidden");
+            closeToolsModalBtn?.addEventListener("click", closeToolsModal);
+
+            // Close when clicking directly on backdrop
+            toolsModal.addEventListener("click", (e) => {
+                if (e.target === toolsModal) {
+                    closeToolsModal();
                 }
+            });
+
+            // Open countdown drawer from tools modal
+            document.getElementById("tool-hub-open-countdowns")?.addEventListener("click", () => {
+                closeToolsModal();
+                document.getElementById("btn-sidebar-countdown-trigger")?.click();
+            });
+
+            // Handle tab buttons inside tools modal
+            toolsModal.querySelectorAll("[data-tab]").forEach(card => {
+                card.addEventListener("click", () => {
+                    const targetTab = card.dataset.tab;
+                    if (targetTab) {
+                        closeToolsModal();
+                        this.switchTab(targetTab);
+                    }
+                });
             });
         }
 
@@ -786,8 +821,13 @@ class StudySoukTimerApp {
     }
 
     switchTab(tabId) {
-        // Hide more tools popover if open
-        document.getElementById("more-tools-popover")?.classList.add("hidden");
+        // Hide tools modal if open
+        const toolsModal = document.getElementById("modal-tools-hub");
+        toolsModal?.classList.add("hidden");
+        toolsModal?.classList.remove("flex");
+
+        // Scroll workspace to top cleanly
+        document.querySelector("main")?.scrollTo({ top: 0, behavior: "instant" });
 
         const navBtns = document.querySelectorAll(".nav-tab-btn");
         navBtns.forEach(b => {
@@ -1645,8 +1685,15 @@ class StudySoukTimerApp {
         backdrop?.addEventListener("click", closeSidebarDrawer);
 
         window.addEventListener("keydown", (e) => {
-            if (e.key === "Escape" && sidebar?.classList.contains("drawer-open")) {
-                closeSidebarDrawer();
+            if (e.key === "Escape") {
+                if (sidebar?.classList.contains("drawer-open")) {
+                    closeSidebarDrawer();
+                }
+                const toolsModal = document.getElementById("modal-tools-hub");
+                if (toolsModal && !toolsModal.classList.contains("hidden")) {
+                    toolsModal.classList.add("hidden");
+                    toolsModal.classList.remove("flex");
+                }
             }
         });
 

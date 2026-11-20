@@ -36,12 +36,25 @@
         rel="stylesheet">
 
     <style>
+        html {
+            height: 100%;
+            height: 100dvh;
+            overflow: hidden;
+            overscroll-behavior: none;
+        }
+
         body {
             background-color: #070709;
             color: #FFFFFF;
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            overflow-x: hidden;
-            min-height: 100vh;
+            overflow: hidden;
+            height: 100%;
+            height: 100dvh;
+            width: 100%;
+            position: fixed;
+            inset: 0;
+            overscroll-behavior: none;
+            -webkit-overflow-scrolling: touch;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             text-rendering: optimizeLegibility;
@@ -508,7 +521,7 @@
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen text-brand-text select-none">
+<body class="flex flex-col h-screen h-[100dvh] w-full overflow-hidden text-brand-text select-none fixed inset-0">
 
     <!-- Ambient Golden Particle Canvas -->
     <canvas id="ambient-canvas"></canvas>
@@ -517,9 +530,9 @@
     <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none">
     </div>
 
-    <!-- Official StudySouk Elite Header Bar -->
+    <!-- Official StudySouk Elite Header Bar (Pinned Top) -->
     <header
-        class="w-full border-b border-brand-borderSubtle glass-panel sticky top-0 z-40 px-2.5 sm:px-6 py-1.5 sm:py-2 flex items-center justify-between">
+        class="w-full shrink-0 border-b border-brand-borderSubtle glass-panel z-40 px-2.5 sm:px-6 py-1.5 sm:py-2 flex items-center justify-between">
         <div class="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
             <!-- Official StudySouk Academy Logo Emblem -->
             <div class="relative w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center group cursor-pointer shrink-0">
@@ -698,9 +711,9 @@
         </div>
     </header>
 
-    <!-- Main Workspace Container -->
+    <!-- Main Workspace Container (The only internal scroll container - App frame locked) -->
     <main
-        class="flex-1 max-w-7xl w-full mx-auto px-2 sm:px-4 py-1 flex flex-col items-center justify-center relative z-20">
+        class="flex-1 w-full max-w-7xl mx-auto px-2 sm:px-4 py-2 overflow-y-auto overflow-x-hidden custom-scrollbar flex flex-col items-center relative z-20">
 
         <!-- TAB 1: MINUTEUR DE DEEP WORK & FOCUS PAR MATIÈRE -->
         <section id="tab-timer" class="tab-content w-full flex flex-col items-center justify-center max-w-2xl sm:max-w-3xl">
@@ -2095,78 +2108,8 @@
         <div id="reactions-container"></div>
     </div>
 
-    <!-- Official StudySouk Streamlined Luxury Navigation Dock -->
-    <footer class="w-full glass-panel border-t border-brand-borderSubtle sticky bottom-0 z-40 py-1.5 px-3">
-        <!-- Floating Secondary Tools Popover Menu -->
-        <div id="more-tools-popover"
-            class="hidden absolute bottom-full mb-3 right-3 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 w-64 glass-panel rounded-2xl border border-brand-gold/40 p-2 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_25px_rgba(158,24,56,0.3)] backdrop-blur-2xl animate-fadeIn z-50">
-            <div class="px-2.5 py-1.5 border-b border-brand-borderSubtle flex items-center justify-between mb-1.5">
-                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-brand-goldLight">Autres
-                    Outils</span>
-                <span class="text-[9px] font-mono text-brand-muted">StudySouk Elite</span>
-            </div>
-            <div class="flex flex-col gap-1">
-                <button data-tab="tab-nabras"
-                    class="nav-tab-btn more-tab-item flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-brand-muted hover:text-white hover:bg-white/5 transition text-left group">
-                    <div
-                        class="w-7 h-7 rounded-lg bg-brand-cherry/80 border border-brand-gold/40 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow-sm">
-                        <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
-                    </div>
-                    <div>
-                        <div class="font-outfit font-black text-white text-xs flex items-center gap-1.5">
-                            <span>Nabras AI</span>
-                            <span class="px-1.5 py-0.2 rounded text-[8px] font-mono bg-brand-gold/20 text-brand-goldLight border border-brand-gold/40">3 Langues</span>
-                        </div>
-                        <div class="text-[10px] text-brand-muted font-normal">Tuteur intelligent • شرح وتحفيز</div>
-                    </div>
-                </button>
-                <button data-tab="tab-duel"
-                    class="nav-tab-btn more-tab-item flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-brand-muted hover:text-white hover:bg-white/5 transition text-left group">
-                    <div
-                        class="w-7 h-7 rounded-lg bg-brand-cherry/80 border border-brand-gold/40 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow-sm">
-                        <i class="fa-solid fa-bolt text-xs"></i>
-                    </div>
-                    <div>
-                        <div class="font-outfit font-black text-white text-xs">Duel STEM 1v1</div>
-                        <div class="text-[10px] text-brand-muted font-normal">Défis & classements live</div>
-                    </div>
-                </button>
-                <button data-tab="tab-flashcards"
-                    class="nav-tab-btn more-tab-item flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-brand-muted hover:text-white hover:bg-white/5 transition text-left group">
-                    <div
-                        class="w-7 h-7 rounded-lg bg-brand-cherry/80 border border-brand-gold/40 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow-sm">
-                        <i class="fa-solid fa-graduation-cap text-xs"></i>
-                    </div>
-                    <div>
-                        <div class="font-outfit font-black text-white text-xs">Flashcards CPGE</div>
-                        <div class="text-[10px] text-brand-muted font-normal">Mémorisation espacée SM</div>
-                    </div>
-                </button>
-                <button data-tab="tab-tasks"
-                    class="nav-tab-btn more-tab-item flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-brand-muted hover:text-white hover:bg-white/5 transition text-left group">
-                    <div
-                        class="w-7 h-7 rounded-lg bg-brand-cherry/80 border border-brand-gold/40 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow-sm">
-                        <i class="fa-solid fa-chart-pie text-xs"></i>
-                    </div>
-                    <div>
-                        <div class="font-outfit font-black text-white text-xs">Dashboard & Badges</div>
-                        <div class="text-[10px] text-brand-muted font-normal">Niveaux & progression</div>
-                    </div>
-                </button>
-                <button data-tab="tab-ambience"
-                    class="nav-tab-btn more-tab-item flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold text-brand-muted hover:text-white hover:bg-white/5 transition text-left group">
-                    <div
-                        class="w-7 h-7 rounded-lg bg-brand-cherry/80 border border-brand-gold/40 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow-sm">
-                        <i class="fa-solid fa-sliders text-xs"></i>
-                    </div>
-                    <div>
-                        <div class="font-outfit font-black text-white text-xs">Ambiance & ASMR</div>
-                        <div class="text-[10px] text-brand-muted font-normal">Pluie, bibliothèque & lofi</div>
-                    </div>
-                </button>
-            </div>
-        </div>
-
+    <!-- Official StudySouk Streamlined Luxury Navigation Dock (Pinned Bottom) -->
+    <footer class="w-full shrink-0 glass-panel border-t border-brand-borderSubtle z-40 py-1.5 px-3">
         <!-- Sleek Main 5 Pillars + Tools Trigger -->
         <div class="max-w-2xl mx-auto flex items-center justify-between gap-0.5 sm:gap-1.5 w-full py-0.5">
             <!-- 1. Chrono (Primary) -->
@@ -3041,6 +2984,164 @@
                         class="px-2 py-0.5 rounded bg-brand-card border border-brand-gold/40 text-brand-goldLight font-mono text-[11px] font-bold">?</kbd>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- GRAND OUTILS HUB MODAL (Boîte à Outils & Suites d'Élite StudySouk - Centré & Lisible) -->
+    <div id="modal-tools-hub"
+        class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 animate-fadeIn">
+        <div
+            class="w-full max-w-lg glass-panel rounded-3xl border border-brand-gold/55 p-4 sm:p-6 shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_35px_rgba(158,24,56,0.4)] relative flex flex-col max-h-[90vh] overflow-hidden bg-brand-card/95">
+            
+            <!-- Ambient Decorative Glow -->
+            <div class="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-brand-cherry/25 blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-16 -bottom-16 w-48 h-48 rounded-full bg-brand-gold/20 blur-3xl pointer-events-none"></div>
+
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between pb-3 mb-3 border-b border-brand-borderSubtle relative z-10 shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-cherryDark to-brand-cherry border border-brand-gold flex items-center justify-center shadow-[0_0_15px_rgba(217,119,6,0.45)]">
+                        <i class="fa-solid fa-sliders text-brand-goldLight text-base"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-black font-outfit gold-text-gradient leading-tight">
+                            Boîte à Outils d'Élite • أدوات الدراسة
+                        </h3>
+                        <p class="text-xs text-brand-muted font-outfit">
+                            Suites académiques & fonctionnalités StudySouk
+                        </p>
+                    </div>
+                </div>
+                <button id="btn-close-tools-modal" class="text-brand-muted hover:text-brand-goldLight p-2 rounded-xl hover:bg-brand-darker border border-transparent hover:border-brand-gold/40 transition cursor-pointer" title="Fermer (Échap)">
+                    <i class="fa-solid fa-xmark text-base text-brand-gold"></i>
+                </button>
+            </div>
+
+            <!-- Scrollable Tools Grid -->
+            <div class="flex-1 overflow-y-auto pr-1 space-y-2.5 custom-scrollbar relative z-10">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    
+                    <!-- 1. Dashboard & Badges -->
+                    <button data-tab="tab-tasks" class="tool-hub-card flex items-start gap-3 p-3 rounded-2xl glass-card border border-brand-borderSubtle hover:border-brand-gold/60 hover:bg-white/5 transition text-left group cursor-pointer active:scale-95 shadow-sm">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-cherry to-brand-cherryDark border border-brand-gold/50 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow shrink-0">
+                            <i class="fa-solid fa-chart-pie text-sm"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-outfit font-black text-white text-xs sm:text-sm flex items-center justify-between">
+                                <span>Tableau de Bord</span>
+                                <i class="fa-solid fa-chevron-right text-[10px] text-brand-gold/60 group-hover:translate-x-0.5 transition-transform"></i>
+                            </div>
+                            <div class="text-[11px] text-brand-muted font-normal mt-0.5 leading-snug">Progression, analytics & badges CPGE</div>
+                        </div>
+                    </button>
+
+                    <!-- 2. Ambiance & ASMR Focus -->
+                    <button data-tab="tab-ambience" class="tool-hub-card flex items-start gap-3 p-3 rounded-2xl glass-card border border-brand-borderSubtle hover:border-brand-gold/60 hover:bg-white/5 transition text-left group cursor-pointer active:scale-95 shadow-sm">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-cherry to-brand-cherryDark border border-brand-gold/50 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow shrink-0">
+                            <i class="fa-solid fa-headphones text-sm"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-outfit font-black text-white text-xs sm:text-sm flex items-center justify-between">
+                                <span>Ambiance & ASMR</span>
+                                <i class="fa-solid fa-chevron-right text-[10px] text-brand-gold/60 group-hover:translate-x-0.5 transition-transform"></i>
+                            </div>
+                            <div class="text-[11px] text-brand-muted font-normal mt-0.5 leading-snug">Radio Lofi 24/7, pluie & sons de focus</div>
+                        </div>
+                    </button>
+
+                    <!-- 3. Échéances & Concours Maroc (Opens side countdown drawer) -->
+                    <button id="tool-hub-open-countdowns" class="tool-hub-card flex items-start gap-3 p-3 rounded-2xl glass-card border border-brand-gold/40 hover:border-brand-gold hover:bg-white/5 transition text-left group cursor-pointer active:scale-95 shadow-sm bg-gradient-to-br from-brand-cherryDark/40 to-transparent">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-cherry to-brand-cherryDark border border-brand-gold flex items-center justify-center text-brand-gold group-hover:scale-105 transition shadow shrink-0">
+                            <i class="fa-solid fa-hourglass-half text-sm"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-outfit font-black text-brand-goldLight text-xs sm:text-sm flex items-center justify-between">
+                                <span>Échéances Maroc</span>
+                                <span class="text-[9px] font-mono font-bold bg-brand-gold/20 text-brand-goldLight px-1.5 py-0.5 rounded border border-brand-gold/40">2026</span>
+                            </div>
+                            <div class="text-[11px] text-brand-muted font-normal mt-0.5 leading-snug">Watani 2BAC, CNC CPGE & Régional</div>
+                        </div>
+                    </button>
+
+                    <!-- 4. Nabras AI -->
+                    <button data-tab="tab-nabras" class="tool-hub-card flex items-start gap-3 p-3 rounded-2xl glass-card border border-brand-borderSubtle hover:border-brand-gold/60 hover:bg-white/5 transition text-left group cursor-pointer active:scale-95 shadow-sm">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-cherry to-brand-cherryDark border border-brand-gold/50 flex items-center justify-center text-brand-gold group-hover:scale-105 transition shadow shrink-0 p-1 overflow-hidden">
+                            <img src="assets/studysouk_owl_animated.webp?v=6.1" alt="Nabras" class="w-full h-full object-contain">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-outfit font-black text-white text-xs sm:text-sm flex items-center justify-between">
+                                <span>Nabras AI</span>
+                                <i class="fa-solid fa-chevron-right text-[10px] text-brand-gold/60 group-hover:translate-x-0.5 transition-transform"></i>
+                            </div>
+                            <div class="text-[11px] text-brand-muted font-normal mt-0.5 leading-snug">Tuteur intelligent (FR, Darija, Arabe)</div>
+                        </div>
+                    </button>
+
+                    <!-- 5. Duel STEM 1v1 -->
+                    <button data-tab="tab-duel" class="tool-hub-card flex items-start gap-3 p-3 rounded-2xl glass-card border border-brand-borderSubtle hover:border-brand-gold/60 hover:bg-white/5 transition text-left group cursor-pointer active:scale-95 shadow-sm">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-cherry to-brand-cherryDark border border-brand-gold/50 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow shrink-0">
+                            <i class="fa-solid fa-bolt text-sm"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-outfit font-black text-white text-xs sm:text-sm flex items-center justify-between">
+                                <span>Duel STEM 1v1</span>
+                                <i class="fa-solid fa-chevron-right text-[10px] text-brand-gold/60 group-hover:translate-x-0.5 transition-transform"></i>
+                            </div>
+                            <div class="text-[11px] text-brand-muted font-normal mt-0.5 leading-snug">Quiz en direct & défis entre prépas</div>
+                        </div>
+                    </button>
+
+                    <!-- 6. Flashcards 3D -->
+                    <button data-tab="tab-flashcards" class="tool-hub-card flex items-start gap-3 p-3 rounded-2xl glass-card border border-brand-borderSubtle hover:border-brand-gold/60 hover:bg-white/5 transition text-left group cursor-pointer active:scale-95 shadow-sm">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-cherry to-brand-cherryDark border border-brand-gold/50 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow shrink-0">
+                            <i class="fa-solid fa-graduation-cap text-sm"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-outfit font-black text-white text-xs sm:text-sm flex items-center justify-between">
+                                <span>Flashcards 3D</span>
+                                <i class="fa-solid fa-chevron-right text-[10px] text-brand-gold/60 group-hover:translate-x-0.5 transition-transform"></i>
+                            </div>
+                            <div class="text-[11px] text-brand-muted font-normal mt-0.5 leading-snug">Mémorisation espacée & formules</div>
+                        </div>
+                    </button>
+
+                    <!-- 7. Ardoise & Formulaire LaTeX -->
+                    <button data-tab="tab-scratchpad" class="tool-hub-card flex items-start gap-3 p-3 rounded-2xl glass-card border border-brand-borderSubtle hover:border-brand-gold/60 hover:bg-white/5 transition text-left group cursor-pointer active:scale-95 shadow-sm">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-cherry to-brand-cherryDark border border-brand-gold/50 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow shrink-0">
+                            <i class="fa-solid fa-pen-ruler text-sm"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-outfit font-black text-white text-xs sm:text-sm flex items-center justify-between">
+                                <span>Ardoise & LaTeX</span>
+                                <i class="fa-solid fa-chevron-right text-[10px] text-brand-gold/60 group-hover:translate-x-0.5 transition-transform"></i>
+                            </div>
+                            <div class="text-[11px] text-brand-muted font-normal mt-0.5 leading-snug">Brouillon plein écran & symboles</div>
+                        </div>
+                    </button>
+
+                    <!-- 8. Maktaba Scientifique -->
+                    <button data-tab="tab-library" class="tool-hub-card flex items-start gap-3 p-3 rounded-2xl glass-card border border-brand-borderSubtle hover:border-brand-gold/60 hover:bg-white/5 transition text-left group cursor-pointer active:scale-95 shadow-sm">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-cherry to-brand-cherryDark border border-brand-gold/50 flex items-center justify-center text-brand-goldLight group-hover:scale-105 transition shadow shrink-0">
+                            <i class="fa-solid fa-book-bookmark text-sm"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-outfit font-black text-white text-xs sm:text-sm flex items-center justify-between">
+                                <span>Maktaba Élite</span>
+                                <span class="text-[9px] font-mono font-bold bg-brand-cherry text-brand-goldLight px-1.5 py-0.5 rounded border border-brand-gold/40">149 Vol</span>
+                            </div>
+                            <div class="text-[11px] text-brand-muted font-normal mt-0.5 leading-snug">Livres, annales corrigées & résumés</div>
+                        </div>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="pt-3 border-t border-brand-borderSubtle flex items-center justify-between text-[11px] text-brand-muted font-outfit relative z-10 shrink-0">
+                <span>StudySouk Academy • Suite Pro</span>
+                <span class="text-brand-goldLight font-mono">v6.2</span>
+            </div>
+
         </div>
     </div>
 
