@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" href="assets/studysouk_owl_transparent.png">
     <link rel="apple-touch-icon" href="assets/studysouk_owl_transparent.png">
     <!-- 1. Self-Hosted Compiled Tailwind CSS (Zero CSP Blocking) -->
-    <link rel="stylesheet" href="assets/tailwind.css">
+    <link rel="stylesheet" href="assets/tailwind.css?v=8.0">
 
     <!-- 2. Self-Hosted FontAwesome 6 Icons (Zero CSP Blocking) -->
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
@@ -191,6 +191,28 @@
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
+        }
+
+        /* Side Quote & Chronometer Layout - Guaranteed Side Placement */
+        @media (min-width: 640px) {
+            #chrono-and-quote-row {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 1.5rem !important;
+            }
+            #chrono-dial-wrapper {
+                width: 340px !important;
+                height: 340px !important;
+                flex-shrink: 0 !important;
+            }
+            #chrono-side-quote-card {
+                width: 290px !important;
+                max-width: 320px !important;
+                flex-shrink: 0 !important;
+                display: flex !important;
+            }
         }
 
         .timer-digits {
@@ -736,10 +758,10 @@
         style="scrollbar-width: none; -ms-overflow-style: none;">
 
         <!-- TAB 1: MINUTEUR DE DEEP WORK & FOCUS PAR MATIÈRE -->
-        <section id="tab-timer" class="tab-content w-full flex flex-col items-center justify-center max-w-2xl sm:max-w-3xl mx-auto">
+        <section id="tab-timer" class="tab-content w-full flex flex-col items-center justify-center max-w-4xl mx-auto">
 
             <!-- CENTER WORKSTATION COLUMN: CHRONOMETRE POMODORO -->
-            <div id="timer-focus-column" class="flex flex-col items-center w-full max-w-[640px]">
+            <div id="timer-focus-column" class="flex flex-col items-center w-full max-w-3xl">
 
                 <!-- Subject / Module Selector (Deep Work Focus Subject) -->
                 <div
@@ -840,7 +862,8 @@
             </div>
 
             <!-- Sleek Master Circular Chronometer Display & Academic Quote Wing -->
-            <div class="relative w-full max-w-2xl sm:max-w-3xl flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4 sm:gap-6 mb-2 sm:mb-3 py-1">
+            <div id="chrono-and-quote-row"
+                class="relative w-full max-w-3xl flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-4 sm:gap-6 mb-2 sm:mb-3 py-1">
                 <!-- Compatibility anchors for app.js -->
                 <div class="hidden" aria-hidden="true">
                     <span id="chrono-right-countdown-pod"></span>
@@ -850,8 +873,8 @@
                 </div>
 
                 <!-- Center-Left: Enlarged Master Chrono Dial (Shifted to Left - k7zo llesr) -->
-                <div
-                    class="relative w-72 h-72 xs:w-80 xs:h-80 sm:w-88 sm:h-88 md:w-[360px] md:h-[360px] flex items-center justify-center shrink-0 sm:-ml-2 transition-all duration-300">
+                <div id="chrono-dial-wrapper"
+                    class="relative w-72 h-72 xs:w-80 xs:h-80 sm:w-80 sm:h-80 md:w-96 md:h-96 flex items-center justify-center shrink-0 sm:-ml-2 transition-all duration-300">
                     <!-- Dynamic Radial Glow Halo behind timer -->
                     <div id="timer-ambient-halo"
                         class="absolute inset-1 rounded-full bg-gradient-to-tr from-brand-cherry/40 via-brand-gold/20 to-transparent blur-3xl pointer-events-none transition-all duration-700">
