@@ -71,13 +71,13 @@ class LevelSystem {
         if (!this.container) return;
         const info = this.getLevelInfo();
         this.container.innerHTML = `
-            <div id="btn-open-student-card" class="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold transition cursor-pointer shadow-sm active:scale-95 group" title="Voir ma Carte d'Étudiant & Trophées">
+            <div id="btn-open-student-card" class="flex items-center gap-1.5 sm:gap-2 px-1.5 sm:px-3 py-1 sm:py-1.5 rounded-xl glass-card border border-brand-borderSubtle hover:border-brand-gold transition cursor-pointer shadow-sm active:scale-95 group shrink-0" title="Voir ma Carte d'Étudiant & Trophées">
                 <span class="text-xs sm:text-sm group-hover:scale-110 transition">${info.rank.icon}</span>
                 <div class="flex flex-col">
-                    <span class="text-xs sm:text-sm font-black text-white leading-tight flex items-center gap-1 font-outfit">
+                    <span class="text-[11px] sm:text-sm font-black text-white leading-tight flex items-center gap-1 font-outfit">
                         Niv. ${info.level} <span class="text-brand-goldLight text-xs font-bold hidden sm:inline">• ${info.rank.title}</span>
                     </span>
-                    <div class="w-16 sm:w-20 h-1.5 bg-brand-darker rounded-full overflow-hidden mt-0.5 border border-brand-border">
+                    <div class="w-10 sm:w-20 h-1.5 bg-brand-darker rounded-full overflow-hidden mt-0.5 border border-brand-border">
                         <div class="h-full bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight rounded-full transition-all duration-500" style="width: ${Math.round(info.progress * 100)}%"></div>
                     </div>
                 </div>
@@ -100,6 +100,10 @@ class LevelSystem {
         document.getElementById("btn-edit-profile-from-card")?.addEventListener("click", () => {
             this.closeStudentCardModal();
             document.getElementById("user-profile-trigger")?.click();
+        });
+        const modal = document.getElementById("student-card-modal");
+        modal?.addEventListener("click", (e) => {
+            if (e.target === modal) this.closeStudentCardModal();
         });
     }
 

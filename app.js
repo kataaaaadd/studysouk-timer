@@ -489,6 +489,12 @@ class StudySoukTimerApp {
             shortcutsModal?.classList.add("hidden");
             shortcutsModal?.classList.remove("flex");
         });
+        shortcutsModal?.addEventListener("click", (e) => {
+            if (e.target === shortcutsModal) {
+                shortcutsModal.classList.add("hidden");
+                shortcutsModal.classList.remove("flex");
+            }
+        });
 
         window.addEventListener("keydown", (e) => {
             if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName)) {
@@ -975,9 +981,11 @@ class StudySoukTimerApp {
         const quickBtn = document.getElementById("btn-tictac-toggle-quick");
         const mobileTxt = document.getElementById("tictac-mobile-text");
         const mobileBtn = document.getElementById("btn-tictac-toggle-mobile");
+        const mobileActionTxt = document.getElementById("mobile-action-tictac-label");
 
         if (sideTxt) sideTxt.textContent = this.ticTacEnabled ? "Tic-Tac ON" : "Tic-Tac OFF";
         if (mobileTxt) mobileTxt.textContent = this.ticTacEnabled ? "Tic-Tac ON" : "Tic-Tac OFF";
+        if (mobileActionTxt) mobileActionTxt.textContent = this.ticTacEnabled ? "Tic-Tac ON" : "Tic-Tac OFF";
 
         if (sideBtn) {
             if (this.ticTacEnabled) {
@@ -1100,15 +1108,63 @@ class StudySoukTimerApp {
             });
         });
 
-        document.getElementById("btn-mute-all")?.addEventListener("click", () => {
-            const isMuted = window.ambience?.toggleMute();
+        const updateMuteButtonUI = (isMuted) => {
             const btn = document.getElementById("btn-mute-all");
             if (btn) {
                 btn.innerHTML = isMuted 
                     ? `<i class="fa-solid fa-volume-xmark text-rose-400"></i> <span class="hidden sm:inline">Muet</span>`
                     : `<i class="fa-solid fa-volume-high text-brand-gold"></i> <span class="hidden sm:inline">Sons</span>`;
             }
+            const mobileMuteTxt = document.getElementById("mobile-action-mute-label");
+            if (mobileMuteTxt) mobileMuteTxt.textContent = isMuted ? "Activer le Son" : "Couper le Son";
+        };
+
+        document.getElementById("btn-mute-all")?.addEventListener("click", () => {
+            const isMuted = window.ambience?.toggleMute();
+            updateMuteButtonUI(isMuted);
         });
+
+        // Mobile Quick Actions Menu Toggle & Handlers (<md screens)
+        const mobileToggleBtn = document.getElementById("btn-mobile-actions-toggle");
+        const mobileActionsMenu = document.getElementById("mobile-actions-menu");
+        if (mobileToggleBtn && mobileActionsMenu) {
+            mobileToggleBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                window.ambience?.playClick();
+                mobileActionsMenu.classList.toggle("hidden");
+            });
+
+            document.addEventListener("click", (e) => {
+                if (!mobileActionsMenu.contains(e.target) && !mobileToggleBtn.contains(e.target)) {
+                    mobileActionsMenu.classList.add("hidden");
+                }
+            });
+
+            document.getElementById("btn-mobile-tictac-action")?.addEventListener("click", () => {
+                mobileActionsMenu.classList.add("hidden");
+                this.toggleTicTac();
+            });
+
+            document.getElementById("btn-mobile-mute-action")?.addEventListener("click", () => {
+                mobileActionsMenu.classList.add("hidden");
+                document.getElementById("btn-mute-all")?.click();
+            });
+
+            document.getElementById("btn-mobile-zen-action")?.addEventListener("click", () => {
+                mobileActionsMenu.classList.add("hidden");
+                document.getElementById("btn-zen-mode")?.click();
+            });
+
+            document.getElementById("btn-mobile-invite-action")?.addEventListener("click", () => {
+                mobileActionsMenu.classList.add("hidden");
+                document.getElementById("btn-invite-room")?.click();
+            });
+
+            document.getElementById("btn-mobile-shortcuts-action")?.addEventListener("click", () => {
+                mobileActionsMenu.classList.add("hidden");
+                document.getElementById("btn-shortcuts")?.click();
+            });
+        }
     }
 
     // --- MODALS & PROFILE ---
@@ -1130,6 +1186,12 @@ class StudySoukTimerApp {
         document.getElementById("btn-close-roster")?.addEventListener("click", () => {
             rosterModal?.classList.add("hidden");
             rosterModal?.classList.remove("flex");
+        });
+        rosterModal?.addEventListener("click", (e) => {
+            if (e.target === rosterModal) {
+                rosterModal.classList.add("hidden");
+                rosterModal.classList.remove("flex");
+            }
         });
 
         // 2. Profile Modal
@@ -1226,6 +1288,12 @@ class StudySoukTimerApp {
         document.getElementById("btn-close-profile")?.addEventListener("click", () => {
             profileModal?.classList.add("hidden");
             profileModal?.classList.remove("flex");
+        });
+        profileModal?.addEventListener("click", (e) => {
+            if (e.target === profileModal) {
+                profileModal.classList.add("hidden");
+                profileModal.classList.remove("flex");
+            }
         });
 
         if (avatarsGrid) {
@@ -1327,6 +1395,12 @@ class StudySoukTimerApp {
         document.getElementById("btn-close-invite")?.addEventListener("click", () => {
             inviteModal?.classList.add("hidden");
             inviteModal?.classList.remove("flex");
+        });
+        inviteModal?.addEventListener("click", (e) => {
+            if (e.target === inviteModal) {
+                inviteModal.classList.add("hidden");
+                inviteModal.classList.remove("flex");
+            }
         });
 
         // 4. Countdowns & Concours Modal
