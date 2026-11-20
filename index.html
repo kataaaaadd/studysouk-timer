@@ -335,27 +335,26 @@
             display: none !important;
         }
 
-        @media (max-width: 1023px) {
-            #panel-countdowns-sidebar {
-                display: none;
-            }
+        #panel-countdowns-sidebar {
+            display: none !important;
+            position: fixed !important;
+            top: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 360px !important;
+            max-width: 92vw !important;
+            height: 100vh !important;
+            z-index: 60 !important;
+            border-radius: 1.5rem 0 0 1.5rem !important;
+            overflow-y: auto !important;
+            box-shadow: -15px 0 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(158, 24, 56, 0.4) !important;
+            border-left: 2px solid rgba(217, 119, 6, 0.6) !important;
+        }
 
-            #panel-countdowns-sidebar.drawer-open,
-            #panel-countdowns-sidebar.mobile-drawer-open {
-                display: flex !important;
-                position: fixed !important;
-                top: 0 !important;
-                right: 0 !important;
-                bottom: 0 !important;
-                width: 340px !important;
-                max-width: 90vw !important;
-                height: 100vh !important;
-                z-index: 60 !important;
-                border-radius: 1.5rem 0 0 1.5rem !important;
-                overflow-y: auto !important;
-                box-shadow: -10px 0 50px rgba(0, 0, 0, 0.85), 0 0 30px rgba(158, 24, 56, 0.3) !important;
-                animation: slideInRight 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            }
+        #panel-countdowns-sidebar.drawer-open,
+        #panel-countdowns-sidebar.mobile-drawer-open {
+            display: flex !important;
+            animation: slideInRight 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
         }
 
         #countdown-drawer-backdrop {
@@ -704,10 +703,10 @@
         class="flex-1 max-w-7xl w-full mx-auto px-2 sm:px-4 py-1 flex flex-col items-center justify-center relative z-20">
 
         <!-- TAB 1: MINUTEUR DE DEEP WORK & FOCUS PAR MATIÈRE -->
-        <section id="tab-timer" class="tab-content w-full flex flex-col lg:flex-row items-center lg:items-start justify-center gap-6 xl:gap-8 max-w-6xl">
+        <section id="tab-timer" class="tab-content w-full flex flex-col items-center justify-center max-w-2xl sm:max-w-3xl">
 
-            <!-- LEFT/CENTER WORKSTATION COLUMN: CHRONOMETRE POMODORO -->
-            <div id="timer-focus-column" class="flex-1 flex flex-col items-center w-full max-w-xl">
+            <!-- CENTER WORKSTATION COLUMN: CHRONOMETRE POMODORO -->
+            <div id="timer-focus-column" class="flex flex-col items-center w-full max-w-[620px]">
 
                 <!-- Subject / Module Selector (Deep Work Focus Subject) -->
                 <div
@@ -1262,132 +1261,141 @@
             </div>
             <!-- END #timer-focus-column -->
 
-            <!-- RIGHT FLANK: PANNEAU DES ÉCHÉANCES & OBJECTIFS MAROC 2026 ("hda l-chrono f jnb l-imn") -->
-            <aside id="panel-countdowns-sidebar"
-                class="w-full lg:w-80 xl:w-84 shrink-0 flex flex-col space-y-3.5 glass-panel rounded-3xl p-3.5 sm:p-4 border border-brand-gold/45 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_25px_rgba(158,24,56,0.3)] relative bg-brand-card/95 backdrop-blur-xl transition-all duration-300">
-                
-                <!-- Panel Header Bar -->
-                <div class="flex items-center justify-between pb-2 border-b border-brand-borderSubtle">
-                    <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-brand-gold animate-ping"></span>
-                        <h3 class="text-xs font-black font-outfit uppercase tracking-wider text-brand-goldLight flex items-center gap-1.5">
-                            <i class="fa-solid fa-hourglass-half text-brand-gold text-xs"></i>
-                            Échéances Maroc
-                        </h3>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <span class="text-[9px] font-mono px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 font-bold border border-emerald-500/30 flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                            2026/2027
-                        </span>
-                        <!-- Close Drawer Button (Only shown on mobile) -->
-                        <button id="btn-close-countdown-drawer" class="lg:hidden text-brand-muted hover:text-white p-1 rounded-lg hover:bg-white/10 transition cursor-pointer" title="Fermer le panneau">
-                            <i class="fa-solid fa-xmark text-sm"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Target Exam Filter Chips (Choix de l'objectif prioritaire) -->
-                <div class="space-y-1">
-                    <span class="text-[10px] font-bold text-brand-muted uppercase font-mono tracking-wider block">
-                        🎯 Objectif Prioritaire :
-                    </span>
-                    <div class="grid grid-cols-3 gap-1 text-[10px] font-outfit font-bold" id="target-exam-chips">
-                        <button data-exam="bac" class="target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate bg-brand-cherry text-brand-goldLight border-brand-gold font-black shadow-md">
-                            Watani 2BAC
-                        </button>
-                        <button data-exam="cnc" class="target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate glass-card border-brand-borderSubtle text-brand-muted hover:text-white">
-                            CNC CPGE
-                        </button>
-                        <button data-exam="regio" class="target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate glass-card border-brand-borderSubtle text-brand-muted hover:text-white">
-                            Régional 1BAC
-                        </button>
-                    </div>
-                </div>
-
-                <!-- HERO COUNTDOWN CARD (Affiche l'examen cible en grand avec compteurs réels) -->
-                <div id="hero-countdown-card" class="p-3.5 rounded-2xl bg-gradient-to-br from-brand-darker via-brand-darker to-[#20040D] border border-brand-gold/60 shadow-xl space-y-2 relative overflow-hidden group">
-                    <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-brand-gold/10 rounded-full blur-2xl pointer-events-none"></div>
-
-                    <div class="flex items-center justify-between">
-                        <span id="hero-cd-badge" class="px-2 py-0.5 rounded-md text-[9px] font-mono font-bold bg-brand-cherry text-brand-goldLight border border-brand-gold/40 shadow-sm">
-                            Watani 2BAC
-                        </span>
-                        <span id="hero-cd-datetext" class="text-[10px] font-mono text-brand-muted font-bold">
-                            1, 2, 3 Juin
-                        </span>
-                    </div>
-
-                    <h4 id="hero-cd-title" class="text-xs font-black text-white font-outfit truncate">
-                        Examen National 2BAC (Watani)
-                    </h4>
-                    <p id="hero-cd-filieres" class="text-[9px] text-brand-muted font-sans font-medium truncate">
-                        SM-A, SM-B, PC, SVT, STE, STM
-                    </p>
-
-                    <!-- 4 Digits Live Grid -->
-                    <div class="grid grid-cols-4 gap-1 text-center font-mono my-2">
-                        <div class="p-1.5 rounded-xl bg-black/50 border border-brand-gold/40 shadow-inner">
-                            <span id="hero-cd-days" class="text-lg sm:text-xl font-black text-brand-goldLight block">--</span>
-                            <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Jours</span>
-                        </div>
-                        <div class="p-1.5 rounded-xl bg-black/50 border border-brand-borderSubtle">
-                            <span id="hero-cd-hours" class="text-lg sm:text-xl font-black text-white block">--</span>
-                            <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Heures</span>
-                        </div>
-                        <div class="p-1.5 rounded-xl bg-black/50 border border-brand-borderSubtle">
-                            <span id="hero-cd-mins" class="text-lg sm:text-xl font-black text-white block">--</span>
-                            <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Min</span>
-                        </div>
-                        <div class="p-1.5 rounded-xl bg-black/50 border border-brand-borderSubtle">
-                            <span id="hero-cd-secs" class="text-lg sm:text-xl font-black text-emerald-400 block animate-pulse">--</span>
-                            <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Sec</span>
-                        </div>
-                    </div>
-
-                    <!-- Academic Year Progress Bar -->
-                    <div class="space-y-1 pt-0.5">
-                        <div class="flex items-center justify-between text-[9px] font-mono text-brand-muted">
-                            <span>Année Scolaire Écoulée :</span>
-                            <span id="hero-cd-progress-pct" class="font-bold text-brand-gold">--%</span>
-                        </div>
-                        <div class="w-full bg-black/60 rounded-full h-1.5 overflow-hidden border border-brand-borderSubtle">
-                            <div id="hero-cd-progress-bar" class="h-full bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight rounded-full transition-all duration-700" style="width: 65%;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ALL MOROCCAN CONCOURS & EXAMS (Compact Clickable List) -->
-                <div class="space-y-1.5 pt-1">
-                    <span class="text-[10px] font-bold text-brand-muted uppercase font-mono tracking-wider flex items-center justify-between">
-                        <span>Calendrier des Concours :</span>
-                        <span class="text-[8px] font-normal text-brand-muted/70">Cliquez pour fixer</span>
-                    </span>
-
-                    <div id="sidebar-countdown-list" class="space-y-1 max-h-48 overflow-y-auto pr-0.5 custom-scrollbar">
-                        <!-- Filled and updated dynamically by app.js -->
-                    </div>
-                </div>
-
-                <!-- NABRAS DYNAMIC ACADEMIC ADVICE -->
-                <div class="p-2.5 rounded-2xl bg-brand-darker border border-brand-borderSubtle flex items-start gap-2 shadow-inner">
-                    <span class="text-base shrink-0">🦉</span>
-                    <div class="text-[11px] font-outfit leading-tight space-y-0.5">
-                        <span class="font-black text-brand-goldLight block text-[9px] uppercase font-mono tracking-wider">
-                            Nabras • Conseil Concours :
-                        </span>
-                        <p id="sidebar-nabras-tip" class="text-brand-muted text-[10px] leading-relaxed">
-                            Dans le silence de la nuit, chaque seconde de focus façonne l'élite de demain.
-                        </p>
-                    </div>
-                </div>
-
-            </aside>
-
         </section>
 
-        <!-- Slide-over Drawer Backdrop (Mobile only) -->
+        <!-- Slide-over Drawer Backdrop -->
         <div id="countdown-drawer-backdrop" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+
+        <!-- RIGHT FLANK: PANNEAU DES ÉCHÉANCES & OBJECTIFS MAROC 2026 ("rdo l-jnb - tiroir latéral élégant") -->
+        <aside id="panel-countdowns-sidebar"
+            class="flex flex-col space-y-3.5 glass-panel p-4 sm:p-5 border-l-2 border-brand-gold/60 shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_35px_rgba(158,24,56,0.4)] bg-brand-card/95 backdrop-blur-2xl transition-all duration-300">
+            
+            <!-- Panel Header Bar -->
+            <div class="flex items-center justify-between pb-2 border-b border-brand-borderSubtle">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-brand-gold animate-ping"></span>
+                    <h3 class="text-xs font-black font-outfit uppercase tracking-wider text-brand-goldLight flex items-center gap-1.5">
+                        <i class="fa-solid fa-hourglass-half text-brand-gold text-xs"></i>
+                        Échéances Maroc
+                    </h3>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-[9px] font-mono px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 font-bold border border-emerald-500/30 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        2026/2027
+                    </span>
+                    <!-- Close Drawer Button (Visible on all devices) -->
+                    <button id="btn-close-countdown-drawer" class="text-brand-muted hover:text-brand-goldLight px-2 py-1 rounded-xl hover:bg-brand-darker border border-transparent hover:border-brand-gold/40 transition cursor-pointer flex items-center gap-1 text-xs font-mono" title="Fermer (Échap)">
+                        <span>Fermer</span>
+                        <i class="fa-solid fa-xmark text-sm text-brand-gold"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Target Exam Filter Chips (Choix de l'objectif prioritaire) -->
+            <div class="space-y-1">
+                <span class="text-[10px] font-bold text-brand-muted uppercase font-mono tracking-wider block">
+                    🎯 Objectif Prioritaire :
+                </span>
+                <div class="grid grid-cols-3 gap-1 text-[10px] font-outfit font-bold" id="target-exam-chips">
+                    <button data-exam="bac" class="target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate bg-brand-cherry text-brand-goldLight border-brand-gold font-black shadow-md">
+                        Watani 2BAC
+                    </button>
+                    <button data-exam="cnc" class="target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate glass-card border-brand-borderSubtle text-brand-muted hover:text-white">
+                        CNC CPGE
+                    </button>
+                    <button data-exam="regio" class="target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate glass-card border-brand-borderSubtle text-brand-muted hover:text-white">
+                        Régional 1BAC
+                    </button>
+                </div>
+            </div>
+
+            <!-- HERO COUNTDOWN CARD (Affiche l'examen cible en grand avec compteurs réels) -->
+            <div id="hero-countdown-card" class="p-3.5 rounded-2xl bg-gradient-to-br from-brand-darker via-brand-darker to-[#20040D] border border-brand-gold/60 shadow-xl space-y-2 relative overflow-hidden group">
+                <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-brand-gold/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                <div class="flex items-center justify-between">
+                    <span id="hero-cd-badge" class="px-2 py-0.5 rounded-md text-[9px] font-mono font-bold bg-brand-cherry text-brand-goldLight border border-brand-gold/40 shadow-sm">
+                        Watani 2BAC
+                    </span>
+                    <span id="hero-cd-datetext" class="text-[10px] font-mono text-brand-muted font-bold">
+                        1, 2, 3 Juin
+                    </span>
+                </div>
+
+                <h4 id="hero-cd-title" class="text-xs font-black text-white font-outfit truncate">
+                    Examen National 2BAC (Watani)
+                </h4>
+                <p id="hero-cd-filieres" class="text-[9px] text-brand-muted font-sans font-medium truncate">
+                    SM-A, SM-B, PC, SVT, STE, STM
+                </p>
+
+                <!-- 4 Digits Live Grid -->
+                <div class="grid grid-cols-4 gap-1 text-center font-mono my-2">
+                    <div class="p-1.5 rounded-xl bg-black/50 border border-brand-gold/40 shadow-inner">
+                        <span id="hero-cd-days" class="text-lg sm:text-xl font-black text-brand-goldLight block">--</span>
+                        <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Jours</span>
+                    </div>
+                    <div class="p-1.5 rounded-xl bg-black/50 border border-brand-borderSubtle">
+                        <span id="hero-cd-hours" class="text-lg sm:text-xl font-black text-white block">--</span>
+                        <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Heures</span>
+                    </div>
+                    <div class="p-1.5 rounded-xl bg-black/50 border border-brand-borderSubtle">
+                        <span id="hero-cd-mins" class="text-lg sm:text-xl font-black text-white block">--</span>
+                        <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Min</span>
+                    </div>
+                    <div class="p-1.5 rounded-xl bg-black/50 border border-brand-borderSubtle">
+                        <span id="hero-cd-secs" class="text-lg sm:text-xl font-black text-emerald-400 block animate-pulse">--</span>
+                        <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Sec</span>
+                    </div>
+                </div>
+
+                <!-- Academic Year Progress Bar -->
+                <div class="space-y-1 pt-0.5">
+                    <div class="flex items-center justify-between text-[9px] font-mono text-brand-muted">
+                        <span>Année Scolaire Écoulée :</span>
+                        <span id="hero-cd-progress-pct" class="font-bold text-brand-gold">--%</span>
+                    </div>
+                    <div class="w-full bg-black/60 rounded-full h-1.5 overflow-hidden border border-brand-borderSubtle">
+                        <div id="hero-cd-progress-bar" class="h-full bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight rounded-full transition-all duration-700" style="width: 65%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ALL MOROCCAN CONCOURS & EXAMS (Compact Clickable List) -->
+            <div class="space-y-1.5 pt-1">
+                <span class="text-[10px] font-bold text-brand-muted uppercase font-mono tracking-wider flex items-center justify-between">
+                    <span>Calendrier des Concours :</span>
+                    <span class="text-[8px] font-normal text-brand-muted/70">Cliquez pour fixer</span>
+                </span>
+
+                <div id="sidebar-countdown-list" class="space-y-1 max-h-48 overflow-y-auto pr-0.5 custom-scrollbar">
+                    <!-- Filled and updated dynamically by app.js -->
+                </div>
+            </div>
+
+            <!-- NABRAS DYNAMIC ACADEMIC ADVICE -->
+            <div class="p-2.5 rounded-2xl bg-brand-darker border border-brand-borderSubtle flex items-start gap-2 shadow-inner">
+                <span class="text-base shrink-0">🦉</span>
+                <div class="text-[11px] font-outfit leading-tight space-y-0.5">
+                    <span class="font-black text-brand-goldLight block text-[9px] uppercase font-mono tracking-wider">
+                        Nabras • Conseil Concours :
+                    </span>
+                    <p id="sidebar-nabras-tip" class="text-brand-muted text-[10px] leading-relaxed">
+                        Dans le silence de la nuit, chaque seconde de focus façonne l'élite de demain.
+                    </p>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- Floating Right Edge Trigger for Countdowns ("f jnb l-imn w fiha gha bouton") -->
+        <button id="btn-sidebar-countdown-trigger" title="Ouvrir le panneau des échéances et concours (Watani, CNC, CPGE)"
+            class="fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-gradient-to-l from-brand-cherryDark via-brand-cherry to-brand-cherry text-brand-goldLight px-2.5 py-4 rounded-l-2xl border-y border-l-2 border-brand-gold shadow-[0_0_25px_rgba(158,24,56,0.7),0_0_15px_rgba(217,119,6,0.4)] flex flex-col items-center gap-2 font-outfit font-black text-[11px] active:scale-95 transition-all duration-200 cursor-pointer hover:pl-3.5 hover:shadow-[0_0_35px_rgba(217,119,6,0.6)] group">
+            <i class="fa-solid fa-hourglass-half text-brand-gold group-hover:rotate-180 transition-transform duration-500 text-sm drop-shadow-[0_0_8px_rgba(245,197,66,0.8)]"></i>
+            <span class="text-[9px] font-mono font-black uppercase tracking-widest text-brand-goldLight [writing-mode:vertical-rl] rotate-180 my-1">ÉCHÉANCES</span>
+            <span id="floating-mobile-cd-days" class="font-mono text-[10px] text-white font-black bg-black/70 px-1.5 py-0.5 rounded-lg border border-brand-gold/60 shadow-inner">J-192</span>
+        </button>
 
         <!-- TAB 2: STEM FLASHCARDS 3D TRAINER (STUDYSOUK ACADEMY) -->
         <section id="tab-flashcards" class="tab-content w-full hidden max-w-2xl flex flex-col items-center">
@@ -1963,27 +1971,32 @@
                 <div class="absolute -left-16 -bottom-16 w-56 h-56 rounded-full bg-brand-gold/20 blur-3xl pointer-events-none"></div>
 
                 <!-- Top Row: Avatar, Identity & Status -->
-                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pb-3 border-b border-brand-borderSubtle relative z-10">
-                    <div class="flex items-center gap-3.5">
-                        <div class="relative">
-                            <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-brand-cherryDark to-brand-cherry border-2 border-brand-gold shadow-[0_0_20px_rgba(217,119,6,0.55)] flex items-center justify-center p-1.5 group">
-                                <img src="assets/designs/studysouk_logo_clean_cutout.png" alt="Nabras" class="w-full h-full object-contain filter drop-shadow group-hover:scale-110 transition duration-300">
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4 border-b border-brand-borderSubtle relative z-10">
+                    <div class="flex items-center gap-4 sm:gap-5">
+                        <div class="relative group cursor-pointer" onclick="window.ambience?.playClick()">
+                            <!-- Prestigious Animated Owl Mascot Box -->
+                            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-gradient-to-tr from-brand-darker via-brand-cherryDark to-brand-cherry border-2 border-brand-gold shadow-[0_0_25px_rgba(217,119,6,0.65),0_0_15px_rgba(158,24,56,0.5)] flex items-center justify-center p-2 group-hover:scale-105 group-hover:shadow-[0_0_35px_rgba(217,119,6,0.9)] transition-all duration-300 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-radial-gold opacity-20 pointer-events-none"></div>
+                                <img src="assets/studysouk_owl_animated.webp?v=6.1" alt="Nabras AI • البومة الحكيمة" class="w-full h-full object-contain filter drop-shadow-[0_0_12px_rgba(245,197,66,0.85)] group-hover:rotate-3 transition duration-300">
                             </div>
-                            <span class="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full bg-emerald-500 border-2 border-brand-darker flex items-center justify-center shadow">
-                                <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                            <!-- Live Status Pulsing Beacon -->
+                            <span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-emerald-500 border-2 border-brand-darker flex items-center justify-center shadow-lg" title="Nabras en ligne 24/7">
+                                <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
                             </span>
                         </div>
                         <div>
-                            <div class="flex items-center gap-2">
-                                <h2 class="text-base sm:text-xl font-black font-outfit gold-text-gradient leading-tight tracking-tight">
-                                    Nabras AI • نبراس
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h2 class="text-lg sm:text-2xl font-black font-outfit gold-text-gradient leading-tight tracking-tight flex items-center gap-2">
+                                    <span>Nabras AI</span>
+                                    <span class="text-brand-goldLight opacity-90 text-xl sm:text-2xl">نبراس</span>
                                 </h2>
-                                <span class="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-brand-cherry border border-brand-gold/60 text-brand-goldLight uppercase tracking-wider shadow-sm">
-                                    Gemini 3.8
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-black bg-gradient-to-r from-brand-cherry to-brand-cherryDark border border-brand-gold text-brand-goldLight uppercase tracking-wider shadow-sm flex items-center gap-1.5">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-[9px] text-brand-gold"></i>
+                                    <span>Gemini 3.8 Flash • Élite</span>
                                 </span>
                             </div>
-                            <p class="text-xs text-brand-muted font-outfit mt-0.5">
-                                Tuteur académique d'élite pour les étudiants marocains (Français, Darija, Arabe)
+                            <p class="text-xs sm:text-sm text-brand-muted font-outfit mt-1">
+                                Tuteur académique d'élite pour les étudiants marocains (CPGE, 2BAC & Facultés)
                             </p>
                         </div>
                     </div>
@@ -2217,11 +2230,11 @@
 
     <!-- Floating Nabras AI Quick Mascot Button (Available on any screen) -->
     <button id="btn-floating-nabras" title="Ouvrir Nabras AI (نبراس - المساعد الأكاديمي)"
-        class="fixed bottom-16 right-3 sm:right-5 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-brand-cherryDark via-brand-cherry to-brand-cherryLight border-2 border-brand-gold shadow-[0_0_20px_rgba(217,119,6,0.6)] flex items-center justify-center text-brand-gold hover:scale-105 active:scale-95 transition group cursor-pointer">
-        <img src="assets/designs/studysouk_logo_clean_cutout.png" alt="Nabras AI" class="w-7 h-7 sm:w-8 sm:h-8 object-contain filter drop-shadow group-hover:rotate-12 transition duration-300">
-        <span class="absolute -top-1 -right-1 flex h-3 w-3">
+        class="fixed bottom-16 right-3 sm:right-5 z-40 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-brand-cherryDark via-brand-cherry to-brand-cherryLight border-2 border-brand-gold shadow-[0_0_25px_rgba(217,119,6,0.65)] flex items-center justify-center text-brand-gold hover:scale-105 active:scale-95 transition-all duration-200 group cursor-pointer p-1.5">
+        <img src="assets/studysouk_owl_animated.webp?v=6.1" alt="Nabras AI" class="w-full h-full object-contain filter drop-shadow-[0_0_10px_rgba(245,197,66,0.8)] group-hover:rotate-12 transition duration-300">
+        <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-gold opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-brand-gold"></span>
+            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-brand-gold border-2 border-brand-darker"></span>
         </span>
     </button>
 

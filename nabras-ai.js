@@ -311,23 +311,45 @@ class NabrasAI {
         if (!feed) return;
 
         if (this.history.length === 0) {
-            const welcomeText = this.WELCOME_MESSAGES[this.language]?.[this.mode] || this.WELCOME_MESSAGES.darija.explain;
+            const welcomeText = this.WELCOME_MESSAGES[this.language]?.[this.mode] || this.WELCOME_MESSAGES.fr.explain;
             feed.innerHTML = `
-                <div class="flex items-start gap-3 my-2 animate-fadeIn max-w-2xl">
-                    <div class="w-9 h-9 rounded-2xl bg-brand-darker border border-brand-gold flex items-center justify-center text-brand-gold shrink-0 shadow-lg p-1">
-                        <img src="assets/designs/studysouk_logo_clean_cutout.png" alt="Nabras" class="w-full h-full object-contain filter drop-shadow">
+                <div class="flex flex-col items-center text-center my-auto py-6 px-3 sm:px-4 animate-fadeIn max-w-xl mx-auto space-y-4">
+                    <!-- Grand Official Animated Mascot Seal -->
+                    <div class="relative group cursor-pointer" onclick="window.ambience?.playClick()">
+                        <div class="w-18 h-18 sm:w-22 sm:h-22 rounded-3xl bg-gradient-to-tr from-brand-darker via-brand-cherryDark to-brand-cherry border-2 border-brand-gold shadow-[0_0_30px_rgba(217,119,6,0.6),0_0_18px_rgba(158,24,56,0.5)] flex items-center justify-center p-3 relative overflow-hidden group-hover:scale-105 transition-transform duration-300">
+                            <div class="absolute inset-0 bg-radial-gold opacity-25 pointer-events-none"></div>
+                            <img src="assets/studysouk_owl_animated.webp?v=6.1" alt="Nabras AI • البومة الحكيمة" class="w-full h-full object-contain filter drop-shadow-[0_0_14px_rgba(245,197,66,0.9)]">
+                        </div>
+                        <span class="absolute -bottom-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-500 border-2 border-brand-darker flex items-center justify-center shadow-lg" title="En ligne">
+                            <span class="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white animate-pulse"></span>
+                        </span>
                     </div>
-                    <div class="flex-1 glass-panel border border-brand-gold/40 rounded-2xl rounded-tl-sm p-3.5 shadow-md text-xs text-white leading-relaxed font-outfit">
-                        <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-brand-borderSubtle">
-                            <span class="font-black text-brand-goldLight text-[11px] flex items-center gap-1.5">
-                                <i class="fa-solid fa-wand-magic-sparkles text-[10px] text-brand-gold"></i>
+
+                    <div class="space-y-1">
+                        <div class="flex items-center justify-center gap-2">
+                            <h3 class="text-xl sm:text-2xl font-black font-outfit gold-text-gradient">
                                 Nabras AI • نبراس
-                            </span>
-                            <span class="text-[9px] font-mono text-emerald-400 flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> En ligne
+                            </h3>
+                            <span class="px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-brand-cherry text-brand-goldLight border border-brand-gold/60 uppercase">
+                                En ligne
                             </span>
                         </div>
-                        <div class="prose-chat whitespace-pre-line">${this.formatMarkdown(welcomeText)}</div>
+                        <p class="text-xs text-brand-muted font-outfit max-w-md">
+                            Votre tuteur académique d'élite pour réussir le Bac, les Concours CPGE et vos études scientifiques.
+                        </p>
+                    </div>
+
+                    <div class="w-full glass-panel border border-brand-gold/40 rounded-2xl p-4 shadow-xl text-left text-xs sm:text-sm text-white leading-relaxed font-outfit relative">
+                        <div class="flex items-center justify-between pb-2 mb-2 border-b border-brand-borderSubtle">
+                            <span class="font-black text-brand-goldLight text-xs flex items-center gap-1.5">
+                                <i class="fa-solid fa-wand-magic-sparkles text-xs text-brand-gold"></i>
+                                Guide de Session
+                            </span>
+                            <span class="text-[10px] font-mono text-emerald-400 flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Prêt à t'aider
+                            </span>
+                        </div>
+                        <div class="prose-chat whitespace-pre-line text-xs sm:text-sm text-slate-200">${this.formatMarkdown(welcomeText)}</div>
                     </div>
                 </div>
             `;
@@ -338,13 +360,13 @@ class NabrasAI {
             const isUser = msg.role === "user";
             return `
                 <div class="flex items-start gap-2.5 sm:gap-3 my-2.5 ${isUser ? 'flex-row-reverse self-end ml-auto' : 'self-start mr-auto'} max-w-[88%] sm:max-w-2xl animate-fadeIn">
-                    <div class="w-8 h-8 rounded-2xl ${isUser ? 'bg-brand-cherry border border-brand-gold/60' : 'bg-brand-darker border border-brand-gold'} flex items-center justify-center text-xs shrink-0 shadow-md p-1">
-                        ${isUser ? '<i class="fa-solid fa-graduation-cap text-brand-goldLight"></i>' : '<img src="assets/designs/studysouk_logo_clean_cutout.png" alt="Nabras" class="w-full h-full object-contain">'}
+                    <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-2xl ${isUser ? 'bg-gradient-to-tr from-brand-cherry to-brand-cherryDark border border-brand-gold/60' : 'bg-gradient-to-tr from-brand-darker via-brand-cherryDark to-brand-cherry border border-brand-gold shadow-[0_0_10px_rgba(217,119,6,0.4)]'} flex items-center justify-center text-xs shrink-0 p-1 overflow-hidden">
+                        ${isUser ? '<i class="fa-solid fa-graduation-cap text-brand-goldLight text-xs"></i>' : '<img src="assets/studysouk_owl_animated.webp?v=6.1" alt="Nabras" class="w-full h-full object-contain filter drop-shadow">'}
                     </div>
                     <div class="flex-1 ${isUser ? 'bg-gradient-to-br from-brand-cherryDark to-brand-cherry border border-brand-gold/60 text-white rounded-2xl rounded-tr-sm' : 'glass-panel border border-brand-gold/30 text-white rounded-2xl rounded-tl-sm'} p-3 sm:p-3.5 shadow-lg text-xs leading-relaxed font-outfit relative group">
                         <div class="flex items-center justify-between pb-1 mb-1.5 border-b ${isUser ? 'border-white/10' : 'border-brand-borderSubtle'}">
                             <span class="font-black ${isUser ? 'text-white' : 'text-brand-goldLight'} text-[11px] flex items-center gap-1">
-                                ${isUser ? 'Toi (Étudiant)' : '<i class="fa-solid fa-wand-magic-sparkles text-[10px] text-brand-gold"></i> Nabras AI'}
+                                ${isUser ? 'Toi (Étudiant)' : '<i class="fa-solid fa-wand-magic-sparkles text-[10px] text-brand-gold"></i> Nabras AI • نبراس'}
                             </span>
                             <span class="text-[9px] font-mono text-brand-muted">
                                 ${msg.timestamp ? new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
@@ -462,8 +484,8 @@ class NabrasAI {
         thinkingDiv.id = "nabras-thinking-bubble";
         thinkingDiv.className = "flex items-start gap-3 my-2.5 max-w-xl animate-fadeIn";
         thinkingDiv.innerHTML = `
-            <div class="w-8 h-8 rounded-2xl bg-brand-darker border border-brand-gold flex items-center justify-center text-xs shrink-0 shadow-md p-1 animate-pulse">
-                <img src="assets/designs/studysouk_logo_clean_cutout.png" alt="Nabras" class="w-full h-full object-contain">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-2xl bg-gradient-to-tr from-brand-darker via-brand-cherryDark to-brand-cherry border border-brand-gold flex items-center justify-center text-xs shrink-0 shadow-[0_0_12px_rgba(217,119,6,0.4)] p-1 animate-pulse">
+                <img src="assets/studysouk_owl_animated.webp?v=6.1" alt="Nabras" class="w-full h-full object-contain filter drop-shadow">
             </div>
             <div class="glass-panel border border-brand-gold/40 rounded-2xl rounded-tl-sm p-3 shadow-md text-xs text-white flex items-center gap-2 font-outfit">
                 <i class="fa-solid fa-wand-magic-sparkles text-brand-gold animate-spin"></i>
