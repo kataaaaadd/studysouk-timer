@@ -502,21 +502,45 @@
             background: #FFFFFF;
         }
 
-        ::-webkit-scrollbar {
-            width: 6px;
+        /* 🚫 Eliminate visible scrollbars on root, body and main workspace (Zero Side Track) */
+        html, body, main, #tab-timer {
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
         }
 
-        ::-webkit-scrollbar-track {
-            background: #070709;
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar,
+        main::-webkit-scrollbar,
+        #tab-timer::-webkit-scrollbar {
+            display: none !important;
+            width: 0px !important;
+            height: 0px !important;
+            background: transparent !important;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #7A0E27 0%, #4A0817 100%);
-            border-radius: 6px;
+        /* Subtle luxury overlay scrollbar for internal scroll containers only */
+        .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(226, 232, 240, 0.2) transparent;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #9E1838;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent !important;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(226, 232, 240, 0.18);
+            border-radius: 9999px;
+            transition: background 0.2s ease;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(245, 197, 66, 0.65);
         }
     </style>
 </head>
@@ -705,9 +729,10 @@
         </div>
     </header>
 
-    <!-- Main Workspace Container (The only internal scroll container - App frame locked) -->
+    <!-- Main Workspace Container (The only internal scroll container - Zero Side Scrollbar) -->
     <main
-        class="flex-1 w-full max-w-7xl mx-auto px-2 sm:px-4 py-2 overflow-y-auto overflow-x-hidden custom-scrollbar flex flex-col items-center relative z-20">
+        class="flex-1 w-full max-w-7xl mx-auto px-2 sm:px-4 py-2 overflow-y-auto overflow-x-hidden scrollbar-none flex flex-col items-center relative z-20"
+        style="scrollbar-width: none; -ms-overflow-style: none;">
 
         <!-- TAB 1: MINUTEUR DE DEEP WORK & FOCUS PAR MATIÈRE -->
         <section id="tab-timer" class="tab-content w-full flex flex-col items-center justify-center max-w-2xl sm:max-w-3xl">
@@ -1318,6 +1343,36 @@
                 </div>
             </div>
 
+            <!-- CAPSULE AUDIO LO-FI & AMBIANCE DIRECTE CHRONOMETRE (Focus Soundscapes on Demand) -->
+            <div id="chrono-lofi-station"
+                class="w-full max-w-md glass-panel rounded-2xl p-2.5 sm:p-3 mb-2.5 border border-brand-gold/30 flex items-center justify-between gap-2 shadow-lg bg-brand-card/90">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <button id="btn-chrono-lofi-toggle" title="Lancer / Mettre en pause la Lo-Fi 24/7"
+                        class="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand-cherry to-brand-cherryDark border border-brand-gold/60 flex items-center justify-center text-brand-goldLight text-xs hover:scale-105 active:scale-95 transition shadow shrink-0 cursor-pointer">
+                        <i id="chrono-lofi-play-icon" class="fa-solid fa-play text-xs text-brand-gold ml-0.5"></i>
+                    </button>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-1.5">
+                            <span id="chrono-lofi-station-name" class="text-xs font-black text-white font-outfit truncate">Chillhop Beats</span>
+                            <!-- Equalizer Visualizer Bars -->
+                            <div id="chrono-lofi-equalizer" class="hidden items-end gap-0.5 h-3">
+                                <span class="w-0.5 h-full bg-brand-gold rounded-full animate-bounce"></span>
+                                <span class="w-0.5 h-2/3 bg-amber-400 rounded-full animate-bounce [animation-delay:0.15s]"></span>
+                                <span class="w-0.5 h-4/5 bg-brand-goldLight rounded-full animate-bounce [animation-delay:0.3s]"></span>
+                            </div>
+                        </div>
+                        <div class="text-[10px] text-brand-muted truncate font-outfit">Lo-Fi Live 24/7 • Concentration</div>
+                    </div>
+                </div>
+
+                <!-- Quick Station Chips (One-click station swap) -->
+                <div class="flex items-center gap-1 shrink-0">
+                    <button data-quick-station="chillhop" class="quick-station-pill px-2 py-1 rounded-lg bg-brand-cherry border border-brand-gold text-[10px] font-black text-brand-goldLight font-outfit transition cursor-pointer active:scale-95">☕ Chill</button>
+                    <button data-quick-station="piano" class="quick-station-pill px-2 py-1 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[10px] font-bold text-brand-muted hover:text-white font-outfit transition cursor-pointer active:scale-95">🎹 Piano</button>
+                    <button data-quick-station="synthwave" class="quick-station-pill px-2 py-1 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[10px] font-bold text-brand-muted hover:text-white font-outfit transition cursor-pointer active:scale-95">⚡ Synth</button>
+                </div>
+            </div>
+
             <!-- Academic Stats & Quotation Card (Compact Luxury) -->
             <div
                 class="stats-card w-full max-w-md glass-panel rounded-2xl p-3 sm:p-3.5 border border-brand-borderSubtle flex flex-col gap-2 shadow-md">
@@ -1335,6 +1390,22 @@
                         <span id="stat-minutes" class="font-mono text-lg font-black text-brand-goldLight">0 min</span>
                     </div>
                 </div>
+
+                <!-- Daily Focus Goal Milestone Bar (4 Pomodoro Blocks) -->
+                <div class="border-t border-brand-borderSubtle pt-2 flex items-center justify-between text-xs font-outfit">
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-sm">🔥</span>
+                        <span class="font-bold text-white text-[11px]">Objectif Quotidien :</span>
+                        <span id="stat-daily-progress-txt" class="font-mono text-brand-goldLight font-black text-[11px]">0/4 Blocs</span>
+                    </div>
+                    <div id="stat-daily-blocks-dots" class="flex items-center gap-1">
+                        <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                        <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                        <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                        <span class="daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                    </div>
+                </div>
+
                 <div class="border-t border-brand-border pt-2 text-center">
                     <p id="study-quote-text" class="text-xs sm:text-sm text-white italic font-semibold leading-normal">
                         « In Mathematics, the mind resolves during the pause that follows intense effort. »
@@ -1476,9 +1547,9 @@
 
         </aside>
 
-        <!-- Floating Right Edge Trigger for Countdowns ("f jnb l-imn w fiha gha bouton") -->
+        <!-- Floating Right Edge Trigger for Countdowns (Sleek Tucked Edge Capsule) -->
         <button id="btn-sidebar-countdown-trigger" title="Ouvrir le panneau des échéances et concours (Watani, CNC, CPGE)"
-            class="fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-gradient-to-l from-brand-cherryDark via-brand-cherry to-brand-cherry text-brand-goldLight px-2.5 py-4 rounded-l-2xl border-y border-l-2 border-brand-gold shadow-[0_0_25px_rgba(158,24,56,0.7),0_0_15px_rgba(217,119,6,0.4)] flex flex-col items-center gap-2 font-outfit font-black text-[11px] active:scale-95 transition-all duration-200 cursor-pointer hover:pl-3.5 hover:shadow-[0_0_35px_rgba(217,119,6,0.6)] group">
+            class="fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-gradient-to-l from-brand-cherryDark via-brand-cherry to-brand-cherry text-brand-goldLight px-2 py-3.5 rounded-l-2xl border-y border-l-2 border-brand-gold shadow-[0_0_20px_rgba(158,24,56,0.55),0_0_12px_rgba(217,119,6,0.35)] flex flex-col items-center gap-1.5 font-outfit font-black text-[11px] active:scale-95 translate-x-1 hover:translate-x-0 transition-all duration-200 cursor-pointer hover:pl-3 group select-none">
             <i class="fa-solid fa-hourglass-half text-brand-gold group-hover:rotate-180 transition-transform duration-500 text-sm drop-shadow-[0_0_8px_rgba(245,197,66,0.8)]"></i>
             <span class="text-[9px] font-mono font-black uppercase tracking-widest text-brand-goldLight [writing-mode:vertical-rl] rotate-180 my-1">ÉCHÉANCES</span>
             <span id="floating-mobile-cd-days" class="font-mono text-[10px] text-white font-black bg-black/70 px-1.5 py-0.5 rounded-lg border border-brand-gold/60 shadow-inner">J-192</span>

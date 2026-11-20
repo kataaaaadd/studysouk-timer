@@ -145,6 +145,7 @@ class StudySoukTimerApp {
         this.bindTimerControls();
         this.bindAmbienceControls();
         this.bindRadioControls();
+        this.bindChronoLoFiControls();
         this.bindTaskControls();
         this.bindDashboardControls();
         this.bindModals();
@@ -1420,6 +1421,34 @@ class StudySoukTimerApp {
         if (elSessions) elSessions.textContent = this.sessionsCompleted;
         if (elMinutes) elMinutes.textContent = `${this.totalFocusMinutes} min`;
         this.renderCycleDots();
+
+        // Update Daily Focus Goal Milestones (4 Pomodoro Blocks = 1 Cycle)
+        const dailyProgressTxt = document.getElementById("stat-daily-progress-txt");
+        const dots = document.querySelectorAll(".daily-block-dot");
+        const count = this.sessionsCompleted || 0;
+        const currentInCycle = count % 4;
+        const cycles = Math.floor(count / 4);
+
+        if (dailyProgressTxt) {
+            if (count === 0) {
+                dailyProgressTxt.textContent = "0/4 Blocs (0%)";
+            } else if (count < 4) {
+                dailyProgressTxt.textContent = `${count}/4 Blocs (${count * 25}%)`;
+            } else {
+                dailyProgressTxt.textContent = `${count}/4 Blocs (🔥 Série x${cycles})`;
+            }
+        }
+
+        if (dots && dots.length > 0) {
+            dots.forEach((dot, idx) => {
+                const isFilled = (count >= 4 && currentInCycle === 0) ? true : (idx < currentInCycle || (count >= 4 && idx < 4));
+                if (isFilled) {
+                    dot.className = "daily-block-dot w-2.5 h-2.5 rounded-full bg-gradient-to-tr from-brand-gold to-amber-300 border border-brand-gold shadow-[0_0_8px_rgba(245,197,66,0.85)] scale-110 transition-all duration-300";
+                } else {
+                    dot.className = "daily-block-dot w-2.5 h-2.5 rounded-full bg-brand-darker border border-brand-borderSubtle/60 transition-all duration-300";
+                }
+            });
+        }
     }
 
     rotateQuote() {
@@ -1452,6 +1481,90 @@ class StudySoukTimerApp {
                 btn.className = "radio-station-btn py-1.5 px-2 rounded-lg bg-brand-cherry border border-brand-gold text-brand-goldLight text-[11px] font-bold font-outfit transition flex items-center gap-1.5";
             });
         });
+    }
+
+    // --- CHRONOMETER DIRECT LO-FI FOCUS CAPSULE ---
+    bindChronoLoFiControls() {
+        const toggleBtn = document.getElementById("btn-chrono-lofi-toggle");
+        if (toggleBtn) {
+            toggleBtn.addEventListener("click", () => {
+                if (window.ambience) {
+                    window.ambience.toggleRadio();
+                    this.syncChronoLoFiUI();
+                }
+            });
+        }
+
+        const quickPills = document.querySelectorAll(".quick-station-pill");
+        quickPills.forEach(pill => {
+            pill.addEventListener("click", () => {
+                const stationKey = pill.dataset.quickStation;
+                if (window.ambience && stationKey) {
+                    window.ambience.playRadioStation(stationKey);
+                    this.syncChronoLoFiUI();
+                }
+            });
+        });
+
+        // Listen for playback events from radioAudio to update live equalizer and play/pause icon
+        if (window.ambience && window.ambience.radioAudio) {
+            window.ambience.radioAudio.addEventListener("playing", () => this.syncChronoLoFiUI());
+            window.ambience.radioAudio.addEventListener("pause", () => this.syncChronoLoFiUI());
+            window.ambience.radioAudio.addEventListener("error", () => this.syncChronoLoFiUI());
+        }
+
+        // Also wrap/intercept updateRadioUI if ambience exists
+        if (window.ambience && typeof window.ambience.updateRadioUI === "function") {
+            const origUpdateRadioUI = window.ambience.updateRadioUI.bind(window.ambience);
+            window.ambience.updateRadioUI = () => {
+                origUpdateRadioUI();
+                this.syncChronoLoFiUI();
+            };
+        }
+
+        this.syncChronoLoFiUI();
+    }
+
+    syncChronoLoFiUI() {
+        const playIcon = document.getElementById("chrono-lofi-play-icon");
+        const eq = document.getElementById("chrono-lofi-equalizer");
+        const stationNameEl = document.getElementById("chrono-lofi-station-name");
+        const quickPills = document.querySelectorAll(".quick-station-pill");
+
+        const isPlaying = window.ambience ? !!window.ambience.isRadioPlaying : false;
+        const currentKey = window.ambience ? (window.ambience.currentStationKey || "chillhop") : "chillhop";
+
+        if (playIcon) {
+            playIcon.className = isPlaying
+                ? "fa-solid fa-pause text-xs text-brand-gold ml-0"
+                : "fa-solid fa-play text-xs text-brand-gold ml-0.5";
+        }
+
+        if (eq) {
+            if (isPlaying) {
+                eq.classList.remove("hidden");
+                eq.classList.add("flex");
+            } else {
+                eq.classList.remove("flex");
+                eq.classList.add("hidden");
+            }
+        }
+
+        const stationObj = (typeof LOFI_STATIONS !== "undefined") ? LOFI_STATIONS[currentKey] : null;
+        if (stationNameEl) {
+            stationNameEl.textContent = stationObj ? stationObj.name : "Chillhop Study Beats";
+        }
+
+        if (quickPills && quickPills.length > 0) {
+            quickPills.forEach(pill => {
+                const key = pill.dataset.quickStation;
+                if (key === currentKey) {
+                    pill.className = "quick-station-pill px-2 py-1 rounded-lg bg-brand-cherry border border-brand-gold text-[10px] font-black text-brand-goldLight font-outfit transition cursor-pointer active:scale-95 shadow-sm";
+                } else {
+                    pill.className = "quick-station-pill px-2 py-1 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[10px] font-bold text-brand-muted hover:text-white font-outfit transition cursor-pointer active:scale-95";
+                }
+            });
+        }
     }
 
     // --- AMBIENCE CONTROLS ---
@@ -2009,17 +2122,18 @@ class StudySoukTimerApp {
 
         // Seat 1: Toi (Self Pod)
         const selfCardHtml = `
-            <div class="relative p-2.5 rounded-xl bg-brand-darker/95 border border-brand-gold/40 flex flex-col justify-between gap-2 shadow-inner group">
+            <div class="relative p-2.5 rounded-xl bg-brand-darker/95 border ${this.isRunning ? 'border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.15)]' : 'border-brand-gold/40'} flex flex-col justify-between gap-2 shadow-inner group transition-all duration-300">
                 <div class="flex items-center gap-2">
                     <div class="relative shrink-0">
                         <img src="${selfAvatar}" onerror="this.onerror=null;this.src='assets/avatars/default.svg'"
-                            class="w-9 h-9 rounded-full border border-brand-gold/70 object-cover bg-brand-card shadow-sm">
-                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-brand-darker"></span>
+                            class="w-9 h-9 rounded-full ${this.isRunning ? 'border-2 border-emerald-400 ring-2 ring-emerald-400/40 shadow-[0_0_12px_rgba(52,211,153,0.5)]' : 'border border-brand-gold/70'} object-cover bg-brand-card shadow-sm transition-all duration-300">
+                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full ${this.isRunning ? 'bg-emerald-400 animate-pulse' : 'bg-emerald-500'} border border-brand-darker"></span>
                     </div>
                     <div class="min-w-0 flex-1">
                         <div class="flex items-center gap-1.5 flex-wrap">
                             <span class="text-xs font-black text-white font-outfit truncate max-w-[110px]">${safeSelfName}</span>
                             <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-brand-cherry text-brand-goldLight border border-brand-gold/30">Toi</span>
+                            ${this.isRunning ? '<span class="text-[8px] font-mono font-bold text-emerald-300 bg-emerald-950/80 px-1 py-0.2 rounded border border-emerald-500/40 animate-pulse flex items-center gap-0.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> LIVE</span>' : ''}
                         </div>
                         <div class="text-[10px] text-brand-muted truncate font-outfit">${selfUser.filiere || "CPGE"}</div>
                     </div>
@@ -2052,18 +2166,19 @@ class StudySoukTimerApp {
                 const pTimeStr = pTimer.formatted || (typeof pTimer.timeLeft === "number" ? this.formatTime(pTimer.timeLeft) : "25:00");
 
                 return `
-                    <div class="relative p-2.5 rounded-xl bg-brand-cherryDark/35 border border-brand-gold/60 flex flex-col justify-between gap-2 shadow-md">
+                    <div class="relative p-2.5 rounded-xl bg-brand-cherryDark/35 border ${pIsRunning ? 'border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.15)]' : 'border-brand-gold/60'} flex flex-col justify-between gap-2 shadow-md transition-all duration-300">
                         <div class="flex items-center justify-between gap-2">
                             <div class="flex items-center gap-2 min-w-0">
                                 <div class="relative shrink-0">
                                     <img src="${partnerAvatar}" onerror="this.onerror=null;this.src='assets/avatars/default.svg'"
-                                        class="w-9 h-9 rounded-full border border-brand-gold object-cover bg-brand-card shadow-sm">
+                                        class="w-9 h-9 rounded-full ${pIsRunning ? 'border-2 border-emerald-400 ring-2 ring-emerald-400/40 shadow-[0_0_12px_rgba(52,211,153,0.5)]' : 'border border-brand-gold'} object-cover bg-brand-card shadow-sm transition-all duration-300">
                                     <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full ${pIsRunning ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'} border border-brand-darker"></span>
                                 </div>
                                 <div class="min-w-0">
-                                    <div class="flex items-center gap-1">
+                                    <div class="flex items-center gap-1 flex-wrap">
                                         <span class="text-xs font-black text-brand-goldLight font-outfit truncate max-w-[100px]">${safeName}</span>
                                         <span class="text-[9px] font-mono px-1 py-0.2 rounded bg-brand-gold/20 text-brand-goldLight font-bold">Binôme</span>
+                                        ${pIsRunning ? '<span class="text-[8px] font-mono font-bold text-emerald-300 bg-emerald-950/80 px-1 py-0.2 rounded border border-emerald-500/40 animate-pulse flex items-center gap-0.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> LIVE</span>' : ''}
                                     </div>
                                     <div class="text-[10px] text-brand-muted truncate font-outfit">${partnerFiliere}</div>
                                 </div>
