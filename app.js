@@ -15,19 +15,24 @@ const STUDY_QUOTES = [
 ];
 
 const AVATAR_PRESETS = [
-    { name: "SK Crest Royal", url: "assets/logo.png" },
+    { name: "StudySouk Royal", url: "assets/avatars/official_crest.png" },
+    { name: "Faucon d'Élite", url: "assets/avatars/falcon_crest.jpg" },
+    { name: "Major CNC CPGE", url: "assets/avatars/major_cnc.png" },
+    { name: "Érudit d'Élite", url: "assets/avatars/elite_scholar.png" },
+    { name: "Olympiades STEM", url: "assets/avatars/olympiad.png" },
+    { name: "Podium d'Or", url: "assets/avatars/podium_gold.png" },
     { name: "Al-Khwarizmi", url: "assets/avatars/khwarizmi.svg" },
     { name: "Ibn Sina", url: "assets/avatars/ibnsina.svg" },
     { name: "Euler", url: "assets/avatars/euler.svg" },
     { name: "Poincaré", url: "assets/avatars/poincare.svg" },
     { name: "Marie Curie", url: "assets/avatars/mariecurie.svg" },
     { name: "Ada Lovelace", url: "assets/avatars/adalovelace.svg" },
-    { name: "Khwanss", url: "assets/avatars/khwanss.svg" },
-    { name: "Major STEM", url: "assets/avatars/majorstem.svg" },
     { name: "Alan Turing", url: "assets/avatars/turing.svg" },
     { name: "Ramanujan", url: "assets/avatars/ramanujan.svg" },
     { name: "Hypatia", url: "assets/avatars/hypatia.svg" },
-    { name: "StudySouk", url: "assets/avatars/default.svg" }
+    { name: "Khwanss SM", url: "assets/avatars/khwanss.svg" },
+    { name: "Major STEM", url: "assets/avatars/majorstem.svg" },
+    { name: "Nabras Owl", url: "assets/avatars/default.svg" }
 ];
 
 class StudySoukTimerApp {
@@ -552,7 +557,9 @@ class StudySoukTimerApp {
                                     localStorage.setItem("ss_user_name", this.discordUser.name);
                                 }
                                 if (discordUserData.avatar && !storedAvatar) {
-                                    this.discordUser.avatar = `https://cdn.discordapp.com/avatars/${discordUserData.id}/${discordUserData.avatar}.png`;
+                                    const remoteAvatar = `https://cdn.discordapp.com/avatars/${discordUserData.id}/${discordUserData.avatar}.png`;
+                                    const isProxy = window.location.pathname.startsWith('/.proxy');
+                                    this.discordUser.avatar = `${isProxy ? '/.proxy' : ''}/api/proxy/avatar?url=${encodeURIComponent(remoteAvatar)}`;
                                     localStorage.setItem("ss_user_avatar", this.discordUser.avatar);
                                 }
                             }
@@ -1603,31 +1610,36 @@ class StudySoukTimerApp {
             }
         });
 
-        // 4. Countdowns & Concours Right Sidebar / Mobile Drawer ("f jnb l-imn")
+        // 4. Countdowns & Concours Right Side Drawer ("f jnb l-imn w tkon hidden fiha gha bouton")
         const sidebar = document.getElementById("panel-countdowns-sidebar");
         const backdrop = document.getElementById("countdown-drawer-backdrop");
 
         const openSidebarDrawer = () => {
             window.ambience?.playClick();
-            if (window.innerWidth < 1024) {
-                sidebar?.classList.add("mobile-drawer-open");
-                backdrop?.classList.remove("hidden");
-            } else {
-                sidebar?.classList.add("ring-2", "ring-brand-gold", "scale-[1.02]");
-                setTimeout(() => sidebar?.classList.remove("ring-2", "ring-brand-gold", "scale-[1.02]"), 600);
-                sidebar?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-            }
+            sidebar?.classList.add("drawer-open");
+            backdrop?.classList.remove("hidden");
+            backdrop?.classList.add("drawer-open");
         };
 
         const closeSidebarDrawer = () => {
-            sidebar?.classList.remove("mobile-drawer-open");
+            sidebar?.classList.remove("drawer-open");
             backdrop?.classList.add("hidden");
+            backdrop?.classList.remove("drawer-open");
         };
 
         document.getElementById("btn-open-countdowns")?.addEventListener("click", openSidebarDrawer);
+        document.getElementById("btn-sidebar-countdown-trigger")?.addEventListener("click", openSidebarDrawer);
         document.getElementById("btn-mobile-sidebar-tab")?.addEventListener("click", openSidebarDrawer);
+        document.getElementById("mobile-countdown-badge")?.addEventListener("click", openSidebarDrawer);
+        document.getElementById("btn-close-countdown-drawer")?.addEventListener("click", closeSidebarDrawer);
         document.getElementById("btn-close-mobile-drawer")?.addEventListener("click", closeSidebarDrawer);
         backdrop?.addEventListener("click", closeSidebarDrawer);
+
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && sidebar?.classList.contains("drawer-open")) {
+                closeSidebarDrawer();
+            }
+        });
 
         document.getElementById("btn-copy-room-link")?.addEventListener("click", () => {
             const url = new URL(window.location.href);
@@ -1698,7 +1710,7 @@ class StudySoukTimerApp {
                 <div class="flex items-center justify-between p-3 rounded-2xl bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/60 transition gap-2 group shadow-sm">
                     <div class="flex items-center gap-2.5 min-w-0">
                         <div class="relative shrink-0">
-                            <img src="${avatar}" class="w-10 h-10 rounded-full border-2 border-brand-gold bg-brand-card object-cover group-hover:scale-105 transition shadow">
+                            <img src="${avatar}" onerror="this.onerror=null;this.src='assets/avatars/default.svg'" class="w-10 h-10 rounded-full border-2 border-brand-gold bg-brand-card object-cover group-hover:scale-105 transition shadow">
                             <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-brand-darker"></span>
                         </div>
                         <div class="min-w-0">
@@ -1802,7 +1814,7 @@ class StudySoukTimerApp {
         toast.innerHTML = `
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                    <img src="${(host.avatar && !host.avatar.includes('api.dicebear.com')) ? host.avatar : 'assets/avatars/default.svg'}" class="w-7 h-7 rounded-full border border-brand-gold object-cover">
+                    <img src="${(host.avatar && !host.avatar.includes('api.dicebear.com')) ? host.avatar : 'assets/avatars/default.svg'}" onerror="this.onerror=null;this.src='assets/avatars/default.svg'" class="w-7 h-7 rounded-full border border-brand-gold object-cover">
                     <div>
                         <span class="font-bold text-brand-goldLight block">${host.name}</span>
                         <span class="text-[10px] text-brand-muted">Défi STEM 1v1 (${subject})</span>

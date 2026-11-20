@@ -67,6 +67,37 @@ app.post('/api/token', async (req, res) => {
 });
 
 // ===========================================================================
+// Self-Hosted Discord Avatar Proxy (100% Hosted Locally)
+// ===========================================================================
+app.get(['/api/proxy/avatar', '/.proxy/api/proxy/avatar'], async (req, res) => {
+  try {
+    const rawUrl = req.query.url;
+    if (!rawUrl || typeof rawUrl !== 'string') {
+      return res.redirect('/assets/avatars/default.svg');
+    }
+    const decodedUrl = decodeURIComponent(rawUrl);
+    if (!decodedUrl.startsWith('https://cdn.discordapp.com/') && !decodedUrl.startsWith('https://media.discordapp.net/')) {
+      return res.redirect('/assets/avatars/default.svg');
+    }
+
+    const response = await fetch(decodedUrl);
+    if (!response.ok) {
+      return res.redirect('/assets/avatars/default.svg');
+    }
+
+    const contentType = response.headers.get('content-type') || 'image/png';
+    const buffer = await response.arrayBuffer();
+
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    return res.send(Buffer.from(buffer));
+  } catch {
+    return res.redirect('/assets/avatars/default.svg');
+  }
+});
+
+// ===========================================================================
 // Nabras AI Chatbot API (نبراس - المساعد الأكاديمي الذكي)
 // ===========================================================================
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';

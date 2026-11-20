@@ -1247,7 +1247,7 @@ class DuelArena {
         }
         return peers.map(p => `
             <div class="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-brand-card border border-brand-borderSubtle text-xs">
-                <img src="${(p.avatar && !p.avatar.includes('dicebear')) ? p.avatar : 'assets/avatars/default.svg'}" class="w-5 h-5 rounded-full border border-brand-gold object-cover">
+                <img src="${(p.avatar && !p.avatar.includes('dicebear')) ? p.avatar : 'assets/avatars/default.svg'}" onerror="this.onerror=null;this.src='assets/avatars/default.svg'" class="w-5 h-5 rounded-full border border-brand-gold object-cover">
                 <span class="font-bold text-white text-[11px]">${p.name}</span>
                 <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 font-bold border border-emerald-500/30">Prêt</span>
             </div>

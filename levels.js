@@ -193,7 +193,10 @@ class LevelSystem {
         const elChallengeBtn = document.getElementById("btn-challenge-from-card");
 
         if (elName) elName.textContent = userName;
-        if (elAvatar) elAvatar.src = userAvatar;
+        if (elAvatar) {
+            elAvatar.src = userAvatar;
+            elAvatar.onerror = () => { elAvatar.src = 'assets/avatars/default.svg'; };
+        }
         if (elFiliere) elFiliere.textContent = userFiliere;
         if (elBio) elBio.textContent = userBio ? `« ${userBio} »` : "« Rigueur & Excellence STEM »";
         if (elMatricule) elMatricule.textContent = matricule;
