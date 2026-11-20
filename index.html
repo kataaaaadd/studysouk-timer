@@ -335,7 +335,7 @@
             display: none !important;
         }
 
-        @media (max-width: 1023px) {
+        @media (max-width: 1279px) {
             #panel-countdowns-sidebar {
                 display: none;
             }
@@ -671,13 +671,13 @@
 
     <!-- Main Workspace Container -->
     <main
-        class="flex-1 max-w-5xl sm:max-w-6xl w-full mx-auto px-2 sm:px-4 py-1 flex flex-col items-center justify-center relative z-20">
+        class="flex-1 max-w-7xl w-full mx-auto px-2 sm:px-4 py-1 flex flex-col items-center justify-center relative z-20">
 
         <!-- TAB 1: MINUTEUR DE DEEP WORK & FOCUS PAR MATIÈRE -->
-        <section id="tab-timer" class="tab-content w-full flex flex-col lg:flex-row items-center lg:items-start justify-center gap-5 lg:gap-6 max-w-6xl">
+        <section id="tab-timer" class="tab-content w-full flex flex-col xl:flex-row items-center xl:items-start justify-center gap-6 xl:gap-8 max-w-7xl">
 
             <!-- LEFT/CENTER WORKSTATION COLUMN: CHRONOMETRE POMODORO -->
-            <div id="timer-focus-column" class="flex-1 flex flex-col items-center w-full max-w-xl">
+            <div id="timer-focus-column" class="flex flex-col items-center w-full max-w-[620px] shrink-0">
 
                 <!-- Subject / Module Selector (Deep Work Focus Subject) -->
                 <div
@@ -745,7 +745,7 @@
                 <span id="cycle-label" class="text-xs font-mono font-black text-brand-goldLight ml-1">1/4</span>
             </div>
 
-            <!-- Mobile Dual Flank Indicators (Matière & Salon - Small Screens) -->
+            <!-- Mobile Dual Flank Indicators (Matière & Countdown - Small Screens) -->
             <div class="flex sm:hidden items-center justify-between w-full max-w-xs px-2 mb-2 text-xs">
                 <div
                     class="flex items-center gap-1.5 px-2.5 py-1 rounded-xl glass-card border border-brand-gold/30 max-w-[145px] truncate shadow-sm">
@@ -758,13 +758,13 @@
                     <button id="btn-tictac-toggle-mobile" title="Son Tic-Tac (T)"
                         class="px-2 py-1 rounded-xl glass-card border border-brand-gold/40 text-[10px] font-mono text-brand-goldLight flex items-center gap-1 shadow-sm active:scale-95">
                         <i class="fa-solid fa-stopwatch text-[10px] text-brand-gold"></i>
-                        <span id="tictac-mobile-text">Tic-Tac ON</span>
+                        <span id="tictac-mobile-text">Tic-Tac</span>
                     </button>
-                    <div
-                        class="flex items-center gap-1 px-2 py-1 rounded-xl glass-card border border-emerald-500/30 text-emerald-400 text-[11px] font-outfit font-bold shadow-sm">
-                        <i class="fa-solid fa-satellite-dish text-[9px] animate-pulse"></i>
-                        <span id="timer-sync-label-mobile">Synchro</span>
-                    </div>
+                    <button id="mobile-countdown-badge" title="Cliquer pour changer d'échéance"
+                        class="flex items-center gap-1 px-2.5 py-1 rounded-xl glass-card border border-brand-gold/50 text-brand-goldLight text-[10px] font-mono font-bold shadow-sm active:scale-95 cursor-pointer">
+                        <i class="fa-solid fa-hourglass-half text-[9px] text-brand-gold"></i>
+                        <span id="mobile-countdown-text">Watani: J-192</span>
+                    </button>
                 </div>
             </div>
 
@@ -1148,23 +1148,20 @@
                     </div>
                 </div>
 
-                <!-- Right Flank: Salon Synchronisé & Tic-Tac Complication Pod (Side) -->
-                <div
-                    class="hidden sm:flex absolute right-0 lg:right-2 flex-col items-end gap-1.5 p-2.5 rounded-2xl glass-card border border-brand-gold/30 shadow-xl max-w-[135px] text-right z-10 transition hover:border-brand-gold/60 group">
-                    <div class="flex items-center gap-1.5 text-emerald-400">
-                        <span class="text-[9px] uppercase tracking-widest font-mono font-bold text-brand-muted">Vocal
-                            Salon</span>
-                        <i class="fa-solid fa-satellite-dish text-[10px] animate-pulse"></i>
+                <!-- Right Flank: Moroccan Countdown Complication Pod ("f l-imin d l-chrono") -->
+                <div id="chrono-right-countdown-pod"
+                    class="hidden sm:flex absolute right-0 lg:right-2 flex-col items-end gap-1 p-2.5 rounded-2xl glass-card border border-brand-gold/40 shadow-xl max-w-[145px] text-right z-10 transition hover:border-brand-gold cursor-pointer group hover:scale-105 active:scale-95" title="Cliquer pour changer d'échéance (Watani, CNC, Régional...)">
+                    <div class="flex items-center gap-1.5 text-brand-goldLight">
+                        <i class="fa-solid fa-hourglass-half text-[10px] text-brand-gold group-hover:rotate-180 transition-transform duration-500"></i>
+                        <span id="pod-cd-badge" class="text-[9px] uppercase tracking-widest font-mono font-bold text-brand-gold">Watani 2BAC</span>
                     </div>
-                    <span id="timer-sync-label" class="text-xs font-black text-emerald-400 font-outfit leading-tight">
-                        Salon Synchronisé
+                    <span id="pod-cd-days" class="text-sm font-black gold-text-gradient font-mono leading-tight">
+                        J - 192
                     </span>
-                    <!-- Tic-Tac Sound Toggle Pill -->
-                    <button id="btn-tictac-toggle-side" title="Activer / Couper le son Tic-Tac mécanique (T)"
-                        class="mt-1 flex items-center gap-1 px-2 py-0.5 rounded-lg bg-brand-darker border border-brand-gold/40 hover:border-brand-gold text-[10px] font-mono text-brand-goldLight transition active:scale-95 shadow-sm">
-                        <i class="fa-solid fa-stopwatch text-[10px] text-brand-gold"></i>
-                        <span id="tictac-side-text">Tic-Tac ON</span>
-                    </button>
+                    <div class="flex items-center gap-1 text-[9px] text-brand-muted font-mono">
+                        <span id="pod-cd-date">1, 2, 3 Juin</span>
+                        <i class="fa-solid fa-repeat text-[8px] text-brand-gold/70 group-hover:text-brand-gold"></i>
+                    </div>
                 </div>
             </div>
 
@@ -1367,13 +1364,13 @@
 
         <!-- Mobile Floating Right Edge Trigger for Countdowns ("f jnb l-imn") -->
         <button id="btn-mobile-sidebar-tab" title="Ouvrir le panneau des échéances et concours"
-            class="lg:hidden fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-gradient-to-l from-brand-cherry to-brand-cherryDark text-brand-goldLight px-2 py-2.5 rounded-l-2xl border-y border-l border-brand-gold shadow-[0_0_20px_rgba(158,24,56,0.6)] flex flex-col items-center gap-1 font-outfit font-black text-[10px] active:scale-95 transition">
+            class="xl:hidden fixed right-0 top-1/2 -translate-y-1/2 z-40 bg-gradient-to-l from-brand-cherry to-brand-cherryDark text-brand-goldLight px-2 py-2.5 rounded-l-2xl border-y border-l border-brand-gold shadow-[0_0_20px_rgba(158,24,56,0.6)] flex flex-col items-center gap-1 font-outfit font-black text-[10px] active:scale-95 transition">
             <i class="fa-solid fa-hourglass-half text-brand-gold animate-pulse text-xs"></i>
             <span id="floating-mobile-cd-days" class="font-mono text-[9px] text-white">J-192</span>
         </button>
 
         <!-- Mobile Drawer Backdrop -->
-        <div id="countdown-drawer-backdrop" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity"></div>
+        <div id="countdown-drawer-backdrop" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 hidden xl:hidden transition-opacity"></div>
 
         <!-- TAB 2: STEM FLASHCARDS 3D TRAINER (STUDYSOUK ACADEMY) -->
         <section id="tab-flashcards" class="tab-content w-full hidden max-w-2xl flex flex-col items-center">

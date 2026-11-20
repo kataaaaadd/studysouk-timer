@@ -341,7 +341,21 @@ class StudySoukTimerApp {
                 });
             }
 
-            // 3. Mini header badge & floating mobile badge
+            // 3. Right Flank Pod (Next to Chrono) & Mobile Flank Badge
+            const elPodBadge = document.getElementById("pod-cd-badge");
+            const elPodDays = document.getElementById("pod-cd-days");
+            const elPodDate = document.getElementById("pod-cd-date");
+            const elMobText = document.getElementById("mobile-countdown-text");
+
+            if (elPodBadge) elPodBadge.textContent = heroConfig.badge;
+            if (elPodDays) elPodDays.textContent = `J - ${days}`;
+            if (elPodDate) elPodDate.textContent = heroConfig.dateText;
+            if (elMobText) {
+                const shortBadge = heroConfig.badge.split(" ")[0] || "Watani";
+                elMobText.textContent = `${shortBadge}: J-${days}`;
+            }
+
+            // 4. Mini header badge & floating mobile badge
             const elMini = document.getElementById("header-mini-countdown");
             const elFloating = document.getElementById("floating-mobile-cd-days");
             if (elMini) elMini.textContent = `${heroConfig.badge}: J-${days}`;
@@ -358,6 +372,27 @@ class StudySoukTimerApp {
                 }
             });
         });
+
+        // Click on Right Flank Pod or Mobile Badge to cycle through exams
+        const examKeys = Object.keys(EXAMS);
+        const cycleNextExam = () => {
+            const currentIdx = examKeys.indexOf(this.targetExamKey);
+            const nextKey = examKeys[(currentIdx + 1) % examKeys.length];
+            window.ambience?.playClick();
+            this.setTargetExam(nextKey);
+        };
+
+        const chronoPod = document.getElementById("chrono-right-countdown-pod");
+        if (chronoPod && !chronoPod.dataset.bound) {
+            chronoPod.dataset.bound = "true";
+            chronoPod.addEventListener("click", cycleNextExam);
+        }
+
+        const mobileBadge = document.getElementById("mobile-countdown-badge");
+        if (mobileBadge && !mobileBadge.dataset.bound) {
+            mobileBadge.dataset.bound = "true";
+            mobileBadge.addEventListener("click", cycleNextExam);
+        }
 
         updateCountdowns();
         if (this.countdownHubTimer) clearInterval(this.countdownHubTimer);
