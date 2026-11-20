@@ -1244,6 +1244,86 @@
                 </button>
             </div>
 
+            <!-- TABLE D'ÉTUDE VIRTUELLE & DUO FOCUS (Live Study Desk Pods) -->
+            <div id="virtual-study-desk"
+                class="w-full max-w-md glass-panel rounded-2xl p-3 sm:p-3.5 mb-2.5 border border-brand-gold/30 flex flex-col gap-2.5 shadow-[0_15px_35px_rgba(0,0,0,0.65),0_0_25px_rgba(158,24,56,0.25)] transition-all bg-brand-card/90">
+                
+                <!-- Desk Header Bar -->
+                <div class="flex items-center justify-between pb-2 border-b border-brand-borderSubtle">
+                    <div class="flex items-center gap-2">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <h3 class="text-xs font-black font-outfit uppercase tracking-wider text-brand-goldLight flex items-center gap-1.5">
+                            <i class="fa-solid fa-users text-brand-gold text-xs"></i>
+                            Table d'Étude Virtuelle
+                        </h3>
+                        <span id="desk-status-badge" class="text-[9px] font-mono px-2 py-0.5 rounded-full bg-brand-darker border border-brand-gold/30 text-brand-goldLight font-bold">
+                            1 assis
+                        </span>
+                    </div>
+
+                    <div class="flex items-center gap-1.5">
+                        <!-- Pacte Focus Duo Action Button -->
+                        <button id="btn-desk-focus-pact" title="Proposer un pacte d'étude duo de 25m ou 50m"
+                            class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-brand-cherry to-brand-cherryDark border border-brand-gold/50 hover:border-brand-gold text-brand-goldLight text-[10px] sm:text-xs font-bold font-outfit flex items-center gap-1 shadow hover:scale-105 active:scale-95 transition cursor-pointer">
+                            <i class="fa-solid fa-handshake text-brand-gold text-xs"></i>
+                            <span>Pacte Duo</span>
+                        </button>
+
+                        <!-- Inviter un Binôme Button -->
+                        <button id="btn-desk-invite" title="Inviter un ami / copier le lien de la table"
+                            class="px-2.5 py-1 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-brand-silver text-[10px] sm:text-xs font-semibold font-outfit flex items-center gap-1 hover:text-white transition cursor-pointer">
+                            <i class="fa-solid fa-link text-brand-gold text-xs"></i>
+                            <span class="hidden sm:inline">Inviter</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Active Focus Pact Duo Banner (Appears when pact is initiated) -->
+                <div id="desk-pact-banner" class="hidden flex-col gap-1.5 p-2.5 rounded-xl bg-gradient-to-r from-brand-cherry/90 via-brand-darker to-brand-cherryDark/90 border border-brand-gold shadow-[0_0_20px_rgba(245,197,66,0.3)]">
+                    <div class="flex items-center justify-between text-xs font-outfit font-black text-brand-goldLight">
+                        <span class="flex items-center gap-1.5">
+                            <span class="text-sm">🤝</span>
+                            <span>PACTE FOCUS EN COURS</span>
+                        </span>
+                        <span id="desk-pact-timer-sync" class="font-mono text-white text-xs px-2 py-0.5 rounded bg-brand-darker border border-brand-gold/50">
+                            25:00
+                        </span>
+                    </div>
+                    <div class="w-full bg-brand-darker/80 rounded-full h-1.5 overflow-hidden border border-brand-borderSubtle">
+                        <div id="desk-pact-progress-bar" class="bg-gradient-to-r from-brand-gold to-amber-300 h-full w-full transition-all duration-1000"></div>
+                    </div>
+                    <div class="flex items-center justify-between text-[10px] text-brand-muted font-outfit">
+                        <span id="desk-pact-partner-name">En symbiose de révision</span>
+                        <span class="text-brand-goldLight font-bold">+50 XP Bonus à la clé 🎯</span>
+                    </div>
+                </div>
+
+                <!-- Desk Seats Grid (Dynamic Pods) -->
+                <div id="desk-seats-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full">
+                    <!-- Populated dynamically by app.js:
+                         Seat 1: Toi (Self Pod)
+                         Seat 2: Binôme (Connected Partner or Empty Desk with Invite)
+                    -->
+                </div>
+
+                <!-- Live Micro-Reactions Bar -->
+                <div id="desk-reactions-dock" class="flex items-center justify-between pt-1 px-1 border-t border-brand-borderSubtle/60 text-[10px] text-brand-muted">
+                    <span class="font-outfit font-semibold flex items-center gap-1 text-brand-muted">
+                        <i class="fa-solid fa-bolt text-brand-gold"></i> Encourager :
+                    </span>
+                    <div class="flex items-center gap-1.5">
+                        <button data-emoji="🔥" class="desk-reaction-btn w-7 h-7 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-125 active:scale-95 transition flex items-center justify-center text-xs cursor-pointer shadow-sm" title="Envoyer : Flamme Focus !">🔥</button>
+                        <button data-emoji="👏" class="desk-reaction-btn w-7 h-7 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-125 active:scale-95 transition flex items-center justify-center text-xs cursor-pointer shadow-sm" title="Envoyer : Bravo !">👏</button>
+                        <button data-emoji="☕" class="desk-reaction-btn w-7 h-7 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-125 active:scale-95 transition flex items-center justify-center text-xs cursor-pointer shadow-sm" title="Envoyer : Pause café ?">☕</button>
+                        <button data-emoji="💪" class="desk-reaction-btn w-7 h-7 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-125 active:scale-95 transition flex items-center justify-center text-xs cursor-pointer shadow-sm" title="Envoyer : Courage !">💪</button>
+                        <button data-emoji="🧠" class="desk-reaction-btn w-7 h-7 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-125 active:scale-95 transition flex items-center justify-center text-xs cursor-pointer shadow-sm" title="Envoyer : Génie Focus !">🧠</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Academic Stats & Quotation Card (Compact Luxury) -->
             <div
                 class="stats-card w-full max-w-md glass-panel rounded-2xl p-3 sm:p-3.5 border border-brand-borderSubtle flex flex-col gap-2 shadow-md">
@@ -3142,6 +3222,56 @@
                 <span class="text-brand-goldLight font-mono">v6.2</span>
             </div>
 
+        </div>
+    </div>
+
+    <!-- MODAL DUO FOCUS PACT (Proposition de Verrouillage d'Étude Synchronisé) -->
+    <div id="modal-focus-pact-invite"
+        class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 animate-fadeIn">
+        <div class="glass-panel w-full max-w-sm rounded-3xl p-5 sm:p-6 border-2 border-brand-gold/70 shadow-[0_20px_60px_rgba(0,0,0,0.95),0_0_40px_rgba(158,24,56,0.5)] flex flex-col gap-4 text-center relative bg-brand-card/95">
+            
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-brand-cherry via-brand-cherryDark to-black border border-brand-gold mx-auto flex items-center justify-center text-2xl shadow-xl animate-bounce">
+                🤝
+            </div>
+
+            <div>
+                <h3 class="text-base font-black font-outfit text-brand-goldLight">Proposition de Pacte Focus !</h3>
+                <p class="text-xs text-brand-muted mt-1 font-outfit leading-relaxed">
+                    <strong id="pact-sender-name" class="text-white">Ton binôme</strong> t'invite à sceller un pacte de <strong id="pact-modal-duration-text" class="text-brand-goldLight font-mono">25 minutes</strong> de concentration totale !
+                </p>
+                <div id="pact-sender-subject" class="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-darker border border-brand-gold/40 text-[11px] font-bold text-brand-goldLight">
+                    📚 Sujet : Maths • Analyse
+                </div>
+            </div>
+
+            <!-- Conditions du Pacte -->
+            <div class="p-3 rounded-2xl bg-brand-darker/90 border border-brand-borderSubtle text-left text-xs space-y-1.5 font-outfit">
+                <div class="text-[10px] uppercase tracking-wider text-brand-gold font-black">Règles d'Excellence :</div>
+                <div class="text-white text-[11px] flex items-center gap-2">
+                    <i class="fa-solid fa-stopwatch text-emerald-400 text-xs shrink-0"></i>
+                    <span>Minuteurs synchronisés à la seconde</span>
+                </div>
+                <div class="text-white text-[11px] flex items-center gap-2">
+                    <i class="fa-solid fa-lock text-brand-gold text-xs shrink-0"></i>
+                    <span>Zéro distraction, mode lock-in strict</span>
+                </div>
+                <div class="text-white text-[11px] flex items-center gap-2">
+                    <i class="fa-solid fa-trophy text-amber-400 text-xs shrink-0"></i>
+                    <span class="text-brand-goldLight font-bold">+50 XP Bonus pour chacun à la validation</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 pt-1">
+                <button id="btn-pact-decline"
+                    class="flex-1 py-2.5 rounded-xl bg-brand-darker border border-brand-borderSubtle hover:border-white/40 text-brand-muted hover:text-white text-xs font-bold font-outfit transition cursor-pointer active:scale-95">
+                    Refuser
+                </button>
+                <button id="btn-pact-accept"
+                    class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black text-xs font-black font-outfit shadow-[0_0_15px_rgba(245,197,66,0.4)] hover:scale-105 active:scale-95 transition cursor-pointer flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-bolt text-xs"></i>
+                    <span>Sceller le Pacte</span>
+                </button>
+            </div>
         </div>
     </div>
 

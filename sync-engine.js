@@ -191,6 +191,9 @@ class RoomSyncEngine {
             case "whiteboard":
                 this.emit("whiteboard_message", payload);
                 break;
+            case "pact":
+                this.emit("focus_pact", payload);
+                break;
             default:
                 this.emit(subtopic, payload);
                 break;
@@ -250,7 +253,9 @@ class RoomSyncEngine {
     broadcastPresence() {
         const payload = {
             user: this.currentUser,
-            status: "studying",
+            status: this.currentUser.status || "studying",
+            subject: this.currentUser.subject || "Maths",
+            timerState: this.currentUser.timerState || { isRunning: false, timeLeft: 1500, formatted: "25:00", modeKey: "focus25" },
             timestamp: Date.now()
         };
         this.send("presence", payload);
@@ -270,14 +275,21 @@ class RoomSyncEngine {
         if (memberId === this.clientId) return;
 
         const isNew = !this.roster.has(memberId);
+        const updatedUser = {
+            ...payload.user,
+            status: payload.status || payload.user.status || "studying",
+            subject: payload.subject || payload.user.subject || "Révision",
+            timerState: payload.timerState || payload.user.timerState || { isRunning: false, timeLeft: 1500, formatted: "25:00", modeKey: "focus25" }
+        };
+
         this.roster.set(memberId, {
-            user: payload.user,
+            user: updatedUser,
             lastSeen: Date.now(),
             isSelf: false
         });
 
         if (isNew) {
-            this.emit("user_joined", payload.user);
+            this.emit("user_joined", updatedUser);
         }
         this.emitRosterUpdate();
     }
@@ -317,6 +329,14 @@ class RoomSyncEngine {
     sendDuel(action, data) {
         this.send("duel", {
             action,
+            ...data,
+            author: this.currentUser
+        });
+    }
+
+    sendPact(action, data = {}) {
+        this.send("pact", {
+            action, // 'invite' | 'accept' | 'decline' | 'pause_warning' | 'complete'
             ...data,
             author: this.currentUser
         });

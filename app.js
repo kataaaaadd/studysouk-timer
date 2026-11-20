@@ -75,6 +75,10 @@ class StudySoukTimerApp {
         this.subjectMinutes = JSON.parse(localStorage.getItem("ss_subject_minutes") || '{"Maths":0,"Physique":0,"Chimie":0,"Info":0}');
         this.focusHistory = JSON.parse(localStorage.getItem("ss_focus_history") || '[]');
         this.activeTaskFilter = "all";
+
+        // Table d'Étude Virtuelle & Duo Focus Pact
+        this.activePact = null;
+        this.pendingPactInvite = null;
     }
 
     async init() {
@@ -144,6 +148,7 @@ class StudySoukTimerApp {
         this.bindTaskControls();
         this.bindDashboardControls();
         this.bindModals();
+        this.bindDeskControls();
         this.initMultiplayerTimerSync();
 
         this.bindLiveMoroccoClock();
@@ -155,6 +160,7 @@ class StudySoukTimerApp {
         this.renderTasks();
         this.renderDashboard();
         this.renderStats();
+        this.renderVirtualStudyDesk([]);
         this.rotateQuote();
 
         if (window.NabrasAI) {
@@ -478,9 +484,11 @@ class StudySoukTimerApp {
                 const label = selector.selectedOptions?.[0]?.text || this.currentSubject;
                 if (this.sync) {
                     this.sync.setUser({
-                        activeSubject: this.currentSubject
+                        activeSubject: this.currentSubject,
+                        subject: this.currentSubject
                     });
                 }
+                this.renderVirtualStudyDesk([]);
                 this.showToast(`📚 Tu révises maintenant : ${label}`);
             });
         }
@@ -654,11 +662,80 @@ class StudySoukTimerApp {
             const countEl = document.getElementById("room-users-count");
             if (countEl) countEl.textContent = data.count || 1;
             this.renderRosterModal(data.users || []);
+            this.renderVirtualStudyDesk(data.users || []);
+        });
+
+        this.sync.on("reaction_received", (data) => {
+            if (!data) return;
+            const authorName = data.author?.name ? data.author.name.split(" ")[0] : "Ton binôme";
+            const emoji = data.emoji || data.emojiKey || "🔥";
+            if (this.reactions) {
+                this.reactions.spawnReaction(data.emojiKey || "ss_fire", data.author);
+            }
+            this.showToast(`${emoji} ${authorName} t'envoie du soutien !`);
+        });
+
+        this.sync.on("focus_pact", (data) => {
+            if (!data || !data.action) return;
+            const { action, durationMins, subject, author } = data;
+            const authorName = author?.name ? author.name.split(" ")[0] : "Ton binôme";
+
+            if (action === "invite") {
+                if (author && (author.id === this.discordUser?.id || author.id === this.sync?.clientId)) return;
+                this.pendingPactInvite = data;
+                const senderNameEl = document.getElementById("pact-sender-name");
+                const durationEl = document.getElementById("pact-modal-duration-text");
+                const subjectEl = document.getElementById("pact-sender-subject");
+                if (senderNameEl) senderNameEl.textContent = author?.name || "Ton binôme";
+                if (durationEl) durationEl.textContent = `${durationMins || 25} minutes`;
+                if (subjectEl) subjectEl.innerHTML = `📚 Sujet : ${subject || "Deep Work"}`;
+
+                const modal = document.getElementById("modal-focus-pact-invite");
+                modal?.classList.remove("hidden");
+                modal?.classList.add("flex");
+                window.ambience?.playChime();
+            } else if (action === "accept") {
+                this.activePact = {
+                    partner: author,
+                    durationMins: durationMins || 25,
+                    totalSeconds: (durationMins || 25) * 60,
+                    startedAt: Date.now()
+                };
+                this.setTimerMode("focus25", false);
+                this.startTimer(false);
+
+                const banner = document.getElementById("desk-pact-banner");
+                banner?.classList.remove("hidden");
+                banner?.classList.add("flex");
+                const partnerTxt = document.getElementById("desk-pact-partner-name");
+                if (partnerTxt) partnerTxt.textContent = `En symbiose avec ${authorName}`;
+
+                window.ambience?.playSuccess();
+                this.triggerConfetti();
+                this.showToast(`🤝 Pacte Focus Scellé avec ${authorName} ! Concentration maximale !`);
+                this.renderVirtualStudyDesk([]);
+            } else if (action === "decline") {
+                this.showToast(`ℹ️ ${authorName} ne peut pas sceller de pacte pour le moment.`);
+            } else if (action === "pause_warning") {
+                this.showToast(`⚠️ ${authorName} a mis son minuteur en pause !`);
+            } else if (action === "complete") {
+                if (this.activePact) {
+                    this.levelSystem?.addXP(50, "Pacte Focus Duo Validé 🤝");
+                    this.triggerConfetti();
+                    this.showToast("🏆 Pacte Focus Honoré avec brio ! +50 XP bonus débloqué !");
+                    this.activePact = null;
+                    const banner = document.getElementById("desk-pact-banner");
+                    banner?.classList.add("hidden");
+                    banner?.classList.remove("flex");
+                    this.renderVirtualStudyDesk([]);
+                }
+            }
         });
 
         this.sync.on("user_joined", (user) => {
             if (user && user.name) {
                 this.showToast(`👋 ${user.name} a rejoint la session d'étude !`);
+                this.renderVirtualStudyDesk([]);
             }
         });
     }
@@ -1067,6 +1144,7 @@ class StudySoukTimerApp {
                 subject: this.currentSubject
             });
         }
+        this.renderVirtualStudyDesk([]);
     }
 
     pauseTimer(broadcast = false) {
@@ -1083,6 +1161,10 @@ class StudySoukTimerApp {
             statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400"></span><span class="text-[11px] font-mono font-bold text-amber-300 uppercase tracking-wider">En Pause</span>`;
         }
 
+        if (this.activePact && broadcast && this.sync) {
+            this.sync.sendPact("pause_warning", {});
+        }
+
         if (broadcast && this.sync) {
             this.sync.syncPomodoro("pause", {
                 modeKey: this.currentModeKey,
@@ -1091,6 +1173,7 @@ class StudySoukTimerApp {
                 subject: this.currentSubject
             });
         }
+        this.renderVirtualStudyDesk([]);
     }
 
     resetTimer(broadcast = false) {
@@ -1116,6 +1199,7 @@ class StudySoukTimerApp {
                 subject: this.currentSubject
             });
         }
+        this.renderVirtualStudyDesk([]);
     }
 
     getSubjectCategory(subject) {
@@ -1187,6 +1271,21 @@ class StudySoukTimerApp {
 
             this.levelSystem?.addXP(60, "Bloc de Deep Work Validé 🎯");
             this.triggerConfetti();
+
+            // Duo Focus Pact Completion Bonus
+            if (this.activePact) {
+                if (this.sync) {
+                    this.sync.sendPact("complete", {});
+                }
+                this.levelSystem?.addXP(50, "Pacte Focus Duo Honoré 🤝");
+                this.triggerConfetti();
+                this.showToast("🏆 Pacte Focus Honoré ! Félicitations pour ce lock-in duo (+50 XP) !");
+                this.activePact = null;
+                const banner = document.getElementById("desk-pact-banner");
+                banner?.classList.add("hidden");
+                banner?.classList.remove("flex");
+                this.renderVirtualStudyDesk([]);
+            }
         }
 
         if (mode.type === "focus") {
@@ -1203,6 +1302,13 @@ class StudySoukTimerApp {
         if (window.confetti) {
             window.confetti({ particleCount: 90, spread: 75, origin: { y: 0.6 } });
         }
+    }
+
+    formatTime(sec) {
+        if (typeof sec !== "number" || isNaN(sec) || sec < 0) sec = 0;
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
     }
 
     updateTimerDisplay() {
@@ -1225,6 +1331,29 @@ class StudySoukTimerApp {
             circle.style.strokeDasharray = `${circumference}`;
             const offset = circumference * (1 - progress);
             circle.style.strokeDashoffset = offset;
+        }
+
+        // Synchronize Active Focus Pact Banner
+        if (this.activePact) {
+            const pactTimer = document.getElementById("desk-pact-timer-sync");
+            const pactBar = document.getElementById("desk-pact-progress-bar");
+            if (pactTimer) pactTimer.textContent = formatted;
+            if (pactBar && this.activePact.totalSeconds) {
+                const pct = Math.max(0, Math.min(100, (this.timeLeft / this.activePact.totalSeconds) * 100));
+                pactBar.style.width = `${pct}%`;
+            }
+        }
+
+        // Keep local user presence fresh for desk peers
+        if (this.sync && this.sync.currentUser) {
+            this.sync.currentUser.subject = this.currentSubject;
+            this.sync.currentUser.timerState = {
+                isRunning: this.isRunning,
+                timeLeft: this.timeLeft,
+                formatted: formatted,
+                modeKey: this.currentModeKey,
+                isPactActive: !!this.activePact
+            };
         }
 
         document.title = `${formatted} - ${this.modes[this.currentModeKey].label} | StudySouk Academy`;
@@ -1833,6 +1962,284 @@ class StudySoukTimerApp {
             this.duel.mode = "multiplayer";
             this.duel.launchMultiplayerChallenge();
             this.showToast(`⚔️ Défi STEM 1v1 lancé contre ${userName || 'l\'étudiant'} !`);
+        }
+    }
+
+    // --- TABLE D'ÉTUDE VIRTUELLE & DUO FOCUS PACT ---
+    renderVirtualStudyDesk(users = []) {
+        const grid = document.getElementById("desk-seats-grid");
+        if (!grid) return;
+
+        // If no user list supplied, pull from active RoomSync roster
+        if ((!users || users.length === 0) && this.sync && this.sync.roster) {
+            users = Array.from(this.sync.roster.values()).map(m => ({
+                ...m.user,
+                isSelf: !!m.isSelf
+            }));
+        }
+
+        const selfUser = users.find(u => u.isSelf) || {
+            name: this.discordUser?.name || "Toi",
+            avatar: this.discordUser?.avatar || "assets/avatars/default.svg",
+            filiere: this.discordUser?.filiere || "CPGE",
+            school: this.discordUser?.school || "Maroc",
+            isSelf: true
+        };
+
+        const partnerUsers = users.filter(u => !u.isSelf);
+
+        // Update Desk Status Pill
+        const badge = document.getElementById("desk-status-badge");
+        if (badge) {
+            if (partnerUsers.length === 0) {
+                badge.textContent = "1 assis (Toi)";
+            } else if (partnerUsers.length === 1) {
+                badge.textContent = "2 assis (Duo)";
+            } else {
+                badge.textContent = `${users.length} assis (Table)`;
+            }
+        }
+
+        const selfAvatar = (selfUser.avatar && !selfUser.avatar.includes("api.dicebear.com"))
+            ? selfUser.avatar
+            : (this.discordUser?.avatar || "assets/avatars/default.svg");
+        const safeSelfName = (selfUser.name || "Étudiant").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+        const selfSubject = this.currentSubject ? this.currentSubject.split(":")[0] || this.currentSubject : "Deep Work";
+
+        // Seat 1: Toi (Self Pod)
+        const selfCardHtml = `
+            <div class="relative p-2.5 rounded-xl bg-brand-darker/95 border border-brand-gold/40 flex flex-col justify-between gap-2 shadow-inner group">
+                <div class="flex items-center gap-2">
+                    <div class="relative shrink-0">
+                        <img src="${selfAvatar}" onerror="this.onerror=null;this.src='assets/avatars/default.svg'"
+                            class="w-9 h-9 rounded-full border border-brand-gold/70 object-cover bg-brand-card shadow-sm">
+                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-brand-darker"></span>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                            <span class="text-xs font-black text-white font-outfit truncate max-w-[110px]">${safeSelfName}</span>
+                            <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-brand-cherry text-brand-goldLight border border-brand-gold/30">Toi</span>
+                        </div>
+                        <div class="text-[10px] text-brand-muted truncate font-outfit">${selfUser.filiere || "CPGE"}</div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between gap-1 pt-1.5 border-t border-brand-borderSubtle/50 text-[10px]">
+                    <span class="font-outfit font-bold text-brand-goldLight truncate max-w-[105px] flex items-center gap-1" title="${this.currentSubject}">
+                        <i class="fa-solid fa-graduation-cap text-[9px] text-brand-gold"></i>
+                        <span>${selfSubject}</span>
+                    </span>
+                    <span class="font-mono font-bold px-1.5 py-0.5 rounded text-[10px] ${this.isRunning ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/30' : 'bg-brand-card text-brand-muted border border-brand-borderSubtle'}">
+                        ${this.isRunning ? '🟢' : '⏸️'} ${this.formatTime(this.timeLeft)}
+                    </span>
+                </div>
+            </div>
+        `;
+
+        // Seat 2: Binôme (Connected Partner or Empty Desk Seat)
+        let partnersHtml = "";
+        if (partnerUsers.length > 0) {
+            partnersHtml = partnerUsers.map(p => {
+                const partnerAvatar = (p.avatar && !p.avatar.includes("api.dicebear.com")) ? p.avatar : "assets/avatars/default.svg";
+                const safeName = (p.name || "Binôme").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+                const safeId = (p.id || "").replace(/"/g, "&quot;");
+                const partnerFiliere = p.filiere || "CPGE";
+                const pSubj = p.subject || p.activeSubject || "STEM Focus";
+                const pSubjShort = pSubj.split(":")[0] || pSubj;
+                const pTimer = p.timerState || {};
+                const pIsRunning = !!pTimer.isRunning;
+                const pTimeStr = pTimer.formatted || (typeof pTimer.timeLeft === "number" ? this.formatTime(pTimer.timeLeft) : "25:00");
+
+                return `
+                    <div class="relative p-2.5 rounded-xl bg-brand-cherryDark/35 border border-brand-gold/60 flex flex-col justify-between gap-2 shadow-md">
+                        <div class="flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-2 min-w-0">
+                                <div class="relative shrink-0">
+                                    <img src="${partnerAvatar}" onerror="this.onerror=null;this.src='assets/avatars/default.svg'"
+                                        class="w-9 h-9 rounded-full border border-brand-gold object-cover bg-brand-card shadow-sm">
+                                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full ${pIsRunning ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'} border border-brand-darker"></span>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-1">
+                                        <span class="text-xs font-black text-brand-goldLight font-outfit truncate max-w-[100px]">${safeName}</span>
+                                        <span class="text-[9px] font-mono px-1 py-0.2 rounded bg-brand-gold/20 text-brand-goldLight font-bold">Binôme</span>
+                                    </div>
+                                    <div class="text-[10px] text-brand-muted truncate font-outfit">${partnerFiliere}</div>
+                                </div>
+                            </div>
+
+                            <button onclick="window.studyApp.inspectStudentCard('${safeId}')" title="Inspecter la Carte d'Étudiant"
+                                class="w-6 h-6 rounded-lg bg-brand-card hover:bg-brand-gold/20 text-brand-goldLight border border-brand-borderSubtle flex items-center justify-center text-[10px] transition cursor-pointer active:scale-90 shrink-0">
+                                <i class="fa-solid fa-id-card"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-between gap-1 pt-1.5 border-t border-brand-borderSubtle/50 text-[10px]">
+                            <span class="font-outfit font-bold text-brand-silver truncate max-w-[105px] flex items-center gap-1" title="${pSubj}">
+                                <i class="fa-solid fa-book-open text-[9px] text-brand-gold"></i>
+                                <span>${pSubjShort}</span>
+                            </span>
+                            <span class="font-mono font-bold px-1.5 py-0.5 rounded text-[10px] ${pIsRunning ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/30' : 'bg-brand-card text-brand-muted border border-brand-borderSubtle'}">
+                                ${pIsRunning ? '🟢' : '⏸️'} ${pTimeStr}
+                            </span>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        } else {
+            // Empty Seat Placeholder
+            partnersHtml = `
+                <div onclick="window.studyApp.inviteToDesk()" title="Clique pour copier le lien d'invitation"
+                    class="relative p-2.5 rounded-xl border border-dashed border-brand-gold/30 hover:border-brand-gold/80 bg-black/20 hover:bg-brand-cherry/20 flex flex-col items-center justify-center gap-1 text-center cursor-pointer transition group shadow-inner">
+                    <div class="w-8 h-8 rounded-full bg-brand-darker border border-brand-borderSubtle group-hover:border-brand-gold flex items-center justify-center text-brand-gold/60 group-hover:text-brand-gold transition group-hover:scale-110">
+                        <i class="fa-solid fa-user-plus text-xs"></i>
+                    </div>
+                    <div class="text-xs font-bold text-white font-outfit">Place Binôme Libre</div>
+                    <div class="text-[10px] text-brand-muted font-outfit group-hover:text-brand-goldLight transition flex items-center gap-1">
+                        <i class="fa-solid fa-link text-[9px]"></i> Inviter un camarade
+                    </div>
+                </div>
+            `;
+        }
+
+        grid.innerHTML = selfCardHtml + partnersHtml;
+    }
+
+    bindDeskControls() {
+        // Invite button
+        document.getElementById("btn-desk-invite")?.addEventListener("click", () => {
+            this.inviteToDesk();
+        });
+
+        // Focus Pact proposal button
+        document.getElementById("btn-desk-focus-pact")?.addEventListener("click", () => {
+            this.sendPactProposal();
+        });
+
+        // Desk micro-reaction buttons
+        document.querySelectorAll(".desk-reaction-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                const emoji = btn.dataset.emoji || "🔥";
+                window.ambience?.playPop();
+
+                let emojiKey = "ss_fire";
+                if (emoji === "🔥") emojiKey = "ss_fire";
+                else if (emoji === "👏") emojiKey = "ss_crown";
+                else if (emoji === "☕") emojiKey = "ss_coffee";
+                else if (emoji === "💪") emojiKey = "ss_lightning";
+                else if (emoji === "🧠") emojiKey = "ss_brain";
+
+                if (this.sync) {
+                    this.sync.sendReaction(emojiKey);
+                }
+                if (this.reactions) {
+                    this.reactions.spawnReaction(emojiKey, this.sync?.currentUser || { name: "Toi" });
+                }
+                this.showToast(`✨ Tu as envoyé l'encouragement : ${emoji}`);
+            });
+        });
+
+        // Modal Focus Pact action buttons
+        const modal = document.getElementById("modal-focus-pact-invite");
+        document.getElementById("btn-pact-accept")?.addEventListener("click", () => {
+            if (!this.pendingPactInvite) {
+                modal?.classList.add("hidden");
+                modal?.classList.remove("flex");
+                return;
+            }
+
+            const invite = this.pendingPactInvite;
+            modal?.classList.add("hidden");
+            modal?.classList.remove("flex");
+
+            if (this.sync) {
+                this.sync.sendPact("accept", {
+                    targetId: invite.author?.id,
+                    durationMins: invite.durationMins || 25,
+                    subject: invite.subject || this.currentSubject
+                });
+            }
+
+            this.activePact = {
+                partner: invite.author,
+                durationMins: invite.durationMins || 25,
+                totalSeconds: (invite.durationMins || 25) * 60,
+                startedAt: Date.now()
+            };
+            this.pendingPactInvite = null;
+
+            this.setTimerMode("focus25", false);
+            this.startTimer(false);
+
+            const banner = document.getElementById("desk-pact-banner");
+            banner?.classList.remove("hidden");
+            banner?.classList.add("flex");
+            const partnerTxt = document.getElementById("desk-pact-partner-name");
+            if (partnerTxt) partnerTxt.textContent = `En symbiose avec ${invite.author?.name || "ton binôme"}`;
+
+            window.ambience?.playSuccess();
+            this.triggerConfetti();
+            this.showToast("🤝 Pacte Focus Scellé ! 25 minutes de concentration totale !");
+            this.renderVirtualStudyDesk([]);
+        });
+
+        document.getElementById("btn-pact-decline")?.addEventListener("click", () => {
+            if (this.pendingPactInvite && this.sync) {
+                this.sync.sendPact("decline", {
+                    targetId: this.pendingPactInvite.author?.id
+                });
+            }
+            this.pendingPactInvite = null;
+            modal?.classList.add("hidden");
+            modal?.classList.remove("flex");
+            this.showToast("Pacte décliné.");
+        });
+
+        modal?.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            }
+        });
+    }
+
+    inviteToDesk() {
+        window.ambience?.playSuccess();
+        const url = new URL(window.location.href);
+        if (this.sync && this.sync.roomId) {
+            url.searchParams.set("room", this.sync.roomId);
+        }
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(url.toString()).then(() => {
+                this.showToast("📋 Lien de la table copié ! Partage-le à ton camarade de prépa.");
+            }).catch(() => {
+                this.showToast(`Salle : ${this.sync?.roomId || "Générale"}`);
+            });
+        } else {
+            this.showToast(`Salle : ${this.sync?.roomId || "Générale"}`);
+        }
+    }
+
+    sendPactProposal() {
+        window.ambience?.playClick();
+        const partnerUsers = (this.sync?.roster ? Array.from(this.sync.roster.values()) : [])
+            .filter(m => !m.isSelf && m.user);
+
+        if (partnerUsers.length === 0) {
+            this.inviteToDesk();
+            this.showToast("👥 Invite d'abord un binôme à ta table pour sceller un pacte focus !");
+            return;
+        }
+
+        const partner = partnerUsers[0].user;
+        if (this.sync) {
+            this.sync.sendPact("invite", {
+                targetId: partner.id,
+                durationMins: 25,
+                subject: this.currentSubject
+            });
+            this.showToast(`📨 Proposition de Pacte Focus (25m) envoyée à ${partner.name} !`);
         }
     }
 
