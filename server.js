@@ -161,31 +161,60 @@ app.post(['/api/ai/chat', '/.proxy/api/ai/chat'], async (req, res) => {
     // Add current user message
     contents.push({ role: 'user', parts: [{ text: message.trim() }] });
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
-    const payload = {
-      system_instruction: { parts: [{ text: fullSystemInstruction }] },
-      contents,
-      generationConfig: {
-        temperature: modeKey === 'motivate' ? 0.7 : 0.25,
-        maxOutputTokens: 4096
+    const candidateModels = [
+      'gemini-flash-lite-latest',
+      'gemini-3.5-flash-lite',
+      'gemini-flash-latest',
+      'gemini-3.8-flash'
+    ];
+
+    let reply = '';
+    let lastError = null;
+
+    for (const modelName of candidateModels) {
+      try {
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+        const payload = {
+          system_instruction: { parts: [{ text: fullSystemInstruction }] },
+          contents,
+          generationConfig: {
+            temperature: modeKey === 'motivate' ? 0.7 : 0.25,
+            maxOutputTokens: 4096
+          }
+        };
+
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: AbortSignal.timeout(12000)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const candidateText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (candidateText && candidateText.trim()) {
+            reply = candidateText.trim();
+            console.log(`[Nabras AI] Generated response using ${modelName} (${reply.length} chars)`);
+            break;
+          }
+        } else {
+          const errData = await response.json().catch(() => ({}));
+          console.warn(`[Nabras AI] Model ${modelName} failed (${response.status}):`, errData.error?.message || response.statusText);
+          lastError = errData.error?.message || response.statusText;
+        }
+      } catch (modelErr) {
+        console.warn(`[Nabras AI] Model ${modelName} error:`, modelErr.message);
+        lastError = modelErr.message;
       }
-    };
+    }
 
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      console.error('[Nabras AI] Gemini API error:', response.status, data);
-      return res.status(response.status).json({
-        error: data.error?.message || 'Erreur lors de la génération de réponse'
+    if (!reply) {
+      return res.status(503).json({
+        error: lastError || 'Tous les modèles sont temporairement indisponibles.'
       });
     }
 
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
     return res.json({
       ok: true,
       reply,
