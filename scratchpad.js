@@ -47,6 +47,7 @@ class FormulaScratchpad {
         this.lastY = 0;
         this.points = [];
         this.history = []; // Undo stack (max 15 snapshots)
+        this.isTheaterMode = false;
 
         // Collaborative Multi-User State (2+ people live)
         this.remoteCursors = new Map(); // senderId -> { el, timer }
@@ -513,6 +514,13 @@ class FormulaScratchpad {
             setTimeout(() => this.resizeCanvas(), 250);
         });
 
+        // Escape key to exit CSS theater mode
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && this.isTheaterMode) {
+                this.toggleTheaterMode(false);
+            }
+        });
+
         // Export Snapshot
         document.getElementById("wb-export-btn")?.addEventListener("click", () => {
             if (!this.canvas) return;
@@ -559,19 +567,60 @@ class FormulaScratchpad {
     toggleFullscreen() {
         const container = document.getElementById("tab-scratchpad") || document.getElementById("scratchpad-main-container");
         const btn = document.getElementById("wb-fullscreen-btn");
+
+        if (this.isTheaterMode) {
+            this.toggleTheaterMode(false);
+            return;
+        }
+
         if (!document.fullscreenElement) {
-            if (container?.requestFullscreen) {
-                container.requestFullscreen().catch(e => console.warn(e));
-            } else if (container?.webkitRequestFullscreen) {
-                container.webkitRequestFullscreen();
+            let req = null;
+            try {
+                if (container?.requestFullscreen) {
+                    req = container.requestFullscreen();
+                } else if (container?.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                }
+            } catch (e) {
+                console.warn("[Sbora] requestFullscreen exception:", e);
             }
-            if (btn) btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
+
+            if (req && typeof req.then === "function") {
+                req.then(() => {
+                    if (btn) btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
+                }).catch(() => {
+                    // Browser or Discord Activity denied fullscreen -> fallback to CSS theater mode
+                    this.toggleTheaterMode(true);
+                });
+            } else if (!document.fullscreenElement) {
+                this.toggleTheaterMode(true);
+            }
         } else {
             if (document.exitFullscreen) {
                 document.exitFullscreen().catch(e => console.warn(e));
             } else if (document.webkitExitFullscreen) {
                 document.webkitExitFullscreen();
             }
+            if (btn) btn.innerHTML = '<i class="fa-solid fa-expand"></i>';
+            this.toggleTheaterMode(false);
+        }
+        setTimeout(() => this.resizeCanvas(), 250);
+    }
+
+    toggleTheaterMode(forceState) {
+        this.isTheaterMode = typeof forceState === "boolean" ? forceState : !this.isTheaterMode;
+        const container = document.getElementById("tab-scratchpad");
+        const wrapper = document.getElementById("whiteboard-canvas-wrapper");
+        const btn = document.getElementById("wb-fullscreen-btn");
+
+        if (this.isTheaterMode) {
+            container?.classList.add("sbora-theater-fixed");
+            wrapper?.classList.add("sbora-theater-wrapper");
+            if (btn) btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
+            window.studyApp?.showToast?.("🖥️ Sbora en Plein Écran Virtuel (Échap ou bouton pour réduire)");
+        } else {
+            container?.classList.remove("sbora-theater-fixed");
+            wrapper?.classList.remove("sbora-theater-wrapper");
             if (btn) btn.innerHTML = '<i class="fa-solid fa-expand"></i>';
         }
         setTimeout(() => this.resizeCanvas(), 250);

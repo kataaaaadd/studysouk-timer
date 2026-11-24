@@ -40,7 +40,7 @@ const YOUTUBE_STUDY_PRESETS = [
         tag: "Pomodoro"
     },
     {
-        id: "0U_Z7Gk597E",
+        id: "2riD7XfC7t4",
         title: "Coran Karim - Tilawat",
         desc: "Récitation apaisante pour concentration",
         icon: "fa-moon",
@@ -170,6 +170,11 @@ class YouTubeStudySimulator {
             titleEl.textContent = activePreset ? activePreset.title : `Vidéo YouTube (${videoId})`;
         }
 
+        const extLink = document.getElementById("btn-yt-external-link");
+        if (extLink) {
+            extLink.href = `https://www.youtube.com/watch?v=${videoId}`;
+        }
+
         if (autoPlay) {
             this.play();
         }
@@ -200,11 +205,23 @@ class YouTubeStudySimulator {
             </iframe>
         `;
 
-        if (screenContainer) {
-            screenContainer.innerHTML = iframeHtml;
-        }
-        if (floatingScreen) {
-            floatingScreen.innerHTML = iframeHtml;
+        if (this.isFloating) {
+            if (floatingScreen) floatingScreen.innerHTML = iframeHtml;
+            if (screenContainer) {
+                screenContainer.innerHTML = `
+                    <div class="w-full h-full min-h-[190px] flex flex-col items-center justify-center bg-brand-darker/90 rounded-xl border border-dashed border-brand-gold/40 text-center p-4">
+                        <i class="fa-solid fa-up-right-from-square text-brand-gold text-2xl mb-2 animate-pulse"></i>
+                        <h4 class="text-xs font-bold text-white font-outfit mb-0.5">Mini-Lecteur Flottant Actif</h4>
+                        <p class="text-[10px] text-brand-muted mb-2.5">La vidéo joue dans le coin de votre écran pendant que vous étudiez</p>
+                        <button onclick="window.youtubeSimulator?.toggleFloating(false)" class="px-3 py-1 rounded-lg bg-brand-cherry hover:bg-brand-cherryVibrant text-brand-gold text-xs font-bold font-outfit border border-brand-gold/40 shadow transition active:scale-95 cursor-pointer">
+                            Rapatrier Ici
+                        </button>
+                    </div>
+                `;
+            }
+        } else {
+            if (screenContainer) screenContainer.innerHTML = iframeHtml;
+            if (floatingScreen) floatingScreen.innerHTML = "";
         }
 
         if (playBtn) playBtn.classList.add("hidden");
@@ -264,6 +281,9 @@ class YouTubeStudySimulator {
             floatingCard?.classList.remove("flex");
             if (floatBtn) {
                 floatBtn.classList.remove("bg-brand-cherry", "text-brand-gold");
+            }
+            if (this.isPlaying) {
+                this.play();
             }
         }
     }

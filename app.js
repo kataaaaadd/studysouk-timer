@@ -122,22 +122,40 @@ class StudySoukTimerApp {
             this.reactions = new window.ReactionsEngine("reactions-container");
         }
 
-        // 4. Init Flashcards, Scratchpad & STEM Duel
-        if (window.FlashcardViewer) {
-            this.flashcards = new window.FlashcardViewer("flashcards-container");
-            this.flashcards.render();
+        // 4. Init Flashcards, Scratchpad & STEM Duel (Safely Isolated)
+        try {
+            if (window.FlashcardViewer) {
+                this.flashcards = new window.FlashcardViewer("flashcards-container");
+                this.flashcards.render();
+            }
+        } catch (e) {
+            console.error("[StudySouk] Flashcards initialization warning:", e);
         }
-        if (window.FormulaScratchpad) {
-            this.scratchpad = new window.FormulaScratchpad("scratchpad-container");
-            this.scratchpad.render();
+
+        try {
+            if (window.FormulaScratchpad) {
+                this.scratchpad = new window.FormulaScratchpad("scratchpad-container");
+                this.scratchpad.render();
+            }
+        } catch (e) {
+            console.error("[StudySouk] Scratchpad initialization warning:", e);
         }
-        if (window.DuelArena) {
-            this.duel = new window.DuelArena("duel-container");
-            this.duel.render();
+
+        try {
+            if (window.DuelArena) {
+                this.duel = new window.DuelArena("duel-container");
+                this.duel.render();
+            }
+        } catch (e) {
+            console.error("[StudySouk] Duel initialization warning:", e);
         }
 
         // 5. Connect Discord SDK & Identity
-        await this.initDiscordSDK();
+        try {
+            await this.initDiscordSDK();
+        } catch (e) {
+            console.warn("[StudySouk] Discord SDK connection fallback:", e);
+        }
 
         // 6. Bind Listeners & Controls
         this.bindNavigation();

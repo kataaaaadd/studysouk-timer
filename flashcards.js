@@ -1467,6 +1467,9 @@ class FlashcardViewer {
         const cards = this.getFilteredCards();
         const stats = this.getStats();
         const levelCounts = this.getLevelCounts();
+        const cardsToMeasure = this.selectedLevel === "All" 
+            ? STUDY_FLASHCARDS 
+            : STUDY_FLASHCARDS.filter(c => this.matchesLevel(c.level, this.selectedLevel));
 
         if (this.currentIndex >= cards.length) this.currentIndex = 0;
         const card = cards[this.currentIndex] || cards[0];
