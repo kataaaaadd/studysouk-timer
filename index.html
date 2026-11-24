@@ -612,6 +612,16 @@
             height: calc(100vh - 75px) !important;
             min-height: calc(100vh - 75px) !important;
         }
+
+        /* YouTube Screen Container Responsive Sizing */
+        #yt-screen-container {
+            height: clamp(230px, 45vw, 360px);
+            min-height: 230px;
+        }
+
+        #yt-floating-screen-container {
+            height: 180px;
+        }
     </style>
 </head>
 
@@ -2013,8 +2023,8 @@
                 </div>
 
                 <!-- Video Screen Bezel -->
-                <div class="w-full aspect-video min-h-[190px] rounded-xl overflow-hidden bg-black/90 border border-brand-borderSubtle relative shadow-2xl" id="yt-screen-container">
-                    <div class="w-full h-full flex flex-col items-center justify-center bg-brand-darker/90 rounded-xl border border-dashed border-brand-borderSubtle text-center p-4">
+                <div class="relative w-full aspect-video min-h-[220px] rounded-xl overflow-hidden bg-black/95 border border-brand-borderSubtle shadow-2xl" id="yt-screen-container">
+                    <div class="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-brand-darker/90 rounded-xl border border-dashed border-brand-borderSubtle text-center p-4">
                         <div class="w-12 h-12 rounded-full bg-red-600/20 text-red-500 border border-red-500/30 flex items-center justify-center text-xl mb-2 shadow-lg">
                             <i class="fa-brands fa-youtube"></i>
                         </div>
@@ -2026,12 +2036,18 @@
                     </div>
                 </div>
 
+                <!-- Autoplay Audio Hint -->
+                <div class="text-[9px] text-brand-gold/90 font-mono flex items-center gap-1 px-1">
+                    <i class="fa-solid fa-volume-high text-[8px] text-amber-400"></i>
+                    <span>Si le son ne démarre pas immédiatement, cliquez une fois au centre de la vidéo (Sécurité Navigateur).</span>
+                </div>
+
                 <!-- Stream Title Display -->
                 <div class="flex items-center justify-between text-[11px] font-outfit">
                     <span class="text-brand-muted flex items-center gap-1">
                         <i class="fa-solid fa-compact-disc text-brand-gold"></i> Piste Active :
                     </span>
-                    <span id="yt-current-stream-title" class="font-bold text-brand-goldLight truncate max-w-[220px]">Lofi Girl 24/7</span>
+                    <span id="yt-current-stream-title" class="font-bold text-brand-goldLight truncate max-w-[220px]">Lofi Girl 24/7 (Live)</span>
                 </div>
 
                 <!-- Custom URL Loader -->
@@ -2046,10 +2062,20 @@
                     </button>
                 </div>
 
-                <!-- Discord Activity Notice -->
-                <div class="text-[10px] text-brand-muted/80 bg-brand-darker/60 p-2 rounded-xl border border-brand-borderSubtle flex items-center gap-2">
-                    <i class="fa-solid fa-circle-info text-brand-gold"></i>
-                    <span>En Discord Activity : Si Discord restreint l'iframe vidéo, clique sur <b>Ouvrir ↗</b> ou écoute les 5 Radios Lo-Fi 24/7 intégrées juste en bas.</span>
+                <!-- Discord 100% Compatible Audio Quick Access -->
+                <div class="flex items-center justify-between p-2.5 rounded-xl bg-brand-darker/90 border border-brand-borderSubtle shadow-inner">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xs">
+                            <i class="fa-solid fa-radio"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-bold text-white font-outfit block leading-tight">Radio Lo-Fi 24/7 (Audio Direct)</span>
+                            <span class="text-[9px] text-emerald-400 font-mono">100% Compatible Discord Activity</span>
+                        </div>
+                    </div>
+                    <button onclick="window.ambience?.toggleRadio()" class="px-3 py-1 rounded-lg bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant text-brand-gold text-[10px] font-bold border border-brand-gold/40 shadow active:scale-95 transition font-outfit flex items-center gap-1 cursor-pointer">
+                        <i class="fa-solid fa-play text-[8px]"></i> Lancer l'Audio
+                    </button>
                 </div>
 
                 <!-- Presets Grid -->
@@ -3435,7 +3461,7 @@
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
-        <div class="w-full aspect-video bg-black" id="yt-floating-screen-container">
+        <div class="relative w-full aspect-video bg-black overflow-hidden" id="yt-floating-screen-container">
             <!-- Iframe moved here when floating -->
         </div>
     </div>
@@ -3444,7 +3470,7 @@
     <script src="assets/pdfjs/pdf.min.js?v=2.4"></script>
     <script src="assets/pdfjs/pdf.worker.min.js?v=2.4"></script>
     <script src="audio.js?v=2.4"></script>
-    <script src="youtube-simulator.js?v=3.2"></script>
+    <script src="youtube-simulator.js?v=3.5"></script>
     <script src="canvas-effects.js?v=2.4"></script>
     <script src="sync-engine.js?v=2.4"></script>
     <script src="reactions.js?v=2.4"></script>

@@ -5,18 +5,18 @@
 
 const YOUTUBE_STUDY_PRESETS = [
     {
-        id: "jfKfPfyJRdk",
-        title: "Lofi Girl 24/7",
-        desc: "Beats to relax/study to (Live)",
+        id: "5qap5aO4i9A",
+        title: "Lofi Girl 24/7 (Live)",
+        desc: "Beats to relax/study to",
         icon: "fa-headphones",
         tag: "Lo-Fi Beats"
     },
     {
         id: "lTRiuFIWV54",
-        title: "Tokyo Rain Cafe",
-        desc: "Ambiance Pluie & Jazz Café 4K",
-        icon: "fa-cloud-rain",
-        tag: "Pluie & Café"
+        title: "1 A.M Study Session",
+        desc: "Lo-Fi Hip Hop Chill Beats",
+        icon: "fa-cloud-moon",
+        tag: "Lo-Fi Study"
     },
     {
         id: "wygy721nzRc",
@@ -28,21 +28,21 @@ const YOUTUBE_STUDY_PRESETS = [
     {
         id: "mPZkdNFkNps",
         title: "Cabin Fireplace & Rain",
-        desc: "Cheminée crépitante & Orage doux",
+        desc: "Cheminée crépitante & Pluie douce",
         icon: "fa-fire",
         tag: "Cozy ASMR"
     },
     {
-        id: "5qap5aO4i9A",
-        title: "Study With Me (Pomodoro)",
-        desc: "Deep Focus 50/10 Session",
-        icon: "fa-stopwatch",
-        tag: "Pomodoro"
+        id: "7NOSDKb0HlU",
+        title: "Lofi Beats to Study/Relax",
+        desc: "Deep Focus Flow State 4K",
+        icon: "fa-laptop-code",
+        tag: "Deep Focus"
     },
     {
-        id: "2riD7XfC7t4",
+        id: "DIT6haWEbXA",
         title: "Coran Karim - Tilawat",
-        desc: "Récitation apaisante pour concentration",
+        desc: "Récitation apaisante (Mishary Alafasy)",
         icon: "fa-moon",
         tag: "Coran"
     }
@@ -50,7 +50,13 @@ const YOUTUBE_STUDY_PRESETS = [
 
 class YouTubeStudySimulator {
     constructor() {
-        this.currentVideoId = localStorage.getItem("ss_yt_video_id") || "jfKfPfyJRdk";
+        let savedId = localStorage.getItem("ss_yt_video_id");
+        // Migrate dead/ended livestream IDs or 404s
+        if (!savedId || savedId === "jfKfPfyJRdk" || savedId === "0U_Z7Gk597E" || savedId === "2riD7XfC7t4") {
+            savedId = "5qap5aO4i9A";
+            localStorage.setItem("ss_yt_video_id", savedId);
+        }
+        this.currentVideoId = savedId;
         this.isPlaying = false;
         this.isFloating = false;
         this.presets = YOUTUBE_STUDY_PRESETS;
@@ -195,11 +201,11 @@ class YouTubeStudySimulator {
         const stopBtn = document.getElementById("btn-yt-stop");
         const statusBadge = document.getElementById("yt-status-badge");
 
-        const embedUrl = `https://www.youtube-nocookie.com/embed/${this.currentVideoId}?autoplay=1&enablejsapi=1&rel=0&modestbranding=1&iv_load_policy=3`;
+        const embedUrl = `https://www.youtube-nocookie.com/embed/${this.currentVideoId}?autoplay=1&enablejsapi=1&rel=0&modestbranding=1`;
 
         const iframeHtml = `
             <iframe id="yt-player-iframe" src="${embedUrl}" 
-                class="w-full h-full rounded-xl border-0 shadow-2xl" 
+                class="absolute inset-0 w-full h-full rounded-xl border-0 shadow-2xl" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowfullscreen>
             </iframe>
@@ -209,7 +215,7 @@ class YouTubeStudySimulator {
             if (floatingScreen) floatingScreen.innerHTML = iframeHtml;
             if (screenContainer) {
                 screenContainer.innerHTML = `
-                    <div class="w-full h-full min-h-[190px] flex flex-col items-center justify-center bg-brand-darker/90 rounded-xl border border-dashed border-brand-gold/40 text-center p-4">
+                    <div class="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-brand-darker/90 rounded-xl border border-dashed border-brand-gold/40 text-center p-4">
                         <i class="fa-solid fa-up-right-from-square text-brand-gold text-2xl mb-2 animate-pulse"></i>
                         <h4 class="text-xs font-bold text-white font-outfit mb-0.5">Mini-Lecteur Flottant Actif</h4>
                         <p class="text-[10px] text-brand-muted mb-2.5">La vidéo joue dans le coin de votre écran pendant que vous étudiez</p>
@@ -240,7 +246,7 @@ class YouTubeStudySimulator {
         const statusBadge = document.getElementById("yt-status-badge");
 
         const placeholderHtml = `
-            <div class="w-full h-full min-h-[190px] flex flex-col items-center justify-center bg-brand-darker/90 rounded-xl border border-dashed border-brand-borderSubtle text-center p-4">
+            <div class="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-brand-darker/90 rounded-xl border border-dashed border-brand-borderSubtle text-center p-4">
                 <div class="w-12 h-12 rounded-full bg-red-600/20 text-red-500 border border-red-500/30 flex items-center justify-center text-xl mb-2 shadow-lg">
                     <i class="fa-brands fa-youtube"></i>
                 </div>
