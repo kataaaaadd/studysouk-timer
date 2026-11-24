@@ -149,7 +149,7 @@ class FormulaScratchpad {
                             <button id="wb-undo-btn" title="Annuler le dernier trait (Ctrl+Z)" class="w-8 h-8 rounded-xl glass-card text-brand-muted hover:text-white text-xs flex items-center justify-center border border-brand-borderSubtle active:scale-90 transition shadow-sm hover:border-brand-gold">
                                 <i class="fa-solid fa-arrow-rotate-left"></i>
                             </button>
-                            <button id="wb-fullscreen-btn" title="Agrandir la Sbora (Plein Écran)" class="w-8 h-8 rounded-xl glass-card text-brand-gold hover:text-white text-xs flex items-center justify-center border border-brand-gold/60 active:scale-90 transition shadow-sm hover:border-brand-gold">
+                            <button id="wb-fullscreen-btn" onclick="window.studyApp?.scratchpad?.toggleFullscreen()" title="Agrandir la Sbora (Plein Écran)" class="w-8 h-8 rounded-xl glass-card text-brand-gold hover:text-white text-xs flex items-center justify-center border border-brand-gold/60 active:scale-90 transition shadow-sm hover:border-brand-gold cursor-pointer">
                                 <i class="fa-solid fa-expand"></i>
                             </button>
                             <button id="wb-export-btn" title="Télécharger le schéma (PNG)" class="w-8 h-8 rounded-xl glass-card text-brand-goldLight hover:text-white text-xs flex items-center justify-center border border-brand-gold/40 active:scale-90 transition shadow-sm hover:border-brand-gold">
@@ -500,24 +500,7 @@ class FormulaScratchpad {
 
         // Fullscreen Sbora Button
         document.getElementById("wb-fullscreen-btn")?.addEventListener("click", () => {
-            const container = document.getElementById("tab-scratchpad") || document.getElementById("scratchpad-main-container");
-            const btn = document.getElementById("wb-fullscreen-btn");
-            if (!document.fullscreenElement) {
-                if (container?.requestFullscreen) {
-                    container.requestFullscreen().catch(e => console.warn(e));
-                } else if (container?.webkitRequestFullscreen) {
-                    container.webkitRequestFullscreen();
-                }
-                if (btn) btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen().catch(e => console.warn(e));
-                } else if (document.webkitExitFullscreen) {
-                    document.webkitExitFullscreen();
-                }
-                if (btn) btn.innerHTML = '<i class="fa-solid fa-expand"></i>';
-            }
-            setTimeout(() => this.resizeCanvas(), 250);
+            this.toggleFullscreen();
         });
 
         document.addEventListener("fullscreenchange", () => {
@@ -571,6 +554,27 @@ class FormulaScratchpad {
                 } catch(e) {}
             }
         }
+    }
+
+    toggleFullscreen() {
+        const container = document.getElementById("tab-scratchpad") || document.getElementById("scratchpad-main-container");
+        const btn = document.getElementById("wb-fullscreen-btn");
+        if (!document.fullscreenElement) {
+            if (container?.requestFullscreen) {
+                container.requestFullscreen().catch(e => console.warn(e));
+            } else if (container?.webkitRequestFullscreen) {
+                container.webkitRequestFullscreen();
+            }
+            if (btn) btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(e => console.warn(e));
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+            if (btn) btn.innerHTML = '<i class="fa-solid fa-expand"></i>';
+        }
+        setTimeout(() => this.resizeCanvas(), 250);
     }
 
     drawSmoothSegment(x0, y0, cx, cy, x1, y1, color, size, tool) {

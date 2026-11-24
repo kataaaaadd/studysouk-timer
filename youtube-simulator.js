@@ -82,7 +82,7 @@ class YouTubeStudySimulator {
         container.innerHTML = this.presets.map(p => {
             const isSelected = this.currentVideoId === p.id;
             return `
-                <button data-video-id="${p.id}" class="yt-preset-btn text-left p-2.5 rounded-xl glass-card border ${isSelected ? 'border-brand-gold bg-brand-cherry/30 shadow-md ring-1 ring-brand-gold/50' : 'border-brand-borderSubtle bg-brand-darker hover:border-brand-gold/50'} transition-all group flex flex-col justify-between active:scale-95">
+                <button data-video-id="${p.id}" onclick="window.youtubeSimulator?.loadVideo('${p.id}', true)" class="yt-preset-btn text-left p-2.5 rounded-xl glass-card border ${isSelected ? 'border-brand-gold bg-brand-cherry/30 shadow-md ring-1 ring-brand-gold/50' : 'border-brand-borderSubtle bg-brand-darker hover:border-brand-gold/50'} transition-all group flex flex-col justify-between active:scale-95 cursor-pointer">
                     <div class="flex items-center justify-between gap-1 w-full mb-1">
                         <span class="text-[9px] font-mono px-1.5 py-0.5 rounded ${isSelected ? 'bg-brand-gold text-brand-darker font-bold' : 'bg-white/5 text-brand-goldLight'}">
                             ${p.tag}
@@ -130,20 +130,12 @@ class YouTubeStudySimulator {
         });
 
         customBtn?.addEventListener("click", () => {
-            const val = customInput?.value;
-            const vid = this.extractVideoId(val);
-            if (vid) {
-                window.ambience?.playClick?.();
-                this.loadVideo(vid, true);
-                if (customInput) customInput.value = "";
-            } else {
-                alert("Veuillez coller un lien ou identifiant YouTube valide (ex: https://youtube.com/watch?v=...)");
-            }
+            this.loadCustomFromInput();
         });
 
         customInput?.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
-                customBtn?.click();
+                this.loadCustomFromInput();
             }
         });
 
@@ -151,6 +143,19 @@ class YouTubeStudySimulator {
         document.getElementById("btn-close-floating-yt")?.addEventListener("click", () => {
             this.toggleFloating(false);
         });
+    }
+
+    loadCustomFromInput() {
+        const customInput = document.getElementById("yt-custom-url-input");
+        const val = customInput?.value;
+        const vid = this.extractVideoId(val);
+        if (vid) {
+            window.ambience?.playClick?.();
+            this.loadVideo(vid, true);
+            if (customInput) customInput.value = "";
+        } else {
+            alert("Veuillez coller un lien ou identifiant YouTube valide (ex: https://youtube.com/watch?v=...)");
+        }
     }
 
     loadVideo(videoId, autoPlay = true) {
@@ -224,7 +229,7 @@ class YouTubeStudySimulator {
                 </div>
                 <h4 class="text-xs font-bold text-white font-outfit mb-0.5">Lecteur YouTube Prêt</h4>
                 <p class="text-[10px] text-brand-muted mb-2.5">Choisissez une ambiance d'étude ou collez un lien personnalisé</p>
-                <button onclick="window.youtubeSimulator?.play()" class="px-3 py-1 rounded-lg bg-brand-cherry hover:bg-brand-cherryVibrant text-brand-gold text-xs font-bold font-outfit border border-brand-gold/40 shadow transition active:scale-95 flex items-center gap-1.5">
+                <button onclick="window.youtubeSimulator?.play()" class="px-3 py-1 rounded-lg bg-brand-cherry hover:bg-brand-cherryVibrant text-brand-gold text-xs font-bold font-outfit border border-brand-gold/40 shadow transition active:scale-95 flex items-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-play text-[10px]"></i> Lancer la Session
                 </button>
             </div>
@@ -251,7 +256,6 @@ class YouTubeStudySimulator {
             if (floatBtn) {
                 floatBtn.classList.add("bg-brand-cherry", "text-brand-gold");
             }
-            // Move stream into floating or mirror
             if (this.isPlaying) {
                 this.play();
             }
@@ -265,9 +269,18 @@ class YouTubeStudySimulator {
     }
 }
 
-// Global initialization
+// Global initialization - robust against execution timing
+function initYouTubeStudySimulator() {
+    if (!window.youtubeSimulator) {
+        window.youtubeSimulator = new YouTubeStudySimulator();
+        window.youtubeSimulator.init();
+    }
+}
+
 window.YouTubeStudySimulator = YouTubeStudySimulator;
-document.addEventListener("DOMContentLoaded", () => {
-    window.youtubeSimulator = new YouTubeStudySimulator();
-    window.youtubeSimulator.init();
-});
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initYouTubeStudySimulator);
+} else {
+    initYouTubeStudySimulator();
+}

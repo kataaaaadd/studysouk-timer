@@ -37,6 +37,8 @@ const AVATAR_PRESETS = [
 
 class StudySoukTimerApp {
     constructor() {
+        window.studyApp = this;
+        window.app = this;
         this.discordUser = null;
         this.isInDiscord = false;
         this.sdk = null;
@@ -962,6 +964,10 @@ class StudySoukTimerApp {
             this.scratchpad.onTabVisible();
         } else if (tabId === "tab-tasks") {
             this.renderDashboard();
+        } else if (tabId === "tab-ambience") {
+            if (window.youtubeSimulator) {
+                window.youtubeSimulator.renderPresets();
+            }
         } else if (tabId === "tab-nabras" && this.nabrasAI) {
             this.nabrasAI.onTabVisible();
         }
