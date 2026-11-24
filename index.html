@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" href="assets/studysouk_owl_transparent.png">
     <link rel="apple-touch-icon" href="assets/studysouk_owl_transparent.png">
     <!-- 1. Self-Hosted Compiled Tailwind CSS (Zero CSP Blocking) -->
-    <link rel="stylesheet" href="assets/tailwind.css?v=8.0">
+    <link rel="stylesheet" href="assets/tailwind.css?v=9.0">
 
     <!-- 2. Self-Hosted FontAwesome 6 Icons (Zero CSP Blocking) -->
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css">
@@ -196,40 +196,50 @@
         /* Enforce Viewport Synchronization & No-Scroll for Discord Activity */
         #tab-timer {
             height: 100% !important;
-            max-height: calc(100dvh - 105px) !important;
+            max-height: calc(100dvh - 96px) !important;
             overflow: hidden !important;
         }
 
         #tab-nabras {
             height: 100% !important;
-            max-height: calc(100dvh - 105px) !important;
+            max-height: calc(100dvh - 96px) !important;
             overflow: hidden !important;
         }
 
         #chrono-dial-wrapper {
-            width: 250px !important;
-            height: 250px !important;
+            width: clamp(200px, min(38vw, 36vh), 280px) !important;
+            height: clamp(200px, min(38vw, 36vh), 280px) !important;
             flex-shrink: 0 !important;
         }
 
-        @media (min-width: 640px) {
-            #chrono-dial-wrapper {
-                width: 275px !important;
-                height: 275px !important;
-            }
+        @media (min-width: 500px) {
             #timer-cockpit-grid {
                 display: flex !important;
                 flex-direction: row !important;
                 align-items: center !important;
                 justify-content: center !important;
-                gap: 1.5rem !important;
+                gap: 1.25rem !important;
+            }
+        }
+
+        @media (max-width: 499px) {
+            #chrono-dial-wrapper {
+                width: clamp(190px, min(65vw, 30vh), 235px) !important;
+                height: clamp(190px, min(65vw, 30vh), 235px) !important;
+            }
+            #timer-cockpit-grid {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 0.75rem !important;
             }
         }
 
         @media (min-height: 850px) and (min-width: 768px) {
             #chrono-dial-wrapper {
-                width: 310px !important;
-                height: 310px !important;
+                width: 300px !important;
+                height: 300px !important;
             }
         }
 
@@ -1283,9 +1293,9 @@
 
             <!-- RIGHT WING: Academic Companion Deck (Quote, Desk, Lo-Fi, Stats) -->
             <div class="flex flex-col justify-center gap-1.5 w-full max-w-sm sm:w-72 md:w-80 shrink-0">
-                <!-- 1. Dedicated Academic Quote Card -->
+                <!-- 1. Dedicated Academic Quote Card (Prominent Medium Size - "7ajm moyen") -->
                 <div id="chrono-side-quote-card"
-                    class="w-full glass-panel rounded-2xl p-2 sm:p-2.5 border border-brand-gold/45 flex flex-col justify-between gap-1 shadow-md bg-gradient-to-br from-brand-card/95 via-brand-darker/90 to-brand-card/95 relative overflow-hidden group">
+                    class="w-full glass-panel rounded-2xl p-2.5 sm:p-3 border border-brand-gold/45 flex flex-col justify-between gap-1 shadow-md bg-gradient-to-br from-brand-card/95 via-brand-darker/90 to-brand-card/95 relative overflow-hidden group">
                     <div class="flex items-center justify-between pb-1 border-b border-brand-borderSubtle">
                         <div class="flex items-center gap-1.5 text-[10px] font-black font-outfit text-brand-goldLight">
                             <i class="fa-solid fa-quote-left text-brand-gold text-[9px]"></i>
@@ -1297,31 +1307,80 @@
                         </button>
                     </div>
 
-                    <div class="py-0.5">
-                        <p id="study-quote-text" class="text-[11px] sm:text-xs text-white/95 italic font-serif leading-snug line-clamp-2">
+                    <div class="py-1">
+                        <p id="study-quote-text" class="text-xs sm:text-[13px] text-white/95 italic font-serif leading-snug line-clamp-3">
                             « In Mathematics, the mind resolves during the pause that follows intense effort. »
                         </p>
                     </div>
 
-                    <div class="pt-0.5 border-t border-brand-borderSubtle/60 flex items-center justify-between text-[10px]">
-                        <span class="text-[8px] font-mono text-brand-muted uppercase tracking-wider">CPGE • Excellence</span>
-                        <span id="study-quote-author" class="text-[10px] text-brand-goldLight font-outfit font-black truncate max-w-[170px]">
+                    <div class="pt-1 border-t border-brand-borderSubtle/60 flex items-center justify-between text-[10px]">
+                        <span class="text-[9px] font-mono text-brand-goldLight/80 uppercase tracking-wider">CPGE • Excellence</span>
+                        <span id="study-quote-author" class="text-[11px] text-brand-goldLight font-outfit font-black truncate max-w-[170px]">
                             — Henri Poincaré
                         </span>
                     </div>
                 </div>
 
-                <!-- 2. Table d'Étude Virtuelle -->
+                <!-- 2. Academic Stats & Performance Bar (Compact Single Row) -->
+                <div class="stats-card w-full glass-panel rounded-xl px-2.5 py-1.5 border border-brand-borderSubtle flex items-center justify-between shadow-sm bg-brand-card/90">
+                    <div class="flex items-center gap-2.5">
+                        <div class="flex items-center gap-1">
+                            <span class="text-[9px] text-brand-muted uppercase tracking-wider font-outfit font-black">Sessions :</span>
+                            <span id="stat-sessions" class="font-mono text-xs font-black text-brand-goldLight">0</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="text-[9px] text-brand-muted uppercase tracking-wider font-outfit font-black">Deep Work :</span>
+                            <span id="stat-minutes" class="font-mono text-xs font-black text-white">0 min</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-[9px] font-outfit">
+                        <span title="Flamme active">🔥</span>
+                        <span id="stat-daily-progress-txt" class="font-mono text-brand-goldLight font-black text-[10px]">0/4</span>
+                        <div id="stat-daily-blocks-dots" class="flex items-center gap-0.5">
+                            <span class="daily-block-dot w-1.5 h-1.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                            <span class="daily-block-dot w-1.5 h-1.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                            <span class="daily-block-dot w-1.5 h-1.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                            <span class="daily-block-dot w-1.5 h-1.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Capsule Audio Lo-Fi Directe (Compact Mini-Bar) -->
+                <div id="chrono-lofi-station"
+                    class="w-full glass-panel rounded-xl px-2 py-1 border border-brand-gold/30 flex items-center justify-between gap-1 shadow-sm bg-brand-card/90">
+                    <div class="flex items-center gap-1.5 min-w-0">
+                        <button id="btn-chrono-lofi-toggle" title="Lancer / Pause Lo-Fi 24/7"
+                            class="w-5 h-5 rounded-lg bg-gradient-to-tr from-brand-cherry to-brand-cherryDark border border-brand-gold/60 flex items-center justify-center text-brand-goldLight text-[9px] hover:scale-105 active:scale-95 transition shadow shrink-0 cursor-pointer">
+                            <i id="chrono-lofi-play-icon" class="fa-solid fa-play text-[8px] text-brand-gold ml-0.5"></i>
+                        </button>
+                        <div class="min-w-0 flex items-center gap-1">
+                            <span id="chrono-lofi-station-name" class="text-[10px] font-black text-white font-outfit truncate">Chillhop</span>
+                            <div id="chrono-lofi-equalizer" class="hidden items-end gap-0.5 h-2">
+                                <span class="w-0.5 h-full bg-brand-gold rounded-full animate-bounce"></span>
+                                <span class="w-0.5 h-2/3 bg-amber-400 rounded-full animate-bounce [animation-delay:0.15s]"></span>
+                                <span class="w-0.5 h-4/5 bg-brand-goldLight rounded-full animate-bounce [animation-delay:0.3s]"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1 shrink-0">
+                        <button data-quick-station="chillhop" class="quick-station-pill px-1.5 py-0.5 rounded-md bg-brand-cherry border border-brand-gold text-[8px] font-black text-brand-goldLight font-outfit transition cursor-pointer active:scale-95">☕ Chill</button>
+                        <button data-quick-station="piano" class="quick-station-pill px-1.5 py-0.5 rounded-md bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[8px] font-bold text-brand-muted hover:text-white font-outfit transition cursor-pointer active:scale-95">🎹 Piano</button>
+                        <button data-quick-station="synthwave" class="quick-station-pill px-1.5 py-0.5 rounded-md bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[8px] font-bold text-brand-muted hover:text-white font-outfit transition cursor-pointer active:scale-95">⚡ Synth</button>
+                    </div>
+                </div>
+
+                <!-- 4. Table d'Étude Virtuelle (Collapsible Accordion to preserve space) -->
                 <div id="virtual-study-desk"
-                    class="w-full glass-panel rounded-2xl p-2 sm:p-2.5 border border-brand-gold/30 flex flex-col gap-1.5 shadow-md bg-brand-card/90">
-                    <div class="flex items-center justify-between pb-1 border-b border-brand-borderSubtle">
+                    class="w-full glass-panel rounded-xl border border-brand-gold/30 flex flex-col shadow-sm bg-brand-card/90 overflow-hidden transition-all duration-300">
+                    <div id="desk-accordion-toggle" onclick="const b=document.getElementById('desk-accordion-body'); b.classList.toggle('hidden'); document.getElementById('desk-chevron').classList.toggle('rotate-180');"
+                        class="px-2 py-1 flex items-center justify-between cursor-pointer hover:bg-white/5 transition select-none">
                         <div class="flex items-center gap-1.5">
                             <span class="relative flex h-1.5 w-1.5">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
                             </span>
                             <h3 class="text-[10px] font-black font-outfit uppercase tracking-wider text-brand-goldLight flex items-center gap-1">
-                                <i class="fa-solid fa-users text-brand-gold text-[10px]"></i>
+                                <i class="fa-solid fa-users text-brand-gold text-[9px]"></i>
                                 <span>Table d'Étude</span>
                             </h3>
                             <span id="desk-status-badge" class="text-[8px] font-mono px-1.5 py-0.2 rounded-full bg-brand-darker border border-brand-gold/30 text-brand-goldLight font-bold">
@@ -1329,103 +1388,55 @@
                             </span>
                         </div>
 
-                        <div class="flex items-center gap-1">
+                        <div class="flex items-center gap-1" onclick="event.stopPropagation();">
                             <button id="btn-desk-focus-pact" title="Proposer un pacte d'étude duo"
-                                class="px-2 py-0.5 rounded-lg bg-gradient-to-r from-brand-cherry to-brand-cherryDark border border-brand-gold/50 hover:border-brand-gold text-brand-goldLight text-[10px] font-bold font-outfit flex items-center gap-1 shadow active:scale-95 transition cursor-pointer">
-                                <i class="fa-solid fa-handshake text-brand-gold text-[10px]"></i>
-                                <span>Pacte Duo</span>
+                                class="px-1.5 py-0.5 rounded-lg bg-gradient-to-r from-brand-cherry to-brand-cherryDark border border-brand-gold/50 hover:border-brand-gold text-brand-goldLight text-[9px] font-bold font-outfit flex items-center gap-1 shadow active:scale-95 transition cursor-pointer">
+                                <i class="fa-solid fa-handshake text-brand-gold text-[9px]"></i>
+                                <span>Pacte</span>
                             </button>
                             <button id="btn-desk-invite" title="Inviter un ami"
-                                class="px-1.5 py-0.5 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-brand-silver text-[10px] font-semibold font-outfit flex items-center gap-1 hover:text-white transition cursor-pointer">
-                                <i class="fa-solid fa-link text-brand-gold text-[10px]"></i>
-                                <span class="hidden sm:inline">Inviter</span>
+                                class="px-1.5 py-0.5 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-brand-silver text-[9px] font-semibold font-outfit flex items-center gap-0.5 hover:text-white transition cursor-pointer">
+                                <i class="fa-solid fa-link text-brand-gold text-[8px]"></i>
+                                <span>Lien</span>
+                            </button>
+                            <button type="button" class="text-brand-muted hover:text-white ml-0.5 p-0.5" title="Déplier/Replier la table">
+                                <i id="desk-chevron" class="fa-solid fa-chevron-down text-[8px] transition-transform duration-300"></i>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Active Focus Pact Banner -->
-                    <div id="desk-pact-banner" class="hidden flex-col gap-1 p-1.5 rounded-xl bg-gradient-to-r from-brand-cherry/90 via-brand-darker to-brand-cherryDark/90 border border-brand-gold shadow-sm">
-                        <div class="flex items-center justify-between text-[10px] font-outfit font-black text-brand-goldLight">
-                            <span class="flex items-center gap-1">🤝 PACTE FOCUS</span>
-                            <span id="desk-pact-timer-sync" class="font-mono text-white text-[10px] px-1.5 py-0.2 rounded bg-brand-darker border border-brand-gold/50">25:00</span>
-                        </div>
-                        <div class="w-full bg-brand-darker/80 rounded-full h-1 overflow-hidden border border-brand-borderSubtle">
-                            <div id="desk-pact-progress-bar" class="bg-gradient-to-r from-brand-gold to-amber-300 h-full w-full transition-all duration-1000"></div>
-                        </div>
-                        <div class="flex items-center justify-between text-[9px] text-brand-muted font-outfit">
-                            <span id="desk-pact-partner-name">En symbiose</span>
-                            <span class="text-brand-goldLight font-bold">+50 XP Bonus</span>
-                        </div>
-                    </div>
-
-                    <!-- Desk Seats Grid -->
-                    <div id="desk-seats-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 w-full"></div>
-
-                    <!-- Desk Reactions Dock -->
-                    <div id="desk-reactions-dock" class="flex items-center justify-between pt-1 border-t border-brand-borderSubtle/60 text-[9px] text-brand-muted">
-                        <span class="font-outfit font-semibold flex items-center gap-1">
-                            <i class="fa-solid fa-bolt text-brand-gold text-[9px]"></i> Encourager :
-                        </span>
-                        <div class="flex items-center gap-1">
-                            <button data-emoji="🔥" class="desk-reaction-btn w-6 h-6 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-110 active:scale-95 transition flex items-center justify-center text-[10px] cursor-pointer" title="Flamme">🔥</button>
-                            <button data-emoji="👏" class="desk-reaction-btn w-6 h-6 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-110 active:scale-95 transition flex items-center justify-center text-[10px] cursor-pointer" title="Bravo">👏</button>
-                            <button data-emoji="☕" class="desk-reaction-btn w-6 h-6 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-110 active:scale-95 transition flex items-center justify-center text-[10px] cursor-pointer" title="Café">☕</button>
-                            <button data-emoji="💪" class="desk-reaction-btn w-6 h-6 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-110 active:scale-95 transition flex items-center justify-center text-[10px] cursor-pointer" title="Force">💪</button>
-                            <button data-emoji="🧠" class="desk-reaction-btn w-6 h-6 rounded-lg bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold/70 hover:scale-110 active:scale-95 transition flex items-center justify-center text-[10px] cursor-pointer" title="Génie">🧠</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3. Capsule Audio Lo-Fi Directe -->
-                <div id="chrono-lofi-station"
-                    class="w-full glass-panel rounded-2xl p-1.5 sm:p-2 border border-brand-gold/30 flex items-center justify-between gap-1.5 shadow-md bg-brand-card/90">
-                    <div class="flex items-center gap-1.5 min-w-0">
-                        <button id="btn-chrono-lofi-toggle" title="Lancer / Pause Lo-Fi 24/7"
-                            class="w-6 h-6 rounded-lg bg-gradient-to-tr from-brand-cherry to-brand-cherryDark border border-brand-gold/60 flex items-center justify-center text-brand-goldLight text-[10px] hover:scale-105 active:scale-95 transition shadow shrink-0 cursor-pointer">
-                            <i id="chrono-lofi-play-icon" class="fa-solid fa-play text-[9px] text-brand-gold ml-0.5"></i>
-                        </button>
-                        <div class="min-w-0">
-                            <div class="flex items-center gap-1">
-                                <span id="chrono-lofi-station-name" class="text-[10px] font-black text-white font-outfit truncate">Chillhop Beats</span>
-                                <div id="chrono-lofi-equalizer" class="hidden items-end gap-0.5 h-2">
-                                    <span class="w-0.5 h-full bg-brand-gold rounded-full animate-bounce"></span>
-                                    <span class="w-0.5 h-2/3 bg-amber-400 rounded-full animate-bounce [animation-delay:0.15s]"></span>
-                                    <span class="w-0.5 h-4/5 bg-brand-goldLight rounded-full animate-bounce [animation-delay:0.3s]"></span>
-                                </div>
+                    <!-- Collapsible Desk Content (Default hidden to keep right wing ultra-compact!) -->
+                    <div id="desk-accordion-body" class="hidden px-2 pb-2 pt-1 border-t border-brand-borderSubtle/60 flex flex-col gap-1.5">
+                        <!-- Active Focus Pact Banner -->
+                        <div id="desk-pact-banner" class="hidden flex-col gap-1 p-1.5 rounded-xl bg-gradient-to-r from-brand-cherry/90 via-brand-darker to-brand-cherryDark/90 border border-brand-gold shadow-sm">
+                            <div class="flex items-center justify-between text-[10px] font-outfit font-black text-brand-goldLight">
+                                <span class="flex items-center gap-1">🤝 PACTE FOCUS</span>
+                                <span id="desk-pact-timer-sync" class="font-mono text-white text-[10px] px-1.5 py-0.2 rounded bg-brand-darker border border-brand-gold/50">25:00</span>
                             </div>
-                            <div class="text-[8px] text-brand-muted truncate font-outfit">Lo-Fi Live 24/7 • Concentration</div>
+                            <div class="w-full bg-brand-darker/80 rounded-full h-1 overflow-hidden border border-brand-borderSubtle">
+                                <div id="desk-pact-progress-bar" class="bg-gradient-to-r from-brand-gold to-amber-300 h-full w-full transition-all duration-1000"></div>
+                            </div>
+                            <div class="flex items-center justify-between text-[9px] text-brand-muted font-outfit">
+                                <span id="desk-pact-partner-name">En symbiose</span>
+                                <span class="text-brand-goldLight font-bold">+50 XP Bonus</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex items-center gap-0.5 shrink-0">
-                        <button data-quick-station="chillhop" class="quick-station-pill px-1.5 py-0.5 rounded-md bg-brand-cherry border border-brand-gold text-[8px] font-black text-brand-goldLight font-outfit transition cursor-pointer active:scale-95">☕ Chill</button>
-                        <button data-quick-station="piano" class="quick-station-pill px-1.5 py-0.5 rounded-md bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[8px] font-bold text-brand-muted hover:text-white font-outfit transition cursor-pointer active:scale-95">🎹 Piano</button>
-                        <button data-quick-station="synthwave" class="quick-station-pill px-1.5 py-0.5 rounded-md bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[8px] font-bold text-brand-muted hover:text-white font-outfit transition cursor-pointer active:scale-95">⚡ Synth</button>
-                    </div>
-                </div>
 
-                <!-- 4. Academic Stats & Performance Card -->
-                <div class="stats-card w-full glass-panel rounded-2xl p-1.5 sm:p-2 border border-brand-borderSubtle flex flex-col gap-1 shadow-sm bg-brand-card/90">
-                    <div class="grid grid-cols-2 divide-x divide-brand-borderSubtle text-center">
-                        <div>
-                            <span class="text-[9px] text-brand-muted uppercase tracking-wider block font-outfit font-black">Sessions</span>
-                            <span id="stat-sessions" class="font-mono text-sm font-black text-brand-goldLight">0</span>
-                        </div>
-                        <div>
-                            <span class="text-[9px] text-brand-muted uppercase tracking-wider block font-outfit font-black">Deep Work</span>
-                            <span id="stat-minutes" class="font-mono text-sm font-black text-white">0 min</span>
-                        </div>
-                    </div>
-                    <div class="border-t border-brand-borderSubtle pt-1 flex items-center justify-between text-[9px] font-outfit">
-                        <div class="flex items-center gap-1">
-                            <span>🔥</span>
-                            <span class="font-bold text-white text-[9px]">Objectif :</span>
-                            <span id="stat-daily-progress-txt" class="font-mono text-brand-goldLight font-black text-[9px]">0/4 Blocs</span>
-                        </div>
-                        <div id="stat-daily-blocks-dots" class="flex items-center gap-1">
-                            <span class="daily-block-dot w-1.5 h-1.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
-                            <span class="daily-block-dot w-1.5 h-1.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
-                            <span class="daily-block-dot w-1.5 h-1.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
-                            <span class="daily-block-dot w-1.5 h-1.5 rounded-full bg-brand-darker border border-brand-borderSubtle transition-all duration-300"></span>
+                        <!-- Desk Seats Grid -->
+                        <div id="desk-seats-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-1 w-full"></div>
+
+                        <!-- Desk Reactions Dock -->
+                        <div id="desk-reactions-dock" class="flex items-center justify-between pt-1 border-t border-brand-borderSubtle/60 text-[9px] text-brand-muted">
+                            <span class="font-outfit font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-bolt text-brand-gold text-[9px]"></i> Encourager :
+                            </span>
+                            <div class="flex items-center gap-1">
+                                <button data-emoji="🔥" class="desk-reaction-btn w-5 h-5 rounded bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[9px] cursor-pointer" title="Flamme">🔥</button>
+                                <button data-emoji="👏" class="desk-reaction-btn w-5 h-5 rounded bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[9px] cursor-pointer" title="Bravo">👏</button>
+                                <button data-emoji="☕" class="desk-reaction-btn w-5 h-5 rounded bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[9px] cursor-pointer" title="Café">☕</button>
+                                <button data-emoji="💪" class="desk-reaction-btn w-5 h-5 rounded bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[9px] cursor-pointer" title="Force">💪</button>
+                                <button data-emoji="🧠" class="desk-reaction-btn w-5 h-5 rounded bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[9px] cursor-pointer" title="Génie">🧠</button>
+                            </div>
                         </div>
                     </div>
                 </div>

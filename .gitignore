@@ -9,3 +9,14 @@ __pycache__/
 deploy_vps.py
 extracted_logos/
 assets/logo_v3_backup.png
+*.aux
+*.log
+*.out
+*.pdf
+*.tex
+*.png
+*.jpg
+DOCS_MP_STAR/
+generate_*.py
+build_*.py
+update_*.py
