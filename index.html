@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>StudySouk Academy • Nabras (نِبْرَاس) Focus Timer</title>
     <!-- Favicon & App Icons -->
     <link rel="icon" type="image/png" href="assets/studysouk_owl_transparent.png">
@@ -1984,24 +1985,34 @@
 
             <!-- YouTube Study Simulator & Video Ambience Card -->
             <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle shadow-xl space-y-3 relative overflow-hidden">
-                <div class="flex items-center justify-between pb-1 border-b border-brand-borderSubtle">
+                <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-brand-borderSubtle">
                     <div class="flex items-center gap-2">
                         <div class="w-8 h-8 rounded-lg bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500 shadow">
-                            <i class="fa-brands fa-youtube text-sm"></i>
+                            <i class="fa-solid fa-compact-disc text-sm"></i>
                         </div>
                         <div>
                             <h3 class="text-xs font-black text-white font-outfit tracking-wide flex items-center gap-1.5">
-                                Studio YouTube & Musique <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-red-500/20 text-red-400 border border-red-500/30 font-bold">Simulator</span>
+                                Studio Focus & Musique <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-brand-cherry text-brand-gold font-bold">2.0 HD</span>
                             </h3>
                             <div class="flex items-center gap-1.5 text-[10px] text-brand-muted" id="yt-status-badge">
-                                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                                 <span>Prêt à diffuser</span>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Mode Selector Pills: Studio Lo-Fi vs YouTube Embed -->
+                    <div class="flex items-center p-0.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
+                        <button id="btn-mode-studio" onclick="window.youtubeSimulator?.setMode('studio')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold font-outfit transition flex items-center gap-1 bg-brand-cherry text-brand-gold shadow cursor-pointer">
+                            <i class="fa-solid fa-wand-magic-sparkles text-[9px]"></i> Studio Lo-Fi
+                        </button>
+                        <button id="btn-mode-youtube" onclick="window.youtubeSimulator?.setMode('youtube')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold font-outfit transition flex items-center gap-1 text-brand-muted hover:text-white cursor-pointer">
+                            <i class="fa-brands fa-youtube text-[10px] text-red-400"></i> YouTube HD
+                        </button>
+                    </div>
+
                     <div class="flex items-center gap-1">
-                        <a id="btn-yt-external-link" href="https://www.youtube.com/watch?v=jfKfPfyJRdk" target="_blank" rel="noopener noreferrer" title="Ouvrir directement dans YouTube (Nouvel Onglet)"
+                        <a id="btn-yt-external-link" href="https://www.youtube.com/watch?v=5qap5aO4i9A" target="_blank" rel="noopener noreferrer" title="Ouvrir directement dans YouTube (Nouvel Onglet)"
                             class="px-2 py-1 rounded-lg glass-card border border-brand-borderSubtle text-red-400 hover:text-white text-[11px] font-outfit font-bold transition flex items-center gap-1 cursor-pointer">
                             <i class="fa-brands fa-youtube"></i>
                             <span class="hidden xs:inline">Ouvrir ↗</span>
@@ -2023,23 +2034,16 @@
                 </div>
 
                 <!-- Video Screen Bezel -->
-                <div class="relative w-full aspect-video min-h-[220px] rounded-xl overflow-hidden bg-black/95 border border-brand-borderSubtle shadow-2xl" id="yt-screen-container">
-                    <div class="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-brand-darker/90 rounded-xl border border-dashed border-brand-borderSubtle text-center p-4">
-                        <div class="w-12 h-12 rounded-full bg-red-600/20 text-red-500 border border-red-500/30 flex items-center justify-center text-xl mb-2 shadow-lg">
-                            <i class="fa-brands fa-youtube"></i>
-                        </div>
-                        <h4 class="text-xs font-bold text-white font-outfit mb-0.5">Lecteur YouTube Prêt</h4>
-                        <p class="text-[10px] text-brand-muted mb-2.5">Choisissez une ambiance d'étude ou collez un lien personnalisé</p>
-                        <button onclick="window.youtubeSimulator?.play()" class="px-3 py-1 rounded-lg bg-brand-cherry hover:bg-brand-cherryVibrant text-brand-gold text-xs font-bold font-outfit border border-brand-gold/40 shadow transition active:scale-95 flex items-center gap-1.5 cursor-pointer">
-                            <i class="fa-solid fa-play text-[10px]"></i> Lancer la Session
-                        </button>
-                    </div>
+                <div class="relative w-full aspect-video min-h-[230px] rounded-xl overflow-hidden bg-black/95 border border-brand-borderSubtle shadow-2xl transition-all" id="yt-screen-container">
+                    <!-- Dynamic rendering handled by YouTubeStudySimulator: Studio Visuel or YouTube Embed -->
                 </div>
 
-                <!-- Autoplay Audio Hint -->
-                <div class="text-[9px] text-brand-gold/90 font-mono flex items-center gap-1 px-1">
-                    <i class="fa-solid fa-volume-high text-[8px] text-amber-400"></i>
-                    <span>Si le son ne démarre pas immédiatement, cliquez une fois au centre de la vidéo (Sécurité Navigateur).</span>
+                <!-- Discord Compatibility & Autoplay Audio Hint -->
+                <div id="yt-discord-hint" class="text-[9px] text-brand-gold/90 font-mono flex items-center justify-between gap-1 px-1">
+                    <span class="flex items-center gap-1">
+                        <i class="fa-solid fa-circle-info text-[9px] text-amber-400"></i>
+                        <span>En mode YouTube, cliquez au centre pour lancer la vidéo. En mode Studio Lo-Fi, l'ambiance et la musique sont 100% garanties !</span>
+                    </span>
                 </div>
 
                 <!-- Stream Title Display -->
@@ -3470,7 +3474,7 @@
     <script src="assets/pdfjs/pdf.min.js?v=2.4"></script>
     <script src="assets/pdfjs/pdf.worker.min.js?v=2.4"></script>
     <script src="audio.js?v=2.4"></script>
-    <script src="youtube-simulator.js?v=3.5"></script>
+    <script src="youtube-simulator.js?v=4.0"></script>
     <script src="canvas-effects.js?v=2.4"></script>
     <script src="sync-engine.js?v=2.4"></script>
     <script src="reactions.js?v=2.4"></script>
