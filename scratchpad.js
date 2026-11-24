@@ -70,7 +70,7 @@ class FormulaScratchpad {
     render() {
         if (!this.container) return;
         this.container.innerHTML = `
-            <div class="flex flex-col h-full w-full max-w-5xl mx-auto space-y-3">
+            <div id="scratchpad-main-container" class="flex flex-col h-full w-full max-w-7xl mx-auto space-y-2">
                 
                 <!-- Submode Switcher (Tableau vs LaTeX) -->
                 <div class="flex items-center justify-between pb-1 border-b border-brand-borderSubtle">
@@ -144,10 +144,13 @@ class FormulaScratchpad {
 
                         <div class="hidden md:block w-full h-[1px] bg-brand-borderSubtle"></div>
 
-                        <!-- Action Buttons: Undo, Export & Clear -->
+                        <!-- Action Buttons: Undo, Plein Écran, Export & Clear -->
                         <div class="flex flex-row md:flex-col items-center gap-1.5 w-full justify-center">
                             <button id="wb-undo-btn" title="Annuler le dernier trait (Ctrl+Z)" class="w-8 h-8 rounded-xl glass-card text-brand-muted hover:text-white text-xs flex items-center justify-center border border-brand-borderSubtle active:scale-90 transition shadow-sm hover:border-brand-gold">
                                 <i class="fa-solid fa-arrow-rotate-left"></i>
+                            </button>
+                            <button id="wb-fullscreen-btn" title="Agrandir la Sbora (Plein Écran)" class="w-8 h-8 rounded-xl glass-card text-brand-gold hover:text-white text-xs flex items-center justify-center border border-brand-gold/60 active:scale-90 transition shadow-sm hover:border-brand-gold">
+                                <i class="fa-solid fa-expand"></i>
                             </button>
                             <button id="wb-export-btn" title="Télécharger le schéma (PNG)" class="w-8 h-8 rounded-xl glass-card text-brand-goldLight hover:text-white text-xs flex items-center justify-center border border-brand-gold/40 active:scale-90 transition shadow-sm hover:border-brand-gold">
                                 <i class="fa-solid fa-download"></i>
@@ -159,11 +162,11 @@ class FormulaScratchpad {
                     </div>
 
                     <!-- EXPANDED WHITEBOARD CANVAS BOX ("kbr white board") -->
-                    <div class="relative flex-1 rounded-2xl overflow-hidden border border-brand-gold/40 shadow-2xl bg-[#08080C] min-h-[480px] sm:min-h-[550px] md:min-h-[620px] flex flex-col">
+                    <div id="whiteboard-canvas-wrapper" class="relative flex-1 rounded-2xl overflow-hidden border border-brand-gold/40 shadow-2xl bg-[#08080C] min-h-[580px] sm:min-h-[680px] md:min-h-[780px] h-[78vh] flex flex-col">
                         <!-- Engineering Dot Grid Watermark -->
                         <div class="absolute inset-0 pointer-events-none opacity-25" style="background-image: radial-gradient(rgba(212, 175, 55, 0.45) 1px, transparent 1px); background-size: 24px 24px;"></div>
                         
-                        <canvas id="whiteboard-canvas" width="1200" height="700" class="relative z-10 w-full h-full flex-1 cursor-crosshair touch-none"></canvas>
+                        <canvas id="whiteboard-canvas" width="1600" height="900" class="relative z-10 w-full h-full flex-1 cursor-crosshair touch-none"></canvas>
                         
                         <!-- MULTI-USER LIVE CURSORS & LASERS OVERLAY -->
                         <div id="whiteboard-remote-cursors" class="absolute inset-0 pointer-events-none z-30 overflow-hidden"></div>
@@ -495,6 +498,38 @@ class FormulaScratchpad {
             }
         });
 
+        // Fullscreen Sbora Button
+        document.getElementById("wb-fullscreen-btn")?.addEventListener("click", () => {
+            const container = document.getElementById("tab-scratchpad") || document.getElementById("scratchpad-main-container");
+            const btn = document.getElementById("wb-fullscreen-btn");
+            if (!document.fullscreenElement) {
+                if (container?.requestFullscreen) {
+                    container.requestFullscreen().catch(e => console.warn(e));
+                } else if (container?.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                }
+                if (btn) btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(e => console.warn(e));
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+                if (btn) btn.innerHTML = '<i class="fa-solid fa-expand"></i>';
+            }
+            setTimeout(() => this.resizeCanvas(), 250);
+        });
+
+        document.addEventListener("fullscreenchange", () => {
+            const btn = document.getElementById("wb-fullscreen-btn");
+            if (document.fullscreenElement) {
+                if (btn) btn.innerHTML = '<i class="fa-solid fa-compress"></i>';
+            } else {
+                if (btn) btn.innerHTML = '<i class="fa-solid fa-expand"></i>';
+            }
+            setTimeout(() => this.resizeCanvas(), 250);
+        });
+
         // Export Snapshot
         document.getElementById("wb-export-btn")?.addEventListener("click", () => {
             if (!this.canvas) return;
@@ -519,8 +554,8 @@ class FormulaScratchpad {
 
     resizeCanvas() {
         if (!this.canvas) return;
-        const targetW = 1200;
-        const targetH = 700;
+        const targetW = 1600;
+        const targetH = 900;
         if (this.canvas.width !== targetW || this.canvas.height !== targetH) {
             let tempImg = null;
             if (this.ctx && this.canvas.width > 0 && this.canvas.height > 0) {
