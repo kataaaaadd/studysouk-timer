@@ -470,7 +470,15 @@ class StudySoukLibrary {
             basePath = window.location.pathname.replace(/\/index\.html.*$/, '').replace(/\/+$/, '');
             if (!basePath.startsWith('/.proxy')) basePath = '/.proxy';
         }
-        const pdfUrl = `${basePath}/api/library/pdf/${book.id}`.replace(/^\/\//, '/');
+        
+        let pdfUrl = '';
+        if (book.pdf_url) {
+            pdfUrl = book.pdf_url;
+        } else if (book.filename) {
+            pdfUrl = `assets/docs/${book.filename}`;
+        } else {
+            pdfUrl = `${basePath}/api/library/pdf/${book.id}`.replace(/^\/\//, '/');
+        }
 
         if (openTabBtn) {
             openTabBtn.onclick = () => window.open(pdfUrl, '_blank');
@@ -569,6 +577,19 @@ class StudySoukLibrary {
                 const fallbackUrl = url.replace(/^\/\.proxy/, '');
                 console.warn('[Library] Retrying fetch directly without .proxy:', fallbackUrl);
                 res = await fetch(fallbackUrl);
+            }
+
+            // Secondary fallback: retry directly from assets/docs/ or API
+            if (!res.ok && this.activeBook) {
+                if (this.activeBook.filename && !url.includes('assets/docs/')) {
+                    const docUrl = `assets/docs/${this.activeBook.filename}`;
+                    console.warn('[Library] Retrying from assets/docs:', docUrl);
+                    res = await fetch(docUrl);
+                } else if (!url.includes('/api/library/pdf/')) {
+                    const apiUrl = `/api/library/pdf/${this.activeBook.id}`;
+                    console.warn('[Library] Retrying from API fallback:', apiUrl);
+                    res = await fetch(apiUrl);
+                }
             }
 
             if (!res.ok) {

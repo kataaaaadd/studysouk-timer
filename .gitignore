@@ -13,6 +13,7 @@ assets/logo_v3_backup.png
 *.log
 *.out
 *.pdf
+!assets/docs/*.pdf
 *.tex
 *.png
 *.jpg
