@@ -1539,6 +1539,36 @@ class FlashcardViewer {
                         </div>
                     </div>
 
+                    <!-- INTERACTIVE DISCIPLINE CHIPS SELECTOR -->
+                    <div class="w-full pt-0.5">
+                        <div class="text-[10px] text-brand-gold font-outfit font-black tracking-wider uppercase flex items-center gap-1 mb-1.5">
+                            <i class="fa-solid fa-atom text-[9px]"></i> Discipline STEM (Filtre Direct) :
+                        </div>
+                        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none w-full">
+                            ${[
+                                { id: "All", label: "Toutes Matières", icon: "fa-cubes", count: cardsToMeasure.length },
+                                { id: "Maths", label: "Maths", icon: "fa-square-root-variable", count: cardsToMeasure.filter(c => c.discipline === 'Maths').length },
+                                { id: "Physique", label: "Physique", icon: "fa-atom", count: cardsToMeasure.filter(c => c.discipline === 'Physique').length },
+                                { id: "Chimie", label: "Chimie", icon: "fa-flask", count: cardsToMeasure.filter(c => c.discipline === 'Chimie').length },
+                                { id: "Informatique", label: "Informatique", icon: "fa-laptop-code", count: cardsToMeasure.filter(c => c.discipline === 'Informatique').length }
+                            ].map(d => {
+                                const isActive = this.selectedDiscipline === d.id;
+                                const activeClass = isActive 
+                                    ? "bg-gradient-to-r from-brand-gold to-amber-500 text-brand-darker ring-2 ring-brand-goldLight border border-white font-black shadow-md shadow-brand-gold/30 scale-[1.02]"
+                                    : "bg-brand-darker text-slate-300 hover:text-white hover:bg-white/5 border border-brand-borderSubtle font-semibold";
+                                return `
+                                    <button data-discipline="${d.id}" class="fc-discipline-chip shrink-0 px-2.5 py-1 rounded-xl text-[11px] font-outfit transition-all flex items-center gap-1.5 active:scale-95 ${activeClass}">
+                                        <i class="fa-solid ${d.icon} text-[10px]"></i>
+                                        <span>${d.label}</span>
+                                        <span class="text-[9px] font-mono px-1.5 py-0.2 rounded-full ${isActive ? 'bg-black/30 text-brand-darker font-black' : 'bg-white/5 text-brand-muted'}">
+                                            ${d.count}
+                                        </span>
+                                    </button>
+                                `;
+                            }).join("")}
+                        </div>
+                    </div>
+
                     <!-- LEITNER MASTERY METRICS SCOPED TO SELECTED LEVEL -->
                     <div class="grid grid-cols-4 gap-1.5 pt-1 text-center font-outfit">
                         <div class="p-1.5 rounded-xl bg-brand-darker border border-brand-borderSubtle flex flex-col items-center">
@@ -1970,6 +2000,21 @@ class FlashcardViewer {
                 window.ambience?.playClick();
                 this.selectedLevel = lvl;
                 localStorage.setItem("ss_fc_selected_level", lvl);
+                this.currentIndex = 0;
+                this.isFlipped = false;
+                this.selectedChoiceIndex = null;
+                this.isChoiceSubmitted = false;
+                this.render();
+            });
+        });
+
+        // Discipline Chips Selection
+        document.querySelectorAll(".fc-discipline-chip").forEach(chip => {
+            chip.addEventListener("click", () => {
+                const disc = chip.dataset.discipline;
+                if (!disc) return;
+                window.ambience?.playClick();
+                this.selectedDiscipline = disc;
                 this.currentIndex = 0;
                 this.isFlipped = false;
                 this.selectedChoiceIndex = null;

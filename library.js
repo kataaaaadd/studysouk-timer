@@ -143,6 +143,12 @@ class StudySoukLibrary {
             errIframeBtn.addEventListener('click', () => this.showIframeView(true));
         }
 
+        // Fullscreen Toggle
+        const fsBtn = document.getElementById('btn-fullscreen-pdf');
+        if (fsBtn) {
+            fsBtn.addEventListener('click', () => this.toggleFullscreen());
+        }
+
         // Event Delegation for Library Books Grid
         const booksGrid = document.getElementById('library-books-grid');
         if (booksGrid && !booksGrid._delegated) {
@@ -289,6 +295,9 @@ class StudySoukLibrary {
                 this.fitMode = 'custom';
                 this.scale = 1.0;
                 this.renderPdfPage(this.pageNum);
+            } else if (e.key.toLowerCase() === 'f') {
+                e.preventDefault();
+                this.toggleFullscreen();
             }
         });
     }
@@ -758,6 +767,26 @@ class StudySoukLibrary {
             this.renderPdfPage(this.pageNum);
         } else {
             this.fitToWidth();
+        }
+    }
+
+    toggleFullscreen() {
+        const modal = document.getElementById('library-reader-modal');
+        const fsBtn = document.getElementById('btn-fullscreen-pdf');
+        if (!document.fullscreenElement) {
+            if (modal?.requestFullscreen) {
+                modal.requestFullscreen().catch(err => console.warn('[Library] Fullscreen blocked:', err));
+            } else if (modal?.webkitRequestFullscreen) {
+                modal.webkitRequestFullscreen();
+            }
+            if (fsBtn) fsBtn.innerHTML = '<i class="fa-solid fa-compress text-xs"></i>';
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(err => console.warn('[Library] Exit fullscreen error:', err));
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+            if (fsBtn) fsBtn.innerHTML = '<i class="fa-solid fa-expand text-xs"></i>';
         }
     }
 
