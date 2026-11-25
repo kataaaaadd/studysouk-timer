@@ -188,15 +188,41 @@ class FormulaScratchpad {
                                 <div class="flex items-center gap-1.5 flex-1 min-w-[170px]">
                                     <span class="text-xs text-brand-gold shrink-0">📖</span>
                                     <select id="sbora-pdf-select" class="bg-black/60 border border-brand-gold/40 text-brand-goldLight text-[11px] font-outfit font-bold rounded-lg px-2 py-1 focus:outline-none focus:border-brand-gold flex-1 truncate cursor-pointer">
-                                        <option value="assets/docs/StudySouk_30_Exos_Calcul_Integral_2BAC_SM_Elite.pdf">Calcul Intégral • 30 Exos 2BAC SM</option>
-                                        <option value="assets/docs/StudySouk_25_Exos_Fonctions_2BAC_PC_Elite.pdf">Étude de Fonctions • 25 Exos 2BAC PC</option>
-                                        <option value="assets/docs/StudySouk_Serie_Suites_Implicites_TAF_IAF_2BAC_SM.pdf">Suites Implicites & TAF • 2BAC SM</option>
-                                        <option value="assets/docs/StudySouk_AcidoBase_15_Exercices_Sujet.pdf">Chimie Acido-Basique • Sujet 2BAC</option>
-                                        <option value="assets/docs/StudySouk_AcidoBase_15_Exercices_Corrige.pdf">Chimie Acido-Basique • Corrigé 2BAC</option>
-                                        <option value="assets/docs/Calcul_Matriciel_MP_Star.pdf">Calcul Matriciel • CPGE MP*</option>
-                                        <option value="assets/docs/Resume_Optique_Systemes_Appareils_CPGE.pdf">Optique & Systèmes • CPGE</option>
-                                        <option value="assets/docs/StudySouk_Analyse_Complexe_Masterclass_Clean.pdf">Analyse Complexe • Masterclass CPGE</option>
-                                        <option value="assets/docs/Theorie_Des_Ensembles_MP_Star.pdf">Théorie des Ensembles • MP*</option>
+                                        <optgroup label="📐 Mathématiques 2BAC (National SM & PC)">
+                                            <option value="assets/docs/StudySouk_30_Exos_Calcul_Integral_2BAC_SM_Elite.pdf">Calcul Intégral • 30 Exos 2BAC SM</option>
+                                            <option value="assets/docs/StudySouk_25_Exos_Fonctions_2BAC_PC_Elite.pdf">Étude de Fonctions • 25 Exos 2BAC PC</option>
+                                            <option value="assets/docs/StudySouk_30_Exos_Fonctions_2BAC_PC_Elite.pdf">Fonctions Approfondies • 30 Exos 2BAC PC</option>
+                                            <option value="assets/docs/StudySouk_Etude_Fonctions_2BAC_PC_Sujet.pdf">Étude de Fonctions (Sujet) • 2BAC PC</option>
+                                            <option value="assets/docs/StudySouk_Etude_Fonctions_2BAC_PC_Corrige.pdf">Étude de Fonctions (Corrigé) • 2BAC PC</option>
+                                            <option value="assets/docs/StudySouk_Serie_Suites_Implicites_TAF_IAF_2BAC_SM.pdf">Suites Implicites & TAF • 2BAC SM</option>
+                                            <option value="assets/docs/StudySouk_Suites_2BAC_PC_Sujet.pdf">Suites Numériques (Sujet) • 2BAC PC</option>
+                                            <option value="assets/docs/StudySouk_Suites_2BAC_PC_Corrige.pdf">Suites Numériques (Corrigé) • 2BAC PC</option>
+                                            <option value="assets/docs/StudySouk_Exercice_0_Limite_Logarithmes_2BAC_SM_Corrige_Elite.pdf">Limites & Logarithmes (Exo 0 Corrigé) • SM</option>
+                                            <option value="assets/docs/StudySouk_Corriges_Photos_et_Blanc_2BAC_SM.pdf">Examen Blanc & Corrigés • 2BAC SM</option>
+                                            <option value="assets/docs/StudySouk_DimaDima_Analyse_Elite.pdf">Dima Dima Analyse d'Élite • 2BAC</option>
+                                        </optgroup>
+                                        <optgroup label="🧪 Physique & Chimie 2BAC">
+                                            <option value="assets/docs/StudySouk_AcidoBase_15_Exercices_Sujet.pdf">Chimie Acido-Basique (15 Exos Sujet) • 2BAC</option>
+                                            <option value="assets/docs/StudySouk_AcidoBase_15_Exercices_Corrige.pdf">Chimie Acido-Basique (Corrigé) • 2BAC</option>
+                                            <option value="assets/docs/StudySouk_AcidoBase_Sujet_Resume_Elite.pdf">Résumé Acido-Basique & Équilibres • 2BAC</option>
+                                            <option value="assets/docs/StudySouk_AcidoBase_Corrige_Integral_Elite.pdf">Corrigé Intégral Acido-Basique • 2BAC</option>
+                                        </optgroup>
+                                        <optgroup label="🏛️ CPGE & Classes Préparatoires (MP/PSI/TSI)">
+                                            <option value="assets/docs/Calcul_Matriciel_MP_Star.pdf">Calcul Matriciel Approfondi • MP*</option>
+                                            <option value="assets/docs/Resume_Optique_Systemes_Appareils_CPGE.pdf">Optique Géométrique & Systèmes • CPGE</option>
+                                            <option value="assets/docs/Theorie_Des_Ensembles_MP_Star.pdf">Théorie des Ensembles & Structures • MP*</option>
+                                            <option value="assets/docs/StudySouk_Analyse_Complexe_Masterclass_Clean.pdf">Analyse Complexe • Masterclass CPGE/Univ</option>
+                                            <option value="assets/docs/StudySouk_Grand_Cours_Analyse_Fondamentale.pdf">Grand Cours Analyse Fondamentale • CPGE</option>
+                                            <option value="assets/docs/StudySouk_Masterclass_Analyse_Fondamentale_Elite.pdf">Masterclass Analyse Fondamentale • CPGE</option>
+                                            <option value="assets/docs/StudySouk_Module_Complet_Analyse_Fondamentale.pdf">Module Analyse Fondamentale • CPGE</option>
+                                            <option value="assets/docs/studysouk_exact_template_5_problemes.pdf">5 Grands Problèmes de Concours CPGE</option>
+                                            <option value="assets/docs/studysouk_agregation_monumental.pdf">Agrégation Monumentale & Problèmes</option>
+                                        </optgroup>
+                                        <optgroup label="🌿 Bac Libre SVT & Méthodologie">
+                                            <option value="assets/docs/StudySouk_Guide_Ultime_Bac_Libre_SVT.pdf">Guide Ultime Bac Libre SVT</option>
+                                            <option value="assets/docs/StudySouk_Programme_Bac_Libre_SVT.pdf">Programme Officiel Bac Libre SVT</option>
+                                            <option value="assets/docs/StudySouk_Plan_Action_Bac_Libre_17.pdf">Plan d'Action 17/20 Bac Libre</option>
+                                        </optgroup>
                                     </select>
                                 </div>
 
@@ -834,12 +860,23 @@ class FormulaScratchpad {
 
         try {
             window.pdfjsLib.GlobalWorkerOptions.workerSrc = "assets/pdfjs/pdf.worker.min.js";
-            let loadingTask;
+            
+            let dataBuffer = src;
             if (typeof src === "string") {
-                loadingTask = window.pdfjsLib.getDocument(src);
-            } else {
-                loadingTask = window.pdfjsLib.getDocument({ data: src });
+                let fetchUrl = src;
+                if (window.location.pathname.includes('/.proxy') && !fetchUrl.startsWith('/.proxy') && !fetchUrl.startsWith('http')) {
+                    const apiPrefix = window.location.pathname.replace(/\/index\.html.*$/, '').replace(/\/+$/, '');
+                    fetchUrl = `${apiPrefix}/${src}`.replace(/([^:]\/)\/+/g, "$1");
+                }
+                const res = await fetch(fetchUrl);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                dataBuffer = await res.arrayBuffer();
             }
+
+            const loadingTask = window.pdfjsLib.getDocument({
+                data: dataBuffer,
+                cMapPacked: true
+            });
 
             this.splitPdfDoc = await loadingTask.promise;
             this.splitPdfNumPages = this.splitPdfDoc.numPages;

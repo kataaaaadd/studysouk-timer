@@ -505,6 +505,19 @@ class StudySoukLibrary {
             };
         }
 
+        const solveBtn = document.getElementById('btn-solve-in-scratchpad');
+        if (solveBtn) {
+            solveBtn.onclick = () => {
+                this.closeReader();
+                window.studyApp?.switchTab('tab-scratchpad');
+                const scratchpad = window.studyApp?.scratchpad || window.scratchpad;
+                if (scratchpad) {
+                    scratchpad.toggleSplitScreen(true);
+                    scratchpad.loadSplitScreenPdf(pdfUrl, book.title);
+                }
+            };
+        }
+
         if (studyBtn) {
             studyBtn.onclick = () => {
                 this.closeReader();
