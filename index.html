@@ -3323,6 +3323,140 @@
         </div>
     </div>
 
+    <!-- MODAL HUB DES CONCOURS & ÉCHÉANCES MAROC (CENTRALISÉ & INTERACTIF) -->
+    <div id="modal-exam-hub"
+        class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 animate-fadeIn">
+        <div
+            class="w-full max-w-3xl glass-panel rounded-3xl border border-brand-gold/60 p-4 sm:p-6 shadow-[0_25px_60px_rgba(0,0,0,0.95),0_0_40px_rgba(158,24,56,0.5)] relative flex flex-col max-h-[92vh] overflow-hidden bg-brand-card/95">
+            
+            <!-- Ambient Decorative Glows -->
+            <div class="absolute -right-20 -top-20 w-56 h-56 rounded-full bg-brand-cherry/25 blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-20 -bottom-20 w-56 h-56 rounded-full bg-brand-gold/20 blur-3xl pointer-events-none"></div>
+
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between pb-3 mb-3 border-b border-brand-borderSubtle relative z-10 shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-cherryDark to-brand-cherry border border-brand-gold flex items-center justify-center shadow-[0_0_15px_rgba(217,119,6,0.45)]">
+                        <i class="fa-solid fa-hourglass-half text-brand-goldLight text-base"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-black font-outfit gold-text-gradient leading-tight flex items-center gap-2">
+                            <span>Hub des Concours & Échéances Maroc</span>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-brand-gold/20 text-brand-goldLight border border-brand-gold/40">2026/2027</span>
+                        </h3>
+                        <p class="text-xs text-brand-muted font-outfit">
+                            Compte à rebours temps réel, dates officielles & filières d'excellence
+                        </p>
+                    </div>
+                </div>
+                <button id="btn-close-exam-modal" class="text-brand-muted hover:text-brand-goldLight p-2 rounded-xl hover:bg-brand-darker border border-transparent hover:border-brand-gold/40 transition cursor-pointer" title="Fermer (Échap)">
+                    <i class="fa-solid fa-xmark text-base text-brand-gold"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="flex-1 overflow-y-auto pr-1 space-y-4 custom-scrollbar relative z-10">
+                
+                <!-- HERO ACTIVE TARGET POD (Highlighted Live Card) -->
+                <div id="modal-hero-exam-card" class="p-4 rounded-2xl bg-gradient-to-br from-brand-darker via-brand-darker to-[#20040D] border-2 border-brand-gold/70 shadow-2xl relative overflow-hidden group">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pb-2 border-b border-brand-borderSubtle">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs uppercase tracking-wider font-mono font-bold text-brand-gold flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                                Mon Objectif Prioritaire Actuel :
+                            </span>
+                            <span id="modal-hero-badge" class="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-brand-cherry text-brand-goldLight border border-brand-gold/50 shadow-sm">
+                                Watani 2BAC
+                            </span>
+                        </div>
+                        <span id="modal-hero-datetext" class="text-xs font-mono text-brand-goldLight font-bold">
+                            1, 2, 3 Juin
+                        </span>
+                    </div>
+
+                    <div class="mt-2.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <div class="space-y-0.5">
+                            <h4 id="modal-hero-title" class="text-base sm:text-lg font-black text-white font-outfit">
+                                Examen National 2BAC (Watani)
+                            </h4>
+                            <p id="modal-hero-filieres" class="text-xs text-brand-muted font-sans">
+                                SM-A, SM-B, PC, SVT, STE, STM
+                            </p>
+                        </div>
+                        
+                        <!-- 4 Digits Countdown -->
+                        <div class="grid grid-cols-4 gap-1.5 text-center font-mono shrink-0 w-full sm:w-auto">
+                            <div class="px-3 py-1.5 rounded-xl bg-black/60 border border-brand-gold/50 shadow-inner">
+                                <span id="modal-hero-days" class="text-xl sm:text-2xl font-black text-brand-goldLight block">--</span>
+                                <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Jours</span>
+                            </div>
+                            <div class="px-3 py-1.5 rounded-xl bg-black/60 border border-brand-borderSubtle">
+                                <span id="modal-hero-hours" class="text-xl sm:text-2xl font-black text-white block">--</span>
+                                <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Heures</span>
+                            </div>
+                            <div class="px-3 py-1.5 rounded-xl bg-black/60 border border-brand-borderSubtle">
+                                <span id="modal-hero-mins" class="text-xl sm:text-2xl font-black text-white block">--</span>
+                                <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Min</span>
+                            </div>
+                            <div class="px-3 py-1.5 rounded-xl bg-black/60 border border-brand-borderSubtle">
+                                <span id="modal-hero-secs" class="text-xl sm:text-2xl font-black text-emerald-400 block animate-pulse">--</span>
+                                <span class="text-[8px] uppercase text-brand-muted font-bold font-outfit">Sec</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar & Nabras Advice -->
+                    <div class="mt-3 pt-2.5 border-t border-brand-borderSubtle/60 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+                        <div class="flex items-center gap-2 w-full sm:w-1/2">
+                            <span class="text-[10px] font-mono text-brand-muted shrink-0">Année Écoulée :</span>
+                            <div class="flex-1 bg-black/60 rounded-full h-2 overflow-hidden border border-brand-borderSubtle">
+                                <div id="modal-hero-progress-bar" class="h-full bg-gradient-to-r from-brand-cherry via-brand-gold to-brand-goldLight rounded-full transition-all duration-700" style="width: 65%;"></div>
+                            </div>
+                            <span id="modal-hero-progress-pct" class="text-[10px] font-bold text-brand-gold font-mono shrink-0">--%</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 text-[11px] text-brand-goldLight font-outfit italic truncate w-full sm:w-1/2 justify-end">
+                            <i class="fa-solid fa-lightbulb text-brand-gold text-xs shrink-0"></i>
+                            <span id="modal-hero-tip" class="truncate">Priorité aux annales officielles et à la rigueur de rédaction !</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Filter Pills -->
+                <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+                    <span class="text-xs font-bold text-brand-muted uppercase font-mono tracking-wider">
+                        Sélectionner un Concours Marocain :
+                    </span>
+                    <div class="flex items-center gap-1 text-[11px] font-outfit" id="exam-modal-filter-pills">
+                        <button data-cat="all" class="exam-filter-pill px-3 py-1 rounded-xl bg-brand-cherry text-brand-goldLight border border-brand-gold font-bold shadow transition cursor-pointer">Tous</button>
+                        <button data-cat="2bac" class="exam-filter-pill px-3 py-1 rounded-xl glass-card text-brand-muted hover:text-white border border-brand-borderSubtle transition cursor-pointer">2BAC</button>
+                        <button data-cat="cpge" class="exam-filter-pill px-3 py-1 rounded-xl glass-card text-brand-muted hover:text-white border border-brand-borderSubtle transition cursor-pointer">CPGE</button>
+                        <button data-cat="concours" class="exam-filter-pill px-3 py-1 rounded-xl glass-card text-brand-muted hover:text-white border border-brand-borderSubtle transition cursor-pointer">Médecine & Ingénieurs</button>
+                        <button data-cat="univ" class="exam-filter-pill px-3 py-1 rounded-xl glass-card text-brand-muted hover:text-white border border-brand-borderSubtle transition cursor-pointer">Facultés</button>
+                    </div>
+                </div>
+
+                <!-- Grid of All Moroccan Exams -->
+                <div id="modal-exams-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <!-- Dynamic rendering in app.js -->
+                </div>
+
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="pt-3 mt-2 border-t border-brand-borderSubtle flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-brand-muted font-outfit relative z-10 shrink-0">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                    <span>Heure Officielle du Royaume du Maroc (GMT+1) synchronisée</span>
+                </div>
+                <button id="btn-modal-open-library" class="px-3.5 py-1.5 rounded-xl bg-brand-darker hover:bg-brand-cherry text-brand-goldLight border border-brand-gold/40 hover:border-brand-gold transition flex items-center gap-1.5 cursor-pointer font-bold">
+                    <i class="fa-solid fa-book-bookmark text-xs text-brand-gold"></i>
+                    <span>Parcourir les Annales Corrigées (Maktaba)</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
     <!-- MODAL DUO FOCUS PACT (Proposition de Verrouillage d'Étude Synchronisé) -->
     <div id="modal-focus-pact-invite"
         class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 animate-fadeIn">

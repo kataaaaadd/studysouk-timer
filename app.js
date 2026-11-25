@@ -207,12 +207,14 @@ class StudySoukTimerApp {
         const EXAMS = {
             bac: {
                 id: "bac",
-                name: "Examen National 2BAC (Watani)",
+                category: "2bac",
+                name: "Examen National 2BAC (Watani 2026)",
                 badge: "Watani 2BAC",
                 icon: "🎯",
-                filieres: "SM-A, SM-B, PC, SVT, STE, STM",
+                filieres: "SM-A, SM-B, PC, SVT, STE, STM, Éco",
                 dateText: "1, 2, 3 Juin",
                 month: 6, day: 1, hour: 7, min: 0,
+                desc: "L'épreuve décisive comptant pour 75% du Baccalauréat marocain.",
                 advices: [
                     "Priorité absolue à la résolution des examens nationaux de 2018 à 2025 sous chronomètre réel !",
                     "La rigueur de rédaction mathématique rapporte jusqu'à 30% des points au Bac SM/PC.",
@@ -221,26 +223,60 @@ class StudySoukTimerApp {
             },
             cnc: {
                 id: "cnc",
+                category: "cpge",
                 name: "Concours National Commun (CNC CPGE)",
-                badge: "CPGE Maroc",
+                badge: "CNC CPGE",
                 icon: "🏛️",
                 filieres: "Classes Prépas MP, PSI, TSI, BCPST",
                 dateText: "14 au 20 Mai",
                 month: 5, day: 14, hour: 7, min: 0,
+                desc: "Porte d'entrée des Grandes Écoles d'Ingénieurs marocaines (EHTP, EMI, ENSIAS, INPT, Mines...).",
                 advices: [
                     "Visez les questions faciles et classiques du début de problème pour sécuriser l'admissibilité.",
                     "Chaque minute compte au CNC. Entraînez-vous à poser les intégrales et matrices sans hésitation.",
                     "Le Major CNC se démarque par sa clarté et sa propreté de copie."
                 ]
             },
+            medecine: {
+                id: "medecine",
+                category: "concours",
+                name: "Concours Médecine & Pharmacie (FMP/FMD)",
+                badge: "FMP / FMD 2026",
+                icon: "🩺",
+                filieres: "Facultés de Médecine, Dentaire & Pharmacie",
+                dateText: "15 Juillet",
+                month: 7, day: 15, hour: 7, min: 0,
+                desc: "QCM d'accès aux Facultés de Médecine et de Pharmacie du Royaume (Casablanca, Rabat, Fès...).",
+                advices: [
+                    "La vitesse de résolution des QCM de SVT et Chimie organique fera toute la différence !",
+                    "Entraînez-vous aux QCM chronométrés et à la gestion stricte du temps (40 min par épreuve)."
+                ]
+            },
+            ensa: {
+                id: "ensa",
+                category: "concours",
+                name: "Concours Écoles d'Ingénieurs (ENSA / ENSAM)",
+                badge: "ENSA & ENSAM",
+                icon: "⚙️",
+                filieres: "Réseau ENSA Maroc & ENSAM Meknès / Casablanca",
+                dateText: "20 Juillet",
+                month: 7, day: 20, hour: 7, min: 0,
+                desc: "Concours unifié d'ingénierie post-bac (Mathématiques & Physique-Chimie).",
+                advices: [
+                    "Revenez sur les QCM de calcul mental, les limites trigonométriques et les circuits RLC.",
+                    "Résolvez au minimum les 5 derniers sujets d'accès ENSA et ENSAM."
+                ]
+            },
             regio: {
                 id: "regio",
+                category: "2bac",
                 name: "Examen Régional 1BAC",
                 badge: "Régional 1BAC",
                 icon: "📝",
                 filieres: "Français, Éduc Islamique, Histoire-Géo, Arabe",
                 dateText: "28, 29 Mai",
                 month: 5, day: 28, hour: 7, min: 0,
+                desc: "Pèse 25% de la moyenne générale du Baccalauréat.",
                 advices: [
                     "L'Examen Régional pèse 25% de votre note finale du Bac : assurez une mention dès maintenant !",
                     "Relisez les œuvres (Le Dernier Jour, Antigone, La Boîte à Merveilles) avec leurs axes thématiques.",
@@ -249,42 +285,37 @@ class StudySoukTimerApp {
             },
             fr: {
                 id: "fr",
+                category: "cpge",
                 name: "Concours Français CPGE",
                 badge: "Mines / Centrale / X",
                 icon: "🇫🇷",
                 filieres: "Mines-Ponts, Centrale-Supélec, CCINP, X-ENS",
                 dateText: "19 Avril au 7 Mai",
                 month: 4, day: 19, hour: 7, min: 0,
+                desc: "Écrits des Grandes Écoles d'Ingénieurs françaises pour les taupins CPGE.",
                 advices: [
                     "Les écrits des concours français exigent une analyse pointue des hypothèses des théorèmes.",
                     "Ne bloquez jamais sur une question : sautez et avancez sur les questions indépendantes."
                 ]
             },
-            automne: {
-                id: "automne",
-                name: "Examens Facultés (Automne S1)",
-                badge: "Universités S1/S3/S5",
-                icon: "❄️",
-                filieres: "FST, FS, ENSA, ENCG, EST, Facultés",
-                dateText: "11 Janvier",
+            fac: {
+                id: "fac",
+                category: "univ",
+                name: "Examens Universitaires (Session Normale & Rattrapage)",
+                badge: "Facultés S1/S2",
+                icon: "🎓",
+                filieres: "FST, FS, ENCG, EST, Facultés",
+                dateText: "11 Janvier & 5 Juin",
                 month: 1, day: 11, hour: 7, min: 30,
+                desc: "Validation des modules universitaires avec mention dès la Session Normale.",
                 advices: [
-                    "Validez vos modules dès la Session Normale pour aborder le S2 avec sérénité et sans rattrapage !"
-                ]
-            },
-            medecine: {
-                id: "medecine",
-                name: "Concours Médecine & Pharmacie",
-                badge: "FMP / FMD 2026",
-                icon: "🩺",
-                filieres: "Facultés de Médecine, Dentaire, Pharmacie",
-                dateText: "15 Juillet",
-                month: 7, day: 15, hour: 7, min: 0,
-                advices: [
-                    "La vitesse de résolution des QCM de SVT et Chimie organique fera toute la différence !"
+                    "Validez vos modules dès la Session Normale pour aborder les semestres avec sérénité et sans rattrapage !"
                 ]
             }
         };
+
+        this.EXAMS = EXAMS;
+        window.EXAMS = EXAMS;
 
         const getNextExamDate = (month, day, hour = 7, min = 0) => {
             const now = new Date();
@@ -328,6 +359,19 @@ class StudySoukTimerApp {
             if (elMins) elMins.textContent = String(minutes).padStart(2, "0");
             if (elSecs) elSecs.textContent = String(seconds).padStart(2, "0");
 
+            // Modal Hero Card Elements
+            const modalBadge = document.getElementById("modal-hero-badge");
+            const modalDateText = document.getElementById("modal-hero-datetext");
+            const modalTitle = document.getElementById("modal-hero-title");
+            const modalFilieres = document.getElementById("modal-hero-filieres");
+            const modalDays = document.getElementById("modal-hero-days");
+            const modalHours = document.getElementById("modal-hero-hours");
+            const modalMins = document.getElementById("modal-hero-mins");
+            const modalSecs = document.getElementById("modal-hero-secs");
+            const modalProgPct = document.getElementById("modal-hero-progress-pct");
+            const modalProgBar = document.getElementById("modal-hero-progress-bar");
+            const modalTip = document.getElementById("modal-hero-tip");
+
             // School year progress (Assuming school year started Sept 1)
             const schoolYearStartYear = (now.getUTCMonth() >= 8) ? now.getUTCFullYear() : now.getUTCFullYear() - 1;
             const schoolYearStart = new Date(Date.UTC(schoolYearStartYear, 8, 1));
@@ -340,14 +384,26 @@ class StudySoukTimerApp {
             if (elProgPct) elProgPct.textContent = `${progressPct}%`;
             if (elProgBar) elProgBar.style.width = `${progressPct}%`;
 
+            if (modalBadge) modalBadge.textContent = heroConfig.badge;
+            if (modalDateText) modalDateText.textContent = heroConfig.dateText;
+            if (modalTitle) modalTitle.textContent = heroConfig.name;
+            if (modalFilieres) modalFilieres.textContent = heroConfig.filieres;
+            if (modalDays) modalDays.textContent = days;
+            if (modalHours) modalHours.textContent = String(hours).padStart(2, "0");
+            if (modalMins) modalMins.textContent = String(minutes).padStart(2, "0");
+            if (modalSecs) modalSecs.textContent = String(seconds).padStart(2, "0");
+            if (modalProgPct) modalProgPct.textContent = `${progressPct}%`;
+            if (modalProgBar) modalProgBar.style.width = `${progressPct}%`;
+
             // Dynamic Advice from Nabras
             const adviceEl = document.getElementById("sidebar-nabras-tip");
-            if (adviceEl && heroConfig.advices?.length > 0) {
+            if (heroConfig.advices?.length > 0) {
                 const adviceIdx = Math.floor(days / 15) % heroConfig.advices.length;
-                adviceEl.textContent = heroConfig.advices[adviceIdx];
+                if (adviceEl) adviceEl.textContent = heroConfig.advices[adviceIdx];
+                if (modalTip) modalTip.textContent = heroConfig.advices[adviceIdx];
             }
 
-            // 2. Render Other Moroccan Concours List
+            // 2. Render Other Moroccan Concours List in Sidebar
             const listContainer = document.getElementById("sidebar-countdown-list");
             if (listContainer) {
                 const otherExams = Object.values(EXAMS).filter(e => e.id !== this.targetExamKey);
@@ -407,7 +463,7 @@ class StudySoukTimerApp {
             if (elFloating) elFloating.textContent = `J-${days}`;
         };
 
-        // Bind Target Chips
+        // Bind Target Chips in Sidebar
         document.querySelectorAll(".target-exam-btn").forEach(btn => {
             btn.addEventListener("click", () => {
                 const examKey = btn.dataset.exam;
@@ -428,20 +484,194 @@ class StudySoukTimerApp {
         };
 
         const chronoPod = document.getElementById("chrono-right-countdown-pod");
-        if (chronoPod && !chronoPod.dataset.bound) {
+        if (chronoPod?.dataset && !chronoPod.dataset.bound) {
             chronoPod.dataset.bound = "true";
             chronoPod.addEventListener("click", cycleNextExam);
         }
 
         const mobileBadge = document.getElementById("mobile-countdown-badge");
-        if (mobileBadge && !mobileBadge.dataset.bound) {
+        if (mobileBadge?.dataset && !mobileBadge.dataset.bound) {
             mobileBadge.dataset.bound = "true";
             mobileBadge.addEventListener("click", cycleNextExam);
         }
 
+        // Header Countdown Click Handler: Click directly opens the Exam Modal
+        const headerMiniBtn = document.getElementById("header-mini-countdown");
+        if (headerMiniBtn?.dataset && !headerMiniBtn.dataset.bound) {
+            headerMiniBtn.dataset.bound = "true";
+            headerMiniBtn.title = "Cliquer pour ouvrir le Hub des Concours (ou double-cliquer pour alterner)";
+            headerMiniBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                window.ambience?.playClick();
+                this.openExamModal();
+            });
+        }
+
+        // Bind Exam Hub Modal Triggers & Controls
+        this.bindExamHubModal();
+
         updateCountdowns();
         if (this.countdownHubTimer) clearInterval(this.countdownHubTimer);
         this.countdownHubTimer = setInterval(updateCountdowns, 1000);
+    }
+
+    bindExamHubModal() {
+        const modal = document.getElementById("modal-exam-hub");
+        const openBtn = document.getElementById("btn-open-countdowns");
+        const closeBtn = document.getElementById("btn-close-exam-modal");
+        const toolHubBtn = document.getElementById("tool-hub-open-countdowns");
+        const libBtn = document.getElementById("btn-modal-open-library");
+
+        if (openBtn?.dataset && !openBtn.dataset.examBound) {
+            openBtn.dataset.examBound = "true";
+            openBtn.addEventListener("click", () => {
+                window.ambience?.playClick();
+                this.openExamModal();
+            });
+        }
+
+        if (toolHubBtn?.dataset && !toolHubBtn.dataset.examBound) {
+            toolHubBtn.dataset.examBound = "true";
+            toolHubBtn.addEventListener("click", () => {
+                window.ambience?.playClick();
+                const toolsModal = document.getElementById("modal-tools-hub");
+                if (toolsModal) {
+                    toolsModal.classList.add("hidden");
+                    toolsModal.classList.remove("flex");
+                }
+                this.openExamModal();
+            });
+        }
+
+        if (closeBtn?.dataset && !closeBtn.dataset.examBound) {
+            closeBtn.dataset.examBound = "true";
+            closeBtn.addEventListener("click", () => {
+                this.closeExamModal();
+            });
+        }
+
+        if (modal?.dataset && !modal.dataset.examBound) {
+            modal.dataset.examBound = "true";
+            modal.addEventListener("click", (e) => {
+                if (e.target === modal) this.closeExamModal();
+            });
+        }
+
+        if (libBtn?.dataset && !libBtn.dataset.examBound) {
+            libBtn.dataset.examBound = "true";
+            libBtn.addEventListener("click", () => {
+                this.closeExamModal();
+                this.switchTab("tab-library");
+            });
+        }
+
+        // Filter Pills inside Modal
+        document.querySelectorAll(".exam-filter-pill").forEach(pill => {
+            if (pill?.dataset && !pill.dataset.bound) {
+                pill.dataset.bound = "true";
+                pill.addEventListener("click", () => {
+                    document.querySelectorAll(".exam-filter-pill").forEach(p => {
+                        p.className = "exam-filter-pill px-3 py-1 rounded-xl glass-card text-brand-muted hover:text-white border border-brand-borderSubtle transition cursor-pointer";
+                    });
+                    pill.className = "exam-filter-pill px-3 py-1 rounded-xl bg-brand-cherry text-brand-goldLight border border-brand-gold font-bold shadow transition cursor-pointer";
+                    this.renderExamModalGrid(pill.dataset.cat || "all");
+                });
+            }
+        });
+    }
+
+    openExamModal() {
+        const modal = document.getElementById("modal-exam-hub");
+        if (!modal) return;
+        this.renderExamModalGrid("all");
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+    }
+
+    closeExamModal() {
+        const modal = document.getElementById("modal-exam-hub");
+        if (!modal) return;
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+    }
+
+    renderExamModalGrid(filterCat = "all") {
+        const container = document.getElementById("modal-exams-grid");
+        if (!container || !this.EXAMS) return;
+
+        const now = new Date();
+        const getNextExamDate = (month, day, hour = 7, min = 0) => {
+            const currentUtcYear = now.getUTCFullYear();
+            const examUtcThisYear = new Date(Date.UTC(currentUtcYear, month - 1, day, hour, min, 0));
+            if (now.getTime() > examUtcThisYear.getTime()) {
+                return new Date(Date.UTC(currentUtcYear + 1, month - 1, day, hour, min, 0));
+            }
+            return examUtcThisYear;
+        };
+
+        const examsList = Object.values(this.EXAMS).filter(e => {
+            if (filterCat === "all") return true;
+            return e.category === filterCat;
+        });
+
+        container.innerHTML = examsList.map(ex => {
+            const isTarget = (ex.id === this.targetExamKey);
+            const exDate = getNextExamDate(ex.month, ex.day, ex.hour, ex.min);
+            const totalSecs = Math.max(0, Math.floor((exDate.getTime() - now.getTime()) / 1000));
+            const days = Math.floor(totalSecs / 86400);
+            const hours = Math.floor((totalSecs % 86400) / 3600);
+
+            return `
+                <div class="p-3.5 rounded-2xl glass-card border ${isTarget ? 'border-brand-gold bg-gradient-to-br from-brand-cherryDark/50 via-brand-card to-black shadow-lg ring-1 ring-brand-gold/60' : 'border-brand-borderSubtle hover:border-brand-gold/50 bg-brand-darker/60'} transition flex flex-col justify-between gap-3 relative group">
+                    <div class="space-y-1.5">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs px-2 py-0.5 rounded-lg font-mono font-bold ${isTarget ? 'bg-brand-cherry text-brand-goldLight border border-brand-gold/50' : 'bg-black/50 text-brand-goldLight border border-brand-borderSubtle'} flex items-center gap-1.5">
+                                <span>${ex.icon}</span>
+                                <span>${ex.badge}</span>
+                            </span>
+                            <span class="text-[11px] font-mono font-black ${isTarget ? 'text-brand-goldLight bg-brand-gold/15 px-2 py-0.5 rounded border border-brand-gold/40' : 'text-brand-muted'}">
+                                J-${days} (${hours}h)
+                            </span>
+                        </div>
+
+                        <div>
+                            <h4 class="font-outfit font-black text-white text-sm group-hover:text-brand-goldLight transition">
+                                ${ex.name}
+                            </h4>
+                            <p class="text-[11px] text-brand-muted line-clamp-2 mt-0.5 font-sans leading-tight">
+                                ${ex.desc || ex.filieres}
+                            </p>
+                        </div>
+
+                        <div class="flex items-center gap-2 text-[10px] text-brand-gold font-mono pt-1">
+                            <i class="fa-solid fa-calendar-days text-[9px]"></i>
+                            <span>Date : ${ex.dateText}</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 border-t border-brand-borderSubtle/50 flex items-center justify-between gap-2">
+                        <span class="text-[9px] text-brand-muted truncate max-w-[140px] font-mono">
+                            ${ex.filieres}
+                        </span>
+                        <button data-select-exam="${ex.id}" class="modal-select-exam-btn px-3 py-1.5 rounded-xl text-xs font-outfit font-black transition active:scale-95 cursor-pointer flex items-center gap-1.5 shrink-0 ${isTarget ? 'bg-emerald-600/90 hover:bg-emerald-600 text-white shadow ring-1 ring-emerald-400' : 'bg-brand-cherry hover:bg-brand-cherryDark text-brand-goldLight border border-brand-gold/40 hover:border-brand-gold'}">
+                            <i class="fa-solid ${isTarget ? 'fa-check' : 'fa-bullseye'} text-xs"></i>
+                            <span>${isTarget ? 'Cible Active' : 'Choisir comme Cible'}</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join("");
+
+        container.querySelectorAll(".modal-select-exam-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const examId = btn.dataset.selectExam;
+                if (examId && this.EXAMS[examId]) {
+                    window.ambience?.playSuccess();
+                    this.setTargetExam(examId);
+                    this.renderExamModalGrid(filterCat);
+                }
+            });
+        });
     }
 
     setTargetExam(targetKey) {
@@ -455,6 +685,11 @@ class StudySoukTimerApp {
                 btn.className = "target-exam-btn px-2 py-1.5 rounded-xl border transition text-center truncate glass-card border-brand-borderSubtle text-brand-muted hover:text-white";
             }
         });
+
+        const ex = this.EXAMS?.[targetKey];
+        if (ex) {
+            window.studyApp?.showToast(`🎯 Objectif fixé : ${ex.name} ! Bon courage !`);
+        }
 
         this.startCountdownHub();
     }
@@ -927,10 +1162,14 @@ class StudySoukTimerApp {
     }
 
     switchTab(tabId) {
-        // Hide tools modal if open
+        // Hide tools & exam modals if open
         const toolsModal = document.getElementById("modal-tools-hub");
         toolsModal?.classList.add("hidden");
         toolsModal?.classList.remove("flex");
+
+        const examModal = document.getElementById("modal-exam-hub");
+        examModal?.classList.add("hidden");
+        examModal?.classList.remove("flex");
 
         // Scroll workspace to top cleanly
         document.querySelector("main")?.scrollTo({ top: 0, behavior: "instant" });
@@ -1975,6 +2214,11 @@ class StudySoukTimerApp {
                 if (toolsModal && !toolsModal.classList.contains("hidden")) {
                     toolsModal.classList.add("hidden");
                     toolsModal.classList.remove("flex");
+                }
+                const examModal = document.getElementById("modal-exam-hub");
+                if (examModal && !examModal.classList.contains("hidden")) {
+                    examModal.classList.add("hidden");
+                    examModal.classList.remove("flex");
                 }
             }
         });

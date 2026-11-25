@@ -57,6 +57,17 @@ class FormulaScratchpad {
         this.writingIndicatorTimer = null;
         this.localLaserTimer = null;
 
+        // Split-Screen PDF Viewer State
+        this.isSplitScreen = false;
+        this.splitPdfDoc = null;
+        this.splitPdfNumPages = 0;
+        this.splitPdfPageNum = 1;
+        this.splitPdfZoom = 1.0;
+        this.splitPdfRendering = false;
+        this.splitPdfPending = null;
+        this.currentPdfRenderTask = null;
+        window.scratchpad = this;
+
         this.initSyncListener();
     }
 
@@ -145,8 +156,11 @@ class FormulaScratchpad {
 
                         <div class="hidden md:block w-full h-[1px] bg-brand-borderSubtle"></div>
 
-                        <!-- Action Buttons: Undo, Plein Écran, Export & Clear -->
+                        <!-- Action Buttons: Split-Screen, Undo, Plein Écran, Export & Clear -->
                         <div class="flex flex-row md:flex-col items-center gap-1.5 w-full justify-center">
+                            <button id="wb-splitscreen-btn" title="Mode Split-Screen : Ouvrir un PDF / Série d'exercices à côté de la Sbora" class="w-8 h-8 rounded-xl glass-card text-brand-gold hover:text-white text-xs flex items-center justify-center border border-brand-gold/60 active:scale-90 transition shadow-sm hover:border-brand-gold cursor-pointer ${this.isSplitScreen ? 'bg-brand-cherry text-brand-goldLight ring-2 ring-brand-gold' : ''}">
+                                <i class="fa-solid fa-book-open"></i>
+                            </button>
                             <button id="wb-undo-btn" title="Annuler le dernier trait (Ctrl+Z)" class="w-8 h-8 rounded-xl glass-card text-brand-muted hover:text-white text-xs flex items-center justify-center border border-brand-borderSubtle active:scale-90 transition shadow-sm hover:border-brand-gold">
                                 <i class="fa-solid fa-arrow-rotate-left"></i>
                             </button>
@@ -162,25 +176,96 @@ class FormulaScratchpad {
                         </div>
                     </div>
 
-                    <!-- EXPANDED WHITEBOARD CANVAS BOX ("kbr white board") -->
-                    <div id="whiteboard-canvas-wrapper" class="relative flex-1 rounded-2xl overflow-hidden border border-brand-gold/40 shadow-2xl bg-[#08080C] min-h-[580px] sm:min-h-[680px] md:min-h-[780px] h-[78vh] flex flex-col">
-                        <!-- Engineering Dot Grid Watermark -->
-                        <div class="absolute inset-0 pointer-events-none opacity-25" style="background-image: radial-gradient(rgba(212, 175, 55, 0.45) 1px, transparent 1px); background-size: 24px 24px;"></div>
+                    <!-- EXPANDED WHITEBOARD & SPLIT-SCREEN WORKSPACE CONTAINER -->
+                    <div id="sbora-workspace-container" class="flex-1 flex flex-col lg:flex-row items-stretch gap-2.5 min-h-[580px] sm:min-h-[680px] md:min-h-[780px] h-[78vh] overflow-hidden">
                         
-                        <canvas id="whiteboard-canvas" width="1600" height="900" class="relative z-10 w-full h-full flex-1 cursor-crosshair touch-none"></canvas>
-                        
-                        <!-- MULTI-USER LIVE CURSORS & LASERS OVERLAY -->
-                        <div id="whiteboard-remote-cursors" class="absolute inset-0 pointer-events-none z-30 overflow-hidden"></div>
+                        <!-- LEFT PANEL: SPLIT-SCREEN PDF VIEWER (Toggleable) -->
+                        <div id="sbora-pdf-panel" class="${this.isSplitScreen ? 'flex' : 'hidden'} flex-col w-full lg:w-1/2 rounded-2xl border border-brand-gold/50 shadow-2xl bg-[#0B0B14] overflow-hidden relative transition-all duration-300">
+                            
+                            <!-- PDF Viewer Toolbar -->
+                            <div class="p-2 bg-brand-darker/95 border-b border-brand-borderSubtle flex flex-wrap items-center justify-between gap-1.5 shrink-0 z-20">
+                                <!-- Preset Document Selector -->
+                                <div class="flex items-center gap-1.5 flex-1 min-w-[170px]">
+                                    <span class="text-xs text-brand-gold shrink-0">📖</span>
+                                    <select id="sbora-pdf-select" class="bg-black/60 border border-brand-gold/40 text-brand-goldLight text-[11px] font-outfit font-bold rounded-lg px-2 py-1 focus:outline-none focus:border-brand-gold flex-1 truncate cursor-pointer">
+                                        <option value="assets/docs/StudySouk_30_Exos_Calcul_Integral_2BAC_SM_Elite.pdf">Calcul Intégral • 30 Exos 2BAC SM</option>
+                                        <option value="assets/docs/StudySouk_25_Exos_Fonctions_2BAC_PC_Elite.pdf">Étude de Fonctions • 25 Exos 2BAC PC</option>
+                                        <option value="assets/docs/StudySouk_Serie_Suites_Implicites_TAF_IAF_2BAC_SM.pdf">Suites Implicites & TAF • 2BAC SM</option>
+                                        <option value="assets/docs/StudySouk_AcidoBase_15_Exercices_Sujet.pdf">Chimie Acido-Basique • Sujet 2BAC</option>
+                                        <option value="assets/docs/StudySouk_AcidoBase_15_Exercices_Corrige.pdf">Chimie Acido-Basique • Corrigé 2BAC</option>
+                                        <option value="assets/docs/Calcul_Matriciel_MP_Star.pdf">Calcul Matriciel • CPGE MP*</option>
+                                        <option value="assets/docs/Resume_Optique_Systemes_Appareils_CPGE.pdf">Optique & Systèmes • CPGE</option>
+                                        <option value="assets/docs/StudySouk_Analyse_Complexe_Masterclass_Clean.pdf">Analyse Complexe • Masterclass CPGE</option>
+                                        <option value="assets/docs/Theorie_Des_Ensembles_MP_Star.pdf">Théorie des Ensembles • MP*</option>
+                                    </select>
+                                </div>
 
-                        <div class="absolute bottom-2 left-3 z-20 pointer-events-none text-[10px] text-brand-muted/80 font-mono flex items-center gap-1.5 bg-brand-darker/85 px-2.5 py-1 rounded-lg border border-brand-borderSubtle backdrop-blur-sm shadow-md">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <i class="fa-solid fa-users text-[9px] text-brand-gold"></i> Tableau Collaboratif 1v1+ • Tracés, Curseur & Laser en Direct
+                                <!-- Upload Custom Student PDF Button -->
+                                <label for="sbora-pdf-file-input" class="px-2 py-1 rounded-lg bg-brand-cherry/80 hover:bg-brand-cherry text-brand-goldLight text-[10px] font-outfit font-black border border-brand-gold/50 cursor-pointer flex items-center gap-1 transition shrink-0 active:scale-95 shadow-sm">
+                                    <i class="fa-solid fa-cloud-arrow-up text-[10px]"></i>
+                                    <span class="hidden sm:inline">Mon PDF</span>
+                                    <input type="file" id="sbora-pdf-file-input" accept=".pdf" class="hidden">
+                                </label>
+
+                                <!-- Page Navigation & Zoom Controls -->
+                                <div class="flex items-center gap-1 bg-black/60 px-1.5 py-0.5 rounded-lg border border-brand-borderSubtle shrink-0">
+                                    <button id="sbora-pdf-prev" title="Page Précédente" class="w-6 h-6 rounded flex items-center justify-center text-brand-muted hover:text-white transition active:scale-90 cursor-pointer">
+                                        <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                                    </button>
+                                    <div class="text-[10px] font-mono text-brand-goldLight px-1 select-none flex items-center gap-0.5">
+                                        <span id="sbora-pdf-page-num">1</span>/<span id="sbora-pdf-page-count">--</span>
+                                    </div>
+                                    <button id="sbora-pdf-next" title="Page Suivante" class="w-6 h-6 rounded flex items-center justify-center text-brand-muted hover:text-white transition active:scale-90 cursor-pointer">
+                                        <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                                    </button>
+                                    <span class="w-[1px] h-3 bg-brand-borderSubtle mx-0.5"></span>
+                                    <button id="sbora-pdf-zoom-out" title="Dézoomer" class="w-5 h-6 rounded flex items-center justify-center text-brand-muted hover:text-white transition active:scale-90 cursor-pointer">
+                                        <i class="fa-solid fa-minus text-[9px]"></i>
+                                    </button>
+                                    <button id="sbora-pdf-zoom-in" title="Zoomer" class="w-5 h-6 rounded flex items-center justify-center text-brand-muted hover:text-white transition active:scale-90 cursor-pointer">
+                                        <i class="fa-solid fa-plus text-[9px]"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Close Split-Screen Button -->
+                                <button id="sbora-pdf-close" title="Fermer le Split-Screen" class="w-6 h-6 rounded-lg text-rose-400 hover:text-white hover:bg-rose-950/80 transition flex items-center justify-center active:scale-90 cursor-pointer">
+                                    <i class="fa-solid fa-xmark text-xs"></i>
+                                </button>
+                            </div>
+
+                            <!-- PDF Document Scrollable Viewport & Canvas -->
+                            <div id="sbora-pdf-viewport" class="flex-1 overflow-auto flex items-start justify-center p-2.5 bg-[#0e0e16] relative custom-scrollbar">
+                                <!-- Loading Indicator -->
+                                <div id="sbora-pdf-loading" class="absolute inset-0 bg-[#0B0B14]/85 backdrop-blur-sm flex flex-col items-center justify-center z-30 transition-opacity">
+                                    <i class="fa-solid fa-circle-notch fa-spin text-2xl text-brand-gold mb-2"></i>
+                                    <span class="text-xs font-outfit font-bold text-white">Chargement du document PDF...</span>
+                                </div>
+                                
+                                <!-- Render Target Canvas -->
+                                <canvas id="sbora-pdf-canvas" class="shadow-2xl rounded-lg max-w-full bg-white transition-transform origin-top"></canvas>
+                            </div>
                         </div>
 
-                        <!-- LIVE WRITING INDICATOR (Bottom Right) -->
-                        <div id="wb-writing-badge" class="absolute bottom-2 right-3 z-20 pointer-events-none text-[10px] text-brand-goldLight font-mono flex items-center gap-1.5 bg-brand-darker/90 px-2.5 py-1 rounded-lg border border-brand-gold/30 backdrop-blur-sm shadow-md transition-opacity duration-300 opacity-0">
-                            <i class="fa-solid fa-pen-fancy text-emerald-400 animate-bounce"></i>
-                            <span id="wb-writing-name">Un camarade écrit...</span>
+                        <!-- RIGHT PANEL: EXPANDED WHITEBOARD CANVAS BOX ("Sbora Canvas") -->
+                        <div id="whiteboard-canvas-wrapper" class="relative ${this.isSplitScreen ? 'w-full lg:w-1/2' : 'w-full flex-1'} rounded-2xl overflow-hidden border border-brand-gold/40 shadow-2xl bg-[#08080C] flex flex-col">
+                            <!-- Engineering Dot Grid Watermark -->
+                            <div class="absolute inset-0 pointer-events-none opacity-25" style="background-image: radial-gradient(rgba(212, 175, 55, 0.45) 1px, transparent 1px); background-size: 24px 24px;"></div>
+                            
+                            <canvas id="whiteboard-canvas" width="1600" height="900" class="relative z-10 w-full h-full flex-1 cursor-crosshair touch-none"></canvas>
+                            
+                            <!-- MULTI-USER LIVE CURSORS & LASERS OVERLAY -->
+                            <div id="whiteboard-remote-cursors" class="absolute inset-0 pointer-events-none z-30 overflow-hidden"></div>
+
+                            <div class="absolute bottom-2 left-3 z-20 pointer-events-none text-[10px] text-brand-muted/80 font-mono flex items-center gap-1.5 bg-brand-darker/85 px-2.5 py-1 rounded-lg border border-brand-borderSubtle backdrop-blur-sm shadow-md">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                <i class="fa-solid fa-users text-[9px] text-brand-gold"></i> <span id="sbora-mode-label">${this.isSplitScreen ? 'Split-Screen • PDF & Sbora' : 'Tableau Collaboratif HD'}</span>
+                            </div>
+
+                            <!-- LIVE WRITING INDICATOR (Bottom Right) -->
+                            <div id="wb-writing-badge" class="absolute bottom-2 right-3 z-20 pointer-events-none text-[10px] text-brand-goldLight font-mono flex items-center gap-1.5 bg-brand-darker/90 px-2.5 py-1 rounded-lg border border-brand-gold/30 backdrop-blur-sm shadow-md transition-opacity duration-300 opacity-0">
+                                <i class="fa-solid fa-pen-fancy text-emerald-400 animate-bounce"></i>
+                                <span id="wb-writing-name">Un camarade écrit...</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -258,6 +343,7 @@ class FormulaScratchpad {
         this.bindModeSwitcher();
         this.initCanvasDrawing();
         this.bindLatexControls();
+        this.bindSplitScreenControls();
     }
 
     renderFormulasList() {
@@ -624,6 +710,221 @@ class FormulaScratchpad {
             if (btn) btn.innerHTML = '<i class="fa-solid fa-expand"></i>';
         }
         setTimeout(() => this.resizeCanvas(), 250);
+    }
+
+    bindSplitScreenControls() {
+        const splitBtn = document.getElementById("wb-splitscreen-btn");
+        const closeBtn = document.getElementById("sbora-pdf-close");
+        const selectDoc = document.getElementById("sbora-pdf-select");
+        const fileInput = document.getElementById("sbora-pdf-file-input");
+        const prevBtn = document.getElementById("sbora-pdf-prev");
+        const nextBtn = document.getElementById("sbora-pdf-next");
+        const zoomInBtn = document.getElementById("sbora-pdf-zoom-in");
+        const zoomOutBtn = document.getElementById("sbora-pdf-zoom-out");
+
+        splitBtn?.addEventListener("click", () => {
+            window.ambience?.playClick();
+            this.toggleSplitScreen();
+        });
+
+        closeBtn?.addEventListener("click", () => {
+            window.ambience?.playClick();
+            this.toggleSplitScreen(false);
+        });
+
+        selectDoc?.addEventListener("change", (e) => {
+            const url = e.target.value;
+            if (url) {
+                window.ambience?.playClick();
+                this.loadSplitScreenPdf(url);
+            }
+        });
+
+        fileInput?.addEventListener("change", (e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            window.ambience?.playClick();
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const arrayBuffer = ev.target?.result;
+                if (arrayBuffer) {
+                    this.loadSplitScreenPdf(arrayBuffer, file.name);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        prevBtn?.addEventListener("click", () => {
+            if (this.splitPdfDoc && this.splitPdfPageNum > 1) {
+                window.ambience?.playClick();
+                this.splitPdfPageNum--;
+                this.renderSplitPdfPage(this.splitPdfPageNum);
+            }
+        });
+
+        nextBtn?.addEventListener("click", () => {
+            if (this.splitPdfDoc && this.splitPdfPageNum < this.splitPdfNumPages) {
+                window.ambience?.playClick();
+                this.splitPdfPageNum++;
+                this.renderSplitPdfPage(this.splitPdfPageNum);
+            }
+        });
+
+        zoomInBtn?.addEventListener("click", () => {
+            if (this.splitPdfZoom < 2.2) {
+                window.ambience?.playClick();
+                this.splitPdfZoom += 0.2;
+                this.renderSplitPdfPage(this.splitPdfPageNum);
+            }
+        });
+
+        zoomOutBtn?.addEventListener("click", () => {
+            if (this.splitPdfZoom > 0.6) {
+                window.ambience?.playClick();
+                this.splitPdfZoom -= 0.2;
+                this.renderSplitPdfPage(this.splitPdfPageNum);
+            }
+        });
+    }
+
+    toggleSplitScreen(forceState) {
+        this.isSplitScreen = (typeof forceState === "boolean") ? forceState : !this.isSplitScreen;
+        const panel = document.getElementById("sbora-pdf-panel");
+        const wrapper = document.getElementById("whiteboard-canvas-wrapper");
+        const btn = document.getElementById("wb-splitscreen-btn");
+        const label = document.getElementById("sbora-mode-label");
+
+        if (this.isSplitScreen) {
+            panel?.classList.remove("hidden");
+            panel?.classList.add("flex");
+            wrapper?.classList.remove("w-full", "flex-1");
+            wrapper?.classList.add("w-full", "lg:w-1/2");
+            btn?.classList.add("bg-brand-cherry", "text-brand-goldLight", "ring-2", "ring-brand-gold");
+            if (label) label.textContent = "Split-Screen • PDF & Sbora";
+            window.studyApp?.showToast?.("📖 Mode Split-Screen Activé : Document PDF & Sbora");
+
+            // Auto-load default PDF if not loaded yet
+            if (!this.splitPdfDoc) {
+                const selectEl = document.getElementById("sbora-pdf-select");
+                const defaultDoc = selectEl?.value || "assets/docs/StudySouk_30_Exos_Calcul_Integral_2BAC_SM_Elite.pdf";
+                this.loadSplitScreenPdf(defaultDoc);
+            } else {
+                this.renderSplitPdfPage(this.splitPdfPageNum || 1);
+            }
+        } else {
+            panel?.classList.add("hidden");
+            panel?.classList.remove("flex");
+            wrapper?.classList.add("w-full", "flex-1");
+            wrapper?.classList.remove("w-full", "lg:w-1/2");
+            btn?.classList.remove("bg-brand-cherry", "text-brand-goldLight", "ring-2", "ring-brand-gold");
+            if (label) label.textContent = "Tableau Collaboratif HD";
+        }
+
+        setTimeout(() => this.resizeCanvas(), 200);
+    }
+
+    async loadSplitScreenPdf(src, customName = null) {
+        if (!window.pdfjsLib) {
+            console.warn("[Sbora PDF] pdfjsLib is not loaded on window.");
+            return;
+        }
+
+        const loadingEl = document.getElementById("sbora-pdf-loading");
+        if (loadingEl) loadingEl.classList.remove("hidden");
+
+        try {
+            window.pdfjsLib.GlobalWorkerOptions.workerSrc = "assets/pdfjs/pdf.worker.min.js";
+            let loadingTask;
+            if (typeof src === "string") {
+                loadingTask = window.pdfjsLib.getDocument(src);
+            } else {
+                loadingTask = window.pdfjsLib.getDocument({ data: src });
+            }
+
+            this.splitPdfDoc = await loadingTask.promise;
+            this.splitPdfNumPages = this.splitPdfDoc.numPages;
+            this.splitPdfPageNum = 1;
+
+            const pageCountEl = document.getElementById("sbora-pdf-page-count");
+            if (pageCountEl) pageCountEl.textContent = this.splitPdfNumPages;
+
+            if (customName) {
+                window.studyApp?.showToast?.(`📄 Document ouvert : ${customName}`);
+            }
+
+            await this.renderSplitPdfPage(1);
+        } catch (err) {
+            console.error("[Sbora PDF] Error loading PDF:", err);
+            window.studyApp?.showToast?.("⚠️ Impossible d'ouvrir ce fichier PDF.");
+        } finally {
+            if (loadingEl) loadingEl.classList.add("hidden");
+        }
+    }
+
+    async renderSplitPdfPage(num) {
+        if (!this.splitPdfDoc) return;
+        if (this.splitPdfRendering) {
+            this.splitPdfPending = num;
+            return;
+        }
+
+        this.splitPdfRendering = true;
+        const canvas = document.getElementById("sbora-pdf-canvas");
+        const viewportContainer = document.getElementById("sbora-pdf-viewport");
+        if (!canvas || !viewportContainer) {
+            this.splitPdfRendering = false;
+            return;
+        }
+
+        const ctx = canvas.getContext("2d");
+
+        try {
+            const page = await this.splitPdfDoc.getPage(num);
+            const availableW = Math.max(300, viewportContainer.clientWidth - 24);
+
+            const unscaledViewport = page.getViewport({ scale: 1.0 });
+            const fitScale = (availableW / unscaledViewport.width) * (this.splitPdfZoom || 1.0);
+            const clampedScale = Math.max(0.6, Math.min(2.5, fitScale));
+            const viewport = page.getViewport({ scale: clampedScale });
+
+            const outputScale = window.devicePixelRatio || 1;
+            canvas.width = Math.floor(viewport.width * outputScale);
+            canvas.height = Math.floor(viewport.height * outputScale);
+            canvas.style.width = Math.floor(viewport.width) + "px";
+            canvas.style.height = Math.floor(viewport.height) + "px";
+
+            const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null;
+
+            const renderContext = {
+                canvasContext: ctx,
+                transform: transform,
+                viewport: viewport
+            };
+
+            if (this.currentPdfRenderTask) {
+                try {
+                    this.currentPdfRenderTask.cancel();
+                } catch (e) {}
+            }
+
+            this.currentPdfRenderTask = page.render(renderContext);
+            await this.currentPdfRenderTask.promise;
+            this.splitPdfRendering = false;
+
+            const pageNumEl = document.getElementById("sbora-pdf-page-num");
+            if (pageNumEl) pageNumEl.textContent = num;
+
+            if (this.splitPdfPending !== null) {
+                const next = this.splitPdfPending;
+                this.splitPdfPending = null;
+                this.renderSplitPdfPage(next);
+            }
+        } catch (err) {
+            if (err?.name !== "RenderingCancelledException") {
+                console.error("[Sbora PDF] Error rendering page:", err);
+            }
+            this.splitPdfRendering = false;
+        }
     }
 
     drawSmoothSegment(x0, y0, cx, cy, x1, y1, color, size, tool) {
