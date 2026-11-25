@@ -23,8 +23,15 @@ const LOFI_STATIONS = {
         name: "Classique & Piano CPGE",
         icon: "fa-feather-pointed",
         url: "https://stream.srg-ssr.ch/m/rsc_de/mp3_128"
+    },
+    quran: {
+        name: "Coran Karim • Mishary Alafasy",
+        icon: "fa-moon",
+        url: "https://qurango.net/radio/mishary_alafasi"
     }
 };
+
+window.LOFI_STATIONS = LOFI_STATIONS;
 
 class AmbienceEngine {
     constructor() {
@@ -498,7 +505,7 @@ class AmbienceEngine {
     }
 
     playRadioStation(stationKey) {
-        if (!LOFE_STATIONS && !LOFI_STATIONS) return;
+        if (typeof LOFI_STATIONS === "undefined") return;
         const station = LOFI_STATIONS[stationKey] || LOFI_STATIONS.chillhop;
         this.currentStationKey = stationKey;
         this.radioAudio.src = station.url;
