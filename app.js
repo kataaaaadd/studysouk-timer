@@ -983,9 +983,7 @@ class StudySoukTimerApp {
         } else if (tabId === "tab-tasks") {
             this.renderDashboard();
         } else if (tabId === "tab-ambience") {
-            if (window.youtubeSimulator) {
-                window.youtubeSimulator.renderPresets();
-            }
+            window.focusStudio?.onTabVisible?.();
         } else if (tabId === "tab-nabras" && this.nabrasAI) {
             this.nabrasAI.onTabVisible();
         }

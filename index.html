@@ -614,14 +614,14 @@
             min-height: calc(100vh - 75px) !important;
         }
 
-        /* YouTube Screen Container Responsive Sizing */
-        #yt-screen-container {
-            height: clamp(230px, 45vw, 360px);
-            min-height: 230px;
+        /* Studio Lo-Fi Screen Container Responsive Sizing */
+        #studio-screen-container, #yt-screen-container {
+            height: clamp(240px, 46vw, 380px);
+            min-height: 240px;
         }
 
-        #yt-floating-screen-container {
-            height: 180px;
+        #lofi-floating-screen-container, #yt-floating-screen-container {
+            min-height: 140px;
         }
     </style>
 </head>
@@ -716,11 +716,11 @@
                 <span id="header-mini-countdown" class="px-1.5 py-0.5 rounded bg-brand-cherry text-[9px] font-mono font-bold text-white shadow-sm border border-brand-gold/50">Watani: --j</span>
             </button>
 
-            <!-- Open YouTube Studio Button (Direct Top Header) -->
-            <button id="btn-header-youtube" data-tab="tab-ambience" onclick="(window.app || window.studyApp)?.switchTab('tab-ambience')" title="Studio YouTube & Musique Lo-Fi"
-                class="h-7 sm:h-8 px-2 sm:px-2.5 rounded-xl bg-red-600/20 hover:bg-red-600/30 border border-red-500/50 text-red-400 hover:text-white transition flex items-center gap-1 sm:gap-1.5 font-outfit font-black shadow active:scale-95 group shrink-0 cursor-pointer">
-                <i class="fa-brands fa-youtube text-xs text-red-500 group-hover:scale-110 transition-transform"></i>
-                <span class="hidden sm:inline text-xs">YouTube</span>
+            <!-- Open Lo-Fi Studio Button (Direct Top Header) -->
+            <button id="btn-header-lofi" data-tab="tab-ambience" onclick="(window.app || window.studyApp)?.switchTab('tab-ambience')" title="Studio Musique Lo-Fi & Focus"
+                class="h-7 sm:h-8 px-2 sm:px-2.5 rounded-xl bg-brand-cherry/40 hover:bg-brand-cherry/60 border border-brand-gold/50 text-brand-goldLight hover:text-white transition flex items-center gap-1 sm:gap-1.5 font-outfit font-black shadow active:scale-95 group shrink-0 cursor-pointer">
+                <i class="fa-solid fa-headphones text-xs text-brand-gold group-hover:scale-110 transition-transform"></i>
+                <span class="hidden sm:inline text-xs">Lo-Fi Radio</span>
             </button>
 
             <!-- Quick Action Cluster Desktop (Zen, Mute, Tic-Tac, Shortcuts) -->
@@ -1402,7 +1402,7 @@
                         <button data-quick-station="chillhop" class="quick-station-pill px-1.5 py-0.5 rounded-md bg-brand-cherry border border-brand-gold text-[8px] font-black text-brand-goldLight font-outfit transition cursor-pointer active:scale-95">☕ Chill</button>
                         <button data-quick-station="piano" class="quick-station-pill px-1.5 py-0.5 rounded-md bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[8px] font-bold text-brand-muted hover:text-white font-outfit transition cursor-pointer active:scale-95">🎹 Piano</button>
                         <button data-quick-station="synthwave" class="quick-station-pill px-1.5 py-0.5 rounded-md bg-brand-darker border border-brand-borderSubtle hover:border-brand-gold text-[8px] font-bold text-brand-muted hover:text-white font-outfit transition cursor-pointer active:scale-95">⚡ Synth</button>
-                        <button id="btn-chrono-youtube" data-tab="tab-ambience" onclick="(window.app || window.studyApp)?.switchTab('tab-ambience')" title="Studio YouTube & Musique" class="px-1.5 py-0.5 rounded-md bg-red-600/20 border border-red-500/40 hover:bg-red-600/40 text-[8px] font-bold text-red-400 font-outfit transition cursor-pointer active:scale-95 flex items-center gap-0.5"><i class="fa-brands fa-youtube text-[8px]"></i> YT</button>
+                        <button id="btn-chrono-lofi" data-tab="tab-ambience" onclick="(window.app || window.studyApp)?.switchTab('tab-ambience')" title="Studio Musique Lo-Fi" class="px-1.5 py-0.5 rounded-md bg-brand-cherry border border-brand-gold/40 hover:bg-brand-cherry/80 text-[8px] font-bold text-brand-gold font-outfit transition cursor-pointer active:scale-95 flex items-center gap-0.5"><i class="fa-solid fa-headphones text-[8px]"></i> Lo-Fi</button>
                     </div>
                 </div>
 
@@ -1983,165 +1983,80 @@
         <!-- TAB 6: AMBIANCE SONORE & LIVE LO-FI RADIO -->
         <section id="tab-ambience" class="tab-content w-full hidden max-w-2xl flex flex-col items-center space-y-4">
 
-            <!-- YouTube Study Simulator & Video Ambience Card -->
-            <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle shadow-xl space-y-3 relative overflow-hidden">
+            <!-- Studio Focus & Live Lo-Fi Webradio 24/7 (100% Native & Discord-Proof) -->
+            <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle shadow-xl space-y-3.5 relative overflow-hidden">
                 <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-brand-borderSubtle">
                     <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-lg bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500 shadow">
-                            <i class="fa-solid fa-compact-disc text-sm"></i>
+                        <div class="w-8 h-8 rounded-lg bg-brand-cherry/40 border border-brand-gold/60 flex items-center justify-center text-brand-gold shadow">
+                            <i class="fa-solid fa-compact-disc text-sm animate-spin-slow"></i>
                         </div>
                         <div>
                             <h3 class="text-xs font-black text-white font-outfit tracking-wide flex items-center gap-1.5">
-                                Studio Focus & Musique <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-brand-cherry text-brand-gold font-bold">2.0 HD</span>
+                                Studio Focus & Musique Lo-Fi <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-brand-cherry text-brand-gold font-bold">24/7 HD</span>
                             </h3>
-                            <div class="flex items-center gap-1.5 text-[10px] text-brand-muted" id="yt-status-badge">
+                            <div class="flex items-center gap-1.5 text-[10px] text-brand-muted" id="studio-status-badge">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                                <span>Prêt à diffuser</span>
+                                <span id="radio-status-text">Prêt à jouer</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Mode Selector Pills: Studio Lo-Fi vs YouTube Embed -->
-                    <div class="flex items-center p-0.5 rounded-xl bg-brand-darker border border-brand-borderSubtle">
-                        <button id="btn-mode-studio" onclick="window.youtubeSimulator?.setMode('studio')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold font-outfit transition flex items-center gap-1 bg-brand-cherry text-brand-gold shadow cursor-pointer">
-                            <i class="fa-solid fa-wand-magic-sparkles text-[9px]"></i> Studio Lo-Fi
-                        </button>
-                        <button id="btn-mode-youtube" onclick="window.youtubeSimulator?.setMode('youtube')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold font-outfit transition flex items-center gap-1 text-brand-muted hover:text-white cursor-pointer">
-                            <i class="fa-brands fa-youtube text-[10px] text-red-400"></i> YouTube HD
-                        </button>
-                    </div>
-
                     <div class="flex items-center gap-1">
-                        <a id="btn-yt-external-link" href="https://www.youtube.com/watch?v=5qap5aO4i9A" target="_blank" rel="noopener noreferrer" title="Ouvrir directement dans YouTube (Nouvel Onglet)"
-                            class="px-2 py-1 rounded-lg glass-card border border-brand-borderSubtle text-red-400 hover:text-white text-[11px] font-outfit font-bold transition flex items-center gap-1 cursor-pointer">
-                            <i class="fa-brands fa-youtube"></i>
-                            <span class="hidden xs:inline">Ouvrir ↗</span>
-                        </a>
-                        <button id="btn-yt-float-toggle" onclick="window.youtubeSimulator?.toggleFloating()" title="Basculer en Mini-Lecteur Flottant"
+                        <button id="btn-studio-float-toggle" onclick="window.focusStudio?.toggleFloating()" title="Basculer en Mini-Lecteur Flottant"
                             class="px-2 py-1 rounded-lg glass-card border border-brand-borderSubtle text-brand-goldLight hover:text-white text-[11px] font-outfit font-bold transition flex items-center gap-1 cursor-pointer">
                             <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
                             <span class="hidden xs:inline">Mini Flottant</span>
                         </button>
-                        <button id="btn-yt-play" onclick="window.youtubeSimulator?.play()"
-                            class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white text-[11px] font-bold border border-red-400/50 shadow hover:brightness-110 active:scale-95 transition font-outfit flex items-center gap-1 cursor-pointer">
-                            <i class="fa-solid fa-play text-[10px]"></i> Play
-                        </button>
-                        <button id="btn-yt-stop" onclick="window.youtubeSimulator?.stop()"
-                            class="hidden px-2.5 py-1 rounded-lg bg-brand-darker hover:bg-white/10 text-rose-400 text-[11px] font-bold border border-rose-500/40 shadow active:scale-95 transition font-outfit flex items-center gap-1 cursor-pointer">
-                            <i class="fa-solid fa-stop text-[10px]"></i> Stop
+                        <button id="btn-radio-toggle" onclick="window.ambience?.toggleRadio()"
+                            class="px-3 py-1 rounded-lg bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant text-brand-gold text-[11px] font-bold border border-brand-gold/60 shadow hover:brightness-110 active:scale-95 transition font-outfit flex items-center gap-1.5 cursor-pointer">
+                            <i class="fa-solid fa-play text-[10px]"></i> <span id="radio-btn-text">Écouter le Live</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Video Screen Bezel -->
-                <div class="relative w-full aspect-video min-h-[230px] rounded-xl overflow-hidden bg-black/95 border border-brand-borderSubtle shadow-2xl transition-all" id="yt-screen-container">
-                    <!-- Dynamic rendering handled by YouTubeStudySimulator: Studio Visuel or YouTube Embed -->
+                <!-- Interactive Studio Canvas Screen Container (60 FPS Native Visualizer) -->
+                <div class="relative w-full aspect-video min-h-[230px] rounded-xl overflow-hidden bg-[#07070c] border border-brand-gold/30 shadow-2xl transition-all" id="studio-screen-container">
+                    <!-- Dynamic rendering by focus-studio.js: 60fps Canvas with 5 themes, real-time clock & equalizer -->
                 </div>
 
-                <!-- Discord Compatibility & Autoplay Audio Hint -->
-                <div id="yt-discord-hint" class="text-[9px] text-brand-gold/90 font-mono flex items-center justify-between gap-1 px-1">
-                    <span class="flex items-center gap-1">
-                        <i class="fa-solid fa-circle-info text-[9px] text-amber-400"></i>
-                        <span>En mode YouTube, cliquez au centre pour lancer la vidéo. En mode Studio Lo-Fi, l'ambiance et la musique sont 100% garanties !</span>
+                <!-- 5 Live Radio Stations (1-Click Instant Audio) -->
+                <div>
+                    <div class="text-[10px] text-brand-gold font-outfit font-black tracking-wider uppercase flex items-center justify-between mb-1.5">
+                        <span class="flex items-center gap-1">
+                            <i class="fa-solid fa-radio text-[9px]"></i> Stations Webradio 24/7 En Direct :
+                        </span>
+                        <span class="text-[9px] font-mono text-emerald-400 font-normal">● 100% Natif & Sans Coupure</span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+                        <button data-station="chillhop"
+                            class="radio-station-btn py-1.5 px-2 rounded-lg bg-brand-cherry border border-brand-gold text-brand-goldLight text-[11px] font-bold font-outfit transition flex items-center gap-1.5 active:scale-95 cursor-pointer">
+                            <i class="fa-solid fa-mug-hot text-brand-gold"></i> Chillhop Beats
+                        </button>
+                        <button data-station="lofigirl"
+                            class="radio-station-btn py-1.5 px-2 rounded-lg bg-brand-card border border-brand-border text-brand-muted hover:text-brand-text text-[11px] font-semibold font-outfit transition flex items-center gap-1.5 active:scale-95 cursor-pointer">
+                            <i class="fa-solid fa-headphones text-brand-gold"></i> Plaza Lo-Fi Focus
+                        </button>
+                        <button data-station="synthwave"
+                            class="radio-station-btn py-1.5 px-2 rounded-lg bg-brand-card border border-brand-border text-brand-muted hover:text-brand-text text-[11px] font-semibold font-outfit transition flex items-center gap-1.5 active:scale-95 cursor-pointer">
+                            <i class="fa-solid fa-bolt text-brand-gold"></i> ChillSynth Night
+                        </button>
+                        <button data-station="piano"
+                            class="radio-station-btn py-1.5 px-2 rounded-lg bg-brand-card border border-brand-border text-brand-muted hover:text-brand-text text-[11px] font-semibold font-outfit transition flex items-center gap-1.5 active:scale-95 cursor-pointer">
+                            <i class="fa-solid fa-feather text-brand-gold"></i> Classique CPGE
+                        </button>
+                        <button data-station="quran"
+                            class="radio-station-btn py-1.5 px-2 rounded-lg bg-brand-card border border-brand-border text-brand-muted hover:text-brand-text text-[11px] font-semibold font-outfit transition flex items-center gap-1.5 active:scale-95 cursor-pointer col-span-2 sm:col-span-2">
+                            <i class="fa-solid fa-moon text-brand-gold"></i> Coran Karim (Mishary Alafasy 24/7)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Radio Volume Slider -->
+                <div class="pt-1 flex items-center gap-2 border-t border-white/5">
+                    <span class="text-[10px] text-brand-muted font-outfit flex items-center gap-1">
+                        <i class="fa-solid fa-volume-low text-xs"></i> Volume Musique :
                     </span>
-                </div>
-
-                <!-- Stream Title Display -->
-                <div class="flex items-center justify-between text-[11px] font-outfit">
-                    <span class="text-brand-muted flex items-center gap-1">
-                        <i class="fa-solid fa-compact-disc text-brand-gold"></i> Piste Active :
-                    </span>
-                    <span id="yt-current-stream-title" class="font-bold text-brand-goldLight truncate max-w-[220px]">Lofi Girl 24/7 (Live)</span>
-                </div>
-
-                <!-- Custom URL Loader -->
-                <div class="flex items-center gap-1.5 pt-1">
-                    <div class="relative flex-1">
-                        <i class="fa-brands fa-youtube absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-red-500"></i>
-                        <input id="yt-custom-url-input" type="text" placeholder="Coller lien YouTube (Lofi, cours, ambient...)"
-                            class="w-full bg-brand-darker border border-brand-borderSubtle rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder-brand-muted/60 focus:outline-none focus:border-red-500 font-outfit" />
-                    </div>
-                    <button id="btn-yt-load-custom" onclick="window.youtubeSimulator?.loadCustomFromInput()" class="px-3 py-1.5 rounded-xl bg-brand-cherry hover:bg-brand-cherryVibrant text-brand-gold text-xs font-bold font-outfit border border-brand-gold/40 transition active:scale-95 shrink-0 cursor-pointer">
-                        Charger
-                    </button>
-                </div>
-
-                <!-- Discord 100% Compatible Audio Quick Access -->
-                <div class="flex items-center justify-between p-2.5 rounded-xl bg-brand-darker/90 border border-brand-borderSubtle shadow-inner">
-                    <div class="flex items-center gap-2">
-                        <div class="w-6 h-6 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xs">
-                            <i class="fa-solid fa-radio"></i>
-                        </div>
-                        <div>
-                            <span class="text-[11px] font-bold text-white font-outfit block leading-tight">Radio Lo-Fi 24/7 (Audio Direct)</span>
-                            <span class="text-[9px] text-emerald-400 font-mono">100% Compatible Discord Activity</span>
-                        </div>
-                    </div>
-                    <button onclick="window.ambience?.toggleRadio()" class="px-3 py-1 rounded-lg bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant text-brand-gold text-[10px] font-bold border border-brand-gold/40 shadow active:scale-95 transition font-outfit flex items-center gap-1 cursor-pointer">
-                        <i class="fa-solid fa-play text-[8px]"></i> Lancer l'Audio
-                    </button>
-                </div>
-
-                <!-- Presets Grid -->
-                <div class="pt-1">
-                    <div class="text-[10px] text-brand-gold font-outfit font-black tracking-wider uppercase flex items-center gap-1 mb-1.5">
-                        <i class="fa-solid fa-layer-group text-[9px]"></i> Ambiances d'Étude & Focus Recommandées :
-                    </div>
-                    <div class="grid grid-cols-2 xs:grid-cols-3 gap-1.5" id="yt-presets-container">
-                        <!-- Rendered by JS -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Live Lo-Fi Webradio Player Card -->
-            <div class="w-full glass-panel rounded-2xl p-4 border border-brand-borderSubtle shadow-lg space-y-3">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <div
-                            class="w-8 h-8 rounded-lg bg-brand-cherry border border-brand-gold flex items-center justify-center">
-                            <i class="fa-solid fa-radio text-brand-gold"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-xs font-extrabold text-brand-text font-outfit">Radio Lo-Fi 24/7 En Direct
-                            </h3>
-                            <span id="radio-status-text" class="text-[10px] text-brand-muted">Prêt à jouer</span>
-                        </div>
-                    </div>
-
-                    <button id="btn-radio-toggle"
-                        class="px-3 py-1.5 rounded-lg bg-gradient-to-r from-brand-cherry to-brand-cherryVibrant text-brand-goldLight text-xs font-bold border border-brand-gold/60 shadow hover:brightness-110 active:scale-95 transition font-outfit flex items-center gap-1.5">
-                        <i class="fa-solid fa-play text-brand-gold"></i> Écouter le Live
-                    </button>
-                </div>
-
-                <!-- Station Selector Pills -->
-                <div class="grid grid-cols-2 gap-1.5 pt-1">
-                    <button data-station="chillhop"
-                        class="radio-station-btn py-1.5 px-2 rounded-lg bg-brand-cherry border border-brand-gold text-brand-goldLight text-[11px] font-bold font-outfit transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-mug-hot text-brand-gold"></i> Chillhop Beats
-                    </button>
-                    <button data-station="lofigirl"
-                        class="radio-station-btn py-1.5 px-2 rounded-lg bg-brand-card border border-brand-border text-brand-muted hover:text-brand-text text-[11px] font-semibold font-outfit transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-headphones text-brand-gold"></i> Plaza Lo-Fi Focus
-                    </button>
-                    <button data-station="synthwave"
-                        class="radio-station-btn py-1.5 px-2 rounded-lg bg-brand-card border border-brand-border text-brand-muted hover:text-brand-text text-[11px] font-semibold font-outfit transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-bolt text-brand-gold"></i> ChillSynth Night
-                    </button>
-                    <button data-station="piano"
-                        class="radio-station-btn py-1.5 px-2 rounded-lg bg-brand-card border border-brand-border text-brand-muted hover:text-brand-text text-[11px] font-semibold font-outfit transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-feather text-brand-gold"></i> Classique CPGE
-                    </button>
-                    <button data-station="quran"
-                        class="radio-station-btn py-1.5 px-2 rounded-lg bg-brand-card border border-brand-border text-brand-muted hover:text-brand-text text-[11px] font-semibold font-outfit transition flex items-center gap-1.5 col-span-2">
-                        <i class="fa-solid fa-moon text-brand-gold"></i> Coran Karim (Mishary Alafasy 24/7)
-                    </button>
-                </div>
-
-                <!-- Radio Volume -->
-                <div class="pt-1 flex items-center gap-2">
-                    <i class="fa-solid fa-volume-low text-xs text-brand-muted"></i>
-                    <input id="slider-radio" type="range" min="0" max="1" step="0.05" value="0.7" class="flex-1">
+                    <input id="slider-radio" type="range" min="0" max="1" step="0.05" value="0.7" class="flex-1 accent-brand-gold cursor-pointer">
                     <i class="fa-solid fa-volume-high text-xs text-brand-gold"></i>
                 </div>
             </div>
@@ -3458,19 +3373,19 @@
         </div>
     </div>
 
-    <!-- FLOATING MINI YOUTUBE STUDY PLAYER -->
-    <div id="yt-floating-mini-player" class="hidden fixed bottom-16 right-4 z-40 w-72 sm:w-80 glass-panel rounded-2xl border border-brand-gold/40 shadow-2xl flex-col overflow-hidden backdrop-blur-xl animate-fade-in">
+    <!-- FLOATING MINI LO-FI STUDIO PLAYER -->
+    <div id="lofi-floating-mini-player" class="hidden fixed bottom-16 right-4 z-40 w-72 sm:w-80 glass-panel rounded-2xl border border-brand-gold/40 shadow-2xl flex-col overflow-hidden backdrop-blur-xl animate-fade-in">
         <div class="px-3 py-1.5 bg-brand-darker/95 border-b border-brand-borderSubtle flex items-center justify-between">
             <div class="flex items-center gap-1.5">
-                <i class="fa-brands fa-youtube text-red-500 text-xs"></i>
-                <span class="text-[11px] font-bold text-white font-outfit truncate max-w-[170px]">Study Video Player</span>
+                <i class="fa-solid fa-compact-disc text-brand-gold text-xs animate-spin-slow"></i>
+                <span class="text-[11px] font-bold text-white font-outfit truncate max-w-[170px]" id="floating-station-title">Radio Lo-Fi 24/7</span>
             </div>
-            <button id="btn-close-floating-yt" class="text-brand-muted hover:text-white p-1 text-xs">
+            <button id="btn-close-floating-lofi" onclick="window.focusStudio?.toggleFloating(false)" class="text-brand-muted hover:text-white p-1 text-xs cursor-pointer">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
-        <div class="relative w-full aspect-video bg-black overflow-hidden" id="yt-floating-screen-container">
-            <!-- Iframe moved here when floating -->
+        <div class="p-3 bg-brand-darker/90 flex flex-col items-center justify-center text-center gap-2" id="lofi-floating-screen-container">
+            <!-- Animated mini visualizer & controls -->
         </div>
     </div>
 
@@ -3478,7 +3393,7 @@
     <script src="assets/pdfjs/pdf.min.js?v=2.4"></script>
     <script src="assets/pdfjs/pdf.worker.min.js?v=2.4"></script>
     <script src="audio.js?v=2.5"></script>
-    <script src="youtube-simulator.js?v=4.5"></script>
+    <script src="focus-studio.js?v=5.0"></script>
     <script src="canvas-effects.js?v=2.4"></script>
     <script src="sync-engine.js?v=2.4"></script>
     <script src="reactions.js?v=2.4"></script>
